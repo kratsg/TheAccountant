@@ -3,24 +3,18 @@
 
 #include <EventLoop/Algorithm.h>
 
+// Infrastructure include(s):
+#include "xAODRootAccess/TEvent.h"
+#include "xAODRootAccess/TStore.h"
+
 class ClassifyEvent : public EL::Algorithm
 {
-  // put your configuration variables here as public variables.
-  // that way they can be set directly from CINT and python.
+
+private:
+  xAOD::TEvent *m_event; //!
+  xAOD::TStore *m_store; //!
+
 public:
-  // float cutValue;
-
-
-
-  // variables that don't get filled at submission time should be
-  // protected from being send from the submission node to the worker
-  // node (done by the //!)
-public:
-  // Tree *myTree; //!
-  // TH1 *myHist; //!
-
-
-
   // this is a standard constructor
   ClassifyEvent ();
 
