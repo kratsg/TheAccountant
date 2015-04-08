@@ -36,8 +36,9 @@
 
 // xAH includes
 #include "xAODAnaHelpers/HelperFunctions.h"
-#include "xAODAnaHelpers/util/ReturnCheck.h"
+#include "xAODAnaHelpers/tools/ReturnCheck.h"
 
+#include <TCanvas.h>
 
 namespace HF = HelperFunctions;
 namespace RF = RestFrames;
@@ -107,6 +108,16 @@ EL::StatusCode ClassifyEvent :: execute ()
   VIS.SetNElementsForFrame(V2,1,false);
 
   Info("execute()", "Do we have consistent tree topology? %s", (LAB.InitializeTree() ? "yes" : "no"));
+
+  static bool saved;
+  if(!saved){
+    saved = true;
+    RF::FramePlot* decayTree_plot = new RF::FramePlot("tree", "Decay Tree");
+    decayTree_plot->AddFrameTree(LAB);
+    decayTree_plot->DrawFramePlot();
+    wk()->addOutput(decayTree_plot->GetCanvas());
+  }
+
 
   /* TODO
   //////////////////////////////////////////////////////////////
