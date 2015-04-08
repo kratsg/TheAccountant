@@ -38,7 +38,9 @@
 #include "xAODAnaHelpers/HelperFunctions.h"
 #include "xAODAnaHelpers/tools/ReturnCheck.h"
 
+// root includes
 #include <TCanvas.h>
+#include <TVector3.h>
 
 namespace HF = HelperFunctions;
 namespace RF = RestFrames;
@@ -75,6 +77,13 @@ EL::StatusCode ClassifyEvent :: execute ()
   const xAOD::MissingETContainer*       in_missinget(nullptr);
   const xAOD::TruthParticleContainer*   in_truth    (nullptr);
 
+
+  // retrieve CalibMET_RefFinal for METContainer
+  if (in_missinget->find("Final") == in_missinget->end()) {
+    Error("execute()", "No RefFinal inside MET container" );
+    return EL::StatusCode::FAILURE;
+  }
+
   // build up the RestFrames code, indented for visualization
   RF::RLabFrame LAB("LAB","lab");
     RF::RDecayFrame SS("SS","SS"); // di-sparticle
@@ -107,177 +116,108 @@ EL::StatusCode ClassifyEvent :: execute ()
   VIS.SetNElementsForFrame(V1,1,false);
   VIS.SetNElementsForFrame(V2,1,false);
 
-  Info("execute()", "Do we have consistent tree topology? %s", (LAB.InitializeTree() ? "yes" : "no"));
+  // now we define 'jigsaw rules' that tell the tree how to define the objects
+  // in our groups, indented to cleanly see the Jigsaws being defined
+  RF::InvisibleMassJigsaw MinMassJigsaw("MINMASS_JIGSAW", "Invisible system mass Jigsaw");
+    INV.AddJigsaw(MinMassJigsaw);
+
+  RF::InvisibleRapidityJigsaw RapidityJigsaw("RAPIDITY_JIGSAW", "Invisible system rapidity Jigsaw");
+    INV.AddJigsaw(RapidityJigsaw);
+    RapidityJigsaw.AddVisibleFrame((LAB.GetListVisibleFrames()));
+
+  RF::ContraBoostInvariantJigsaw ContraBoostJigsaw("CB_JIGSAW","Contraboost invariant Jigsaw");
+    INV.AddJigsaw(ContraBoostJigsaw);
+    ContraBoostJigsaw.AddVisibleFrame((S1.GetListVisibleFrames()), 0);
+    ContraBoostJigsaw.AddVisibleFrame((S2.GetListVisibleFrames()), 1);
+    ContraBoostJigsaw.AddInvisibleFrame((S1.GetListInvisibleFrames()), 0);
+    ContraBoostJigsaw.AddInvisibleFrame((S2.GetListInvisibleFrames()), 1);
+
+  RF::MinimizeMassesCombinatoricJigsaw HemiJigsaw("HEM_JIGSAW","Minimize m _{V_{a,b}} Jigsaw");
+    VIS.AddJigsaw(HemiJigsaw);
+    HemiJigsaw.AddFrame(V1,0);
+    HemiJigsaw.AddFrame(V2,1);
 
   static bool saved;
   if(!saved){
     saved = true;
     RF::FramePlot* decayTree_plot = new RF::FramePlot("tree", "Decay Tree");
+    // start with the lab frame
     decayTree_plot->AddFrameTree(LAB);
+    // add the jigsaws
+    decayTree_plot->AddJigsaw(MinMassJigsaw);
+    decayTree_plot->AddJigsaw(RapidityJigsaw);
+    decayTree_plot->AddJigsaw(ContraBoostJigsaw);
+    decayTree_plot->AddJigsaw(HemiJigsaw);
     decayTree_plot->DrawFramePlot();
-    wk()->addOutput(decayTree_plot->GetCanvas());
+    TCanvas* plotCanvas = decayTree_plot->GetCanvas();
+    plotCanvas->SetName("decayTree");
+    wk()->addOutput(plotCanvas);
+
+    RF::FramePlot* visGroup_plot = new RF::FramePlot("VIStree", "Visible Group");
+    visGroup_plot->AddGroupTree(VIS);
+    visGroup_plot->DrawFramePlot();
+    TCanvas* visPlotCanvas = visGroup_plot->GetCanvas();
+    visPlotCanvas->SetName("visTree");
+    wk()->addOutput(visPlotCanvas);
+
+    RF::FramePlot* invGroup_plot = new RF::FramePlot("INVtree", "Invisible Group");
+    invGroup_plot->AddGroupTree(INV);
+    invGroup_plot->DrawFramePlot();
+    TCanvas* invPlotCanvas = invGroup_plot->GetCanvas();
+    invPlotCanvas->SetName("invTree");
+    wk()->addOutput(invPlotCanvas);
   }
 
-
-  /* TODO
-  //////////////////////////////////////////////////////////////
-  // now we define 'jigsaw rules' that tell the tree
-  // how to define the objects in our groups
-  //////////////////////////////////////////////////////////////
-  RF::InvisibleMassJigsaw MinMassJigsaw("MINMASS_JIGSAW", "Invisible system mass Jigsaw");
-  INV.AddJigsaw(MinMassJigsaw);
-
-  RF::InvisibleRapidityJigsaw RapidityJigsaw("RAPIDITY_JIGSAW", "Invisible system rapidity Jigsaw");
-  INV.AddJigsaw(RapidityJigsaw);
-  RapidityJigsaw.AddVisibleFrame((LAB.GetListVisibleFrames()));
-
-  RF::ContraBoostInvariantJigsaw ContraBoostJigsaw("CB_JIGSAW","Contraboost invariant Jigsaw");
-  INV.AddJigsaw(ContraBoostJigsaw);
-  ContraBoostJigsaw.AddVisibleFrame((S1.GetListVisibleFrames()), 0);
-  ContraBoostJigsaw.AddVisibleFrame((S2.GetListVisibleFrames()), 1);
-  ContraBoostJigsaw.AddInvisibleFrame((S1.GetListInvisibleFrames()), 0);
-  ContraBoostJigsaw.AddInvisibleFrame((S2.GetListInvisibleFrames()), 1);
-
-  RF::MinimizeMassesCombinatoricJigsaw HemiJigsaw("HEM_JIGSAW","Minimize m _{V_{a,b}} Jigsaw");
-  VIS.AddJigsaw(HemiJigsaw);
-  HemiJigsaw.AddFrame(V1,0);
-  HemiJigsaw.AddFrame(V2,1);
-
-  //////////////////////////////////////////////////////////////
-  // check to make sure that all the jigsaws etc. are correctly connected
-  //////////////////////////////////////////////////////////////
-  std::cout << "Is consistent analysis tree? : " << LAB.InitializeAnalysis() << std::endl;
-
+  // clear the event
   LAB.ClearEvent();
 
+  bool topologyOk = LAB.InitializeTree();
+  if(topologyOk){ Info("execute()", "We do have consistent tree topology."); }
+  else          { Warning("execute()", "We do not have consistent tree topology."); return EL::StatusCode::FAILURE; }
 
-  //////////////////////////////////////////////////////////////
-  // Now, we make a 'background'-like, transverse momentum only, tree
-  //////////////////////////////////////////////////////////////
-  RF::RLabFrame LAB_alt("LAB","lab");
-  RF::RSelfAssemblingFrame S_alt("CM","CM");
-  RF::RVisibleFrame V_alt("V_alt","Vis");
-  RF::RInvisibleFrame I_alt("I_alt","Iinv");
+  bool analysisOk = LAB.InitializeTree();
+  if(analysisOk){ Info("execute()", "Our tree is ok for analysis."); }
+  else          { Warning("execute()", "Our tree is not ok for analysis."); return EL::StatusCode::FAILURE; }
 
-  RF::InvisibleGroup INV_alt("INV_alt","Invisible State Jigsaws");
-  INV_alt.AddFrame(I_alt);
-
-  RF::CombinatoricGroup VIS_alt("VIS_alt","Visible Object Jigsaws");
-  VIS_alt.AddFrame(V_alt);
-  VIS_alt.SetNElementsForFrame(V_alt,1,false);
-
-  LAB_alt.SetChildFrame(S_alt);
-  S_alt.AddChildFrame(V_alt);
-  S_alt.AddChildFrame(I_alt);
-
-  LAB_alt.InitializeTree();
-
-  // Will just set invisible mass to zero
-  RF::InvisibleMassJigsaw MinMass_alt("MINMASS_JIGSAW_ALT", "Invisible system mass Jigsaw");
-  INV_alt.AddJigsaw(MinMass_alt);
-
-  // will set rapidity to zero
-  RF::InvisibleRapidityJigsaw Rapidity_alt("RAPIDITY_JIGSAW_ALT", "Invisible system rapidity Jigsaw");
-  INV_alt.AddJigsaw(Rapidity_alt);
-  Rapidity_alt.AddVisibleFrame((LAB_alt.GetListVisibleFrames()));
-
-  LAB_alt.InitializeAnalysis();
-
-  TLorentzVector jet;
-
-  jet_itr = (jets_copy)->begin();
-  for( ; jet_itr != jet_end; ++jet_itr ) {
-
-    if( (*jet_itr)->auxdata< char >("baseline")==1  &&
-      (*jet_itr)->auxdata< char >("passOR")==1  &&
-      (*jet_itr)->pt() > 30000.  && ( fabs( (*jet_itr)->eta()) < 2.8) ) {
-      VIS.AddLabFrameFourVector( (*jet_itr)->p4()  );
-
-      jet.SetPtEtaPhiM( (*jet_itr)->pt(), 0., (*jet_itr)->phi(), (*jet_itr)->m()  );
-      VIS_alt.AddLabFrameFourVector(jet);
-    }
-
+  // create a vector to hold the group element ids for when adding jets
+  std::vector<RF::GroupElementID> in_jets_IDs;
+  for(const auto jet: *in_jets){
+    RF::GroupElementID jet_id = VIS.AddLabFrameFourVector( jet->p4() );
+    in_jets_IDs.push_back(jet_id);
   }
 
-
-  // Get MET Collection to hand to Rest Frames////////////////////////////////////////////////////
-
-  xAOD::MissingETContainer* MET = new xAOD::MissingETContainer;
-  CHECK( m_store->retrieve( MET, "CalibMET_RefFinal" ) );
-
-  TVector3 MET_TV3;
-
-    xAOD::MissingETContainer::const_iterator met_it = MET->find("Final");
-  if (met_it == MET->end()) {
-    Error( APP_NAME, "No RefFinal inside MET container" );
-  } else {
-    INV.SetLabFrameThreeVector(  TVector3( (*met_it)->mpx(), (*met_it)->mpy(), 0 ) );
-    MET_TV3.SetZ(0.);
-    MET_TV3.SetX((*met_it)->mpx() );
-    MET_TV3.SetY((*met_it)->mpy() );
-  }
+  xAOD::MissingETContainer::const_iterator met_it = in_missinget->find("Final");
+  // no mpz, but why set it this way???
+  INV.SetLabFrameThreeVector(  TVector3( (*met_it)->mpx(), (*met_it)->mpy(), 0 ) );
 
   LAB.AnalyzeEvent();
 
+  Info("execute()", "Details about event...");
+  Info("execute()", "\tSS...");
+  Info("execute()", "\t\tMass:          %0.2f", SS.GetMass());
+  Info("execute()", "\t\tInvGamma:      %0.2f", 1./SS.GetGammaInParentFrame());
+  Info("execute()", "\t\tdPhiVis:       %0.2f", SS.GetDeltaPhiBoostVisible());
+  Info("execute()", "\t\tCosTheta:      %0.2f", SS.GetCosDecayAngle());
+  Info("execute()", "\t\tdPhiDecayAngle:%0.2f", SS.GetDeltaPhiDecayAngle());
+  Info("execute()", "\t\tVisShape:      %0.2f", SS.GetVisibleShape());
+  Info("execute()", "\t\tMDeltaR:       %0.2f", SS.GetVisibleShape()*SS.GetMass());
+  Info("execute()", "\tS1...");
+  Info("execute()", "\t\tMass:          %0.2f", S1.GetMass());
+  Info("execute()", "\t\tCosTheta:      %0.2f", S1.GetCosDecayAngle());
+  Info("execute()", "\tS2...");
+  Info("execute()", "\t\tMass:          %0.2f", S2.GetMass());
+  Info("execute()", "\t\t:              %0.2f", S2.GetCosDecayAngle());
+  Info("execute()", "\tI1...");
+  Info("execute()", "\t\tDepth:         %d",    S1.GetFrameDepth(I1));
+  Info("execute()", "\tI2...");
+  Info("execute()", "\t\tDepth:         %d",    S2.GetFrameDepth(I2));
+  Info("execute()", "\tV1...");
+  Info("execute()", "\t\tNElements:     %d",    VIS.GetNElementsInFrame(V1));
+  Info("execute()", "\tV2...");
+  Info("execute()", "\t\tNElements:     %d",    VIS.GetNElementsInFrame(V2));
 
-  INV_alt.SetLabFrameThreeVector(MET_TV3);
-  LAB_alt.AnalyzeEvent();
-
-  //std::cout << "RestFrames shatR is: " << SS.GetMass() << std::endl;
-
-  eventInfo->auxdecor<float>("SS_Mass"           ) = SS.GetMass();
-  eventInfo->auxdecor<float>("SS_InvGamma"       ) = 1./SS.GetGammaInParentFrame();
-  eventInfo->auxdecor<float>("SS_dPhiBetaR"      ) = SS.GetDeltaPhiBoostVisible();
-  eventInfo->auxdecor<float>("SS_dPhiVis"        ) = SS.GetDeltaPhiVisible();
-  eventInfo->auxdecor<float>("SS_CosTheta"       ) = SS.GetCosDecayAngle();
-  eventInfo->auxdecor<float>("SS_dPhiDecayAngle" ) = SS.GetDeltaPhiDecayAngle();
-  eventInfo->auxdecor<float>("SS_VisShape"       ) = SS.GetVisibleShape();
-  eventInfo->auxdecor<float>("SS_MDeltaR"        ) = SS.GetVisibleShape() * SS.GetMass() ;
-  eventInfo->auxdecor<float>("S1_Mass"           ) = S1.GetMass();
-  eventInfo->auxdecor<float>("S1_CosTheta"       ) = S1.GetCosDecayAngle();
-  eventInfo->auxdecor<float>("S2_Mass"           ) = S2.GetMass();
-  eventInfo->auxdecor<float>("S2_CosTheta"       ) = S2.GetCosDecayAngle();
-  eventInfo->auxdecor<float>("I1_Depth"          ) = S1.GetFrameDepth(I1);
-  eventInfo->auxdecor<float>("I2_Depth"          ) = S2.GetFrameDepth(I2);
-  eventInfo->auxdecor<float>("V1_N"              ) = VIS.GetNElementsInFrame(V1);
-  eventInfo->auxdecor<float>("V2_N"              ) = VIS.GetNElementsInFrame(V2);
-
-  // dphiR and Rptshat (formerly cosPT)
-  // for QCD rejection
-  double dphiR = SS.GetDeltaPhiBoostVisible();
-  double PTCM = SS.GetFourVector(LAB).Pt();
-  double Rptshat = PTCM / (PTCM + SS.GetMass()/4.);
-
-  // QCD rejection using the 'background tree'
-  // MET 'sibling' in background tree auxillary calculations
-  TLorentzVector Psib = I_alt.GetSiblingFrame()->GetFourVector(LAB_alt);
-  TLorentzVector Pmet = I_alt.GetFourVector(LAB_alt);
-  double Psib_dot_METhat = max(0., Psib.Vect().Dot(MET_TV3.Unit()));
-  double Mpar2 = Psib.E()*Psib.E()-Psib.Vect().Dot(MET_TV3.Unit())*Psib.Vect().Dot(MET_TV3.Unit());
-  double Msib2 = Psib.M2();
-  double MB2 = 2.*(Pmet.E()*Psib.E()-MET_TV3.Dot(Psib.Vect()));
-  TVector3 boostPsibM = (Pmet+Psib).BoostVector();
-
-
-  // QCD rejection variables from 'background tree'
-  double DepthBKG = S_alt.GetFrameDepth(I_alt);
-  int Nsib = I_alt.GetSiblingFrame()->GetNDescendants();
-  double cosBKG = I_alt.GetParentFrame()->GetCosDecayAngle();
-  double dphiMsib = fabs(MET_TV3.DeltaPhi(Psib.Vect()));
-  double RpsibM = Psib_dot_METhat / (Psib_dot_METhat + MET_TV3.Mag());
-  double RmsibM = 1. / ( MB2/(Mpar2-Msib2) + 1.);
-  Psib.Boost(-boostPsibM);
-  double cosPsibM = -1.*Psib.Vect().Unit().Dot(boostPsibM.Unit());
-  cosPsibM = (1.-cosPsibM)/2.;
-  double DeltaQCD1 = (cosPsibM-RpsibM)/(cosPsibM+RpsibM);
-  double DeltaQCD2 = (cosPsibM-RmsibM)/(cosPsibM+RmsibM);
-
-  eventInfo->auxdecor<float>("QCD_dPhiR")   = dphiR;
-  eventInfo->auxdecor<float>("QCD_Rpt")     = Rptshat;
-  eventInfo->auxdecor<float>("QCD_Rmsib")   = RmsibM;
-  eventInfo->auxdecor<float>("QCD_Delta2")  = DeltaQCD2;
-  eventInfo->auxdecor<float>("QCD_Rpsib")   = RpsibM;
-  eventInfo->auxdecor<float>("QCD_Delta1")  = DeltaQCD1;
+  /* TODO
+     QCD rejection stuff
   */
   return EL::StatusCode::SUCCESS;
 }
