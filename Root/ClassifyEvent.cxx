@@ -229,6 +229,113 @@ EL::StatusCode ClassifyEvent :: execute ()
   /* TODO
      QCD rejection stuff
   */
+
+  // truth matching stuff
+  const xAOD::TruthParticleContainer* truth_particles(nullptr);
+  RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(truth_particles, "TruthParticle", m_event, m_store, true), "");
+
+  Info("execute()", "Details about the truth particles... +/-[5, 6, 24, 32, 33, 34]");
+  for(const auto truth_particle: *truth_particles){
+    int pdgId = abs(truth_particle->pdgId());
+    if( pdgId != 5 &&
+        pdgId != 6 &&
+        pdgId != 24 &&
+        pdgId != 32 &&
+        pdgId != 33 &&
+        pdgId != 34 &&
+        pdgId%10000 < 500 && pdgId%10000 >= 600 && /* mesons */
+        pdgId < 5000 && pdgId >= 6000 /* baryons */
+      ) continue;
+
+    bool isBHadron = false;
+    if(!truth_particle->isTop() && !truth_particle->isW() && !truth_particle->isZ() && pdgId != 5) isBHadron = true;
+
+    bool hasSelfChild = false;
+    for(unsigned int it = 0; it < truth_particle->nChildren(); ++it){
+      if( truth_particle->child(it)->pdgId() == truth_particle->pdgId() ){
+        //Info("execute()", "\t\tIt contains itself. Skipping it.");
+        hasSelfChild = true;
+        break;
+      }
+    }
+    if(hasSelfChild) continue;
+    if((~isBHadron || pdgId != 5) && truth_particle->nChildren() != 2){
+      //Info("execute()", "\t\tIt contains more than 2 children. Skipping it.");
+      continue;
+    }
+
+    if(truth_particle->isTop())      Info("execute()", "\tTop quark");
+    else if(truth_particle->isW())   Info("execute()", "\tW boson");
+    else if(truth_particle->isZ())   Info("execute()", "\tZ boson");
+    else if(pdgId == 5)              Info("execute()", "\tBottom quark");
+    else                             Info("execute()", "\tBottom hadron");
+
+    if(isBHadron || pdgId == 5){
+      Info("execute()", "\t\tChildren");
+      for(unsigned int it = 0; it < truth_particle->nChildren(); ++it){
+        Info("execute()", "\t\t\t%d\t\tStatus: %d", truth_particle->child(it)->pdgId(), truth_particle->child(it)->status());
+      }
+    }
+
+    Info("execute()", "\t\tStatusCode: %d", truth_particle->status());
+
+    Info("execute()", "\t\tpT: %0.2f GeV\tm: %0.2f GeV\teta: %0.2f\tphi: %0.2f", truth_particle->pt()/1000., truth_particle->m()/1000., truth_particle->eta(), truth_particle->phi());
+
+    /* http://acode-browser.usatlas.bnl.gov/lxr/source/atlas/Event/xAOD/xAODTruth/xAODTruth/versions/TruthParticle_v1.h */
+
+    /*
+    Info("execute()", "\tstatus:            %d", truth_particle->status());
+    Info("execute()", "\tpdgID:             %d", truth_particle->pdgId());
+    Info("execute()", "\tNumParents:        %lu", truth_particle->nParents());
+    Info("execute()", "\tNumChildren:       %lu", truth_particle->nChildren());
+
+    Info("execute()", "\t\tisCharged:         %d", truth_particle->isCharged());
+    Info("execute()", "\t\tisNeutral:         %d", truth_particle->isNeutral());
+
+    Info("execute()", "\t\tisLepton:          %d", truth_particle->isLepton());
+    Info("execute()", "\t\tisChLepton:        %d", truth_particle->isChLepton());
+    Info("execute()", "\t\tisElectron:        %d", truth_particle->isElectron());
+    Info("execute()", "\t\tisMuon:            %d", truth_particle->isMuon());
+    Info("execute()", "\t\tisTau:             %d", truth_particle->isTau());
+    Info("execute()", "\t\tisNeutrino:        %d", truth_particle->isNeutrino());
+    */
+
+    /*
+    Info("execute()", "\t\tisHadron:          %d", truth_particle->isHadron());
+    Info("execute()", "\t\tisMeson:           %d", truth_particle->isMeson());
+    Info("execute()", "\t\tisBaryon:          %d", truth_particle->isBaryon());
+
+    Info("execute()", "\t\thasStrange:        %d", truth_particle->hasStrange());
+    Info("execute()", "\t\thasCharm:          %d", truth_particle->hasCharm());
+    Info("execute()", "\t\thasBottom:         %d", truth_particle->hasBottom());
+
+    Info("execute()", "\t\tisLightMeson:      %d", truth_particle->isLightMeson());
+    Info("execute()", "\t\tisLightBaryon:     %d", truth_particle->isLightBaryon());
+    Info("execute()", "\t\tisLightHadron:     %d", truth_particle->isLightHadron());
+
+    Info("execute()", "\t\tisHeavyMeson:      %d", truth_particle->isHeavyMeson());
+    Info("execute()", "\t\tisHeavyBaryon:     %d", truth_particle->isHeavyBaryon());
+    Info("execute()", "\t\tisHeavyHadron:     %d", truth_particle->isHeavyHadron());
+    */
+
+    /* these don't work
+    Info("execute()", "\t\tisBottomMeson:     %d", truth_particle->isBottomMeson());
+    Info("execute()", "\t\tisBottomBaryon:    %d", truth_particle->isBottomBaryon());
+    Info("execute()", "\t\tisBottomHadron:    %d", truth_particle->isBottomHadron());
+    */
+
+    /*
+    Info("execute()", "\t\tisQuark:           %d", truth_particle->isQuark());
+    Info("execute()", "\t\tisParton:          %d", truth_particle->isParton());
+    Info("execute()", "\t\tisTop:             %d", truth_particle->isTop());
+    Info("execute()", "\t\tisW:               %d", truth_particle->isW());
+    Info("execute()", "\t\tisZ:               %d", truth_particle->isZ());
+    Info("execute()", "\t\tisHiggs:           %d", truth_particle->isHiggs());
+    Info("execute()", "\t\tisResonance:       %d", truth_particle->isResonance());
+    Info("execute()", "\t\tisGenSpecific:     %d", truth_particle->isGenSpecific());
+    */
+  }
+
   return EL::StatusCode::SUCCESS;
 }
 
