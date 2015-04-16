@@ -77,7 +77,8 @@ EL::StatusCode ClassifyEvent :: execute ()
   const xAOD::MissingETContainer*       in_missinget(nullptr);
   const xAOD::TruthParticleContainer*   in_truth    (nullptr);
 
-
+  RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(in_jets, "AntiKt10LCTopoJets", m_event, m_store, true), "");
+  RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(in_missinget, "MET_RefFinal", m_event, m_store, true), "");
   // retrieve CalibMET_RefFinal for METContainer
   if (in_missinget->find("Final") == in_missinget->end()) {
     Error("execute()", "No RefFinal inside MET container" );
@@ -192,21 +193,30 @@ EL::StatusCode ClassifyEvent :: execute ()
 
   LAB.AnalyzeEvent();
 
-  Info("execute()", "Details about event...");
+  Info("execute()", "Details about input jets...");
+  for(const auto jet: *in_jets){
+    Info("execute()", "\tpT: %0.2f GeV\tm: %0.2f GeV\teta: %0.2f\tphi: %0.2f", jet->pt()/1000., jet->m()/1000., jet->eta(), jet->phi());
+  }
+
+  Info("execute()", "Details about MET...");
+  Info("execute()", "\tmpx: %0.2f GeV\tmpy: %0.2f GeV\tmpz: %0.2f GeV", (*met_it)->mpx()/1000., (*met_it)->mpy()/1000., 0.0/1000.);
+
+  Info("execute()", "Details about RestFrames analysis...");
   Info("execute()", "\tSS...");
   Info("execute()", "\t\tMass:          %0.2f", SS.GetMass());
   Info("execute()", "\t\tInvGamma:      %0.2f", 1./SS.GetGammaInParentFrame());
   Info("execute()", "\t\tdPhiVis:       %0.2f", SS.GetDeltaPhiBoostVisible());
-  Info("execute()", "\t\tCosTheta:      %0.2f", SS.GetCosDecayAngle());
-  Info("execute()", "\t\tdPhiDecayAngle:%0.2f", SS.GetDeltaPhiDecayAngle());
+  // segfault???
+  //Info("execute()", "\t\tCosTheta:      %0.2f", SS.GetCosDecayAngle());
+  //Info("execute()", "\t\tdPhiDecayAngle:%0.2f", SS.GetDeltaPhiDecayAngle());
   Info("execute()", "\t\tVisShape:      %0.2f", SS.GetVisibleShape());
   Info("execute()", "\t\tMDeltaR:       %0.2f", SS.GetVisibleShape()*SS.GetMass());
   Info("execute()", "\tS1...");
   Info("execute()", "\t\tMass:          %0.2f", S1.GetMass());
-  Info("execute()", "\t\tCosTheta:      %0.2f", S1.GetCosDecayAngle());
+  //Info("execute()", "\t\tCosTheta:      %0.2f", S1.GetCosDecayAngle());
   Info("execute()", "\tS2...");
   Info("execute()", "\t\tMass:          %0.2f", S2.GetMass());
-  Info("execute()", "\t\t:              %0.2f", S2.GetCosDecayAngle());
+  //Info("execute()", "\t\t:              %0.2f", S2.GetCosDecayAngle());
   Info("execute()", "\tI1...");
   Info("execute()", "\t\tDepth:         %d",    S1.GetFrameDepth(I1));
   Info("execute()", "\tI2...");

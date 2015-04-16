@@ -23,7 +23,7 @@ int main( int argc, char* argv[] ) {
   // get the data path for xAODAnaHelpers/data
   std::string dataPath = gSystem->ExpandPathName("$ROOTCOREBIN/data");
   SH::DiskListLocal list (dataPath);
-  SH::scanDir (sh, list, "r20test_AOD.pool.root", "xAODAnaHelpers"); // specifying one particular sample
+  SH::scanDir (sh, list, "mc14_13TeV.110351.PowhegPythia_P2012_ttbar_allhad.merge.AOD.e3232_s1982_s2008_r5787_r5853_skim.root", "xAODAnaHelpers"); // specifying one particular sample
 
 
   // Set the name of the input TTree. It's always "CollectionTree"
