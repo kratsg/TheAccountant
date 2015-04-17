@@ -264,18 +264,25 @@ EL::StatusCode ClassifyEvent :: execute ()
       continue;
     }
 
+    if(isBHadron || pdgId == 5){
+      if(truth_particle->status() != 1) continue;
+      if(!truth_particle->hasDecayVtx()) continue;
+      bool badChildren = false;
+      //Info("execute()", "\t\tChildren");
+      for(unsigned int it = 0; it < truth_particle->nChildren(); ++it){
+        int child_pdgId = abs(truth_particle->child(it)->pdgId());
+        if(child_pdgId%10000 >= 500 && child_pdgId%10000 < 600 || /* mesons */
+           child_pdgId >= 5000 && child_pdgId < 6000 /* baryons */){ badChildren = true; break; }
+        //Info("execute()", "\t\t\t%d\t\tStatus: %d", truth_particle->child(it)->pdgId(), truth_particle->child(it)->status());
+      }
+      if(badChildren) continue;
+    }
+
     if(truth_particle->isTop())      Info("execute()", "\tTop quark");
     else if(truth_particle->isW())   Info("execute()", "\tW boson");
     else if(truth_particle->isZ())   Info("execute()", "\tZ boson");
     else if(pdgId == 5)              Info("execute()", "\tBottom quark");
     else                             Info("execute()", "\tBottom hadron");
-
-    if(isBHadron || pdgId == 5){
-      Info("execute()", "\t\tChildren");
-      for(unsigned int it = 0; it < truth_particle->nChildren(); ++it){
-        Info("execute()", "\t\t\t%d\t\tStatus: %d", truth_particle->child(it)->pdgId(), truth_particle->child(it)->status());
-      }
-    }
 
     Info("execute()", "\t\tStatusCode: %d", truth_particle->status());
 
