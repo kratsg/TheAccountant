@@ -230,6 +230,20 @@ EL::StatusCode ClassifyEvent :: execute ()
      QCD rejection stuff
   */
 
+
+  for(const auto jet: *in_jets){
+    std::vector<const xAOD::TruthParticle*> partons;
+    bool success = jet->getAssociatedObjects("GhostTruth", partons);
+    Info("execute()", "GhostBQuarksFinalCount: %d", jet->getAttribute<int>("GhostBQuarksFinalCount"));
+    Info("execute()", "GhostBHadronsFinalCount: %d", jet->getAttribute<int>("GhostBHadronsFinalCount"));
+    Info("execute()", "pT: %0.2f GeV\tm: %0.2f GeV\teta: %0.2f\tphi: %0.2f", jet->pt()/1000., jet->m()/1000., jet->eta(), jet->phi());
+    for(const auto parton: partons){
+      Info("execute()", "\tStatus: %d", parton->status());
+      Info("execute()", "\tpdgId: %d", parton->pdgId());
+      Info("execute()", "\tpT: %0.2f GeV\tm: %0.2f GeV\teta: %0.2f\tphi: %0.2f", parton->pt()/1000., parton->m()/1000., parton->eta(), parton->phi());
+    }
+  }
+
   // truth matching stuff
   const xAOD::TruthParticleContainer* truth_particles(nullptr);
   RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(truth_particles, "TruthParticle", m_event, m_store, true), "");
