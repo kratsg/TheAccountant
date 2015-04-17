@@ -117,6 +117,11 @@ EL::StatusCode ClassifyEvent :: execute ()
   VIS.SetNElementsForFrame(V1,1,false);
   VIS.SetNElementsForFrame(V2,1,false);
 
+  bool topologyOk = LAB.InitializeTree();
+  if(topologyOk){ Info("execute()", "We do have consistent tree topology."); }
+  else          { Warning("execute()", "We do not have consistent tree topology."); return EL::StatusCode::FAILURE; }
+
+
   // now we define 'jigsaw rules' that tell the tree how to define the objects
   // in our groups, indented to cleanly see the Jigsaws being defined
   RF::InvisibleMassJigsaw MinMassJigsaw("MINMASS_JIGSAW", "Invisible system mass Jigsaw");
@@ -138,6 +143,12 @@ EL::StatusCode ClassifyEvent :: execute ()
     HemiJigsaw.AddFrame(V1,0);
     HemiJigsaw.AddFrame(V2,1);
 
+  bool analysisOk = LAB.InitializeAnalysis();
+  if(analysisOk){ Info("execute()", "Our tree is ok for analysis."); }
+  else          { Warning("execute()", "Our tree is not ok for analysis."); return EL::StatusCode::FAILURE; }
+
+
+  // only output this thing once, hence the static
   static bool saved;
   if(!saved){
     saved = true;
@@ -172,14 +183,6 @@ EL::StatusCode ClassifyEvent :: execute ()
   // clear the event
   LAB.ClearEvent();
 
-  bool topologyOk = LAB.InitializeTree();
-  if(topologyOk){ Info("execute()", "We do have consistent tree topology."); }
-  else          { Warning("execute()", "We do not have consistent tree topology."); return EL::StatusCode::FAILURE; }
-
-  bool analysisOk = LAB.InitializeTree();
-  if(analysisOk){ Info("execute()", "Our tree is ok for analysis."); }
-  else          { Warning("execute()", "Our tree is not ok for analysis."); return EL::StatusCode::FAILURE; }
-
   // create a vector to hold the group element ids for when adding jets
   std::vector<RF::GroupElementID> in_jets_IDs;
   for(const auto jet: *in_jets){
@@ -191,7 +194,9 @@ EL::StatusCode ClassifyEvent :: execute ()
   // no mpz, but why set it this way???
   INV.SetLabFrameThreeVector(  TVector3( (*met_it)->mpx(), (*met_it)->mpy(), 0 ) );
 
-  LAB.AnalyzeEvent();
+  bool analyzedOk = LAB.AnalyzeEvent();
+  if(analyzedOk){ Info("execute()", "Analyzed the event successfully."); }
+  else          { Warning("execute()", "Analyzed the event unsuccessfully."); return EL::StatusCode::FAILURE; }
 
   Info("execute()", "Details about input jets...");
   for(const auto jet: *in_jets){
@@ -203,20 +208,19 @@ EL::StatusCode ClassifyEvent :: execute ()
 
   Info("execute()", "Details about RestFrames analysis...");
   Info("execute()", "\tSS...");
-  Info("execute()", "\t\tMass:          %0.2f", SS.GetMass());
+  Info("execute()", "\t\tMass:          %0.2f GeV", SS.GetMass()/1000.);
   Info("execute()", "\t\tInvGamma:      %0.2f", 1./SS.GetGammaInParentFrame());
   Info("execute()", "\t\tdPhiVis:       %0.2f", SS.GetDeltaPhiBoostVisible());
-  // segfault???
-  //Info("execute()", "\t\tCosTheta:      %0.2f", SS.GetCosDecayAngle());
-  //Info("execute()", "\t\tdPhiDecayAngle:%0.2f", SS.GetDeltaPhiDecayAngle());
+  Info("execute()", "\t\tCosTheta:      %0.2f", SS.GetCosDecayAngle());
+  Info("execute()", "\t\tdPhiDecayAngle:%0.2f", SS.GetDeltaPhiDecayAngle());
   Info("execute()", "\t\tVisShape:      %0.2f", SS.GetVisibleShape());
   Info("execute()", "\t\tMDeltaR:       %0.2f", SS.GetVisibleShape()*SS.GetMass());
   Info("execute()", "\tS1...");
-  Info("execute()", "\t\tMass:          %0.2f", S1.GetMass());
-  //Info("execute()", "\t\tCosTheta:      %0.2f", S1.GetCosDecayAngle());
+  Info("execute()", "\t\tMass:          %0.2f GeV", S1.GetMass()/1000.);
+  Info("execute()", "\t\tCosTheta:      %0.2f", S1.GetCosDecayAngle());
   Info("execute()", "\tS2...");
-  Info("execute()", "\t\tMass:          %0.2f", S2.GetMass());
-  //Info("execute()", "\t\t:              %0.2f", S2.GetCosDecayAngle());
+  Info("execute()", "\t\tMass:          %0.2f GeV", S2.GetMass()/1000.);
+  Info("execute()", "\t\tCosTheta:      %0.2f", S2.GetCosDecayAngle());
   Info("execute()", "\tI1...");
   Info("execute()", "\t\tDepth:         %d",    S1.GetFrameDepth(I1));
   Info("execute()", "\tI2...");
