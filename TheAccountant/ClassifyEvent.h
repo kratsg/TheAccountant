@@ -7,12 +7,66 @@
 #include "xAODRootAccess/TEvent.h"
 #include "xAODRootAccess/TStore.h"
 
+// RestFrames includes
+#include "RestFrames/RestFrame.hh"
+#include "RestFrames/RFrame.hh"
+#include "RestFrames/RLabFrame.hh"
+#include "RestFrames/RDecayFrame.hh"
+#include "RestFrames/RVisibleFrame.hh"
+#include "RestFrames/RInvisibleFrame.hh"
+#include "RestFrames/RSelfAssemblingFrame.hh"
+#include "RestFrames/InvisibleMassJigsaw.hh"
+#include "RestFrames/InvisibleRapidityJigsaw.hh"
+#include "RestFrames/ContraBoostInvariantJigsaw.hh"
+#include "RestFrames/MinimizeMassesCombinatoricJigsaw.hh"
+#include "RestFrames/InvisibleGroup.hh"
+#include "RestFrames/CombinatoricGroup.hh"
+
+// c++ includes
+#include <string>
+
+namespace RF = RestFrames;
+
 class ClassifyEvent : public EL::Algorithm
 {
+
+public:
+  bool m_minMassJigsaw      = true,
+       m_rapidityJigsaw     = true,
+       m_contraBoostJigsaw  = true,
+       m_hemiJigsaw         = true,
+       m_drawDecayTreePlots = false,
+       m_debug              = false;
+
+  std::string m_eventInfo       = "EventInfo",
+              m_inputJets       = "AntiKt10LCTopoJets",
+              m_inputBJets      = "",
+              m_inputMET        = "MET_RefFinal",
+              m_inputElectrons  = "",
+              m_inputMuons      = "",
+              m_inputTauJets    = "",
+              m_inputPhotons    = "";
 
 private:
   xAOD::TEvent *m_event; //!
   xAOD::TStore *m_store; //!
+
+  RF::RLabFrame         LAB; //!
+  RF::RDecayFrame       SS;  //!
+  RF::RDecayFrame       S1;  //!
+  RF::RDecayFrame       S2;  //!
+  RF::RVisibleFrame     V1;  //!
+  RF::RVisibleFrame     V2;  //!
+  RF::RInvisibleFrame   I1;  //!
+  RF::RInvisibleFrame   I2;  //!
+
+  RF::CombinatoricGroup VIS;    //!
+  RF::InvisibleGroup    INV;    //!
+
+  RF::InvisibleMassJigsaw MinMassJigsaw; //!
+  RF::InvisibleRapidityJigsaw RapidityJigsaw; //!
+  RF::ContraBoostInvariantJigsaw ContraBoostJigsaw; //!
+  RF::MinimizeMassesCombinatoricJigsaw HemiJigsaw; //!
 
 public:
   // this is a standard constructor
