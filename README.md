@@ -20,9 +20,60 @@ rc compile_pkg TheAccountant
 
 ### Functionality Included
 
-#### ClassifyEvent
+<img src="https://github.com/kratsg/TheAccountant/raw/master/img/decayTree.png?raw=true" alt="Decay Tree" width="250" />
+<img src="https://github.com/kratsg/TheAccountant/raw/master/img/visTree.png?raw=true" alt="Visible Tree" width="250" />
+<img src="https://github.com/kratsg/TheAccountant/raw/master/img/invTree.png?raw=true" alt="Invisible Tree" width="250" />
 
-This algorithm sets up a decay tree with a pair of vis-invis particles in each hemisphere and then decorates the eventInfo based on what it found.
+#### [ClassifyEvent.cxx](TheAccountant/ClassifyEvent.h)
+
+This algorithm sets up a decay tree with a pair of vis-invis particles in each hemisphere.
+
+#### [CookTheBooks.py](scripts/CookTheBooks.py)
+```
+usage: CookTheBooks.py filename [filename] [options]
+
+Become an accountant and cook the books!
+
+positional arguments:
+                           input file(s) to read
+
+optional arguments:
+  -h, --help               show this help message and exit
+  --submitDir <directory>  Output directory to store the output. (default:
+                           submitDir)
+  --nevents <n>            Number of events to process for all datasets.
+                           (default: 0)
+  --skip <n>               Number of events to skip at start. (default: 0)
+  -f, --force              Overwrite previous directory if it exists.
+                           (default: False)
+  --direct                 Run your jobs locally. (default: direct)
+  --prooflite              Run your jobs using ProofLite (default: direct)
+  --grid                   Run your jobs on the grid. (default: direct)
+  --inputList              If enabled, will read in a text file containing a
+                           list of files. (default: False)
+  --inputDQ2               If enabled, will search using DQ2. Can be combined
+                           with `--inputList`. (default: False)
+  -v, --verbose            Enable verbose output of various levels. Default:
+                           no verbosity (default: 0)
+
+classifyEvent options:
+  --minMassJigsaw          Disable the minMass Jigsaw (default: True)
+  --contraBoostJigsaw      Disable the contraBoost Jigsaw (default: True)
+  --hemiJigsaw             Disable the hemi Jigsaw (default: True)
+  --drawDecayTreePlots     Enable to draw the decay tree plots and save the
+                           canvas in the output ROOT file. Please only enable
+                           this if running locally. (default: False)
+  --debug                  Enable verbose output of the algorithms. (default:
+                           False)
+  --eventInfo              EventInfo container name. (default: EventInfo)
+  --jets                   Jet container name. (default: AntiKt10LCTopoJets)
+  --bJets                  B-Jet container name. (default: )
+  --met                    Missing Et container name. (default: MET_RefFinal)
+  --electrons              Electrons container name. (default: )
+  --muons                  Muons container name. (default: )
+  --taujets                TauJets container name. (default: )
+  --photons                Photons container name. (default: )
+```
 
 ### Tested Against AnalysisBase versions:
  - 2.1.30
@@ -32,4 +83,5 @@ This algorithm sets up a decay tree with a pair of vis-invis particles in each h
 
 ##### Acknowledgements
 - [Lawrence Lee](https://github.com/lawrenceleejr)
+- [David Miller](https://github.com/fizisist)
 - [Chris Rogan](https://github.com/crogan)
