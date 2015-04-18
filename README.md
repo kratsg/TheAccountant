@@ -57,9 +57,9 @@ optional arguments:
                            no verbosity (default: 0)
 
 classifyEvent options:
-  --minMassJigsaw          Disable the minMass Jigsaw (default: True)
-  --contraBoostJigsaw      Disable the contraBoost Jigsaw (default: True)
-  --hemiJigsaw             Disable the hemi Jigsaw (default: True)
+  --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)
+  --no-contraBoostJigsaw   Disable the contraBoost Jigsaw (default: False)
+  --no-hemiJigsaw          Disable the hemi Jigsaw (default: True)
   --drawDecayTreePlots     Enable to draw the decay tree plots and save the
                            canvas in the output ROOT file. Please only enable
                            this if running locally. (default: False)
