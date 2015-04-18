@@ -32,6 +32,9 @@ if __name__ == "__main__":
                                    usage='%(prog)s filename [filename] [options]',
                                    formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
 
+  # http://stackoverflow.com/a/16981688
+  parser._optionals.title = "job runner options"
+
   # positional argument, require the first argument to be the input filename
   parser.add_argument('input_filename',
                       metavar='',
@@ -98,6 +101,60 @@ if __name__ == "__main__":
                       default=0,
                       help='Enable verbose output of various levels. Default: no verbosity')
 
+  group_algorithms = parser.add_argument_group('global algorithm options')
+  group_algorithms.add_argument('--debug',
+                                   dest='debug',
+                                   action='store_true',
+                                   help='Enable verbose output of the algorithms.')
+  group_algorithms.add_argument('--eventInfo',
+                                   dest='eventInfo',
+                                   metavar='',
+                                   type=str,
+                                   help='EventInfo container name.',
+                                   default='EventInfo')
+  group_algorithms.add_argument('--jets',
+                                   dest='inputJets',
+                                   metavar='',
+                                   type=str,
+                                   help='Jet container name.',
+                                   default='AntiKt10LCTopoJets')
+  group_algorithms.add_argument('--bJets',
+                                   dest='inputBJets',
+                                   metavar='',
+                                   type=str,
+                                   help='B-Jet container name.',
+                                   default='')
+  group_algorithms.add_argument('--met',
+                                   dest='inputMET',
+                                   metavar='',
+                                   type=str,
+                                   help='Missing Et container name.',
+                                   default='MET_RefFinal')
+  group_algorithms.add_argument('--electrons',
+                                   dest='inputElectrons',
+                                   metavar='',
+                                   type=str,
+                                   help='Electrons container name.',
+                                   default='')
+  group_algorithms.add_argument('--muons',
+                                   dest='inputMuons',
+                                   metavar='',
+                                   type=str,
+                                   help='Muons container name.',
+                                   default='')
+  group_algorithms.add_argument('--taujets',
+                                   dest='inputTauJets',
+                                   metavar='',
+                                   type=str,
+                                   help='TauJets container name.',
+                                   default='')
+  group_algorithms.add_argument('--photons',
+                                   dest='inputPhotons',
+                                   metavar='',
+                                   type=str,
+                                   help='Photons container name.',
+                                   default='')
+
   group_audit = parser.add_argument_group('audit options')
   group_audit.add_argument('--no-minMassJigsaw',
                                    dest='disable_minMassJigsaw',
@@ -115,58 +172,6 @@ if __name__ == "__main__":
                                    dest='drawDecayTreePlots',
                                    action='store_true',
                                    help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
-  group_audit.add_argument('--debug',
-                                   dest='debug',
-                                   action='store_true',
-                                   help='Enable verbose output of the algorithms.')
-  group_audit.add_argument('--eventInfo',
-                                   dest='eventInfo',
-                                   metavar='',
-                                   type=str,
-                                   help='EventInfo container name.',
-                                   default='EventInfo')
-  group_audit.add_argument('--jets',
-                                   dest='inputJets',
-                                   metavar='',
-                                   type=str,
-                                   help='Jet container name.',
-                                   default='AntiKt10LCTopoJets')
-  group_audit.add_argument('--bJets',
-                                   dest='inputBJets',
-                                   metavar='',
-                                   type=str,
-                                   help='B-Jet container name.',
-                                   default='')
-  group_audit.add_argument('--met',
-                                   dest='inputMET',
-                                   metavar='',
-                                   type=str,
-                                   help='Missing Et container name.',
-                                   default='MET_RefFinal')
-  group_audit.add_argument('--electrons',
-                                   dest='inputElectrons',
-                                   metavar='',
-                                   type=str,
-                                   help='Electrons container name.',
-                                   default='')
-  group_audit.add_argument('--muons',
-                                   dest='inputMuons',
-                                   metavar='',
-                                   type=str,
-                                   help='Muons container name.',
-                                   default='')
-  group_audit.add_argument('--taujets',
-                                   dest='inputTauJets',
-                                   metavar='',
-                                   type=str,
-                                   help='TauJets container name.',
-                                   default='')
-  group_audit.add_argument('--photons',
-                                   dest='inputPhotons',
-                                   metavar='',
-                                   type=str,
-                                   help='Photons container name.',
-                                   default='')
 
   # parse the arguments, throw errors if missing any
   args = parser.parse_args()
@@ -240,20 +245,23 @@ if __name__ == "__main__":
 
     # add our algorithm to the job
     cookBooks_logger.info("creating algorithms")
+
+    cookBooks_logger.info("\tcreating preselect algorithm")
+    preselect = ROOT.Preselect()
+
+    cookBooks_logger.info("\tcreating audit algorithm")
     audit = ROOT.Audit()
-    audit.m_minMassJigsaw       = not(args.disable_minMassJigsaw)
-    audit.m_contraBoostJigsaw   = not(args.disable_contraBoostJigsaw)
-    audit.m_hemiJigsaw          = not(args.disable_hemiJigsaw)
+    for opt in ['minMassJigsaw', 'contraBoostJigsaw', 'hemiJigsaw']:
+      cookBooks_logger.info("\t\tsetting Audit.m_%s", opt)
+      setattr(audit, 'm_{0}'.format(opt), not(getattr(args, 'disable_{0}'.format(opt))))
+    cookBooks_logger.info("\t\tsetting audit.m_%s", 'drawDecayTreePlots')
     audit.m_drawDecayTreePlots  = args.drawDecayTreePlots
-    audit.m_debug               = args.debug
-    audit.m_eventInfo           = args.eventInfo
-    audit.m_inputJets           = args.inputJets
-    audit.m_inputBJets          = args.inputBJets
-    audit.m_inputMET            = args.inputMET
-    audit.m_inputElectrons      = args.inputElectrons
-    audit.m_inputMuons          = args.inputMuons
-    audit.m_inputTauJets        = args.inputTauJets
-    audit.m_inputPhotons        = args.inputPhotons
+
+    cookBooks_logger.info("\tsetting global algorithm variables")
+    for alg in [preselect, audit]:
+      for opt in ['debug', 'eventInfo', 'inputJets', 'inputBJets', 'inputMET', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons']:
+        cookBooks_logger.info("\t\tsetting %s.m_%s", alg.ClassName(), opt)
+        setattr(audit, 'm_{0}'.format(opt), getattr(args, opt))
 
     cookBooks_logger.info("adding algorithms")
     job.algsAdd(audit)

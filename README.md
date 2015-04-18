@@ -37,7 +37,7 @@ Become an accountant and cook the books!
 positional arguments:
                            input file(s) to read
 
-optional arguments:
+job runner options:
   -h, --help               show this help message and exit
   --submitDir <directory>  Output directory to store the output. (default:
                            submitDir)
@@ -56,13 +56,7 @@ optional arguments:
   -v, --verbose            Enable verbose output of various levels. Default:
                            no verbosity (default: 0)
 
-audit options:
-  --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)
-  --no-contraBoostJigsaw   Disable the contraBoost Jigsaw (default: False)
-  --no-hemiJigsaw          Disable the hemi Jigsaw (default: True)
-  --drawDecayTreePlots     Enable to draw the decay tree plots and save the
-                           canvas in the output ROOT file. Please only enable
-                           this if running locally. (default: False)
+global algorithm options:
   --debug                  Enable verbose output of the algorithms. (default:
                            False)
   --eventInfo              EventInfo container name. (default: EventInfo)
@@ -73,6 +67,14 @@ audit options:
   --muons                  Muons container name. (default: )
   --taujets                TauJets container name. (default: )
   --photons                Photons container name. (default: )
+
+audit options:
+  --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)
+  --no-contraBoostJigsaw   Disable the contraBoost Jigsaw (default: False)
+  --no-hemiJigsaw          Disable the hemi Jigsaw (default: False)
+  --drawDecayTreePlots     Enable to draw the decay tree plots and save the
+                           canvas in the output ROOT file. Please only enable
+                           this if running locally. (default: False)
 ```
 
 ### Tested Against AnalysisBase versions:
