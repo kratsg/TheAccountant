@@ -6,7 +6,7 @@
 #include "SampleHandler/DiskListLocal.h"
 #include <TSystem.h>
 
-#include <TheAccountant/ClassifyEvent.h>
+#include <TheAccountant/Audit.h>
 
 int main( int argc, char* argv[] ) {
 
@@ -38,7 +38,7 @@ int main( int argc, char* argv[] ) {
   job.sampleHandler( sh );
 
   // Attach algorithms
-  job.algsAdd( new ClassifyEvent() );
+  job.algsAdd( new Audit() );
 
 
   // Run the job using the local/direct driver:

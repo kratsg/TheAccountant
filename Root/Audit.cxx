@@ -1,7 +1,7 @@
 #include <EventLoop/Job.h>
 #include <EventLoop/StatusCode.h>
 #include <EventLoop/Worker.h>
-#include <TheAccountant/ClassifyEvent.h>
+#include <TheAccountant/Audit.h>
 
 // RestFrames includes
 #include "RestFrames/FramePlot.hh"
@@ -36,8 +36,8 @@ namespace HF = HelperFunctions;
 namespace RF = RestFrames;
 
 // this is needed to distribute the algorithm to the workers
-ClassImp(ClassifyEvent)
-ClassifyEvent :: ClassifyEvent () :
+ClassImp(Audit)
+Audit :: Audit () :
   LAB("LAB", "lab"),
   SS("SS", "SS"),
   S1("S1", "#tilde{S}_{a}"),
@@ -54,18 +54,18 @@ ClassifyEvent :: ClassifyEvent () :
   HemiJigsaw("HEM_JIGSAW", "Minimize m _{V_{a,b}} Jigsaw")
 {}
 
-EL::StatusCode ClassifyEvent :: setupJob (EL::Job& job)
+EL::StatusCode Audit :: setupJob (EL::Job& job)
 {
   job.useXAOD();
-  xAOD::Init("ClassifyEvent").ignore();
+  xAOD::Init("Audit").ignore();
   return EL::StatusCode::SUCCESS;
 }
 
-EL::StatusCode ClassifyEvent :: histInitialize () { return EL::StatusCode::SUCCESS; }
-EL::StatusCode ClassifyEvent :: fileExecute () { return EL::StatusCode::SUCCESS; }
-EL::StatusCode ClassifyEvent :: changeInput (bool /*firstFile*/) { return EL::StatusCode::SUCCESS; }
+EL::StatusCode Audit :: histInitialize () { return EL::StatusCode::SUCCESS; }
+EL::StatusCode Audit :: fileExecute () { return EL::StatusCode::SUCCESS; }
+EL::StatusCode Audit :: changeInput (bool /*firstFile*/) { return EL::StatusCode::SUCCESS; }
 
-EL::StatusCode ClassifyEvent :: initialize () {
+EL::StatusCode Audit :: initialize () {
   // assign m_event and m_store
   m_event = wk()->xaodEvent();
   m_store = wk()->xaodStore();
@@ -155,7 +155,7 @@ EL::StatusCode ClassifyEvent :: initialize () {
   return EL::StatusCode::SUCCESS;
 }
 
-EL::StatusCode ClassifyEvent :: execute ()
+EL::StatusCode Audit :: execute ()
 {
   const xAOD::EventInfo*                eventInfo   (nullptr);
   const xAOD::JetContainer*             in_jets     (nullptr);
@@ -168,21 +168,21 @@ EL::StatusCode ClassifyEvent :: execute ()
   //const xAOD::TruthParticleContainer*   in_truth    (nullptr);
 
   // start grabbing all the containers that we can
-  RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
+  RETURN_CHECK("Audit::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
   if(!m_inputJets.empty())
-    RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(in_jets,      m_inputJets,        m_event, m_store, m_debug), "Could not get the inputJets container.");
+    RETURN_CHECK("Audit::execute()", HF::retrieve(in_jets,      m_inputJets,        m_event, m_store, m_debug), "Could not get the inputJets container.");
   if(!m_inputBJets.empty())
-    RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(in_bjets,     m_inputBJets,       m_event, m_store, m_debug), "Could not get the inputBJets container.");
+    RETURN_CHECK("Audit::execute()", HF::retrieve(in_bjets,     m_inputBJets,       m_event, m_store, m_debug), "Could not get the inputBJets container.");
   if(!m_inputMET.empty())
-    RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(in_missinget, m_inputMET,         m_event, m_store, m_debug), "Could not get the inputMET container.");
+    RETURN_CHECK("Audit::execute()", HF::retrieve(in_missinget, m_inputMET,         m_event, m_store, m_debug), "Could not get the inputMET container.");
   if(!m_inputElectrons.empty())
-    RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(in_electrons, m_inputElectrons,   m_event, m_store, m_debug), "Could not get the inputElectrons container.");
+    RETURN_CHECK("Audit::execute()", HF::retrieve(in_electrons, m_inputElectrons,   m_event, m_store, m_debug), "Could not get the inputElectrons container.");
   if(!m_inputMuons.empty())
-    RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(in_muons,     m_inputMuons,       m_event, m_store, m_debug), "Could not get the inputMuons container.");
+    RETURN_CHECK("Audit::execute()", HF::retrieve(in_muons,     m_inputMuons,       m_event, m_store, m_debug), "Could not get the inputMuons container.");
   if(!m_inputTauJets.empty())
-    RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(in_taus,      m_inputTauJets,     m_event, m_store, m_debug), "Could not get the inputTauJets container.");
+    RETURN_CHECK("Audit::execute()", HF::retrieve(in_taus,      m_inputTauJets,     m_event, m_store, m_debug), "Could not get the inputTauJets container.");
   if(!m_inputPhotons.empty())
-    RETURN_CHECK("ClassifyEvent::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
+    RETURN_CHECK("Audit::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
   // clear the event
   LAB.ClearEvent();
@@ -247,6 +247,6 @@ EL::StatusCode ClassifyEvent :: execute ()
   return EL::StatusCode::SUCCESS;
 }
 
-EL::StatusCode ClassifyEvent :: postExecute () { return EL::StatusCode::SUCCESS; }
-EL::StatusCode ClassifyEvent :: finalize () { return EL::StatusCode::SUCCESS; }
-EL::StatusCode ClassifyEvent :: histFinalize () { return EL::StatusCode::SUCCESS; }
+EL::StatusCode Audit :: postExecute () { return EL::StatusCode::SUCCESS; }
+EL::StatusCode Audit :: finalize () { return EL::StatusCode::SUCCESS; }
+EL::StatusCode Audit :: histFinalize () { return EL::StatusCode::SUCCESS; }

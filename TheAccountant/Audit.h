@@ -1,5 +1,5 @@
-#ifndef TheAccountant_ClassifyEvent_H
-#define TheAccountant_ClassifyEvent_H
+#ifndef TheAccountant_Audit_H
+#define TheAccountant_Audit_H
 
 #include <EventLoop/Algorithm.h>
 
@@ -27,7 +27,7 @@
 
 namespace RF = RestFrames;
 
-class ClassifyEvent : public EL::Algorithm
+class Audit : public EL::Algorithm
 {
 
 public:
@@ -70,7 +70,7 @@ private:
 
 public:
   // this is a standard constructor
-  ClassifyEvent ();
+  Audit ();
 
   // these are the functions inherited from Algorithm
   virtual EL::StatusCode setupJob (EL::Job& job);
@@ -84,7 +84,7 @@ public:
   virtual EL::StatusCode histFinalize ();
 
   // this is needed to distribute the algorithm to the workers
-  ClassDef(ClassifyEvent, 1);
+  ClassDef(Audit, 1);
 };
 
 #endif

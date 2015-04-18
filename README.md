@@ -24,7 +24,7 @@ rc compile_pkg TheAccountant
 <img src="https://github.com/kratsg/TheAccountant/raw/master/img/visTree.png?raw=true" alt="Visible Tree" width="225" />
 <img src="https://github.com/kratsg/TheAccountant/raw/master/img/invTree.png?raw=true" alt="Invisible Tree" width="225" />
 
-#### [ClassifyEvent.cxx](TheAccountant/ClassifyEvent.h)
+#### [Audit.cxx](TheAccountant/Audit.h)
 
 This algorithm sets up a decay tree with a pair of vis-invis particles in each hemisphere.
 
@@ -56,7 +56,7 @@ optional arguments:
   -v, --verbose            Enable verbose output of various levels. Default:
                            no verbosity (default: 0)
 
-classifyEvent options:
+audit options:
   --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)
   --no-contraBoostJigsaw   Disable the contraBoost Jigsaw (default: False)
   --no-hemiJigsaw          Disable the hemi Jigsaw (default: True)

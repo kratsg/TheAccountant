@@ -98,70 +98,70 @@ if __name__ == "__main__":
                       default=0,
                       help='Enable verbose output of various levels. Default: no verbosity')
 
-  group_classifyEvent = parser.add_argument_group('classifyEvent options')
-  group_classifyEvent.add_argument('--no-minMassJigsaw',
+  group_audit = parser.add_argument_group('audit options')
+  group_audit.add_argument('--no-minMassJigsaw',
                                    dest='disable_minMassJigsaw',
                                    action='store_true',
                                    help='Disable the minMass Jigsaw')
-  group_classifyEvent.add_argument('--no-contraBoostJigsaw',
+  group_audit.add_argument('--no-contraBoostJigsaw',
                                    dest='disable_contraBoostJigsaw',
                                    action='store_true',
                                    help='Disable the contraBoost Jigsaw')
-  group_classifyEvent.add_argument('--no-hemiJigsaw',
+  group_audit.add_argument('--no-hemiJigsaw',
                                    dest='hemiJigsaw',
                                    action='store_false',
                                    help='Disable the hemi Jigsaw')
-  group_classifyEvent.add_argument('--drawDecayTreePlots',
+  group_audit.add_argument('--drawDecayTreePlots',
                                    dest='drawDecayTreePlots',
                                    action='store_true',
                                    help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
-  group_classifyEvent.add_argument('--debug',
+  group_audit.add_argument('--debug',
                                    dest='debug',
                                    action='store_true',
                                    help='Enable verbose output of the algorithms.')
-  group_classifyEvent.add_argument('--eventInfo',
+  group_audit.add_argument('--eventInfo',
                                    dest='eventInfo',
                                    metavar='',
                                    type=str,
                                    help='EventInfo container name.',
                                    default='EventInfo')
-  group_classifyEvent.add_argument('--jets',
+  group_audit.add_argument('--jets',
                                    dest='inputJets',
                                    metavar='',
                                    type=str,
                                    help='Jet container name.',
                                    default='AntiKt10LCTopoJets')
-  group_classifyEvent.add_argument('--bJets',
+  group_audit.add_argument('--bJets',
                                    dest='inputBJets',
                                    metavar='',
                                    type=str,
                                    help='B-Jet container name.',
                                    default='')
-  group_classifyEvent.add_argument('--met',
+  group_audit.add_argument('--met',
                                    dest='inputMET',
                                    metavar='',
                                    type=str,
                                    help='Missing Et container name.',
                                    default='MET_RefFinal')
-  group_classifyEvent.add_argument('--electrons',
+  group_audit.add_argument('--electrons',
                                    dest='inputElectrons',
                                    metavar='',
                                    type=str,
                                    help='Electrons container name.',
                                    default='')
-  group_classifyEvent.add_argument('--muons',
+  group_audit.add_argument('--muons',
                                    dest='inputMuons',
                                    metavar='',
                                    type=str,
                                    help='Muons container name.',
                                    default='')
-  group_classifyEvent.add_argument('--taujets',
+  group_audit.add_argument('--taujets',
                                    dest='inputTauJets',
                                    metavar='',
                                    type=str,
                                    help='TauJets container name.',
                                    default='')
-  group_classifyEvent.add_argument('--photons',
+  group_audit.add_argument('--photons',
                                    dest='inputPhotons',
                                    metavar='',
                                    type=str,
@@ -240,23 +240,23 @@ if __name__ == "__main__":
 
     # add our algorithm to the job
     cookBooks_logger.info("creating algorithms")
-    classifyEvent = ROOT.ClassifyEvent()
-    classifyEvent.m_minMassJigsaw       = not(args.disable_minMassJigsaw)
-    classifyEvent.m_contraBoostJigsaw   = not(args.disable_contraBoostJigsaw)
-    classifyEvent.m_hemiJigsaw          = not(args.disable_hemiJigsaw)
-    classifyEvent.m_drawDecayTreePlots  = args.drawDecayTreePlots
-    classifyEvent.m_debug               = args.debug
-    classifyEvent.m_eventInfo           = args.eventInfo
-    classifyEvent.m_inputJets           = args.inputJets
-    classifyEvent.m_inputBJets          = args.inputBJets
-    classifyEvent.m_inputMET            = args.inputMET
-    classifyEvent.m_inputElectrons      = args.inputElectrons
-    classifyEvent.m_inputMuons          = args.inputMuons
-    classifyEvent.m_inputTauJets        = args.inputTauJets
-    classifyEvent.m_inputPhotons        = args.inputPhotons
+    audit = ROOT.Audit()
+    audit.m_minMassJigsaw       = not(args.disable_minMassJigsaw)
+    audit.m_contraBoostJigsaw   = not(args.disable_contraBoostJigsaw)
+    audit.m_hemiJigsaw          = not(args.disable_hemiJigsaw)
+    audit.m_drawDecayTreePlots  = args.drawDecayTreePlots
+    audit.m_debug               = args.debug
+    audit.m_eventInfo           = args.eventInfo
+    audit.m_inputJets           = args.inputJets
+    audit.m_inputBJets          = args.inputBJets
+    audit.m_inputMET            = args.inputMET
+    audit.m_inputElectrons      = args.inputElectrons
+    audit.m_inputMuons          = args.inputMuons
+    audit.m_inputTauJets        = args.inputTauJets
+    audit.m_inputPhotons        = args.inputPhotons
 
     cookBooks_logger.info("adding algorithms")
-    job.algsAdd(classifyEvent)
+    job.algsAdd(audit)
 
 
     # make the driver we want to use:

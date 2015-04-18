@@ -1,4 +1,4 @@
-#include <TheAccountant/ClassifyEvent.h>
+#include <TheAccountant/Audit.h>
 
 #ifdef __CINT__
 
@@ -10,5 +10,5 @@
 #endif
 
 #ifdef __CINT__
-#pragma link C++ class ClassifyEvent+;
+#pragma link C++ class Audit+;
 #endif
