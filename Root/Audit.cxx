@@ -184,15 +184,15 @@ EL::StatusCode Audit :: execute ()
   if(!m_inputPhotons.empty())
     RETURN_CHECK("Audit::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
-  // clear the event
-  LAB.ClearEvent();
-
   // retrieve CalibMET_RefFinal for METContainer
   xAOD::MissingETContainer::const_iterator met_final = in_missinget->find("Final");
   if (met_final == in_missinget->end()) {
     Error("execute()", "No RefFinal inside MET container" );
     return EL::StatusCode::FAILURE;
   }
+
+  // clear the event
+  LAB.ClearEvent();
 
   // create a vector to hold the group element ids for when adding jets
   std::map<const RF::GroupElementID, const xAOD::Jet*> in_jets_IDs;
