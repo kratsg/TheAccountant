@@ -109,7 +109,7 @@ if __name__ == "__main__":
                                    help='Disable the contraBoost Jigsaw')
   group_audit.add_argument('--no-hemiJigsaw',
                                    dest='disable_hemiJigsaw',
-                                   action='store_false',
+                                   action='store_true',
                                    help='Disable the hemi Jigsaw')
   group_audit.add_argument('--drawDecayTreePlots',
                                    dest='drawDecayTreePlots',
