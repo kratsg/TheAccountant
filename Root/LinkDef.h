@@ -1,3 +1,5 @@
+#include <TheAccountant/Preselect.h>
+
 #include <TheAccountant/Audit.h>
 
 #ifdef __CINT__
@@ -11,4 +13,8 @@
 
 #ifdef __CINT__
 #pragma link C++ class Audit+;
+#endif
+
+#ifdef __CINT__
+#pragma link C++ class Preselect+;
 #endif

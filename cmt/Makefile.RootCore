@@ -1,3 +1,4 @@
+PACKAGE_DEP = EventLoop
 # this makefile also gets parsed by shell scripts
 # therefore it does not support full make syntax and features
 # edit with care
