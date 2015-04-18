@@ -99,15 +99,15 @@ if __name__ == "__main__":
                       help='Enable verbose output of various levels. Default: no verbosity')
 
   group_classifyEvent = parser.add_argument_group('classifyEvent options')
-  group_classifyEvent.add_argument('--minMassJigsaw',
-                                   dest='minMassJigsaw',
-                                   action='store_false',
+  group_classifyEvent.add_argument('--no-minMassJigsaw',
+                                   dest='disable_minMassJigsaw',
+                                   action='store_true',
                                    help='Disable the minMass Jigsaw')
-  group_classifyEvent.add_argument('--contraBoostJigsaw',
-                                   dest='contraBoostJigsaw',
-                                   action='store_false',
+  group_classifyEvent.add_argument('--no-contraBoostJigsaw',
+                                   dest='disable_contraBoostJigsaw',
+                                   action='store_true',
                                    help='Disable the contraBoost Jigsaw')
-  group_classifyEvent.add_argument('--hemiJigsaw',
+  group_classifyEvent.add_argument('--no-hemiJigsaw',
                                    dest='hemiJigsaw',
                                    action='store_false',
                                    help='Disable the hemi Jigsaw')
@@ -241,9 +241,9 @@ if __name__ == "__main__":
     # add our algorithm to the job
     cookBooks_logger.info("creating algorithms")
     classifyEvent = ROOT.ClassifyEvent()
-    classifyEvent.m_minMassJigsaw       = args.minMassJigsaw
-    classifyEvent.m_contraBoostJigsaw   = args.contraBoostJigsaw
-    classifyEvent.m_hemiJigsaw          = args.hemiJigsaw
+    classifyEvent.m_minMassJigsaw       = not(args.disable_minMassJigsaw)
+    classifyEvent.m_contraBoostJigsaw   = not(args.disable_contraBoostJigsaw)
+    classifyEvent.m_hemiJigsaw          = not(args.disable_hemiJigsaw)
     classifyEvent.m_drawDecayTreePlots  = args.drawDecayTreePlots
     classifyEvent.m_debug               = args.debug
     classifyEvent.m_eventInfo           = args.eventInfo
