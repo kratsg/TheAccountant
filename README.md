@@ -68,16 +68,6 @@ global algorithm options:
   --taujets                TauJets container name. (default: )
   --photons                Photons container name. (default: )
 
-audit options:
-  --passPreSel             Only run on events that pass the preselection.
-                           (default: False)
-  --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)
-  --no-contraBoostJigsaw   Disable the contraBoost Jigsaw (default: False)
-  --no-hemiJigsaw          Disable the hemi Jigsaw (default: False)
-  --drawDecayTreePlots     Enable to draw the decay tree plots and save the
-                           canvas in the output ROOT file. Please only enable
-                           this if running locally. (default: False)
-
 preselect options (all selections are exclusive: x > min, x < max):
   --jet_minNum             jet min num (default: 0)
   --jet_maxNum             jet max num (default: 100)
@@ -100,6 +90,16 @@ preselect options (all selections are exclusive: x > min, x < max):
   --bjet_minPhi            bjet min phi (default: -4.0)
   --bjet_maxPhi            bjet max phi (default: 4.0)
   --bjet_MV1               bjet min MV1 (default: 0.0)
+
+audit options:
+  --passPreSel             Only run on events that pass the preselection.
+                           (default: False)
+  --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)
+  --no-contraBoostJigsaw   Disable the contraBoost Jigsaw (default: False)
+  --no-hemiJigsaw          Disable the hemi Jigsaw (default: False)
+  --drawDecayTreePlots     Enable to draw the decay tree plots and save the
+                           canvas in the output ROOT file. Please only enable
+                           this if running locally. (default: False)
 ```
 
 ### Tested Against AnalysisBase versions:

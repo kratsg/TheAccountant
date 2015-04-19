@@ -155,28 +155,6 @@ if __name__ == "__main__":
                                    help='Photons container name.',
                                    default='')
 
-  group_audit = parser.add_argument_group('audit options')
-  group_audit.add_argument('--passPreSel',
-                           dest='passPreSel',
-                           action='store_true',
-                           help='Only run on events that pass the preselection.')
-  group_audit.add_argument('--no-minMassJigsaw',
-                           dest='disable_minMassJigsaw',
-                           action='store_true',
-                           help='Disable the minMass Jigsaw')
-  group_audit.add_argument('--no-contraBoostJigsaw',
-                           dest='disable_contraBoostJigsaw',
-                           action='store_true',
-                           help='Disable the contraBoost Jigsaw')
-  group_audit.add_argument('--no-hemiJigsaw',
-                           dest='disable_hemiJigsaw',
-                           action='store_true',
-                           help='Disable the hemi Jigsaw')
-  group_audit.add_argument('--drawDecayTreePlots',
-                           dest='drawDecayTreePlots',
-                           action='store_true',
-                           help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
-
   group_preselect = parser.add_argument_group('preselect options (all selections are exclusive: x > min, x < max)')
   group_preselect.add_argument('--jet_minNum',   type=int, metavar='', help='jet min num',  default=0)
   group_preselect.add_argument('--jet_maxNum',   type=int, metavar='', help='jet max num',  default = 100)
@@ -200,6 +178,28 @@ if __name__ == "__main__":
   group_preselect.add_argument('--bjet_minPhi ', type=float, metavar='', help='bjet min phi',  default = -4.0)
   group_preselect.add_argument('--bjet_maxPhi ', type=float, metavar='', help='bjet max phi',  default = 4.0)
   group_preselect.add_argument('--bjet_MV1    ', type=float, metavar='', help='bjet min MV1',  default = 0.0)
+
+  group_audit = parser.add_argument_group('audit options')
+  group_audit.add_argument('--passPreSel',
+                           dest='passPreSel',
+                           action='store_true',
+                           help='Only run on events that pass the preselection.')
+  group_audit.add_argument('--no-minMassJigsaw',
+                           dest='disable_minMassJigsaw',
+                           action='store_true',
+                           help='Disable the minMass Jigsaw')
+  group_audit.add_argument('--no-contraBoostJigsaw',
+                           dest='disable_contraBoostJigsaw',
+                           action='store_true',
+                           help='Disable the contraBoost Jigsaw')
+  group_audit.add_argument('--no-hemiJigsaw',
+                           dest='disable_hemiJigsaw',
+                           action='store_true',
+                           help='Disable the hemi Jigsaw')
+  group_audit.add_argument('--drawDecayTreePlots',
+                           dest='drawDecayTreePlots',
+                           action='store_true',
+                           help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
 
   # parse the arguments, throw errors if missing any
   args = parser.parse_args()
