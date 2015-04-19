@@ -156,8 +156,8 @@ if __name__ == "__main__":
                                    default='')
 
   group_preselect = parser.add_argument_group('preselect options (all selections are exclusive: x > min, x < max)')
-  group_preselect.add_argument('--jet_minNum',   type=int, metavar='', help='jet min num',  default=0)
-  group_preselect.add_argument('--jet_maxNum',   type=int, metavar='', help='jet max num',  default = 100)
+  group_preselect.add_argument('--jet_minNum',   type=int, metavar='', help='min num of jets passing cuts',  default=0)
+  group_preselect.add_argument('--jet_maxNum',   type=int, metavar='', help='max num of jets passing cuts',  default = 100)
   group_preselect.add_argument('--jet_minPt',    type=float, metavar='', help='jet min pt [GeV]',   default = 0.0)
   group_preselect.add_argument('--jet_maxPt',    type=float, metavar='', help='jet max pt [GeV]',   default = 1.e6)
   group_preselect.add_argument('--jet_minMass',  type=float, metavar='', help='jet min mass [GeV]', default = 0.0)
@@ -167,8 +167,8 @@ if __name__ == "__main__":
   group_preselect.add_argument('--jet_minPhi',   type=float, metavar='', help='jet min phi',  default = -4.0)
   group_preselect.add_argument('--jet_maxPhi',   type=float, metavar='', help='jet max phi',  default = 4.0)
 
-  group_preselect.add_argument('--bjet_minNum ', type=int, metavar='', help='bjet min num',  default = 0)
-  group_preselect.add_argument('--bjet_maxNum ', type=int, metavar='', help='bjet max num',  default = 100)
+  group_preselect.add_argument('--bjet_minNum ', type=int, metavar='', help='min num of bjets passing cuts',  default = 0)
+  group_preselect.add_argument('--bjet_maxNum ', type=int, metavar='', help='max num of bjets passing cuts',  default = 100)
   group_preselect.add_argument('--bjet_minPt  ', type=float, metavar='', help='bjet min pt [GeV]',   default = 0.0)
   group_preselect.add_argument('--bjet_maxPt  ', type=float, metavar='', help='bjet max pt [GeV]',   default = 1.e6)
   group_preselect.add_argument('--bjet_minMass', type=float, metavar='', help='bjet min mass [GeV]', default = 0.0)

@@ -69,8 +69,8 @@ global algorithm options:
   --photons                Photons container name. (default: )
 
 preselect options (all selections are exclusive: x > min, x < max):
-  --jet_minNum             jet min num (default: 0)
-  --jet_maxNum             jet max num (default: 100)
+  --jet_minNum             min num of jets passing cuts (default: 0)
+  --jet_maxNum             max num of jets passing cuts (default: 100)
   --jet_minPt              jet min pt [GeV] (default: 0.0)
   --jet_maxPt              jet max pt [GeV] (default: 1000000.0)
   --jet_minMass            jet min mass [GeV] (default: 0.0)
@@ -79,8 +79,8 @@ preselect options (all selections are exclusive: x > min, x < max):
   --jet_maxEta             jet max eta (default: 10.0)
   --jet_minPhi             jet min phi (default: -4.0)
   --jet_maxPhi             jet max phi (default: 4.0)
-  --bjet_minNum            bjet min num (default: 0)
-  --bjet_maxNum            bjet max num (default: 100)
+  --bjet_minNum            min num of bjets passing cuts (default: 0)
+  --bjet_maxNum            max num of bjets passing cuts (default: 100)
   --bjet_minPt             bjet min pt [GeV] (default: 0.0)
   --bjet_maxPt             bjet max pt [GeV] (default: 1000000.0)
   --bjet_minMass           bjet min mass [GeV] (default: 0.0)
