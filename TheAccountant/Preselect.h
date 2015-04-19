@@ -21,6 +21,29 @@ public:
               m_inputTauJets    = "",
               m_inputPhotons    = "";
 
+  int m_jet_minNum      = 0,
+      m_jet_maxNum      = 100;
+  float m_jet_minPt     = 0.0,
+        m_jet_maxPt     = 1.e6,
+        m_jet_minMass   = 0.0,
+        m_jet_maxMass   = 1.e6,
+        m_jet_minEta    = -10.0,
+        m_jet_maxEta    = 10.0,
+        m_jet_minPhi    = -4.0,
+        m_jet_maxPhi    = 4.0;
+
+  int m_bjet_minNum      = 0,
+      m_bjet_maxNum      = 100;
+  float m_bjet_minPt    = 0.0,
+        m_bjet_maxPt    = 1.e6,
+        m_bjet_minMass  = 0.0,
+        m_bjet_maxMass  = 1.e6,
+        m_bjet_minEta   = -10.0,
+        m_bjet_maxEta   = 10.0,
+        m_bjet_minPhi   = -4.0,
+        m_bjet_maxPhi   = 4.0,
+        m_bjet_MV1      = 0.0;
+
 private:
   xAOD::TEvent *m_event; //!
   xAOD::TStore *m_store; //!

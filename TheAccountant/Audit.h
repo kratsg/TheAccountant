@@ -38,6 +38,8 @@ public:
        m_drawDecayTreePlots = false,
        m_debug              = false;
 
+  bool m_passPreSel         = true;
+
   std::string m_eventInfo       = "EventInfo",
               m_inputJets       = "AntiKt10LCTopoJets",
               m_inputBJets      = "",

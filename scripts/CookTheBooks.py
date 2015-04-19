@@ -156,22 +156,50 @@ if __name__ == "__main__":
                                    default='')
 
   group_audit = parser.add_argument_group('audit options')
+  group_audit.add_argument('--passPreSel',
+                           dest='passPreSel',
+                           action='store_true',
+                           help='Only run on events that pass the preselection.')
   group_audit.add_argument('--no-minMassJigsaw',
-                                   dest='disable_minMassJigsaw',
-                                   action='store_true',
-                                   help='Disable the minMass Jigsaw')
+                           dest='disable_minMassJigsaw',
+                           action='store_true',
+                           help='Disable the minMass Jigsaw')
   group_audit.add_argument('--no-contraBoostJigsaw',
-                                   dest='disable_contraBoostJigsaw',
-                                   action='store_true',
-                                   help='Disable the contraBoost Jigsaw')
+                           dest='disable_contraBoostJigsaw',
+                           action='store_true',
+                           help='Disable the contraBoost Jigsaw')
   group_audit.add_argument('--no-hemiJigsaw',
-                                   dest='disable_hemiJigsaw',
-                                   action='store_true',
-                                   help='Disable the hemi Jigsaw')
+                           dest='disable_hemiJigsaw',
+                           action='store_true',
+                           help='Disable the hemi Jigsaw')
   group_audit.add_argument('--drawDecayTreePlots',
-                                   dest='drawDecayTreePlots',
-                                   action='store_true',
-                                   help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
+                           dest='drawDecayTreePlots',
+                           action='store_true',
+                           help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
+
+  group_preselect = parser.add_argument_group('preselect options')
+  group_preselect.add_argument('--jet_minNum',   type=int, metavar='', help='jet min num',  default=0)
+  group_preselect.add_argument('--jet_maxNum',   type=int, metavar='', help='jet max num',  default = 100)
+  group_preselect.add_argument('--jet_minPt',    type=float, metavar='', help='jet min pt [GeV]',   default = 0.0)
+  group_preselect.add_argument('--jet_maxPt',    type=float, metavar='', help='jet max pt [GeV]',   default = 1.e6)
+  group_preselect.add_argument('--jet_minMass',  type=float, metavar='', help='jet min mass [GeV]', default = 0.0)
+  group_preselect.add_argument('--jet_maxMass',  type=float, metavar='', help='jet max mass [GeV]', default = 1.e6)
+  group_preselect.add_argument('--jet_minEta',   type=float, metavar='', help='jet min eta',  default = -10.0)
+  group_preselect.add_argument('--jet_maxEta',   type=float, metavar='', help='jet max eta',  default = 10.0)
+  group_preselect.add_argument('--jet_minPhi',   type=float, metavar='', help='jet min phi',  default = -4.0)
+  group_preselect.add_argument('--jet_maxPhi',   type=float, metavar='', help='jet max phi',  default = 4.0)
+
+  group_preselect.add_argument('--bjet_minNum ', type=int, metavar='', help='bjet min num',  default = 0)
+  group_preselect.add_argument('--bjet_maxNum ', type=int, metavar='', help='bjet max num',  default = 100)
+  group_preselect.add_argument('--bjet_minPt  ', type=float, metavar='', help='bjet min pt [GeV]',   default = 0.0)
+  group_preselect.add_argument('--bjet_maxPt  ', type=float, metavar='', help='bjet max pt [GeV]',   default = 1.e6)
+  group_preselect.add_argument('--bjet_minMass', type=float, metavar='', help='bjet min mass [GeV]', default = 0.0)
+  group_preselect.add_argument('--bjet_maxMass', type=float, metavar='', help='bjet max mass [GeV]', default = 1.e6)
+  group_preselect.add_argument('--bjet_minEta ', type=float, metavar='', help='bjet min eta',  default = -10.0)
+  group_preselect.add_argument('--bjet_maxEta ', type=float, metavar='', help='bjet max eta',  default = 10.0)
+  group_preselect.add_argument('--bjet_minPhi ', type=float, metavar='', help='bjet min phi',  default = -4.0)
+  group_preselect.add_argument('--bjet_maxPhi ', type=float, metavar='', help='bjet max phi',  default = 4.0)
+  group_preselect.add_argument('--bjet_MV1    ', type=float, metavar='', help='bjet min MV1',  default = 0.0)
 
   # parse the arguments, throw errors if missing any
   args = parser.parse_args()
@@ -248,22 +276,31 @@ if __name__ == "__main__":
 
     cookBooks_logger.info("\tcreating preselect algorithm")
     preselect = ROOT.Preselect()
+    for opt in ['jet_minNum', 'jet_maxNum', 'jet_minPt', 'jet_maxPt', 'jet_minMass',
+                'jet_maxMass', 'jet_minEta', 'jet_maxEta', 'jet_minPhi',
+                'jet_maxPhi', 'bjet_minNum ', 'bjet_maxNum ', 'bjet_minPt  ',
+                'bjet_maxPt  ', 'bjet_minMass', 'bjet_maxMass', 'bjet_minEta ',
+                'bjet_maxEta ', 'bjet_minPhi ', 'bjet_maxPhi ', 'bjet_MV1    ']:
+      cookBooks_logger.info("\t\tsetting Preselect.m_%s = %s", opt, getattr(args, opt))
+      setattr(preselect, 'm_{0}'.format(opt), getattr(args, opt))
 
     cookBooks_logger.info("\tcreating audit algorithm")
     audit = ROOT.Audit()
     for opt in ['minMassJigsaw', 'contraBoostJigsaw', 'hemiJigsaw']:
-      cookBooks_logger.info("\t\tsetting Audit.m_%s", opt)
+      cookBooks_logger.info("\t\tsetting Audit.m_%s = %s", opt, not(getattr(args, 'disable_{0}'.format(opt))))
       setattr(audit, 'm_{0}'.format(opt), not(getattr(args, 'disable_{0}'.format(opt))))
-    cookBooks_logger.info("\t\tsetting audit.m_%s", 'drawDecayTreePlots')
-    audit.m_drawDecayTreePlots  = args.drawDecayTreePlots
+    for opt in ['passPreSel', 'drawDecayTreePlots']:
+      cookBooks_logger.info("\t\tsetting audit.m_%s = %s", opt, getattr(args, opt))
+      setattr(audit, 'm_{0}'.format(opt), getattr(args, opt))
 
     cookBooks_logger.info("\tsetting global algorithm variables")
     for alg in [preselect, audit]:
       for opt in ['debug', 'eventInfo', 'inputJets', 'inputBJets', 'inputMET', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons']:
-        cookBooks_logger.info("\t\tsetting %s.m_%s", alg.ClassName(), opt)
-        setattr(audit, 'm_{0}'.format(opt), getattr(args, opt))
+        cookBooks_logger.info("\t\tsetting %s.m_%s = %s", alg.ClassName(), opt, getattr(args, opt))
+        setattr(alg, 'm_{0}'.format(opt), getattr(args, opt))
 
     cookBooks_logger.info("adding algorithms")
+    job.algsAdd(preselect)
     job.algsAdd(audit)
 
 
