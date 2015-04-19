@@ -177,7 +177,7 @@ if __name__ == "__main__":
                            action='store_true',
                            help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
 
-  group_preselect = parser.add_argument_group('preselect options')
+  group_preselect = parser.add_argument_group('preselect options (all selections are exclusive: x > min, x < max)')
   group_preselect.add_argument('--jet_minNum',   type=int, metavar='', help='jet min num',  default=0)
   group_preselect.add_argument('--jet_maxNum',   type=int, metavar='', help='jet max num',  default = 100)
   group_preselect.add_argument('--jet_minPt',    type=float, metavar='', help='jet min pt [GeV]',   default = 0.0)
