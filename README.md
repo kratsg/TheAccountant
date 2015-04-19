@@ -69,12 +69,37 @@ global algorithm options:
   --photons                Photons container name. (default: )
 
 audit options:
+  --passPreSel             Only run on events that pass the preselection.
+                           (default: False)
   --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)
   --no-contraBoostJigsaw   Disable the contraBoost Jigsaw (default: False)
   --no-hemiJigsaw          Disable the hemi Jigsaw (default: False)
   --drawDecayTreePlots     Enable to draw the decay tree plots and save the
                            canvas in the output ROOT file. Please only enable
                            this if running locally. (default: False)
+
+preselect options (all selections are exclusive: x > min, x < max):
+  --jet_minNum             jet min num (default: 0)
+  --jet_maxNum             jet max num (default: 100)
+  --jet_minPt              jet min pt [GeV] (default: 0.0)
+  --jet_maxPt              jet max pt [GeV] (default: 1000000.0)
+  --jet_minMass            jet min mass [GeV] (default: 0.0)
+  --jet_maxMass            jet max mass [GeV] (default: 1000000.0)
+  --jet_minEta             jet min eta (default: -10.0)
+  --jet_maxEta             jet max eta (default: 10.0)
+  --jet_minPhi             jet min phi (default: -4.0)
+  --jet_maxPhi             jet max phi (default: 4.0)
+  --bjet_minNum            bjet min num (default: 0)
+  --bjet_maxNum            bjet max num (default: 100)
+  --bjet_minPt             bjet min pt [GeV] (default: 0.0)
+  --bjet_maxPt             bjet max pt [GeV] (default: 1000000.0)
+  --bjet_minMass           bjet min mass [GeV] (default: 0.0)
+  --bjet_maxMass           bjet max mass [GeV] (default: 1000000.0)
+  --bjet_minEta            bjet min eta (default: -10.0)
+  --bjet_maxEta            bjet max eta (default: 10.0)
+  --bjet_minPhi            bjet min phi (default: -4.0)
+  --bjet_maxPhi            bjet max phi (default: 4.0)
+  --bjet_MV1               bjet min MV1 (default: 0.0)
 ```
 
 ### Tested Against AnalysisBase versions:
