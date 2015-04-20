@@ -25,6 +25,8 @@ rc compile_pkg TheAccountant
 <img src="https://github.com/kratsg/TheAccountant/raw/master/img/invTree.png?raw=true" alt="Invisible Tree" width="225" />
 
 #### [Audit.cxx](TheAccountant/Audit.h)
+#### [Preselect.cxx](TheAccountant/Preselect.h)
+#### [Report.cxx](TheAccountant/Report.h)
 
 This algorithm sets up a decay tree with a pair of vis-invis particles in each hemisphere.
 
