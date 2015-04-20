@@ -59,6 +59,9 @@ job runner options:
 global algorithm options:
   --debug                  Enable verbose output of the algorithms. (default:
                            False)
+  --passPreSel             For Audit: only run on events that pass pre-
+                           selection. For Report: enable additional plots for
+                           events that pass pre-selection. (default: False)
   --eventInfo              EventInfo container name. (default: EventInfo)
   --jets                   Jet container name. (default: AntiKt10LCTopoJets)
   --bJets                  B-Jet container name. (default: )
@@ -68,7 +71,7 @@ global algorithm options:
   --taujets                TauJets container name. (default: )
   --photons                Photons container name. (default: )
 
-preselect options (all selections are exclusive: x > min, x < max):
+preselect options (all selections are inclusive: x >= min, x =< max):
   --jet_minNum             min num of jets passing cuts (default: 0)
   --jet_maxNum             max num of jets passing cuts (default: 100)
   --jet_minPt              jet min pt [GeV] (default: 0.0)
@@ -92,14 +95,16 @@ preselect options (all selections are exclusive: x > min, x < max):
   --bjet_MV1               bjet min MV1 (default: 0.0)
 
 audit options:
-  --passPreSel             Only run on events that pass the preselection.
-                           (default: False)
   --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)
   --no-contraBoostJigsaw   Disable the contraBoost Jigsaw (default: False)
   --no-hemiJigsaw          Disable the hemi Jigsaw (default: False)
   --drawDecayTreePlots     Enable to draw the decay tree plots and save the
                            canvas in the output ROOT file. Please only enable
                            this if running locally. (default: False)
+
+report options:
+  --numLeadingJets         Number of leading+subleading plots to make.
+                           (default: 0)
 ```
 
 ### Tested Against AnalysisBase versions:
