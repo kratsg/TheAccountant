@@ -18,10 +18,8 @@ namespace TheAccountant
       using HistogramManager::book; // make other overloaded version of book() to show up in subclass
       using HistogramManager::execute; // overload
 
-      int m_numLeadingJets = 0; // how many leading jets to add
-      std::string m_decor_jetTags_b   = "", // isB,
-                  m_decor_jetTags_top = "", // isTop,
-                  m_decor_jetTags_w   = ""; // isW;
+      // enable if you don't use the execute(JetContainer, float) call since it fills m_jetMultiplicity
+      bool m_countJets = false; // whether to count the jets in event or not
 
     private:
       //basic
@@ -32,19 +30,8 @@ namespace TheAccountant
       TH1F* m_jetE;                         //!
       TH1F* m_jetRapidity;                  //!
 
-      //NLeadingJets
-      std::vector< TH1F* > m_NjetsPt;       //!
-      std::vector< TH1F* > m_NjetsEta;      //!
-      std::vector< TH1F* > m_NjetsPhi;      //!
-      std::vector< TH1F* > m_NjetsM;        //!
-      std::vector< TH1F* > m_NjetsE;        //!
-      std::vector< TH1F* > m_NjetsRapidity; //!
-
       // counting jets per event
-      TH1F* m_countJets_all;                //!
-      TH1F* m_countJets_bTags;              //!
-      TH1F* m_countJets_topTags;            //!
-      TH1F* m_countJets_wTags;              //!
+      TH1F* m_jetMultiplicity;              //!
 
   };
 }
