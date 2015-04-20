@@ -19,6 +19,9 @@ namespace TheAccountant
       using HistogramManager::execute; // overload
 
       int m_numLeadingJets = 0; // how many leading jets to add
+      std::string m_decor_jetTags_b   = "", // isB,
+                  m_decor_jetTags_top = "", // isTop,
+                  m_decor_jetTags_w   = ""; // isW;
 
     private:
       //basic
@@ -36,6 +39,13 @@ namespace TheAccountant
       std::vector< TH1F* > m_NjetsM;        //!
       std::vector< TH1F* > m_NjetsE;        //!
       std::vector< TH1F* > m_NjetsRapidity; //!
+
+      // counting jets per event
+      TH1F* m_countJets_all;                //!
+      TH1F* m_countJets_bTags;              //!
+      TH1F* m_countJets_topTags;            //!
+      TH1F* m_countJets_wTags;              //!
+
   };
 }
 #endif
