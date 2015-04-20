@@ -103,61 +103,79 @@ if __name__ == "__main__":
 
   group_algorithms = parser.add_argument_group('global algorithm options')
   group_algorithms.add_argument('--debug',
-                                   dest='debug',
-                                   action='store_true',
-                                   help='Enable verbose output of the algorithms.')
+                                dest='debug',
+                                action='store_true',
+                                help='Enable verbose output of the algorithms.')
   group_algorithms.add_argument('--passPreSel',
                                 dest='passPreSel',
                                 action='store_true',
                                 help='For Audit: only run on events that pass pre-selection. For Report: enable additional plots for events that pass pre-selection.')
   group_algorithms.add_argument('--eventInfo',
-                                   dest='eventInfo',
-                                   metavar='',
-                                   type=str,
-                                   help='EventInfo container name.',
-                                   default='EventInfo')
+                                dest='eventInfo',
+                                metavar='',
+                                type=str,
+                                help='EventInfo container name.',
+                                default='EventInfo')
   group_algorithms.add_argument('--jets',
-                                   dest='inputJets',
-                                   metavar='',
-                                   type=str,
-                                   help='Jet container name.',
-                                   default='AntiKt10LCTopoJets')
+                                dest='inputJets',
+                                metavar='',
+                                type=str,
+                                help='Jet container name.',
+                                default='AntiKt10LCTopoJets')
   group_algorithms.add_argument('--bJets',
-                                   dest='inputBJets',
-                                   metavar='',
-                                   type=str,
-                                   help='B-Jet container name.',
-                                   default='')
+                                dest='inputBJets',
+                                metavar='',
+                                type=str,
+                                help='B-Jet container name.',
+                                default='')
   group_algorithms.add_argument('--met',
-                                   dest='inputMET',
-                                   metavar='',
-                                   type=str,
-                                   help='Missing Et container name.',
-                                   default='MET_RefFinal')
+                                dest='inputMET',
+                                metavar='',
+                                type=str,
+                                help='Missing Et container name.',
+                                default='MET_RefFinal')
   group_algorithms.add_argument('--electrons',
-                                   dest='inputElectrons',
-                                   metavar='',
-                                   type=str,
-                                   help='Electrons container name.',
-                                   default='')
+                                dest='inputElectrons',
+                                metavar='',
+                                type=str,
+                                help='Electrons container name.',
+                                default='')
   group_algorithms.add_argument('--muons',
-                                   dest='inputMuons',
-                                   metavar='',
-                                   type=str,
-                                   help='Muons container name.',
-                                   default='')
+                                dest='inputMuons',
+                                metavar='',
+                                type=str,
+                                help='Muons container name.',
+                                default='')
   group_algorithms.add_argument('--taujets',
-                                   dest='inputTauJets',
-                                   metavar='',
-                                   type=str,
-                                   help='TauJets container name.',
-                                   default='')
+                                dest='inputTauJets',
+                                metavar='',
+                                type=str,
+                                help='TauJets container name.',
+                                default='')
   group_algorithms.add_argument('--photons',
-                                   dest='inputPhotons',
-                                   metavar='',
-                                   type=str,
-                                   help='Photons container name.',
-                                   default='')
+                                dest='inputPhotons',
+                                metavar='',
+                                type=str,
+                                help='Photons container name.',
+                                default='')
+  group_algorithms.add_argument('--decorJetTagsB',
+                                dest='decor_jetTags_b',
+                                metavar='',
+                                type=str,
+                                help='Decoration name for b-tags.',
+                                default='isB')
+  group_algorithms.add_argument('--decorJetTagsTop',
+                                dest='decor_jetTags_top',
+                                metavar='',
+                                type=str,
+                                help='Decoration name for top-tags.',
+                                default='isTop')
+  group_algorithms.add_argument('--decorJetTagsW',
+                                dest='decor_jetTags_w',
+                                metavar='',
+                                type=str,
+                                help='Decoration name for w-tags.',
+                                default='isW')
 
   group_preselect = parser.add_argument_group('preselect options (all selections are inclusive: x >= min, x =< max)')
   group_preselect.add_argument('--jet_minNum',   type=int, metavar='', help='min num of jets passing cuts',  default=0)
@@ -309,7 +327,7 @@ if __name__ == "__main__":
 
     cookBooks_logger.info("\tsetting global algorithm variables")
     for alg in [preselect, audit, report]:
-      for opt in ['debug', 'eventInfo', 'inputJets', 'inputBJets', 'inputMET', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons']:
+      for opt in ['debug', 'eventInfo', 'inputJets', 'inputBJets', 'inputMET', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons', 'decor_jetTags_b', 'decor_jetTags_top', 'decor_jetTags_w']:
         cookBooks_logger.info("\t\tsetting %s.m_%s = %s", alg.ClassName(), opt, getattr(args, opt))
         setattr(alg, 'm_{0}'.format(opt), getattr(args, opt))
 
