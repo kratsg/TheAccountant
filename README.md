@@ -17,7 +17,8 @@ rc compile_pkg TheAccountant
 
 ## Dependencies
  - dependencies are in [cmt/Makefile.RootCore](cmt/Makefile.RootCore)
- - uses Chris Rogan's bad-ass [RestFrames](https://github.com/crogan/RestFrames) package
+ - uses [Chris Rogan](https://github.com/crogan)'s bad-ass [RestFrames](https://github.com/crogan/RestFrames) package
+ - uses [Miles Wu](https://github.com/mileswu)'s awesome [JetSubStructureTools](https://github.com/mileswu/JetSubstructureTools) package
 
 ### Functionality Included
 
@@ -31,7 +32,7 @@ This algorithm sets up a decay tree with a pair of vis-invis particles in each h
 
 #### [Preselect.cxx](TheAccountant/Preselect.h)
 
-This algorithm applies a pre-selection to jets, bjets. Decorates EventInfo container with `SG::AuxElement::Decorator< int > pass_preSel("pass_preSel")`.
+This algorithm applies a pre-selection to jets, bjets. Decorates `EventInfo` container with `SG::AuxElement::Decorator< int > pass_preSel("pass_preSel")`.
 
 #### [Report.cxx](TheAccountant/Report.h)
 
