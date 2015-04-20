@@ -1,14 +1,14 @@
 #include <TheAccountant/JetHists.h>
 
 
-JetHists :: JetHists (std::string name) :
+TheAccountant::JetHists::JetHists (std::string name) :
   HistogramManager(name, "")
 {
 }
 
-JetHists :: ~JetHists () {}
+TheAccountant::JetHists::~JetHists () {}
 
-EL::StatusCode JetHists::initialize() {
+EL::StatusCode TheAccountant::JetHists::initialize() {
   m_jetPt          = book(m_name, "jetPt",  "jet p_{T} [GeV]", 120, 0, 3000.);
   m_jetEta         = book(m_name, "jetEta", "jet #eta",         80, -4, 4);
   m_jetPhi         = book(m_name, "jetPhi", "jet Phi",120, -TMath::Pi(), TMath::Pi() );
@@ -30,7 +30,7 @@ EL::StatusCode JetHists::initialize() {
   return EL::StatusCode::SUCCESS;
 }
 
-EL::StatusCode JetHists::execute( const xAOD::JetContainer* jets, float eventWeight ) {
+EL::StatusCode TheAccountant::JetHists::execute( const xAOD::JetContainer* jets, float eventWeight ) {
   for( auto jet_itr : *jets ) {
     this->execute( jet_itr, eventWeight );
   }
@@ -47,7 +47,7 @@ EL::StatusCode JetHists::execute( const xAOD::JetContainer* jets, float eventWei
   return EL::StatusCode::SUCCESS;
 }
 
-EL::StatusCode JetHists::execute( const xAOD::Jet* jet, float eventWeight ) {
+EL::StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eventWeight ) {
   //basic
   m_jetPt ->      Fill( jet->pt()/1e3,    eventWeight );
   m_jetEta->      Fill( jet->eta(),       eventWeight );
