@@ -106,6 +106,10 @@ if __name__ == "__main__":
                                    dest='debug',
                                    action='store_true',
                                    help='Enable verbose output of the algorithms.')
+  group_algorithms.add_argument('--passPreSel',
+                                dest='passPreSel',
+                                action='store_true',
+                                help='For Audit: only run on events that pass pre-selection. For Report: enable additional plots for events that pass pre-selection.')
   group_algorithms.add_argument('--eventInfo',
                                    dest='eventInfo',
                                    metavar='',
@@ -167,23 +171,19 @@ if __name__ == "__main__":
   group_preselect.add_argument('--jet_minPhi',   type=float, metavar='', help='jet min phi',  default = -4.0)
   group_preselect.add_argument('--jet_maxPhi',   type=float, metavar='', help='jet max phi',  default = 4.0)
 
-  group_preselect.add_argument('--bjet_minNum ', type=int, metavar='', help='min num of bjets passing cuts',  default = 0)
-  group_preselect.add_argument('--bjet_maxNum ', type=int, metavar='', help='max num of bjets passing cuts',  default = 100)
-  group_preselect.add_argument('--bjet_minPt  ', type=float, metavar='', help='bjet min pt [GeV]',   default = 0.0)
-  group_preselect.add_argument('--bjet_maxPt  ', type=float, metavar='', help='bjet max pt [GeV]',   default = 1.e6)
+  group_preselect.add_argument('--bjet_minNum',  type=int, metavar='', help='min num of bjets passing cuts',  default = 0)
+  group_preselect.add_argument('--bjet_maxNum',  type=int, metavar='', help='max num of bjets passing cuts',  default = 100)
+  group_preselect.add_argument('--bjet_minPt',   type=float, metavar='', help='bjet min pt [GeV]',   default = 0.0)
+  group_preselect.add_argument('--bjet_maxPt',   type=float, metavar='', help='bjet max pt [GeV]',   default = 1.e6)
   group_preselect.add_argument('--bjet_minMass', type=float, metavar='', help='bjet min mass [GeV]', default = 0.0)
   group_preselect.add_argument('--bjet_maxMass', type=float, metavar='', help='bjet max mass [GeV]', default = 1.e6)
-  group_preselect.add_argument('--bjet_minEta ', type=float, metavar='', help='bjet min eta',  default = -10.0)
-  group_preselect.add_argument('--bjet_maxEta ', type=float, metavar='', help='bjet max eta',  default = 10.0)
-  group_preselect.add_argument('--bjet_minPhi ', type=float, metavar='', help='bjet min phi',  default = -4.0)
-  group_preselect.add_argument('--bjet_maxPhi ', type=float, metavar='', help='bjet max phi',  default = 4.0)
-  group_preselect.add_argument('--bjet_MV1    ', type=float, metavar='', help='bjet min MV1',  default = 0.0)
+  group_preselect.add_argument('--bjet_minEta',  type=float, metavar='', help='bjet min eta',  default = -10.0)
+  group_preselect.add_argument('--bjet_maxEta',  type=float, metavar='', help='bjet max eta',  default = 10.0)
+  group_preselect.add_argument('--bjet_minPhi',  type=float, metavar='', help='bjet min phi',  default = -4.0)
+  group_preselect.add_argument('--bjet_maxPhi',  type=float, metavar='', help='bjet max phi',  default = 4.0)
+  group_preselect.add_argument('--bjet_MV1',     type=float, metavar='', help='bjet min MV1',  default = 0.0)
 
   group_audit = parser.add_argument_group('audit options')
-  group_audit.add_argument('--passPreSel',
-                           dest='passPreSel',
-                           action='store_true',
-                           help='Only run on events that pass the preselection.')
   group_audit.add_argument('--no-minMassJigsaw',
                            dest='disable_minMassJigsaw',
                            action='store_true',
@@ -200,6 +200,14 @@ if __name__ == "__main__":
                            dest='drawDecayTreePlots',
                            action='store_true',
                            help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
+
+  group_report = parser.add_argument_group('report options')
+  group_report.add_argument('--numLeadingJets',
+                            type=int,
+                            metavar='',
+                            help='Number of leading+subleading plots to make.',
+                            default=0)
+
 
   # parse the arguments, throw errors if missing any
   args = parser.parse_args()
@@ -278,9 +286,9 @@ if __name__ == "__main__":
     preselect = ROOT.Preselect()
     for opt in ['jet_minNum', 'jet_maxNum', 'jet_minPt', 'jet_maxPt', 'jet_minMass',
                 'jet_maxMass', 'jet_minEta', 'jet_maxEta', 'jet_minPhi',
-                'jet_maxPhi', 'bjet_minNum ', 'bjet_maxNum ', 'bjet_minPt  ',
-                'bjet_maxPt  ', 'bjet_minMass', 'bjet_maxMass', 'bjet_minEta ',
-                'bjet_maxEta ', 'bjet_minPhi ', 'bjet_maxPhi ', 'bjet_MV1    ']:
+                'jet_maxPhi', 'bjet_minNum', 'bjet_maxNum', 'bjet_minPt',
+                'bjet_maxPt', 'bjet_minMass', 'bjet_maxMass', 'bjet_minEta',
+                'bjet_maxEta', 'bjet_minPhi', 'bjet_maxPhi', 'bjet_MV1']:
       cookBooks_logger.info("\t\tsetting Preselect.m_%s = %s", opt, getattr(args, opt))
       setattr(preselect, 'm_{0}'.format(opt), getattr(args, opt))
 
@@ -293,8 +301,14 @@ if __name__ == "__main__":
       cookBooks_logger.info("\t\tsetting audit.m_%s = %s", opt, getattr(args, opt))
       setattr(audit, 'm_{0}'.format(opt), getattr(args, opt))
 
+    cookBooks_logger.info("\tcreating report algorithm")
+    report = ROOT.Report()
+    for opt in ['passPreSel', 'numLeadingJets']:
+      cookBooks_logger.info("\t\tsetting Report.m_%s = %s", opt, getattr(args, opt))
+      setattr(report, 'm_{0}'.format(opt), getattr(args, opt))
+
     cookBooks_logger.info("\tsetting global algorithm variables")
-    for alg in [preselect, audit]:
+    for alg in [preselect, audit, report]:
       for opt in ['debug', 'eventInfo', 'inputJets', 'inputBJets', 'inputMET', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons']:
         cookBooks_logger.info("\t\tsetting %s.m_%s = %s", alg.ClassName(), opt, getattr(args, opt))
         setattr(alg, 'm_{0}'.format(opt), getattr(args, opt))
@@ -302,7 +316,7 @@ if __name__ == "__main__":
     cookBooks_logger.info("adding algorithms")
     job.algsAdd(preselect)
     job.algsAdd(audit)
-
+    job.algsAdd(report)
 
     # make the driver we want to use:
     # this one works by running the algorithm directly
