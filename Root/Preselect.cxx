@@ -98,6 +98,8 @@ EL::StatusCode Preselect :: execute ()
     num_passJets++;
   }
 
+  // only select event if:
+  //    m_jet_minNum <= num_passJets <= m_jet_maxNum
   if(num_passJets < m_jet_minNum) return EL::StatusCode::SUCCESS;
   if(num_passJets > m_jet_maxNum) return EL::StatusCode::SUCCESS;
 
@@ -115,6 +117,8 @@ EL::StatusCode Preselect :: execute ()
     num_passBJets++;
   }
 
+  // only select event if:
+  //    m_bjet_minNum <= num_passBJets <= m_bjet_maxNum
   if(num_passBJets < m_bjet_minNum) return EL::StatusCode::SUCCESS;
   if(num_passBJets > m_bjet_maxNum) return EL::StatusCode::SUCCESS;
 
