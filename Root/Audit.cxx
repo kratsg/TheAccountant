@@ -171,7 +171,7 @@ EL::StatusCode Audit :: execute ()
   RETURN_CHECK("Audit::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
 
   static SG::AuxElement::Accessor< int > pass_preSel("pass_preSel");
-  if(m_passPreSel && pass_preSel(*eventInfo) == 0) return EL::StatusCode::SUCCESS;
+  if(m_passPreSel && pass_preSel.isAvailable(*eventInfo) && pass_preSel(*eventInfo) == 0) return EL::StatusCode::SUCCESS;
 
   if(!m_inputJets.empty())
     RETURN_CHECK("Audit::execute()", HF::retrieve(in_jets,      m_inputJets,        m_event, m_store, m_debug), "Could not get the inputJets container.");
