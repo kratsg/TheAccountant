@@ -49,6 +49,7 @@ EL::StatusCode Report :: histInitialize () {
   }
 
   for(auto jetPlot: m_jetPlots){
+    jetPlot.second->m_numLeadingJets = m_numLeadingJets;
     jetPlot.second->initialize();
     jetPlot.second->record( wk() );
   }
