@@ -41,11 +41,19 @@ EL::StatusCode Report :: histInitialize () {
   // initialize all histograms here
 
   m_jetPlots["all_jets"]        = new TheAccountant::JetHists( "all_jets/" );
+  m_jetPlots["all_jets"]->m_decor_jetTags_top = m_decor_jetTags_top;
+  m_jetPlots["all_jets"]->m_decor_jetTags_w   = m_decor_jetTags_w;
+
   m_jetPlots["all_bjets"]       = new TheAccountant::JetHists( "all_bjets/" );
+  m_jetPlots["all_bjets"]->m_decor_jetTags_b  = m_decor_jetTags_b;
 
   if(m_passPreSel){
     m_jetPlots["presel_jets"]   = new TheAccountant::JetHists( "presel_jets/" );
+    m_jetPlots["presel_jets"]->m_decor_jetTags_top = m_decor_jetTags_top;
+    m_jetPlots["presel_jets"]->m_decor_jetTags_w   = m_decor_jetTags_w;
+
     m_jetPlots["presel_bjets"]  = new TheAccountant::JetHists( "presel_bjets/" );
+    m_jetPlots["presel_bjets"]->m_decor_jetTags_b  = m_decor_jetTags_b;
   }
 
   for(auto jetPlot: m_jetPlots){
@@ -106,12 +114,12 @@ EL::StatusCode Report :: execute ()
   float eventWeight(1);
   if( decor_eventWeight.isAvailable(*eventInfo) ) eventWeight = decor_eventWeight(*eventInfo);
 
-  m_jetPlots["all_jets"]->execute(in_jets, eventWeight);
-  m_jetPlots["all_bjets"]->execute(in_bjets, eventWeight);
+  if(m_jetPlots["all_jets"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+  if(m_jetPlots["all_bjets"]->execute(in_bjets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
 
   if(m_passPreSel && pass_preSel.isAvailable(*eventInfo) && pass_preSel(*eventInfo) == 1){
-    m_jetPlots["presel_jets"]->execute(in_jets, eventWeight);
-    m_jetPlots["presel_bjets"]->execute(in_bjets, eventWeight);
+    if(m_jetPlots["presel_jets"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_jetPlots["presel_bjets"]->execute(in_bjets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
   }
 
   return EL::StatusCode::SUCCESS;

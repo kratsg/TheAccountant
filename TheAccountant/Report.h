@@ -28,6 +28,9 @@ public:
               m_inputMuons      = "",
               m_inputTauJets    = "",
               m_inputPhotons    = "";
+  std::string m_decor_jetTags_b   = "", // isB,
+              m_decor_jetTags_top = "", // isTop,
+              m_decor_jetTags_w   = ""; // isW;
 
 private:
   xAOD::TEvent *m_event;  //!
