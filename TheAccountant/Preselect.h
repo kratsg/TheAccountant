@@ -10,17 +10,6 @@
 class Preselect : public EL::Algorithm
 {
 public:
-  bool m_debug              = false;
-
-  std::string m_eventInfo       = "EventInfo",
-              m_inputJets       = "AntiKt10LCTopoJets",
-              m_inputBJets      = "",
-              m_inputMET        = "MET_RefFinal",
-              m_inputElectrons  = "",
-              m_inputMuons      = "",
-              m_inputTauJets    = "",
-              m_inputPhotons    = "";
-
   int m_jet_minNum      = 0,
       m_jet_maxNum      = 100;
   float m_jet_minPt     = 0.0,
@@ -43,6 +32,20 @@ public:
         m_bjet_minPhi   = -4.0,
         m_bjet_maxPhi   = 4.0,
         m_bjet_MV1      = 0.0;
+
+  // standard across all algorithms for configuration
+  bool m_debug = false;
+  std::string m_eventInfo       = "EventInfo",
+              m_inputJets       = "",
+              m_inputBJets      = "",
+              m_inputMET        = "MET_RefFinal",
+              m_inputElectrons  = "",
+              m_inputMuons      = "",
+              m_inputTauJets    = "",
+              m_inputPhotons    = "";
+  std::string m_decor_jetTags_b   = "", // isB,
+              m_decor_jetTags_top = "", // isTop,
+              m_decor_jetTags_w   = ""; // isW;
 
 private:
   xAOD::TEvent *m_event; //!

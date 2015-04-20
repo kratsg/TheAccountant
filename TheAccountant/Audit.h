@@ -35,19 +35,22 @@ public:
        m_rapidityJigsaw     = true,
        m_contraBoostJigsaw  = true,
        m_hemiJigsaw         = true,
-       m_drawDecayTreePlots = false,
-       m_debug              = false;
-
+       m_drawDecayTreePlots = false;
   bool m_passPreSel         = true;
 
+  // standard across all algorithms for configuration
+  bool m_debug = false;
   std::string m_eventInfo       = "EventInfo",
-              m_inputJets       = "AntiKt10LCTopoJets",
+              m_inputJets       = "",
               m_inputBJets      = "",
               m_inputMET        = "MET_RefFinal",
               m_inputElectrons  = "",
               m_inputMuons      = "",
               m_inputTauJets    = "",
               m_inputPhotons    = "";
+  std::string m_decor_jetTags_b   = "", // isB,
+              m_decor_jetTags_top = "", // isTop,
+              m_decor_jetTags_w   = ""; // isW;
 
 private:
   xAOD::TEvent *m_event; //!
