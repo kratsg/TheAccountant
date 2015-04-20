@@ -30,8 +30,12 @@ rc compile_pkg TheAccountant
 This algorithm sets up a decay tree with a pair of vis-invis particles in each hemisphere.
 
 #### [Preselect.cxx](TheAccountant/Preselect.h)
+
+This algorithm applies a pre-selection to jets, bjets. Decorates EventInfo container with `SG::AuxElement::Decorator< int > pass_preSel("pass_preSel")`.
+
 #### [Report.cxx](TheAccountant/Report.h)
 
+This algorithm creates plots of jets, bjets. It has functionality to create a separate set of plots for those events that pass the pre-selection as well as all events.
 
 #### [CookTheBooks.py](scripts/CookTheBooks.py)
 ```
