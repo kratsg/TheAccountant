@@ -159,7 +159,7 @@ if __name__ == "__main__":
                                    help='Photons container name.',
                                    default='')
 
-  group_preselect = parser.add_argument_group('preselect options (all selections are exclusive: x > min, x < max)')
+  group_preselect = parser.add_argument_group('preselect options (all selections are inclusive: x >= min, x =< max)')
   group_preselect.add_argument('--jet_minNum',   type=int, metavar='', help='min num of jets passing cuts',  default=0)
   group_preselect.add_argument('--jet_maxNum',   type=int, metavar='', help='max num of jets passing cuts',  default = 100)
   group_preselect.add_argument('--jet_minPt',    type=float, metavar='', help='jet min pt [GeV]',   default = 0.0)
