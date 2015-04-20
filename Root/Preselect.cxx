@@ -98,8 +98,8 @@ EL::StatusCode Preselect :: execute ()
     num_passJets++;
   }
 
-  if(m_jet_minNum > num_passJets) return EL::StatusCode::SUCCESS;
-  if(m_jet_maxNum < num_passJets) return EL::StatusCode::SUCCESS;
+  if(num_passJets < m_jet_minNum) return EL::StatusCode::SUCCESS;
+  if(num_passJets > m_jet_maxNum) return EL::StatusCode::SUCCESS;
 
   int num_passBJets = 0;
   for(const auto bjet: *in_bjets){
@@ -115,8 +115,8 @@ EL::StatusCode Preselect :: execute ()
     num_passBJets++;
   }
 
-  if(m_bjet_minNum > num_passBJets) return EL::StatusCode::SUCCESS;
-  if(m_bjet_maxNum < num_passBJets) return EL::StatusCode::SUCCESS;
+  if(num_passBJets < m_bjet_minNum) return EL::StatusCode::SUCCESS;
+  if(num_passBJets > m_bjet_maxNum) return EL::StatusCode::SUCCESS;
 
   pass_preSel(*eventInfo) = 1;
   return EL::StatusCode::SUCCESS;
