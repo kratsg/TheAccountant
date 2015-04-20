@@ -80,6 +80,9 @@ global algorithm options:
   --muons                  Muons container name. (default: )
   --taujets                TauJets container name. (default: )
   --photons                Photons container name. (default: )
+  --decorJetTagsB          Decoration name for b-tags. (default: isB)
+  --decorJetTagsTop        Decoration name for top-tags. (default: isTop)
+  --decorJetTagsW          Decoration name for w-tags. (default: isW)
 
 preselect options (all selections are inclusive: x >= min, x =< max):
   --jet_minNum             min num of jets passing cuts (default: 0)
