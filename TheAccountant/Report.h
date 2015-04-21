@@ -9,6 +9,7 @@
 
 // plots to include
 #include <TheAccountant/JetHists.h>
+#include <TheAccountant/JetMETHists.h>
 
 class Report : public EL::Algorithm
 {
@@ -37,6 +38,7 @@ private:
   xAOD::TStore *m_store;  //!
 
   std::map< std::string, TheAccountant::JetHists* > m_jetPlots; //!
+  std::map< std::string, TheAccountant::JetMETHists* > m_jetMETPlots; //!
 
 public:
   // this is a standard constructor

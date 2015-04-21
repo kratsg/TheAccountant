@@ -40,38 +40,60 @@ EL::StatusCode Report :: setupJob (EL::Job& job)
 EL::StatusCode Report :: histInitialize () {
   // initialize all histograms here
 
-  m_jetPlots["all_jets"]        = new TheAccountant::JetHists( "all_jets/" );
-  m_jetPlots["all_bjets"]       = new TheAccountant::JetHists( "all_bjets/" );
+  m_jetPlots["all_jets"]          = new TheAccountant::JetHists( "all_jets/" );
+  m_jetPlots["all_bjets"]         = new TheAccountant::JetHists( "all_bjets/" );
+  m_jetMETPlots["all_jets"]       = new TheAccountant::JetMETHists( "all_jets/" );
+  m_jetMETPlots["all_bjets"]      = new TheAccountant::JetMETHists( "all_bjets/" );
 
   if(m_passPreSel){
-    m_jetPlots["presel_jets"]   = new TheAccountant::JetHists( "presel_jets/" );
-    m_jetPlots["presel_bjets"]  = new TheAccountant::JetHists( "presel_bjets/" );
+    m_jetPlots["presel_jets"]     = new TheAccountant::JetHists( "presel_jets/" );
+    m_jetPlots["presel_bjets"]    = new TheAccountant::JetHists( "presel_bjets/" );
+
+    m_jetMETPlots["presel_jets"]  = new TheAccountant::JetMETHists( "presel_jets/" );
+    m_jetMETPlots["presel_bjets"] = new TheAccountant::JetMETHists( "presel_bjets/" );
   }
 
   // tagged jets
   //all_bjets_bTag
   //presel_bjets_bTag
   if(!m_decor_jetTags_b.empty()){
-    m_jetPlots["all_bjets_bTag"] = new TheAccountant::JetHists("all_bjets_bTag/");
-    if(m_passPreSel) m_jetPlots["presel_bjets_bTag"] = new TheAccountant::JetHists("presel_bjets_bTag/");
+    m_jetPlots["all_bjets_bTag"]          = new TheAccountant::JetHists("all_bjets_bTag/");
+    m_jetMETPlots["all_bjets_bTag"]       = new TheAccountant::JetMETHists("all_bjets_bTag/");
+
+    if(m_passPreSel){
+      m_jetPlots["presel_bjets_bTag"]     = new TheAccountant::JetHists("presel_bjets_bTag/");
+      m_jetMETPlots["presel_bjets_bTag"]  = new TheAccountant::JetMETHists("presel_bjets_bTag/");
+    }
   }
 
   //all_jets_topTag
   //presel_jets_topTag
   if(!m_decor_jetTags_top.empty()){
-    m_jetPlots["all_jets_topTag"] = new TheAccountant::JetHists("all_jets_topTag/");
-    if(m_passPreSel) m_jetPlots["presel_jets_topTag"] = new TheAccountant::JetHists("presel_jets_topTag/");
+    m_jetPlots["all_jets_topTag"]         = new TheAccountant::JetHists("all_jets_topTag/");
+    m_jetMETPlots["all_jets_topTag"]      = new TheAccountant::JetMETHists("all_jets_topTag/");
+
+    if(m_passPreSel){
+      m_jetPlots["presel_jets_topTag"]    = new TheAccountant::JetHists("presel_jets_topTag/");
+      m_jetMETPlots["presel_jets_topTag"] = new TheAccountant::JetMETHists("presel_jets_topTag/");
+    }
   }
 
   //all_jets_wTag
   //presel_jets_wTag
   if(!m_decor_jetTags_w.empty()){
-    m_jetPlots["all_jets_wTag"] = new TheAccountant::JetHists("all_jets_wTag/");
-    if(m_passPreSel) m_jetPlots["presel_jets_wTag"] = new TheAccountant::JetHists("presel_jets_wTag/");
+    m_jetPlots["all_jets_wTag"]           = new TheAccountant::JetHists("all_jets_wTag/");
+    m_jetMETPlots["all_jets_wTag"]        = new TheAccountant::JetMETHists("all_jets_wTag/");
+
+    if(m_passPreSel){
+      m_jetPlots["presel_jets_wTag"]      = new TheAccountant::JetHists("presel_jets_wTag/");
+      m_jetMETPlots["presel_jets_wTag"]   = new TheAccountant::JetMETHists("presel_jets_wTag/");
+    }
   }
 
-  // enable jet counting for everything above
+  // enable jet counting for jet plots above
   for(auto jetPlot: m_jetPlots) jetPlot.second->m_countJets = true;
+  // set the numLeadingJets for the JetMET histograms
+  for(auto jetMETPlot: m_jetMETPlots) jetMETPlot.second->m_numLeadingJets = m_numLeadingJets;
 
   // NLeadingJets
   for(int i=1; i <= m_numLeadingJets; ++i){
@@ -113,6 +135,11 @@ EL::StatusCode Report :: histInitialize () {
   for(auto jetPlot: m_jetPlots){
     jetPlot.second->initialize();
     jetPlot.second->record( wk() );
+  }
+
+  for(auto jetMETPlot: m_jetMETPlots){
+    jetMETPlot.second->initialize();
+    jetMETPlot.second->record( wk() );
   }
 
   return EL::StatusCode::SUCCESS;
@@ -160,6 +187,8 @@ EL::StatusCode Report :: execute ()
     Error("execute()", "No RefFinal inside MET container" );
     return EL::StatusCode::FAILURE;
   }
+  // dereference the iterator since it's just a single object
+  const xAOD::MissingET* in_met = *met_final;
 
   static SG::AuxElement::Accessor< int > pass_preSel("pass_preSel");
   static SG::AuxElement::Accessor< float > decor_eventWeight("eventWeight");
@@ -174,11 +203,15 @@ EL::StatusCode Report :: execute ()
   // standard all jets and all bjets
   if(m_jetPlots["all_jets"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
   if(m_jetPlots["all_bjets"]->execute(in_bjets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+  if(m_jetMETPlots["all_jets"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+  if(m_jetMETPlots["all_bjets"]->execute(in_bjets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
 
   // standard preselected jets and preselected bjets
   if(m_passPreSel && pass_preSel(*eventInfo) == 1){
     if(m_jetPlots["presel_jets"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
     if(m_jetPlots["presel_bjets"]->execute(in_bjets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_jetMETPlots["presel_jets"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_jetMETPlots["presel_bjets"]->execute(in_bjets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
   }
 
   //build up the tagged containers
@@ -226,21 +259,36 @@ EL::StatusCode Report :: execute ()
     //presel_bjets_bTag
     if(!m_decor_jetTags_b.empty()){
       m_jetPlots["all_bjets_bTag"]->execute(bjets_bTagged.asDataVector(), eventWeight);
-      if(m_passPreSel && pass_preSel(*eventInfo) == 1) m_jetPlots["presel_bjets_bTag"]->execute(bjets_bTagged.asDataVector(), eventWeight);
+      m_jetMETPlots["all_bjets_bTag"]->execute(bjets_bTagged.asDataVector(), in_met, eventWeight);
+
+      if(m_passPreSel && pass_preSel(*eventInfo) == 1){
+        m_jetPlots["presel_bjets_bTag"]->execute(bjets_bTagged.asDataVector(), eventWeight);
+        m_jetMETPlots["presel_bjets_bTag"]->execute(bjets_bTagged.asDataVector(), in_met, eventWeight);
+      }
     }
 
     //all_jets_topTag
     //presel_jets_topTag
     if(!m_decor_jetTags_top.empty()){
       m_jetPlots["all_jets_topTag"]->execute(jets_topTagged.asDataVector(), eventWeight);
-      if(m_passPreSel && pass_preSel(*eventInfo) == 1) m_jetPlots["presel_jets_topTag"]->execute(jets_topTagged.asDataVector(), eventWeight);
+      m_jetMETPlots["all_jets_topTag"]->execute(jets_topTagged.asDataVector(), in_met, eventWeight);
+
+      if(m_passPreSel && pass_preSel(*eventInfo) == 1){
+        m_jetPlots["presel_jets_topTag"]->execute(jets_topTagged.asDataVector(), eventWeight);
+        m_jetMETPlots["presel_jets_topTag"]->execute(jets_topTagged.asDataVector(), in_met, eventWeight);
+      }
     }
 
     //all_jets_wTag
     //presel_jets_wTag
     if(!m_decor_jetTags_w.empty()){
       m_jetPlots["all_jets_wTag"]->execute(jets_wTagged.asDataVector(), eventWeight);
-      if(m_passPreSel && pass_preSel(*eventInfo) == 1) m_jetPlots["presel_jets_wTag"]->execute(jets_wTagged.asDataVector(), eventWeight);
+      m_jetMETPlots["all_jets_wTag"]->execute(jets_wTagged.asDataVector(), in_met, eventWeight);
+
+      if(m_passPreSel && pass_preSel(*eventInfo) == 1){
+        m_jetPlots["presel_jets_wTag"]->execute(jets_wTagged.asDataVector(), eventWeight);
+        m_jetMETPlots["presel_jets_wTag"]->execute(jets_wTagged.asDataVector(), in_met, eventWeight);
+      }
     }
   }
 
