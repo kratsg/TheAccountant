@@ -40,64 +40,56 @@ EL::StatusCode Report :: setupJob (EL::Job& job)
 EL::StatusCode Report :: histInitialize () {
   // initialize all histograms here
 
-  m_jetPlots["all_jets"]          = new TheAccountant::JetHists( "all_jets/" );
-  m_jetPlots["all_bjets"]         = new TheAccountant::JetHists( "all_bjets/" );
-  m_jetMETPlots["all_jets"]       = new TheAccountant::JetMETHists( "all_jets/" );
-  m_jetMETPlots["all_bjets"]      = new TheAccountant::JetMETHists( "all_bjets/" );
-  m_METPlots["all_jets"]          = new TheAccountant::METHists( "all_jets/" );
-  m_METPlots["all_bjets"]         = new TheAccountant::METHists( "all_bjets/" );
+  m_jetPlots["all/jets"]          = new TheAccountant::JetHists( "all/jets/" );
+  m_jetPlots["all/bjets"]         = new TheAccountant::JetHists( "all/bjets/" );
+  m_jetMETPlots["all/jets"]       = new TheAccountant::JetMETHists( "all/jets/" );
+  m_jetMETPlots["all/bjets"]      = new TheAccountant::JetMETHists( "all/bjets/" );
+  m_METPlots["all"]               = new TheAccountant::METHists( "all/" );
 
   if(m_passPreSel){
-    m_jetPlots["presel_jets"]     = new TheAccountant::JetHists( "presel_jets/" );
-    m_jetPlots["presel_bjets"]    = new TheAccountant::JetHists( "presel_bjets/" );
+    m_jetPlots["presel/jets"]     = new TheAccountant::JetHists( "presel/jets/" );
+    m_jetPlots["presel/bjets"]    = new TheAccountant::JetHists( "presel/bjets/" );
 
-    m_jetMETPlots["presel_jets"]  = new TheAccountant::JetMETHists( "presel_jets/" );
-    m_jetMETPlots["presel_bjets"] = new TheAccountant::JetMETHists( "presel_bjets/" );
+    m_jetMETPlots["presel/jets"]  = new TheAccountant::JetMETHists( "presel/jets/" );
+    m_jetMETPlots["presel/bjets"] = new TheAccountant::JetMETHists( "presel/bjets/" );
 
-    m_METPlots["presel_jets"]     = new TheAccountant::METHists( "presel_jets/" );
-    m_METPlots["presel_bjets"]    = new TheAccountant::METHists( "presel_bjets/" );
+    m_METPlots["presel"]          = new TheAccountant::METHists( "presel/" );
   }
 
   // tagged jets
-  //all_bjets_bTag
-  //presel_bjets_bTag
+  //all/bjets/bTag
+  //presel/bjets/bTag
   if(!m_decor_jetTags_b.empty()){
-    m_jetPlots["all_bjets_bTag"]          = new TheAccountant::JetHists("all_bjets_bTag/");
-    m_jetMETPlots["all_bjets_bTag"]       = new TheAccountant::JetMETHists("all_bjets_bTag/");
-    m_METPlots["all_bjets_bTag"]          = new TheAccountant::METHists("all_bjets_bTag/");
+    m_jetPlots["all/bjets/bTag"]          = new TheAccountant::JetHists("all/bjets/bTag/");
+    m_jetMETPlots["all/bjets/bTag"]       = new TheAccountant::JetMETHists("all/bjets/bTag/");
 
     if(m_passPreSel){
-      m_jetPlots["presel_bjets_bTag"]     = new TheAccountant::JetHists("presel_bjets_bTag/");
-      m_jetMETPlots["presel_bjets_bTag"]  = new TheAccountant::JetMETHists("presel_bjets_bTag/");
-      m_METPlots["presel_bjets_bTag"]     = new TheAccountant::METHists("presel_bjets_bTag/");
+      m_jetPlots["presel/bjets/bTag"]     = new TheAccountant::JetHists("presel/bjets/bTag/");
+      m_jetMETPlots["presel/bjets/bTag"]  = new TheAccountant::JetMETHists("presel/bjets/bTag/");
     }
   }
 
-  //all_jets_topTag
-  //presel_jets_topTag
+  //all/jets/topTag
+  //presel/jets/topTag
   if(!m_decor_jetTags_top.empty()){
-    m_jetPlots["all_jets_topTag"]         = new TheAccountant::JetHists("all_jets_topTag/");
-    m_jetMETPlots["all_jets_topTag"]      = new TheAccountant::JetMETHists("all_jets_topTag/");
-    m_METPlots["all_jets_topTag"]         = new TheAccountant::METHists("all_jets_topTag/");
+    m_jetPlots["all/jets/topTag"]         = new TheAccountant::JetHists("all/jets/topTag/");
+    m_jetMETPlots["all/jets/topTag"]      = new TheAccountant::JetMETHists("all/jets/topTag/");
 
     if(m_passPreSel){
-      m_jetPlots["presel_jets_topTag"]    = new TheAccountant::JetHists("presel_jets_topTag/");
-      m_jetMETPlots["presel_jets_topTag"] = new TheAccountant::JetMETHists("presel_jets_topTag/");
-      m_METPlots["presel_jets_topTag"]    = new TheAccountant::METHists("presel_jets_topTag/");
+      m_jetPlots["presel/jets/topTag"]    = new TheAccountant::JetHists("presel/jets/topTag/");
+      m_jetMETPlots["presel/jets/topTag"] = new TheAccountant::JetMETHists("presel/jets/topTag/");
     }
   }
 
-  //all_jets_wTag
-  //presel_jets_wTag
+  //all/jets/wTag
+  //presel/jets/wTag
   if(!m_decor_jetTags_w.empty()){
-    m_jetPlots["all_jets_wTag"]           = new TheAccountant::JetHists("all_jets_wTag/");
-    m_jetMETPlots["all_jets_wTag"]        = new TheAccountant::JetMETHists("all_jets_wTag/");
-    m_METPlots["all_jets_wTag"]           = new TheAccountant::METHists("all_jets_wTag/");
+    m_jetPlots["all/jets/wTag"]           = new TheAccountant::JetHists("all/jets/wTag/");
+    m_jetMETPlots["all/jets/wTag"]        = new TheAccountant::JetMETHists("all/jets/wTag/");
 
     if(m_passPreSel){
-      m_jetPlots["presel_jets_wTag"]      = new TheAccountant::JetHists("presel_jets_wTag/");
-      m_jetMETPlots["presel_jets_wTag"]   = new TheAccountant::JetMETHists("presel_jets_wTag/");
-      m_METPlots["presel_jets_wTag"]      = new TheAccountant::METHists("presel_jets_wTag/");
+      m_jetPlots["presel/jets/wTag"]      = new TheAccountant::JetHists("presel/jets/wTag/");
+      m_jetMETPlots["presel/jets/wTag"]   = new TheAccountant::JetMETHists("presel/jets/wTag/");
     }
   }
 
@@ -108,38 +100,38 @@ EL::StatusCode Report :: histInitialize () {
 
   // NLeadingJets
   for(int i=1; i <= m_numLeadingJets; ++i){
-    //all_jetX
+    //all/jetX
     //all bjetX
-    m_jetPlots["all_jet"+std::to_string(i)] = new TheAccountant::JetHists( "all_jet"+std::to_string(i)+"/" );
-    m_jetPlots["all_bjet"+std::to_string(i)] = new TheAccountant::JetHists( "all_bjet"+std::to_string(i)+"/" );
+    m_jetPlots["all/jet"+std::to_string(i)] = new TheAccountant::JetHists( "all/jet"+std::to_string(i)+"/" );
+    m_jetPlots["all/bjet"+std::to_string(i)] = new TheAccountant::JetHists( "all/bjet"+std::to_string(i)+"/" );
 
-    //presel_jetX
-    //presel_bjetX
+    //presel/jetX
+    //presel/bjetX
     if(m_passPreSel){
-      m_jetPlots["presel_jet"+std::to_string(i)] = new TheAccountant::JetHists( "presel_jet"+std::to_string(i)+"/" );
-      m_jetPlots["presel_bjet"+std::to_string(i)] = new TheAccountant::JetHists( "presel_bjet"+std::to_string(i)+"/" );
+      m_jetPlots["presel/jet"+std::to_string(i)] = new TheAccountant::JetHists( "presel/jet"+std::to_string(i)+"/" );
+      m_jetPlots["presel/bjet"+std::to_string(i)] = new TheAccountant::JetHists( "presel/bjet"+std::to_string(i)+"/" );
     }
 
     // tagged jets
-    //all_bjetX_bTag
-    //presel_bjetX_bTag
+    //all/bjetX_bTag
+    //presel/bjetX_bTag
     if(!m_decor_jetTags_b.empty()){
-      m_jetPlots["all_bjet"+std::to_string(i)+"_bTag"] = new TheAccountant::JetHists("all_bjet"+std::to_string(i)+"_bTag/");
-      if(m_passPreSel) m_jetPlots["presel_bjet"+std::to_string(i)+"_bTag"] = new TheAccountant::JetHists("presel_bjet"+std::to_string(i)+"_bTag/");
+      m_jetPlots["all/bjet"+std::to_string(i)+"/bTag"] = new TheAccountant::JetHists("all/bjet"+std::to_string(i)+"/bTag/");
+      if(m_passPreSel) m_jetPlots["presel/bjet"+std::to_string(i)+"/bTag"] = new TheAccountant::JetHists("presel/bjet"+std::to_string(i)+"/bTag/");
     }
 
-    //all_jetX_topTag
-    //presel_jetX_topTag
+    //all/jetX_topTag
+    //presel/jetX_topTag
     if(!m_decor_jetTags_top.empty()){
-      m_jetPlots["all_jet"+std::to_string(i)+"_topTag"] = new TheAccountant::JetHists("all_jet"+std::to_string(i)+"_topTag/");
-      if(m_passPreSel) m_jetPlots["presel_jet"+std::to_string(i)+"_topTag"] = new TheAccountant::JetHists("presel_jet"+std::to_string(i)+"_topTag/");
+      m_jetPlots["all/jet"+std::to_string(i)+"/topTag"] = new TheAccountant::JetHists("all/jet"+std::to_string(i)+"/topTag/");
+      if(m_passPreSel) m_jetPlots["presel/jet"+std::to_string(i)+"/topTag"] = new TheAccountant::JetHists("presel/jet"+std::to_string(i)+"/topTag/");
     }
 
-    //all_jetX_wTag
-    //presel_jetX_wTag
+    //all/jetX_wTag
+    //presel/jetX_wTag
     if(!m_decor_jetTags_w.empty()){
-      m_jetPlots["all_jet"+std::to_string(i)+"_wTag"] = new TheAccountant::JetHists("all_jet"+std::to_string(i)+"_wTag/");
-      if(m_passPreSel) m_jetPlots["presel_jet"+std::to_string(i)+"_wTag"] = new TheAccountant::JetHists("presel_jet"+std::to_string(i)+"_wTag/");
+      m_jetPlots["all/jet"+std::to_string(i)+"/wTag"] = new TheAccountant::JetHists("all/jet"+std::to_string(i)+"/wTag/");
+      if(m_passPreSel) m_jetPlots["presel/jet"+std::to_string(i)+"/wTag"] = new TheAccountant::JetHists("presel/jet"+std::to_string(i)+"/wTag/");
     }
   }
 
@@ -217,21 +209,19 @@ EL::StatusCode Report :: execute ()
   }
 
   // standard all jets and all bjets
-  if(m_jetPlots["all_jets"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-  if(m_jetPlots["all_bjets"]->execute(in_bjets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-  if(m_jetMETPlots["all_jets"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-  if(m_jetMETPlots["all_bjets"]->execute(in_bjets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-  if(m_METPlots["all_jets"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-  if(m_METPlots["all_bjets"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+  if(m_jetPlots["all/jets"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+  if(m_jetPlots["all/bjets"]->execute(in_bjets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+  if(m_jetMETPlots["all/jets"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+  if(m_jetMETPlots["all/bjets"]->execute(in_bjets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+  if(m_METPlots["all"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
 
   // standard preselected jets and preselected bjets
   if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-    if(m_jetPlots["presel_jets"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-    if(m_jetPlots["presel_bjets"]->execute(in_bjets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-    if(m_jetMETPlots["presel_jets"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-    if(m_jetMETPlots["presel_bjets"]->execute(in_bjets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-    if(m_METPlots["presel_jets"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-    if(m_METPlots["presel_bjets"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_jetPlots["presel/jets"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_jetPlots["presel/bjets"]->execute(in_bjets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_jetMETPlots["presel/jets"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_jetMETPlots["presel/bjets"]->execute(in_bjets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_METPlots["presel"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
   }
 
   //build up the tagged containers
@@ -275,96 +265,90 @@ EL::StatusCode Report :: execute ()
       }
     }
 
-    //all_bjets_bTag
-    //presel_bjets_bTag
+    //all/bjets/bTag
+    //presel/bjets/bTag
     if(!m_decor_jetTags_b.empty()){
-      m_jetPlots["all_bjets_bTag"]->execute(bjets_bTagged.asDataVector(), eventWeight);
-      m_jetMETPlots["all_bjets_bTag"]->execute(bjets_bTagged.asDataVector(), in_met, eventWeight);
-      m_METPlots["all_bjets_bTag"]->execute(in_met, eventWeight);
+      m_jetPlots["all/bjets/bTag"]->execute(bjets_bTagged.asDataVector(), eventWeight);
+      m_jetMETPlots["all/bjets/bTag"]->execute(bjets_bTagged.asDataVector(), in_met, eventWeight);
 
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel_bjets_bTag"]->execute(bjets_bTagged.asDataVector(), eventWeight);
-        m_jetMETPlots["presel_bjets_bTag"]->execute(bjets_bTagged.asDataVector(), in_met, eventWeight);
-        m_METPlots["presel_bjets_bTag"]->execute(in_met, eventWeight);
+        m_jetPlots["presel/bjets/bTag"]->execute(bjets_bTagged.asDataVector(), eventWeight);
+        m_jetMETPlots["presel/bjets/bTag"]->execute(bjets_bTagged.asDataVector(), in_met, eventWeight);
       }
     }
 
-    //all_jets_topTag
-    //presel_jets_topTag
+    //all/jets/topTag
+    //presel/jets/topTag
     if(!m_decor_jetTags_top.empty()){
-      m_jetPlots["all_jets_topTag"]->execute(jets_topTagged.asDataVector(), eventWeight);
-      m_jetMETPlots["all_jets_topTag"]->execute(jets_topTagged.asDataVector(), in_met, eventWeight);
-      m_METPlots["all_jets_topTag"]->execute(in_met, eventWeight);
+      m_jetPlots["all/jets/topTag"]->execute(jets_topTagged.asDataVector(), eventWeight);
+      m_jetMETPlots["all/jets/topTag"]->execute(jets_topTagged.asDataVector(), in_met, eventWeight);
 
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel_jets_topTag"]->execute(jets_topTagged.asDataVector(), eventWeight);
-        m_jetMETPlots["presel_jets_topTag"]->execute(jets_topTagged.asDataVector(), in_met, eventWeight);
-        m_METPlots["presel_jets_topTag"]->execute(in_met, eventWeight);
+        m_jetPlots["presel/jets/topTag"]->execute(jets_topTagged.asDataVector(), eventWeight);
+        m_jetMETPlots["presel/jets/topTag"]->execute(jets_topTagged.asDataVector(), in_met, eventWeight);
       }
     }
 
-    //all_jets_wTag
-    //presel_jets_wTag
+    //all/jets/wTag
+    //presel/jets/wTag
     if(!m_decor_jetTags_w.empty()){
-      m_jetPlots["all_jets_wTag"]->execute(jets_wTagged.asDataVector(), eventWeight);
-      m_jetMETPlots["all_jets_wTag"]->execute(jets_wTagged.asDataVector(), in_met, eventWeight);
-      m_METPlots["all_jets_wTag"]->execute(in_met, eventWeight);
+      m_jetPlots["all/jets/wTag"]->execute(jets_wTagged.asDataVector(), eventWeight);
+      m_jetMETPlots["all/jets/wTag"]->execute(jets_wTagged.asDataVector(), in_met, eventWeight);
 
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel_jets_wTag"]->execute(jets_wTagged.asDataVector(), eventWeight);
-        m_jetMETPlots["presel_jets_wTag"]->execute(jets_wTagged.asDataVector(), in_met, eventWeight);
-        m_METPlots["presel_jets_wTag"]->execute(in_met, eventWeight);
+        m_jetPlots["presel/jets/wTag"]->execute(jets_wTagged.asDataVector(), eventWeight);
+        m_jetMETPlots["presel/jets/wTag"]->execute(jets_wTagged.asDataVector(), in_met, eventWeight);
       }
     }
   }
 
-  //all_jetX
-  //presel_jetX
+  //all/jetX
+  //presel/jetX
   for(int i=1; i <= std::min<int>( m_numLeadingJets, in_jets->size() ); ++i ){
-    if(m_jetPlots["all_jet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_jetPlots["all/jet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
     if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-      if(m_jetPlots["presel_jet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+      if(m_jetPlots["presel/jet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
     }
   }
 
-  //all_bjetX
-  //presel_bjetX
+  //all/bjetX
+  //presel/bjetX
   for(int i=1; i <= std::min<int>( m_numLeadingJets, in_bjets->size() ); ++i ){
-    if(m_jetPlots["all_bjet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_jetPlots["all/bjet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
     if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-      if(m_jetPlots["presel_bjet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+      if(m_jetPlots["presel/bjet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
     }
   }
 
-  //all_bjetX_bTag
-  //presel_bjetX_bTag
+  //all/bjetX_bTag
+  //presel/bjetX_bTag
   if(!m_decor_jetTags_b.empty()){
     for(int i=1; i <= std::min<int>( m_numLeadingJets, bjets_bTagged.size() ); ++i){
-      m_jetPlots["all_bjet"+std::to_string(i)+"_bTag"]->execute(bjets_bTagged.at(i), eventWeight);
+      m_jetPlots["all/bjet"+std::to_string(i)+"/bTag"]->execute(bjets_bTagged.at(i), eventWeight);
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel_bjet"+std::to_string(i)+"_bTag"]->execute(bjets_bTagged.at(i), eventWeight);
+        m_jetPlots["presel/bjet"+std::to_string(i)+"/bTag"]->execute(bjets_bTagged.at(i), eventWeight);
       }
     }
   }
 
-  //all_jetX_topTag
-  //presel_jetX_topTag
+  //all/jetX_topTag
+  //presel/jetX_topTag
   if(!m_decor_jetTags_top.empty()){
     for(int i=1; i <= std::min<int>( m_numLeadingJets, jets_topTagged.size() ); ++i){
-      m_jetPlots["all_jet"+std::to_string(i)+"_topTag"]->execute(jets_topTagged.at(i), eventWeight);
+      m_jetPlots["all/jet"+std::to_string(i)+"/topTag"]->execute(jets_topTagged.at(i), eventWeight);
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel_jet"+std::to_string(i)+"_topTag"]->execute(jets_topTagged.at(i), eventWeight);
+        m_jetPlots["presel/jet"+std::to_string(i)+"/topTag"]->execute(jets_topTagged.at(i), eventWeight);
       }
     }
   }
 
-  //all_jetX_wTag
-  //presel_jetX_wTag
+  //all/jetX_wTag
+  //presel/jetX_wTag
   if(!m_decor_jetTags_w.empty()){
     for(int i=1; i <= std::min<int>( m_numLeadingJets, jets_wTagged.size() ); ++i){
-      m_jetPlots["all_jet"+std::to_string(i)+"_wTag"]->execute(jets_wTagged.at(i), eventWeight);
+      m_jetPlots["all/jet"+std::to_string(i)+"/wTag"]->execute(jets_wTagged.at(i), eventWeight);
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel_jet"+std::to_string(i)+"_wTag"]->execute(jets_wTagged.at(i), eventWeight);
+        m_jetPlots["presel/jet"+std::to_string(i)+"/wTag"]->execute(jets_wTagged.at(i), eventWeight);
       }
     }
   }
