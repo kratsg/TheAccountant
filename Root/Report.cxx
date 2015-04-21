@@ -74,7 +74,7 @@ EL::StatusCode Report :: histInitialize () {
   for(auto jetPlot: m_jetPlots) jetPlot.second->m_countJets = true;
 
   // NLeadingJets
-  for(int i=0; i < m_numLeadingJets; ++i){
+  for(int i=1; i <= m_numLeadingJets; ++i){
     //all_jetX
     //all bjetX
     m_jetPlots["all_jet"+std::to_string(i)] = new TheAccountant::JetHists( "all_jet"+std::to_string(i)+"/" );
@@ -246,7 +246,7 @@ EL::StatusCode Report :: execute ()
 
   //all_jetX
   //presel_jetX
-  for(int i=0; i < std::min<int>( m_numLeadingJets, in_jets->size() ); ++i ){
+  for(int i=1; i <= std::min<int>( m_numLeadingJets, in_jets->size() ); ++i ){
     if(m_jetPlots["all_jet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
     if(m_passPreSel && pass_preSel(*eventInfo) == 1){
       if(m_jetPlots["presel_jet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
@@ -255,7 +255,7 @@ EL::StatusCode Report :: execute ()
 
   //all_bjetX
   //presel_bjetX
-  for(int i=0; i < std::min<int>( m_numLeadingJets, in_bjets->size() ); ++i ){
+  for(int i=1; i <= std::min<int>( m_numLeadingJets, in_bjets->size() ); ++i ){
     if(m_jetPlots["all_bjet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
     if(m_passPreSel && pass_preSel(*eventInfo) == 1){
       if(m_jetPlots["presel_bjet"+std::to_string(i)]->execute(in_jets->at(i), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
@@ -265,7 +265,7 @@ EL::StatusCode Report :: execute ()
   //all_bjetX_bTag
   //presel_bjetX_bTag
   if(!m_decor_jetTags_b.empty()){
-    for(int i=0; i < std::min<int>( m_numLeadingJets, bjets_bTagged.size() ); ++i){
+    for(int i=1; i <= std::min<int>( m_numLeadingJets, bjets_bTagged.size() ); ++i){
       m_jetPlots["all_bjet"+std::to_string(i)+"_bTag"]->execute(bjets_bTagged.at(i), eventWeight);
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
         m_jetPlots["presel_bjet"+std::to_string(i)+"_bTag"]->execute(bjets_bTagged.at(i), eventWeight);
@@ -276,7 +276,7 @@ EL::StatusCode Report :: execute ()
   //all_jetX_topTag
   //presel_jetX_topTag
   if(!m_decor_jetTags_top.empty()){
-    for(int i=0; i < std::min<int>( m_numLeadingJets, jets_topTagged.size() ); ++i){
+    for(int i=1; i <= std::min<int>( m_numLeadingJets, jets_topTagged.size() ); ++i){
       m_jetPlots["all_jet"+std::to_string(i)+"_topTag"]->execute(jets_topTagged.at(i), eventWeight);
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
         m_jetPlots["presel_jet"+std::to_string(i)+"_topTag"]->execute(jets_topTagged.at(i), eventWeight);
@@ -287,7 +287,7 @@ EL::StatusCode Report :: execute ()
   //all_jetX_wTag
   //presel_jetX_wTag
   if(!m_decor_jetTags_w.empty()){
-    for(int i=0; i < std::min<int>( m_numLeadingJets, jets_wTagged.size() ); ++i){
+    for(int i=1; i <= std::min<int>( m_numLeadingJets, jets_wTagged.size() ); ++i){
       m_jetPlots["all_jet"+std::to_string(i)+"_wTag"]->execute(jets_wTagged.at(i), eventWeight);
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
         m_jetPlots["presel_jet"+std::to_string(i)+"_wTag"]->execute(jets_wTagged.at(i), eventWeight);
