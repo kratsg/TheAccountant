@@ -56,6 +56,7 @@ job runner options:
   --skip <n>               Number of events to skip at start. (default: 0)
   -f, --force              Overwrite previous directory if it exists.
                            (default: False)
+  --version                show program's version number and exit
   --direct                 Run your jobs locally. (default: direct)
   --prooflite              Run your jobs using ProofLite (default: direct)
   --grid                   Run your jobs on the grid. (default: direct)
