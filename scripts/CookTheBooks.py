@@ -19,6 +19,8 @@ cookBooks_logger = logging.getLogger("cookBooks")
 
 import argparse
 import os
+import subprocess
+import sys
 
 # think about using argcomplete
 # https://argcomplete.readthedocs.org/en/latest/#activating-global-completion%20argcomplete
@@ -27,6 +29,8 @@ if __name__ == "__main__":
   # if we want multiple custom formatters, use inheriting
   class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter):
     pass
+
+  __version__ = subprocess.check_output(["git", "describe", "--always"])
 
   parser = argparse.ArgumentParser(description='Become an accountant and cook the books!',
                                    usage='%(prog)s filename [filename] [options]',
@@ -64,6 +68,9 @@ if __name__ == "__main__":
                       dest='force_overwrite',
                       action='store_true',
                       help='Overwrite previous directory if it exists.')
+  parser.add_argument('--version',
+                      action='version',
+                      version='%(prog)s {version}'.format(version=__version__))
 
   # http://stackoverflow.com/questions/12303547/set-the-default-to-false-if-another-mutually-exclusive-argument-is-true
   group_driver = parser.add_mutually_exclusive_group()
@@ -377,12 +384,11 @@ if __name__ == "__main__":
       cookBooks_logger.info("\tsubmit job")
       driver.submitOnly(job, args.submit_dir)
 
-    import sys
     with open(os.path.join(args.submit_dir, 'CookTheBooks.log'), 'w+') as f:
       f.write(' '.join([os.path.basename(sys.argv[0])] + sys.argv[1:]))
       f.write('\n\n')
       f.write('job runner options\n')
-      for opt in ['input_filename', 'submit_dir', 'num_events', 'skip_events', 'force_overwrite', 'input_from_file', 'input_from_DQ2', 'verbose', 'driver']:
+      for opt in ['input_filename', 'submit_dir', 'num_events', 'skip_events', 'force_overwrite', 'input_from_file', 'input_from_DQ2', 'verbose', 'driver', 'version']:
         f.write('\t{0: <51} = {1}\n'.format(opt, getattr(args, opt)))
       for algConfig_str in algorithmConfiguration_string:
         f.write('{0}\n'.format(algConfig_str))
