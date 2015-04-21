@@ -22,8 +22,8 @@ EL::StatusCode TheAccountant::JetHists::initialize() {
 }
 
 EL::StatusCode TheAccountant::JetHists::execute( const xAOD::JetContainer* jets, float eventWeight ) {
-  for( auto jet_itr : *jets ) {
-    this->execute( jet_itr, eventWeight );
+  for( auto jet : *jets ) {
+    this->execute( jet, eventWeight );
   }
 
   if(m_countJets) m_jetMultiplicity->Fill( jets->size(), eventWeight);
