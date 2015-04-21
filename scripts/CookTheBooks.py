@@ -297,38 +297,55 @@ if __name__ == "__main__":
     job.options().setDouble(ROOT.EL.Job.optCacheSize, 50*1024*1024)
     job.options().setDouble(ROOT.EL.Job.optCacheLearnEntries, 50)
 
+
+    algorithmConfiguration_string = []
+
     # add our algorithm to the job
     cookBooks_logger.info("creating algorithms")
 
     cookBooks_logger.info("\tcreating preselect algorithm")
+    algorithmConfiguration_string.append("preselect algorithm options")
     preselect = ROOT.Preselect()
     for opt in ['jet_minNum', 'jet_maxNum', 'jet_minPt', 'jet_maxPt', 'jet_minMass',
                 'jet_maxMass', 'jet_minEta', 'jet_maxEta', 'jet_minPhi',
                 'jet_maxPhi', 'bjet_minNum', 'bjet_maxNum', 'bjet_minPt',
                 'bjet_maxPt', 'bjet_minMass', 'bjet_maxMass', 'bjet_minEta',
                 'bjet_maxEta', 'bjet_minPhi', 'bjet_maxPhi', 'bjet_MV1']:
-      cookBooks_logger.info("\t\tsetting Preselect.m_%s = %s", opt, getattr(args, opt))
+      printStr = "\tsetting {0: >10}.m_{1:<30} = {2}".format('Preselect', opt, getattr(args, opt))
+      cookBooks_logger.info("\t%s", printStr)
+      algorithmConfiguration_string.append(printStr)
       setattr(preselect, 'm_{0}'.format(opt), getattr(args, opt))
 
     cookBooks_logger.info("\tcreating audit algorithm")
+    algorithmConfiguration_string.append("audit algorithm options")
     audit = ROOT.Audit()
     for opt in ['minMassJigsaw', 'contraBoostJigsaw', 'hemiJigsaw']:
-      cookBooks_logger.info("\t\tsetting Audit.m_%s = %s", opt, not(getattr(args, 'disable_{0}'.format(opt))))
+      printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format('Audit', opt, not(getattr(args, 'disable_{0}'.format(opt))))
+      cookBooks_logger.info("\t%s", printStr)
+      algorithmConfiguration_string.append(printStr)
       setattr(audit, 'm_{0}'.format(opt), not(getattr(args, 'disable_{0}'.format(opt))))
     for opt in ['passPreSel', 'drawDecayTreePlots']:
-      cookBooks_logger.info("\t\tsetting audit.m_%s = %s", opt, getattr(args, opt))
+      printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format('Audit', opt, getattr(args, opt))
+      cookBooks_logger.info("\t%s", printStr)
+      algorithmConfiguration_string.append(printStr)
       setattr(audit, 'm_{0}'.format(opt), getattr(args, opt))
 
     cookBooks_logger.info("\tcreating report algorithm")
+    algorithmConfiguration_string.append("report algorithm options")
     report = ROOT.Report()
     for opt in ['passPreSel', 'numLeadingJets']:
-      cookBooks_logger.info("\t\tsetting Report.m_%s = %s", opt, getattr(args, opt))
+      printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format('Report', opt, getattr(args, opt))
+      cookBooks_logger.info("\t%s", printStr)
+      algorithmConfiguration_string.append(printStr)
       setattr(report, 'm_{0}'.format(opt), getattr(args, opt))
 
     cookBooks_logger.info("\tsetting global algorithm variables")
+    algorithmConfiguration_string.append("global algorithm options")
     for alg in [preselect, audit, report]:
       for opt in ['debug', 'eventInfo', 'inputJets', 'inputBJets', 'inputMET', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons', 'decor_jetTags_b', 'decor_jetTags_top', 'decor_jetTags_w']:
-        cookBooks_logger.info("\t\tsetting %s.m_%s = %s", alg.ClassName(), opt, getattr(args, opt))
+        printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format(alg.ClassName(), opt, getattr(args, opt))
+        cookBooks_logger.info("\t%s", printStr)
+        algorithmConfiguration_string.append(printStr)
         setattr(alg, 'm_{0}'.format(opt), getattr(args, opt))
 
     cookBooks_logger.info("adding algorithms")
@@ -359,6 +376,16 @@ if __name__ == "__main__":
       driver.options().setDouble(ROOT.EL.Job.optGridMergeOutput, 1);
       cookBooks_logger.info("\tsubmit job")
       driver.submitOnly(job, args.submit_dir)
+
+    import sys
+    with open(os.path.join(args.submit_dir, 'CookTheBooks.log'), 'w+') as f:
+      f.write(' '.join([os.path.basename(sys.argv[0])] + sys.argv[1:]))
+      f.write('\n\n')
+      f.write('job runner options\n')
+      for opt in ['input_filename', 'submit_dir', 'num_events', 'skip_events', 'force_overwrite', 'input_from_file', 'input_from_DQ2', 'verbose', 'driver']:
+        f.write('\t{0: <51} = {1}\n'.format(opt, getattr(args, opt)))
+      for algConfig_str in algorithmConfiguration_string:
+        f.write('{0}\n'.format(algConfig_str))
 
   except Exception, e:
     # we crashed
