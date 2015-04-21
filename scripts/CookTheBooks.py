@@ -21,6 +21,9 @@ import argparse
 import os
 import subprocess
 import sys
+import datetime
+
+SCRIPT_START_TIME = datetime.datetime.now()
 
 # think about using argcomplete
 # https://argcomplete.readthedocs.org/en/latest/#activating-global-completion%20argcomplete
@@ -30,7 +33,7 @@ if __name__ == "__main__":
   class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter):
     pass
 
-  __version__ = subprocess.check_output(["git", "describe", "--always"])
+  __version__ = subprocess.check_output(["git", "describe", "--always"], cwd=os.path.dirname(os.path.realpath(__file__))).strip()
 
   parser = argparse.ArgumentParser(description='Become an accountant and cook the books!',
                                    usage='%(prog)s filename [filename] [options]',
@@ -384,11 +387,14 @@ if __name__ == "__main__":
       cookBooks_logger.info("\tsubmit job")
       driver.submitOnly(job, args.submit_dir)
 
+    SCRIPT_END_TIME = datetime.datetime.now()
+
     with open(os.path.join(args.submit_dir, 'CookTheBooks.log'), 'w+') as f:
-      f.write(' '.join([os.path.basename(sys.argv[0])] + sys.argv[1:]))
-      f.write('\n\n')
+      f.write(' '.join(['[{0}]'.format(__version__), os.path.basename(sys.argv[0])] + sys.argv[1:]))
+      f.write('\n')
+      f.write('Start:  {0}\nStop:  {1}\nDelta: {2}\n\n'.format(SCRIPT_START_TIME.strftime("%b %d %Y %H:%M:%S"), SCRIPT_END_TIME.strftime("%b %d %Y %H:%M:%S"), SCRIPT_END_TIME - SCRIPT_START_TIME))
       f.write('job runner options\n')
-      for opt in ['input_filename', 'submit_dir', 'num_events', 'skip_events', 'force_overwrite', 'input_from_file', 'input_from_DQ2', 'verbose', 'driver', 'version']:
+      for opt in ['input_filename', 'submit_dir', 'num_events', 'skip_events', 'force_overwrite', 'input_from_file', 'input_from_DQ2', 'verbose', 'driver']:
         f.write('\t{0: <51} = {1}\n'.format(opt, getattr(args, opt)))
       for algConfig_str in algorithmConfiguration_string:
         f.write('{0}\n'.format(algConfig_str))
