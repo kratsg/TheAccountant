@@ -10,6 +10,7 @@
 // plots to include
 #include <TheAccountant/JetHists.h>
 #include <TheAccountant/JetMETHists.h>
+#include <TheAccountant/METHists.h>
 
 class Report : public EL::Algorithm
 {
@@ -39,6 +40,7 @@ private:
 
   std::map< std::string, TheAccountant::JetHists* > m_jetPlots; //!
   std::map< std::string, TheAccountant::JetMETHists* > m_jetMETPlots; //!
+  std::map< std::string, TheAccountant::METHists* > m_METPlots; //!
 
 public:
   // this is a standard constructor
