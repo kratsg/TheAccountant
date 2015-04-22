@@ -286,7 +286,9 @@ if __name__ == "__main__":
           ROOT.SH.scanDir(sh_all, sh_list, fname_base, os.path.basename(sample_dir))
 
     # print out the samples we found
-    cookBooks_logger.info("\t%d different datasets found", len(sh_all))
+    cookBooks_logger.info("\t%d different dataset(s) found", len(sh_all))
+    for dataset in sh_all:
+      cookBooks_logger.info("\t\t%d files in %s", dataset.numFiles(), dataset.name())
     sh_all.printContent()
 
     # set the name of the tree in our files
