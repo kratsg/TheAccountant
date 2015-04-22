@@ -44,7 +44,7 @@ EL::StatusCode Report :: histInitialize () {
   m_jetPlots["all/bjets"]         = new TheAccountant::IParticleKinematicHists( "all/bjets/" );
   m_jetMETPlots["all/jets"]       = new TheAccountant::JetMETHists( "all/jets/" );
   m_jetMETPlots["all/bjets"]      = new TheAccountant::JetMETHists( "all/bjets/" );
-  m_METPlots["all"]               = new TheAccountant::METHists( "all/" );
+  m_METPlots["all/MET"]               = new TheAccountant::METHists( "all/MET/" );
 
   if(m_passPreSel){
     m_jetPlots["presel/jets"]     = new TheAccountant::IParticleKinematicHists( "presel/jets/" );
@@ -53,7 +53,7 @@ EL::StatusCode Report :: histInitialize () {
     m_jetMETPlots["presel/jets"]  = new TheAccountant::JetMETHists( "presel/jets/" );
     m_jetMETPlots["presel/bjets"] = new TheAccountant::JetMETHists( "presel/bjets/" );
 
-    m_METPlots["presel"]          = new TheAccountant::METHists( "presel/" );
+    m_METPlots["presel/MET"]          = new TheAccountant::METHists( "presel/MET/" );
   }
 
   // tagged jets
@@ -217,7 +217,7 @@ EL::StatusCode Report :: execute ()
   if(m_jetPlots["all/bjets"]->execute(in_bjets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
   if(m_jetMETPlots["all/jets"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
   if(m_jetMETPlots["all/bjets"]->execute(in_bjets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-  if(m_METPlots["all"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+  if(m_METPlots["all/MET"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
 
   // standard preselected jets and preselected bjets
   if(m_passPreSel && pass_preSel(*eventInfo) == 1){
@@ -225,7 +225,7 @@ EL::StatusCode Report :: execute ()
     if(m_jetPlots["presel/bjets"]->execute(in_bjets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
     if(m_jetMETPlots["presel/jets"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
     if(m_jetMETPlots["presel/bjets"]->execute(in_bjets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-    if(m_METPlots["presel"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    if(m_METPlots["presel/MET"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
   }
 
   //build up the tagged containers

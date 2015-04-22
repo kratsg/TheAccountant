@@ -9,11 +9,11 @@ TheAccountant::METHists::METHists (std::string name) :
 TheAccountant::METHists::~METHists () {}
 
 EL::StatusCode TheAccountant::METHists::initialize() {
-  m_mpx   = book(m_name, "MET_mpx",  "p_{x}^{miss} [GeV]", 120, 0, 3000.);
-  m_mpy   = book(m_name, "MET_mpy",  "p_{y}^{miss} [GeV]", 120, 0, 3000.);
-  m_MET   = book(m_name, "MET_met",  "E_{T}^{miss} [GeV]", 120, 0, 3000.);
-  m_phi   = book(m_name, "MET_phi",  "#phi", 120, -TMath::Pi(), TMath::Pi() );
-  m_sumet = book(m_name, "MET_sumEt", "#Sigma E_{T} [GeV]", 120, 0, 3000.);
+  m_mpx   = book(m_name, "mpx",  "p_{x}^{miss} [GeV]", 120, 0, 3000.);
+  m_mpy   = book(m_name, "mpy",  "p_{y}^{miss} [GeV]", 120, 0, 3000.);
+  m_MET   = book(m_name, "met",  "E_{T}^{miss} [GeV]", 120, 0, 3000.);
+  m_phi   = book(m_name, "phi",  "#phi", 120, -TMath::Pi(), TMath::Pi() );
+  m_sumet = book(m_name, "sumEt", "#Sigma E_{T} [GeV]", 120, 0, 3000.);
 
   return EL::StatusCode::SUCCESS;
 }
