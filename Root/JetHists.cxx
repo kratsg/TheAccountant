@@ -16,7 +16,7 @@ EL::StatusCode TheAccountant::JetHists::initialize() {
   m_jetE            = book(m_name, "jetEnergy", "jet Energy [GeV]",120, 0, 4000.);
   m_jetRapidity     = book(m_name, "jetRapidity", "jet Rapidity",120, -10, 10);
 
-  if(m_countJets) m_jetMultiplicity = book(m_name, "multiplicity_jets", "number of jets/event", 10, -0.5, 8.5);
+  if(m_countJets) m_jetMultiplicity = book(m_name, "multiplicity_jets", "number of jets/event", 21, -0.5, 20);
 
   return EL::StatusCode::SUCCESS;
 }
