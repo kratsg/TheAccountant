@@ -8,7 +8,7 @@
 #include "xAODRootAccess/TStore.h"
 
 // plots to include
-#include <TheAccountant/JetHists.h>
+#include <TheAccountant/IParticleKinematicHists.h>
 #include <TheAccountant/JetMETHists.h>
 #include <TheAccountant/METHists.h>
 
@@ -38,7 +38,7 @@ private:
   xAOD::TEvent *m_event;  //!
   xAOD::TStore *m_store;  //!
 
-  std::map< std::string, TheAccountant::JetHists* > m_jetPlots; //!
+  std::map< std::string, TheAccountant::IParticleKinematicHists* > m_jetPlots; //!
   std::map< std::string, TheAccountant::JetMETHists* > m_jetMETPlots; //!
   std::map< std::string, TheAccountant::METHists* > m_METPlots; //!
 

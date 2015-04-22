@@ -40,15 +40,15 @@ EL::StatusCode Report :: setupJob (EL::Job& job)
 EL::StatusCode Report :: histInitialize () {
   // initialize all histograms here
 
-  m_jetPlots["all/jets"]          = new TheAccountant::JetHists( "all/jets/" );
-  m_jetPlots["all/bjets"]         = new TheAccountant::JetHists( "all/bjets/" );
+  m_jetPlots["all/jets"]          = new TheAccountant::IParticleKinematicHists( "all/jets/" );
+  m_jetPlots["all/bjets"]         = new TheAccountant::IParticleKinematicHists( "all/bjets/" );
   m_jetMETPlots["all/jets"]       = new TheAccountant::JetMETHists( "all/jets/" );
   m_jetMETPlots["all/bjets"]      = new TheAccountant::JetMETHists( "all/bjets/" );
   m_METPlots["all"]               = new TheAccountant::METHists( "all/" );
 
   if(m_passPreSel){
-    m_jetPlots["presel/jets"]     = new TheAccountant::JetHists( "presel/jets/" );
-    m_jetPlots["presel/bjets"]    = new TheAccountant::JetHists( "presel/bjets/" );
+    m_jetPlots["presel/jets"]     = new TheAccountant::IParticleKinematicHists( "presel/jets/" );
+    m_jetPlots["presel/bjets"]    = new TheAccountant::IParticleKinematicHists( "presel/bjets/" );
 
     m_jetMETPlots["presel/jets"]  = new TheAccountant::JetMETHists( "presel/jets/" );
     m_jetMETPlots["presel/bjets"] = new TheAccountant::JetMETHists( "presel/bjets/" );
@@ -60,11 +60,11 @@ EL::StatusCode Report :: histInitialize () {
   //all/bjets/bTag
   //presel/bjets/bTag
   if(!m_decor_jetTags_b.empty()){
-    m_jetPlots["all/bjets/bTag"]          = new TheAccountant::JetHists("all/bjets/bTag/");
+    m_jetPlots["all/bjets/bTag"]          = new TheAccountant::IParticleKinematicHists("all/bjets/bTag/");
     m_jetMETPlots["all/bjets/bTag"]       = new TheAccountant::JetMETHists("all/bjets/bTag/");
 
     if(m_passPreSel){
-      m_jetPlots["presel/bjets/bTag"]     = new TheAccountant::JetHists("presel/bjets/bTag/");
+      m_jetPlots["presel/bjets/bTag"]     = new TheAccountant::IParticleKinematicHists("presel/bjets/bTag/");
       m_jetMETPlots["presel/bjets/bTag"]  = new TheAccountant::JetMETHists("presel/bjets/bTag/");
     }
   }
@@ -72,11 +72,11 @@ EL::StatusCode Report :: histInitialize () {
   //all/jets/topTag
   //presel/jets/topTag
   if(!m_decor_jetTags_top.empty()){
-    m_jetPlots["all/jets/topTag"]         = new TheAccountant::JetHists("all/jets/topTag/");
+    m_jetPlots["all/jets/topTag"]         = new TheAccountant::IParticleKinematicHists("all/jets/topTag/");
     m_jetMETPlots["all/jets/topTag"]      = new TheAccountant::JetMETHists("all/jets/topTag/");
 
     if(m_passPreSel){
-      m_jetPlots["presel/jets/topTag"]    = new TheAccountant::JetHists("presel/jets/topTag/");
+      m_jetPlots["presel/jets/topTag"]    = new TheAccountant::IParticleKinematicHists("presel/jets/topTag/");
       m_jetMETPlots["presel/jets/topTag"] = new TheAccountant::JetMETHists("presel/jets/topTag/");
     }
   }
@@ -84,17 +84,21 @@ EL::StatusCode Report :: histInitialize () {
   //all/jets/wTag
   //presel/jets/wTag
   if(!m_decor_jetTags_w.empty()){
-    m_jetPlots["all/jets/wTag"]           = new TheAccountant::JetHists("all/jets/wTag/");
+    m_jetPlots["all/jets/wTag"]           = new TheAccountant::IParticleKinematicHists("all/jets/wTag/");
     m_jetMETPlots["all/jets/wTag"]        = new TheAccountant::JetMETHists("all/jets/wTag/");
 
     if(m_passPreSel){
-      m_jetPlots["presel/jets/wTag"]      = new TheAccountant::JetHists("presel/jets/wTag/");
+      m_jetPlots["presel/jets/wTag"]      = new TheAccountant::IParticleKinematicHists("presel/jets/wTag/");
       m_jetMETPlots["presel/jets/wTag"]   = new TheAccountant::JetMETHists("presel/jets/wTag/");
     }
   }
 
-  // enable jet counting for jet plots above
-  for(auto jetPlot: m_jetPlots) jetPlot.second->m_countJets = true;
+  // enable jet counting for jet plots above, set type to jet
+  for(auto jetPlot: m_jetPlots){
+    jetPlot.second->m_countParticles = true;
+    jetPlot.second->m_particleType   = "jet";
+  }
+
   // set the numLeadingJets for the JetMET histograms
   for(auto jetMETPlot: m_jetMETPlots) jetMETPlot.second->m_numLeadingJets = m_numLeadingJets;
 
@@ -102,36 +106,36 @@ EL::StatusCode Report :: histInitialize () {
   for(int i=1; i <= m_numLeadingJets; ++i){
     //all/jetX
     //all bjetX
-    m_jetPlots["all/jet"+std::to_string(i)] = new TheAccountant::JetHists( "all/jet"+std::to_string(i)+"/" );
-    m_jetPlots["all/bjet"+std::to_string(i)] = new TheAccountant::JetHists( "all/bjet"+std::to_string(i)+"/" );
+    m_jetPlots["all/jet"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "all/jet"+std::to_string(i)+"/" );
+    m_jetPlots["all/bjet"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "all/bjet"+std::to_string(i)+"/" );
 
     //presel/jetX
     //presel/bjetX
     if(m_passPreSel){
-      m_jetPlots["presel/jet"+std::to_string(i)] = new TheAccountant::JetHists( "presel/jet"+std::to_string(i)+"/" );
-      m_jetPlots["presel/bjet"+std::to_string(i)] = new TheAccountant::JetHists( "presel/bjet"+std::to_string(i)+"/" );
+      m_jetPlots["presel/jet"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "presel/jet"+std::to_string(i)+"/" );
+      m_jetPlots["presel/bjet"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "presel/bjet"+std::to_string(i)+"/" );
     }
 
     // tagged jets
     //all/bjetX_bTag
     //presel/bjetX_bTag
     if(!m_decor_jetTags_b.empty()){
-      m_jetPlots["all/bjet"+std::to_string(i)+"/bTag"] = new TheAccountant::JetHists("all/bjet"+std::to_string(i)+"/bTag/");
-      if(m_passPreSel) m_jetPlots["presel/bjet"+std::to_string(i)+"/bTag"] = new TheAccountant::JetHists("presel/bjet"+std::to_string(i)+"/bTag/");
+      m_jetPlots["all/bjet"+std::to_string(i)+"/bTag"] = new TheAccountant::IParticleKinematicHists("all/bjet"+std::to_string(i)+"/bTag/");
+      if(m_passPreSel) m_jetPlots["presel/bjet"+std::to_string(i)+"/bTag"] = new TheAccountant::IParticleKinematicHists("presel/bjet"+std::to_string(i)+"/bTag/");
     }
 
     //all/jetX_topTag
     //presel/jetX_topTag
     if(!m_decor_jetTags_top.empty()){
-      m_jetPlots["all/jet"+std::to_string(i)+"/topTag"] = new TheAccountant::JetHists("all/jet"+std::to_string(i)+"/topTag/");
-      if(m_passPreSel) m_jetPlots["presel/jet"+std::to_string(i)+"/topTag"] = new TheAccountant::JetHists("presel/jet"+std::to_string(i)+"/topTag/");
+      m_jetPlots["all/jet"+std::to_string(i)+"/topTag"] = new TheAccountant::IParticleKinematicHists("all/jet"+std::to_string(i)+"/topTag/");
+      if(m_passPreSel) m_jetPlots["presel/jet"+std::to_string(i)+"/topTag"] = new TheAccountant::IParticleKinematicHists("presel/jet"+std::to_string(i)+"/topTag/");
     }
 
     //all/jetX_wTag
     //presel/jetX_wTag
     if(!m_decor_jetTags_w.empty()){
-      m_jetPlots["all/jet"+std::to_string(i)+"/wTag"] = new TheAccountant::JetHists("all/jet"+std::to_string(i)+"/wTag/");
-      if(m_passPreSel) m_jetPlots["presel/jet"+std::to_string(i)+"/wTag"] = new TheAccountant::JetHists("presel/jet"+std::to_string(i)+"/wTag/");
+      m_jetPlots["all/jet"+std::to_string(i)+"/wTag"] = new TheAccountant::IParticleKinematicHists("all/jet"+std::to_string(i)+"/wTag/");
+      if(m_passPreSel) m_jetPlots["presel/jet"+std::to_string(i)+"/wTag"] = new TheAccountant::IParticleKinematicHists("presel/jet"+std::to_string(i)+"/wTag/");
     }
   }
 
