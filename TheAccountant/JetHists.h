@@ -21,12 +21,19 @@ namespace TheAccountant
       TH1F* m_massOverPt;//!
 
       //topology
-      TH1F* m_dEta;      //!
-      TH1F* m_dPhi;      //!
-      TH1F* m_asymmetry; //!
-      TH1F* m_ptRatio;   //!
-      TH1F* m_totalMass; //!
+      TH1F* m_dEta;                     //!
+      TH1F* m_dPhi;                     //!
+      TH1F* m_asymmetry;                //!
+      TH1F* m_ptRatio;                  //!
+      TH1F* m_totalMass;                //!
 
+      //substructure
+      TH1F* m_tau21;                    //!
+      TH1F* m_tau32;                    //!
+      TH1F* m_subjet_multiplicity;      //!
+      TH1F* m_subjet_ptFrac;            //!
+      TH1F* m_constituents_multiplicity;//!
+      TH1F* m_constituents_width;       //!
   };
 }
 #endif
