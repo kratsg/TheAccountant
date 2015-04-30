@@ -21,6 +21,7 @@ namespace TheAccountant
       int m_numLeadingJets;
     private:
       TH1F* m_effectiveMass;                //!
+      TH1F* m_dPhiMin;                      //!
   };
 }
 #endif

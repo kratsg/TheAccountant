@@ -22,7 +22,7 @@ EL::StatusCode TheAccountant::IParticleKinematicHists::initialize() {
 }
 
 EL::StatusCode TheAccountant::IParticleKinematicHists::execute( const xAOD::IParticleContainer* particles, float eventWeight ) {
-  for( auto particle : *particles ) {
+  for( const auto particle : *particles ) {
     this->execute( particle, eventWeight );
   }
 
