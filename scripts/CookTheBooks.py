@@ -96,6 +96,12 @@ if __name__ == "__main__":
                       action='store_const',
                       const='grid',
                       help='Run your jobs on the grid.')
+  group_driver.add_argument('--condor',
+                      dest='driver',
+                      metavar='',
+                      action='store_const',
+                      const='condor',
+                      help='Run your jobs on the condor.')
   group_driver.set_defaults(driver='direct')
 
   parser.add_argument('--inputList',
@@ -389,6 +395,9 @@ if __name__ == "__main__":
       driver.options().setDouble(ROOT.EL.Job.optGridMergeOutput, 1);
       cookBooks_logger.info("\tsubmit job")
       driver.submitOnly(job, args.submit_dir)
+    elif (args.driver == "condor"):
+      driver = ROOT.EL.CondorDriver()
+      driver.submit(job, args.submit_dir)
 
     SCRIPT_END_TIME = datetime.datetime.now()
 
