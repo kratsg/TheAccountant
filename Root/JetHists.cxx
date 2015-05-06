@@ -25,8 +25,8 @@ EL::StatusCode TheAccountant::JetHists::initialize() {
 
   //substructure
     //subjettiness
-  m_tau21                     = book(m_name, "tau21", "#Tau_{21}", 100, 0, 1);
-  m_tau32                     = book(m_name, "tau32", "#Tau_{32}", 100, 0, 1);
+  m_tau21                     = book(m_name, "tau21", "#Tau_{21}", 120, 0, 1.2);
+  m_tau32                     = book(m_name, "tau32", "#Tau_{32}", 120, 0, 1.2);
     //subjet info
   m_subjet_multiplicity       = book(m_name, "subjets/multiplicity", "N_{subjet}", 21, -0.5, 20.5);
   m_subjet_ptFrac             = book(m_name, "subjets/ptFrac", "p_{T}^{subjet}/p_{T}^{jet}", 100, 0, 1);
@@ -70,6 +70,7 @@ EL::StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eve
   static SG::AuxElement::ConstAccessor<float> Tau1("Tau1");
   static SG::AuxElement::ConstAccessor<float> Tau2("Tau2");
   static SG::AuxElement::ConstAccessor<float> Tau3("Tau3");
+  static SG::AuxElement::ConstAccessor<float> Width("Width");
 
   m_massOverPt->Fill( jet->m()/jet->pt(), eventWeight );
 
@@ -107,9 +108,7 @@ EL::StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eve
   m_subjet_multiplicity->Fill( subjets.size(), eventWeight);
 
   m_constituents_multiplicity->Fill( jet->numConstituents(), eventWeight);
-  float widthSum(0.0);
-  for(auto constit: jet->getConstituents()) widthSum += constit->pt()*jet->p4().DeltaR(constit->rawConstituent()->p4());
-  m_constituents_width->Fill( (1./jet->pt()) * widthSum, eventWeight);
+  if(Width.isAvailable(*jet)) m_constituents_width->Fill( Width(*jet), eventWeight);
 
   return EL::StatusCode::SUCCESS;
 }
