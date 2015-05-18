@@ -116,6 +116,10 @@ audit options:
                            canvas in the output ROOT file. Please only enable
                            this if running locally. (default: False)
 
+optimization dump options:
+  --optimizationDump       Enable to dump optimization ttree of values to cut
+                             against (default: False)
+
 report options:
   --numLeadingJets         Number of leading+subleading plots to make.
                            (default: 0)
