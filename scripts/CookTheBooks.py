@@ -236,6 +236,12 @@ if __name__ == "__main__":
                            action='store_true',
                            help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
 
+  group_optimizationDump = parser.add_argument_group('optimization dump options')
+  group_optimizationDump.add_argument('--optimizationDump',
+                           dest='optimization_dump',
+                           action='store_true',
+                           help='Enable to dump optimization ttree of values to cut against')
+
   group_report = parser.add_argument_group('report options')
   group_report.add_argument('--numLeadingJets',
                             type=int,
@@ -349,6 +355,13 @@ if __name__ == "__main__":
       algorithmConfiguration_string.append(printStr)
       setattr(audit, 'm_{0}'.format(opt), getattr(args, opt))
 
+    optimization_dump = None
+    if args.optimization_dump:
+      cookBooks_logger.info("\tcreating optimization dump algorithm")
+      algorithmConfiguration_string.append("optimization dump algorithm")
+      optimization_dump = ROOT.OptimizationDump()
+      # no other options for now...
+
     cookBooks_logger.info("\tcreating report algorithm")
     algorithmConfiguration_string.append("report algorithm options")
     report = ROOT.Report()
@@ -360,7 +373,8 @@ if __name__ == "__main__":
 
     cookBooks_logger.info("\tsetting global algorithm variables")
     algorithmConfiguration_string.append("global algorithm options")
-    for alg in [preselect, audit, report]:
+    for alg in [preselect, audit, optimization_dump, report]:
+      if alg is None: continue  # skip optimization_dump if not defined
       for opt in ['debug', 'eventInfo', 'inputJets', 'inputBJets', 'inputMET', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons', 'decor_jetTags_b', 'decor_jetTags_top', 'decor_jetTags_w']:
         printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format(alg.ClassName(), opt, getattr(args, opt))
         cookBooks_logger.info("\t%s", printStr)
@@ -370,6 +384,8 @@ if __name__ == "__main__":
     cookBooks_logger.info("adding algorithms")
     job.algsAdd(preselect)
     job.algsAdd(audit)
+    if args.optimization_dump:
+      job.algsAdd(optimization_dump)
     job.algsAdd(report)
 
     # make the driver we want to use:
