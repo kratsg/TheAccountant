@@ -126,13 +126,13 @@ EL::StatusCode OptimizationDump :: execute ()
   m_numJets = in_jets->size();
   m_totalTransverseMomentum = 0;
   m_totalTransverseMass = 0;
-  for(auto jet: *in_jets){
+  for(int i = 0; i<4; i++){
+    const auto jet = in_jets->at(i);
     m_totalTransverseMomentum += jet->pt();
     m_totalTransverseMass += jet->m();
   }
-  // effective mass: sum of jet pt + met
+  // use the exclusive definition (4 leading jets)
   m_effectiveMass = m_totalTransverseMomentum + in_met->met();
-  // total transverse mass: sum of jet pt + sum of jet m
   m_totalTransverseMass += m_totalTransverseMomentum;
 
   // fill in all variables
