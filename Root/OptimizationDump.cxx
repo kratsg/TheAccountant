@@ -23,6 +23,8 @@
 #include "xAODAnaHelpers/HelperFunctions.h"
 #include "xAODAnaHelpers/tools/ReturnCheck.h"
 
+#include "TheAccountant/VariableDefinitions.h"
+
 // root includes
 #include <TFile.h>
 
@@ -30,6 +32,7 @@
 #include <set>
 
 namespace HF = HelperFunctions;
+namespace VD = VariableDefinitions;
 
 // this is needed to distribute the algorithm to the workers
 ClassImp(OptimizationDump)
@@ -122,18 +125,13 @@ EL::StatusCode OptimizationDump :: execute ()
   // compute variables for optimization
   m_eventWeight = 0.0;
   if(decor_eventWeight.isAvailable(*eventInfo)) m_eventWeight = decor_eventWeight(*eventInfo);
+
+  // compute optimization variables
+  m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons);
+  m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons);
+  m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons);
   m_numBJets = in_bjets->size();
   m_numJets = in_jets->size();
-  m_totalTransverseMomentum = 0;
-  m_totalTransverseMass = 0;
-  for(int i = 0; i<4; i++){
-    const auto jet = in_jets->at(i);
-    m_totalTransverseMomentum += jet->pt();
-    m_totalTransverseMass += jet->m();
-  }
-  // use the exclusive definition (4 leading jets)
-  m_effectiveMass = m_totalTransverseMomentum + in_met->met();
-  m_totalTransverseMass += m_totalTransverseMomentum;
 
   // fill in all variables
   m_tree->Fill();
