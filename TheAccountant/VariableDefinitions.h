@@ -19,6 +19,6 @@ namespace VariableDefinitions {
 
   // Transverse Mass calculated using MET and leading lepton
   float mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els);
-};
+}
 
 #endif
