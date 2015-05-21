@@ -1,10 +1,10 @@
 # TheAccountant - A RootCore Package
 
 ## Installing
-The last stable analysis base used is **2.1.30**. To install,
+The last stable analysis base used is **2.1.32**. To install,
 ```bash
 mkdir myRootCore && cd $_
-rcSetup Base,2.1.30
+rcSetup Base,2.1.32
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
 rc checkout_pkg atlasinst/Institutes/UChicago/xAODAnaHelpers/tags/xAODAnaHelpers-00-00-04
