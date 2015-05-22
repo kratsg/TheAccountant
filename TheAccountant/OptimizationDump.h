@@ -36,12 +36,18 @@ private:
   xAOD::TStore *m_store; //!
   TTree* m_tree; //!
 
+  // everything below here is filled in the ttree
   float m_eventWeight; //!
   float m_effectiveMass; //!
   float m_totalTransverseMomentum; //!
   float m_totalTransverseMass; //!
   int m_numBJets; //!
   int m_numJets; //!
+
+  /* tagging */
+  int m_topTag_Loose; //!
+  int m_topTag_Medium; //!
+  int m_topTag_Tight; //!
 
 public:
   // this is a standard constructor
