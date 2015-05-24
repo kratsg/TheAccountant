@@ -43,7 +43,10 @@ OptimizationDump :: OptimizationDump () :
   m_totalTransverseMomentum(-999.0),
   m_totalTransverseMass(-999.0),
   m_numBJets(-99),
-  m_numJets(-99)
+  m_numJets(-99),
+  m_topTag_Loose(0),
+  m_topTag_Medium(0),
+  m_topTag_Tight(0)
 {}
 
 EL::StatusCode OptimizationDump :: setupJob (EL::Job& job)
@@ -77,6 +80,10 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->Branch ("mt",   &m_totalTransverseMass, "mt/F");
   m_tree->Branch ("n_b",  &m_numBJets, "n_b/I");
   m_tree->Branch ("n_j",  &m_numJets, "n_j/I");
+
+  m_tree->Branch ("n_t_loose", &m_topTag_Loose, "n_t_loose/I");
+  m_tree->Branch ("n_t_medium", &m_topTag_Medium, "n_t_medium/I");
+  m_tree->Branch ("n_t_tight", &m_topTag_Tight, "n_t_tight/I");
 
   return EL::StatusCode::SUCCESS;
 }
@@ -132,6 +139,11 @@ EL::StatusCode OptimizationDump :: execute ()
   m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons);
   m_numBJets = in_bjets->size();
   m_numJets = in_jets->size();
+
+  // tagging variables
+  m_topTag_Loose  = VD::topTag(eventInfo, in_jets, VD::WP::Loose);
+  m_topTag_Medium = VD::topTag(eventInfo, in_jets, VD::WP::Medium);
+  m_topTag_Tight  = VD::topTag(eventInfo, in_jets, VD::WP::Tight);
 
   // fill in all variables
   m_tree->Fill();

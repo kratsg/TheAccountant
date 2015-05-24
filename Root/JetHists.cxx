@@ -6,6 +6,10 @@
 // subjet finding
 #include "JetSubStructureUtils/SubjetFinder.h"
 
+#include "TheAccountant/VariableDefinitions.h"
+
+namespace VD = VariableDefinitions;
+
 TheAccountant::JetHists::JetHists (std::string name) :
   HistogramManager(name, "")
 {
@@ -67,16 +71,13 @@ EL::StatusCode TheAccountant::JetHists::execute( const xAOD::JetContainer* jets,
 }
 
 EL::StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eventWeight ){
-  static SG::AuxElement::ConstAccessor<float> Tau1("Tau1");
-  static SG::AuxElement::ConstAccessor<float> Tau2("Tau2");
-  static SG::AuxElement::ConstAccessor<float> Tau3("Tau3");
   static SG::AuxElement::ConstAccessor<float> Width("Width");
 
   m_massOverPt->Fill( jet->m()/jet->pt(), eventWeight );
 
   // subjettiness
-  if(Tau1.isAvailable(*jet) && Tau2.isAvailable(*jet)) m_tau21->Fill( Tau2(*jet)/Tau1(*jet), eventWeight);
-  if(Tau2.isAvailable(*jet) && Tau3.isAvailable(*jet)) m_tau32->Fill( Tau3(*jet)/Tau2(*jet), eventWeight);
+  m_tau21->Fill( VD::Tau21(jet), eventWeight);
+  m_tau32->Fill( VD::Tau32(jet), eventWeight);
 
   // default to using the kt_algorithm and 0.2 radius
   fastjet::JetAlgorithm subjet_clustering(fastjet::kt_algorithm);
