@@ -50,20 +50,20 @@ EL::StatusCode Preselect :: initialize ()
 
 EL::StatusCode Preselect :: execute ()
 {
-  const xAOD::EventInfo*                eventInfo   (nullptr);
-  const xAOD::JetContainer*             in_jets     (nullptr);
-  const xAOD::JetContainer*             in_bjets    (nullptr);
-  const xAOD::MissingETContainer*       in_missinget(nullptr);
-  const xAOD::ElectronContainer*        in_electrons(nullptr);
-  const xAOD::MuonContainer*            in_muons    (nullptr);
-  const xAOD::TauJetContainer*          in_taus     (nullptr);
-  const xAOD::PhotonContainer*          in_photons  (nullptr);
+  const xAOD::EventInfo*                eventInfo     (nullptr);
+  const xAOD::JetContainer*             in_jetsLargeR (nullptr);
+  const xAOD::JetContainer*             in_jets       (nullptr);
+  const xAOD::MissingETContainer*       in_missinget  (nullptr);
+  const xAOD::ElectronContainer*        in_electrons  (nullptr);
+  const xAOD::MuonContainer*            in_muons      (nullptr);
+  const xAOD::TauJetContainer*          in_taus       (nullptr);
+  const xAOD::PhotonContainer*          in_photons    (nullptr);
   //const xAOD::TruthParticleContainer*   in_truth    (nullptr);
 
   // start grabbing all the containers that we can
   RETURN_CHECK("Preselect::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
-  RETURN_CHECK("Preselect::execute()", HF::retrieve(in_jets,      m_inputJets,        m_event, m_store, m_debug), "Could not get the inputJets container.");
-  RETURN_CHECK("Preselect::execute()", HF::retrieve(in_bjets,     m_inputBJets,       m_event, m_store, m_debug), "Could not get the inputBJets container.");
+  RETURN_CHECK("Preselect::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
+  RETURN_CHECK("Preselect::execute()", HF::retrieve(in_jets,     m_inputJets,       m_event, m_store, m_debug), "Could not get the inputJets container.");
   if(!m_inputMET.empty())
     RETURN_CHECK("Preselect::execute()", HF::retrieve(in_missinget, m_inputMET,         m_event, m_store, m_debug), "Could not get the inputMET container.");
   if(!m_inputElectrons.empty())
@@ -85,16 +85,35 @@ EL::StatusCode Preselect :: execute ()
   static SG::AuxElement::Decorator< int > pass_preSel("pass_preSel");
   pass_preSel(*eventInfo) = 0;
 
+  int num_passJetsLargeR = 0;
+  for(const auto jet: *in_jetsLargeR){
+    if(jet->pt()/1000.  < m_jetLargeR_minPt)  continue;
+    if(jet->pt()/1000.  > m_jetLargeR_maxPt)  continue;
+    if(jet->m()/1000.   < m_jetLargeR_minMass) continue;
+    if(jet->m()/1000.   > m_jetLargeR_maxMass) continue;
+    if(jet->eta()       < m_jetLargeR_minEta)  continue;
+    if(jet->eta()       > m_jetLargeR_maxEta)  continue;
+    if(jet->phi()       < m_jetLargeR_minPhi)  continue;
+    if(jet->phi()       > m_jetLargeR_maxPhi)  continue;
+    num_passJetsLargeR++;
+  }
+
+  // only select event if:
+  //    m_jet_minNum <= num_passJets <= m_jet_maxNum
+  if(num_passJetsLargeR < m_jetLargeR_minNum) return EL::StatusCode::SUCCESS;
+  if(num_passJetsLargeR > m_jetLargeR_maxNum) return EL::StatusCode::SUCCESS;
+
   int num_passJets = 0;
   for(const auto jet: *in_jets){
-    if(jet->pt()/1000.  < m_jet_minPt)  continue;
-    if(jet->pt()/1000.  > m_jet_maxPt)  continue;
-    if(jet->m()/1000.   < m_jet_minMass) continue;
-    if(jet->m()/1000.   > m_jet_maxMass) continue;
-    if(jet->eta()       < m_jet_minEta)  continue;
-    if(jet->eta()       > m_jet_maxEta)  continue;
-    if(jet->phi()       < m_jet_minPhi)  continue;
-    if(jet->phi()       > m_jet_maxPhi)  continue;
+    if(jet->pt()/1000. < m_jet_minPt)  continue;
+    if(jet->pt()/1000. > m_jet_maxPt)  continue;
+    if(jet->m()/1000.  < m_jet_minMass) continue;
+    if(jet->m()/1000.  > m_jet_maxMass) continue;
+    if(jet->eta()      < m_jet_minEta)  continue;
+    if(jet->eta()      > m_jet_maxEta)  continue;
+    if(jet->phi()      < m_jet_minPhi)  continue;
+    if(jet->phi()      > m_jet_maxPhi)  continue;
+    if(jet->btagging()->MV1_discriminant() < m_jet_MV1) continue;
     num_passJets++;
   }
 
@@ -102,25 +121,6 @@ EL::StatusCode Preselect :: execute ()
   //    m_jet_minNum <= num_passJets <= m_jet_maxNum
   if(num_passJets < m_jet_minNum) return EL::StatusCode::SUCCESS;
   if(num_passJets > m_jet_maxNum) return EL::StatusCode::SUCCESS;
-
-  int num_passBJets = 0;
-  for(const auto bjet: *in_bjets){
-    if(bjet->pt()/1000. < m_bjet_minPt)  continue;
-    if(bjet->pt()/1000. > m_bjet_maxPt)  continue;
-    if(bjet->m()/1000.  < m_bjet_minMass) continue;
-    if(bjet->m()/1000.  > m_bjet_maxMass) continue;
-    if(bjet->eta()      < m_bjet_minEta)  continue;
-    if(bjet->eta()      > m_bjet_maxEta)  continue;
-    if(bjet->phi()      < m_bjet_minPhi)  continue;
-    if(bjet->phi()      > m_bjet_maxPhi)  continue;
-    if(bjet->btagging()->MV1_discriminant() < m_bjet_MV1) continue;
-    num_passBJets++;
-  }
-
-  // only select event if:
-  //    m_bjet_minNum <= num_passBJets <= m_bjet_maxNum
-  if(num_passBJets < m_bjet_minNum) return EL::StatusCode::SUCCESS;
-  if(num_passBJets > m_bjet_maxNum) return EL::StatusCode::SUCCESS;
 
   pass_preSel(*eventInfo) = 1;
   return EL::StatusCode::SUCCESS;

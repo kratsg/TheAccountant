@@ -157,14 +157,14 @@ EL::StatusCode Audit :: initialize () {
 
 EL::StatusCode Audit :: execute ()
 {
-  const xAOD::EventInfo*                eventInfo   (nullptr);
-  const xAOD::JetContainer*             in_jets     (nullptr);
-  const xAOD::JetContainer*             in_bjets    (nullptr);
-  const xAOD::MissingETContainer*       in_missinget(nullptr);
-  const xAOD::ElectronContainer*        in_electrons(nullptr);
-  const xAOD::MuonContainer*            in_muons    (nullptr);
-  const xAOD::TauJetContainer*          in_taus     (nullptr);
-  const xAOD::PhotonContainer*          in_photons  (nullptr);
+  const xAOD::EventInfo*                eventInfo     (nullptr);
+  const xAOD::JetContainer*             in_jetsLargeR (nullptr);
+  const xAOD::JetContainer*             in_jets       (nullptr);
+  const xAOD::MissingETContainer*       in_missinget  (nullptr);
+  const xAOD::ElectronContainer*        in_electrons  (nullptr);
+  const xAOD::MuonContainer*            in_muons      (nullptr);
+  const xAOD::TauJetContainer*          in_taus       (nullptr);
+  const xAOD::PhotonContainer*          in_photons    (nullptr);
   //const xAOD::TruthParticleContainer*   in_truth    (nullptr);
 
   // start grabbing all the containers that we can
@@ -173,10 +173,10 @@ EL::StatusCode Audit :: execute ()
   static SG::AuxElement::Accessor< int > pass_preSel("pass_preSel");
   if(m_passPreSel && pass_preSel.isAvailable(*eventInfo) && pass_preSel(*eventInfo) == 0) return EL::StatusCode::SUCCESS;
 
+  if(!m_inputLargeRJets.empty())
+    RETURN_CHECK("Audit::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
   if(!m_inputJets.empty())
-    RETURN_CHECK("Audit::execute()", HF::retrieve(in_jets,      m_inputJets,        m_event, m_store, m_debug), "Could not get the inputJets container.");
-  if(!m_inputBJets.empty())
-    RETURN_CHECK("Audit::execute()", HF::retrieve(in_bjets,     m_inputBJets,       m_event, m_store, m_debug), "Could not get the inputBJets container.");
+    RETURN_CHECK("Audit::execute()", HF::retrieve(in_jets,     m_inputJets,       m_event, m_store, m_debug), "Could not get the inputJets container.");
   if(!m_inputMET.empty())
     RETURN_CHECK("Audit::execute()", HF::retrieve(in_missinget, m_inputMET,         m_event, m_store, m_debug), "Could not get the inputMET container.");
   if(!m_inputElectrons.empty())

@@ -20,8 +20,8 @@ public:
   // standard across all algorithms for configuration
   bool m_debug = false;
   std::string m_eventInfo       = "EventInfo",
-              m_inputJets       = "",
-              m_inputBJets      = "",
+              m_inputLargeRJets       = "",
+              m_inputJets      = "",
               m_inputMET        = "MET_RefFinal",
               m_inputElectrons  = "",
               m_inputMuons      = "",
@@ -41,8 +41,8 @@ private:
   float m_effectiveMass; //!
   float m_totalTransverseMomentum; //!
   float m_totalTransverseMass; //!
-  int m_numBJets; //!
   int m_numJets; //!
+  int m_numJetsLargeR; //!
 
   /* tagging */
   int m_topTag_Loose; //!

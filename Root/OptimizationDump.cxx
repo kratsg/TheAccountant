@@ -42,8 +42,8 @@ OptimizationDump :: OptimizationDump () :
   m_effectiveMass(-999.0),
   m_totalTransverseMomentum(-999.0),
   m_totalTransverseMass(-999.0),
-  m_numBJets(-99),
   m_numJets(-99),
+  m_numJetsLargeR(-99),
   m_topTag_Loose(0),
   m_topTag_Medium(0),
   m_topTag_Tight(0)
@@ -78,8 +78,8 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->Branch ("meff", &m_effectiveMass, "meff/F");
   m_tree->Branch ("ht",   &m_totalTransverseMomentum, "ht/F");
   m_tree->Branch ("mt",   &m_totalTransverseMass, "mt/F");
-  m_tree->Branch ("n_b",  &m_numBJets, "n_b/I");
   m_tree->Branch ("n_j",  &m_numJets, "n_j/I");
+  m_tree->Branch ("n_j_largeR",  &m_numJetsLargeR, "n_j_largeR/I");
 
   m_tree->Branch ("n_t_loose", &m_topTag_Loose, "n_t_loose/I");
   m_tree->Branch ("n_t_medium", &m_topTag_Medium, "n_t_medium/I");
@@ -90,14 +90,14 @@ EL::StatusCode OptimizationDump :: initialize () {
 
 EL::StatusCode OptimizationDump :: execute ()
 {
-  const xAOD::EventInfo*                eventInfo   (nullptr);
-  const xAOD::JetContainer*             in_jets     (nullptr);
-  const xAOD::JetContainer*             in_bjets    (nullptr);
-  const xAOD::MissingETContainer*       in_missinget(nullptr);
-  const xAOD::ElectronContainer*        in_electrons(nullptr);
-  const xAOD::MuonContainer*            in_muons    (nullptr);
-  const xAOD::TauJetContainer*          in_taus     (nullptr);
-  const xAOD::PhotonContainer*          in_photons  (nullptr);
+  const xAOD::EventInfo*                eventInfo     (nullptr);
+  const xAOD::JetContainer*             in_jetsLargeR (nullptr);
+  const xAOD::JetContainer*             in_jets       (nullptr);
+  const xAOD::MissingETContainer*       in_missinget  (nullptr);
+  const xAOD::ElectronContainer*        in_electrons  (nullptr);
+  const xAOD::MuonContainer*            in_muons      (nullptr);
+  const xAOD::TauJetContainer*          in_taus       (nullptr);
+  const xAOD::PhotonContainer*          in_photons    (nullptr);
 
   // start grabbing all the containers that we can
   RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
@@ -106,8 +106,8 @@ EL::StatusCode OptimizationDump :: execute ()
   static SG::AuxElement::Accessor< float > decor_eventWeight("eventWeight");
   if(pass_preSel.isAvailable(*eventInfo) && pass_preSel(*eventInfo) == 0) return EL::StatusCode::SUCCESS;
 
-  RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_jets,      m_inputJets,        m_event, m_store, m_debug), "Could not get the inputJets container.");
-  RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_bjets,     m_inputBJets,       m_event, m_store, m_debug), "Could not get the inputBJets container.");
+  RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
+  RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_jets,     m_inputJets,       m_event, m_store, m_debug), "Could not get the inputJets container.");
 
   if(!m_inputMET.empty())
     RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_missinget, m_inputMET,         m_event, m_store, m_debug), "Could not get the inputMET container.");
@@ -137,8 +137,8 @@ EL::StatusCode OptimizationDump :: execute ()
   m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons);
   m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons);
   m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons);
-  m_numBJets = in_bjets->size();
   m_numJets = in_jets->size();
+  m_numJetsLargeR = in_jetsLargeR->size();
 
   // tagging variables
   m_topTag_Loose  = VD::topTag(eventInfo, in_jets, VD::WP::Loose);

@@ -10,34 +10,34 @@
 class Preselect : public EL::Algorithm
 {
 public:
+  int m_jetLargeR_minNum      = 0,
+      m_jetLargeR_maxNum      = 100;
+  float m_jetLargeR_minPt     = 0.0,
+        m_jetLargeR_maxPt     = 1.e6,
+        m_jetLargeR_minMass   = 0.0,
+        m_jetLargeR_maxMass   = 1.e6,
+        m_jetLargeR_minEta    = -10.0,
+        m_jetLargeR_maxEta    = 10.0,
+        m_jetLargeR_minPhi    = -4.0,
+        m_jetLargeR_maxPhi    = 4.0;
+
   int m_jet_minNum      = 0,
       m_jet_maxNum      = 100;
-  float m_jet_minPt     = 0.0,
-        m_jet_maxPt     = 1.e6,
-        m_jet_minMass   = 0.0,
-        m_jet_maxMass   = 1.e6,
-        m_jet_minEta    = -10.0,
-        m_jet_maxEta    = 10.0,
-        m_jet_minPhi    = -4.0,
-        m_jet_maxPhi    = 4.0;
-
-  int m_bjet_minNum      = 0,
-      m_bjet_maxNum      = 100;
-  float m_bjet_minPt    = 0.0,
-        m_bjet_maxPt    = 1.e6,
-        m_bjet_minMass  = 0.0,
-        m_bjet_maxMass  = 1.e6,
-        m_bjet_minEta   = -10.0,
-        m_bjet_maxEta   = 10.0,
-        m_bjet_minPhi   = -4.0,
-        m_bjet_maxPhi   = 4.0,
-        m_bjet_MV1      = 0.0;
+  float m_jet_minPt    = 0.0,
+        m_jet_maxPt    = 1.e6,
+        m_jet_minMass  = 0.0,
+        m_jet_maxMass  = 1.e6,
+        m_jet_minEta   = -10.0,
+        m_jet_maxEta   = 10.0,
+        m_jet_minPhi   = -4.0,
+        m_jet_maxPhi   = 4.0,
+        m_jet_MV1      = 0.0;
 
   // standard across all algorithms for configuration
   bool m_debug = false;
   std::string m_eventInfo       = "EventInfo",
-              m_inputJets       = "",
-              m_inputBJets      = "",
+              m_inputLargeRJets       = "",
+              m_inputJets      = "",
               m_inputMET        = "MET_RefFinal",
               m_inputElectrons  = "",
               m_inputMuons      = "",

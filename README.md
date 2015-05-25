@@ -32,11 +32,11 @@ This algorithm sets up a decay tree with a pair of vis-invis particles in each h
 
 #### [Preselect.cxx](TheAccountant/Preselect.h)
 
-This algorithm applies a pre-selection to jets, bjets. Decorates `EventInfo` container with `SG::AuxElement::Decorator< int > pass_preSel("pass_preSel")`.
+This algorithm applies a pre-selection to large-R jets, bjets. Decorates `EventInfo` container with `SG::AuxElement::Decorator< int > pass_preSel("pass_preSel")`.
 
 #### [Report.cxx](TheAccountant/Report.h)
 
-This algorithm creates plots of jets, bjets, and MET. It has functionality to create a separate set of plots for those events that pass the pre-selection as well as all events.
+This algorithm creates plots of large-R jets, bjets, and MET. It has functionality to create a separate set of plots for those events that pass the pre-selection as well as all events.
 
 #### [CookTheBooks.py](scripts/CookTheBooks.py)
 ```
@@ -74,7 +74,7 @@ global algorithm options:
                            selection. For Report: enable additional plots for
                            events that pass pre-selection. (default: False)
   --eventInfo              EventInfo container name. (default: EventInfo)
-  --jets                   Jet container name. (default: AntiKt10LCTopoJets)
+  --jetsLargeR             Large-R jet container name. (default: AntiKt10LCTopoJets)
   --bJets                  B-Jet container name. (default: )
   --met                    Missing Et container name. (default: MET_RefFinal)
   --electrons              Electrons container name. (default: )

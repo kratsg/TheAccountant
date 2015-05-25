@@ -133,18 +133,18 @@ if __name__ == "__main__":
                                 type=str,
                                 help='EventInfo container name.',
                                 default='EventInfo')
+  group_algorithms.add_argument('--jetsLargeR',
+                                dest='inputLargeRJets',
+                                metavar='',
+                                type=str,
+                                help='Large-R jet container name.',
+                                default='AntiKt10LCTopoJets')
   group_algorithms.add_argument('--jets',
                                 dest='inputJets',
                                 metavar='',
                                 type=str,
-                                help='Jet container name.',
-                                default='AntiKt10LCTopoJets')
-  group_algorithms.add_argument('--bJets',
-                                dest='inputBJets',
-                                metavar='',
-                                type=str,
-                                help='B-Jet container name.',
-                                default='')
+                                help='small-R jet container name.',
+                                default='AntiKt4LCTopoJets')
   group_algorithms.add_argument('--met',
                                 dest='inputMET',
                                 metavar='',
@@ -195,28 +195,28 @@ if __name__ == "__main__":
                                 default='isW')
 
   group_preselect = parser.add_argument_group('preselect options (all selections are inclusive: x >= min, x =< max)')
-  group_preselect.add_argument('--jet_minNum',   type=int, metavar='', help='min num of jets passing cuts',  default=0)
-  group_preselect.add_argument('--jet_maxNum',   type=int, metavar='', help='max num of jets passing cuts',  default = 100)
-  group_preselect.add_argument('--jet_minPt',    type=float, metavar='', help='jet min pt [GeV]',   default = 0.0)
-  group_preselect.add_argument('--jet_maxPt',    type=float, metavar='', help='jet max pt [GeV]',   default = 1.e6)
-  group_preselect.add_argument('--jet_minMass',  type=float, metavar='', help='jet min mass [GeV]', default = 0.0)
-  group_preselect.add_argument('--jet_maxMass',  type=float, metavar='', help='jet max mass [GeV]', default = 1.e6)
-  group_preselect.add_argument('--jet_minEta',   type=float, metavar='', help='jet min eta',  default = -10.0)
-  group_preselect.add_argument('--jet_maxEta',   type=float, metavar='', help='jet max eta',  default = 10.0)
-  group_preselect.add_argument('--jet_minPhi',   type=float, metavar='', help='jet min phi',  default = -4.0)
-  group_preselect.add_argument('--jet_maxPhi',   type=float, metavar='', help='jet max phi',  default = 4.0)
+  group_preselect.add_argument('--jetLargeR_minNum',   type=int, metavar='', help='min num of large-R jets passing cuts',  default=0)
+  group_preselect.add_argument('--jetLargeR_maxNum',   type=int, metavar='', help='max num of large-R jets passing cuts',  default = 100)
+  group_preselect.add_argument('--jetLargeR_minPt',    type=float, metavar='', help='large-R jet min pt [GeV]',   default = 0.0)
+  group_preselect.add_argument('--jetLargeR_maxPt',    type=float, metavar='', help='large-R jet max pt [GeV]',   default = 1.e6)
+  group_preselect.add_argument('--jetLargeR_minMass',  type=float, metavar='', help='large-R jet min mass [GeV]', default = 0.0)
+  group_preselect.add_argument('--jetLargeR_maxMass',  type=float, metavar='', help='large-R jet max mass [GeV]', default = 1.e6)
+  group_preselect.add_argument('--jetLargeR_minEta',   type=float, metavar='', help='large-R jet min eta',  default = -10.0)
+  group_preselect.add_argument('--jetLargeR_maxEta',   type=float, metavar='', help='large-R jet max eta',  default = 10.0)
+  group_preselect.add_argument('--jetLargeR_minPhi',   type=float, metavar='', help='large-R jet min phi',  default = -4.0)
+  group_preselect.add_argument('--jetLargeR_maxPhi',   type=float, metavar='', help='large-R jet max phi',  default = 4.0)
 
-  group_preselect.add_argument('--bjet_minNum',  type=int, metavar='', help='min num of bjets passing cuts',  default = 0)
-  group_preselect.add_argument('--bjet_maxNum',  type=int, metavar='', help='max num of bjets passing cuts',  default = 100)
-  group_preselect.add_argument('--bjet_minPt',   type=float, metavar='', help='bjet min pt [GeV]',   default = 0.0)
-  group_preselect.add_argument('--bjet_maxPt',   type=float, metavar='', help='bjet max pt [GeV]',   default = 1.e6)
-  group_preselect.add_argument('--bjet_minMass', type=float, metavar='', help='bjet min mass [GeV]', default = 0.0)
-  group_preselect.add_argument('--bjet_maxMass', type=float, metavar='', help='bjet max mass [GeV]', default = 1.e6)
-  group_preselect.add_argument('--bjet_minEta',  type=float, metavar='', help='bjet min eta',  default = -10.0)
-  group_preselect.add_argument('--bjet_maxEta',  type=float, metavar='', help='bjet max eta',  default = 10.0)
-  group_preselect.add_argument('--bjet_minPhi',  type=float, metavar='', help='bjet min phi',  default = -4.0)
-  group_preselect.add_argument('--bjet_maxPhi',  type=float, metavar='', help='bjet max phi',  default = 4.0)
-  group_preselect.add_argument('--bjet_MV1',     type=float, metavar='', help='bjet min MV1',  default = 0.0)
+  group_preselect.add_argument('--jet_minNum',  type=int, metavar='', help='min num of small-R jets passing cuts',  default = 0)
+  group_preselect.add_argument('--jet_maxNum',  type=int, metavar='', help='max num of small-R jets passing cuts',  default = 100)
+  group_preselect.add_argument('--jet_minPt',   type=float, metavar='', help='small-R jet min pt [GeV]',   default = 0.0)
+  group_preselect.add_argument('--jet_maxPt',   type=float, metavar='', help='small-R jet max pt [GeV]',   default = 1.e6)
+  group_preselect.add_argument('--jet_minMass', type=float, metavar='', help='small-R jet min mass [GeV]', default = 0.0)
+  group_preselect.add_argument('--jet_maxMass', type=float, metavar='', help='small-R jet max mass [GeV]', default = 1.e6)
+  group_preselect.add_argument('--jet_minEta',  type=float, metavar='', help='small-R jet min eta',  default = -10.0)
+  group_preselect.add_argument('--jet_maxEta',  type=float, metavar='', help='small-R jet max eta',  default = 10.0)
+  group_preselect.add_argument('--jet_minPhi',  type=float, metavar='', help='small-R jet min phi',  default = -4.0)
+  group_preselect.add_argument('--jet_maxPhi',  type=float, metavar='', help='small-R jet max phi',  default = 4.0)
+  group_preselect.add_argument('--jet_MV1',     type=float, metavar='', help='small-R jet min MV1',  default = 0.0)
 
   group_audit = parser.add_argument_group('audit options')
   group_audit.add_argument('--no-minMassJigsaw',
@@ -331,11 +331,11 @@ if __name__ == "__main__":
     cookBooks_logger.info("\tcreating preselect algorithm")
     algorithmConfiguration_string.append("preselect algorithm options")
     preselect = ROOT.Preselect()
-    for opt in ['jet_minNum', 'jet_maxNum', 'jet_minPt', 'jet_maxPt', 'jet_minMass',
-                'jet_maxMass', 'jet_minEta', 'jet_maxEta', 'jet_minPhi',
-                'jet_maxPhi', 'bjet_minNum', 'bjet_maxNum', 'bjet_minPt',
-                'bjet_maxPt', 'bjet_minMass', 'bjet_maxMass', 'bjet_minEta',
-                'bjet_maxEta', 'bjet_minPhi', 'bjet_maxPhi', 'bjet_MV1']:
+    for opt in ['jetLargeR_minNum', 'jetLargeR_maxNum', 'jetLargeR_minPt', 'jetLargeR_maxPt', 'jetLargeR_minMass',
+                'jetLargeR_maxMass', 'jetLargeR_minEta', 'jetLargeR_maxEta', 'jetLargeR_minPhi',
+                'jetLargeR_maxPhi', 'jet_minNum', 'jet_maxNum', 'jet_minPt',
+                'jet_maxPt', 'jet_minMass', 'jet_maxMass', 'jet_minEta',
+                'jet_maxEta', 'jet_minPhi', 'jet_maxPhi', 'jet_MV1']:
       printStr = "\tsetting {0: >10}.m_{1:<30} = {2}".format('Preselect', opt, getattr(args, opt))
       cookBooks_logger.info("\t%s", printStr)
       algorithmConfiguration_string.append(printStr)
@@ -375,7 +375,7 @@ if __name__ == "__main__":
     algorithmConfiguration_string.append("global algorithm options")
     for alg in [preselect, audit, optimization_dump, report]:
       if alg is None: continue  # skip optimization_dump if not defined
-      for opt in ['debug', 'eventInfo', 'inputJets', 'inputBJets', 'inputMET', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons', 'decor_jetTags_b', 'decor_jetTags_top', 'decor_jetTags_w']:
+      for opt in ['debug', 'eventInfo', 'inputLargeRJets', 'inputJets', 'inputMET', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons', 'decor_jetTags_b', 'decor_jetTags_top', 'decor_jetTags_w']:
         printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format(alg.ClassName(), opt, getattr(args, opt))
         cookBooks_logger.info("\t%s", printStr)
         algorithmConfiguration_string.append(printStr)

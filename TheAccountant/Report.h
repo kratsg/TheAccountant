@@ -23,8 +23,8 @@ public:
   // standard across all algorithms for configuration
   bool m_debug = false;
   std::string m_eventInfo       = "EventInfo",
-              m_inputJets       = "",
-              m_inputBJets      = "",
+              m_inputLargeRJets       = "",
+              m_inputJets      = "",
               m_inputMET        = "MET_RefFinal",
               m_inputElectrons  = "",
               m_inputMuons      = "",
