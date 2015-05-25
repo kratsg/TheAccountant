@@ -45,9 +45,9 @@ private:
   int m_numJetsLargeR; //!
 
   /* tagging */
-  int m_topTag_Loose; //!
-  int m_topTag_Medium; //!
-  int m_topTag_Tight; //!
+  int m_n_topTag_Loose; //!
+  int m_n_topTag_Medium; //!
+  int m_n_topTag_Tight; //!
 
 public:
   // this is a standard constructor

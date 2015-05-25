@@ -44,9 +44,9 @@ OptimizationDump :: OptimizationDump () :
   m_totalTransverseMass(-999.0),
   m_numJets(-99),
   m_numJetsLargeR(-99),
-  m_topTag_Loose(0),
-  m_topTag_Medium(0),
-  m_topTag_Tight(0)
+  m_n_topTag_Loose(0),
+  m_n_topTag_Medium(0),
+  m_n_topTag_Tight(0)
 {}
 
 EL::StatusCode OptimizationDump :: setupJob (EL::Job& job)
@@ -81,9 +81,9 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->Branch ("n_j",  &m_numJets, "n_j/I");
   m_tree->Branch ("n_j_largeR",  &m_numJetsLargeR, "n_j_largeR/I");
 
-  m_tree->Branch ("n_t_loose", &m_topTag_Loose, "n_t_loose/I");
-  m_tree->Branch ("n_t_medium", &m_topTag_Medium, "n_t_medium/I");
-  m_tree->Branch ("n_t_tight", &m_topTag_Tight, "n_t_tight/I");
+  m_tree->Branch ("n_t_loose", &m_n_topTag_Loose, "n_t_loose/I");
+  m_tree->Branch ("n_t_medium", &m_n_topTag_Medium, "n_t_medium/I");
+  m_tree->Branch ("n_t_tight", &m_n_topTag_Tight, "n_t_tight/I");
 
   return EL::StatusCode::SUCCESS;
 }
@@ -141,9 +141,9 @@ EL::StatusCode OptimizationDump :: execute ()
   m_numJetsLargeR = in_jetsLargeR->size();
 
   // tagging variables
-  m_topTag_Loose  = VD::topTag(eventInfo, in_jets, VD::WP::Loose);
-  m_topTag_Medium = VD::topTag(eventInfo, in_jets, VD::WP::Medium);
-  m_topTag_Tight  = VD::topTag(eventInfo, in_jets, VD::WP::Tight);
+  m_n_topTag_Loose  = VD::topTag(eventInfo, in_jets, VD::WP::Loose);
+  m_n_topTag_Medium = VD::topTag(eventInfo, in_jets, VD::WP::Medium);
+  m_n_topTag_Tight  = VD::topTag(eventInfo, in_jets, VD::WP::Tight);
 
   // fill in all variables
   m_tree->Fill();
