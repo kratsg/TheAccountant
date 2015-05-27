@@ -61,6 +61,7 @@ job runner options:
   --direct                 Run your jobs locally. (default: direct)
   --prooflite              Run your jobs using ProofLite (default: direct)
   --grid                   Run your jobs on the grid. (default: direct)
+  --condor                 Run your jobs on the condor. (default: direct)
   --inputList              If enabled, will read in a text file containing a
                            list of files. (default: False)
   --inputDQ2               If enabled, will search using DQ2. Can be combined
@@ -75,8 +76,10 @@ global algorithm options:
                            selection. For Report: enable additional plots for
                            events that pass pre-selection. (default: False)
   --eventInfo              EventInfo container name. (default: EventInfo)
-  --jetsLargeR             Large-R jet container name. (default: AntiKt10LCTopoJets)
-  --bJets                  B-Jet container name. (default: )
+  --jetsLargeR             Large-R jet container name. (default:
+                           AntiKt10LCTopoJets)
+  --jets                   small-R jet container name. (default:
+                           AntiKt4LCTopoJets)
   --met                    Missing Et container name. (default: MET_RefFinal)
   --electrons              Electrons container name. (default: )
   --muons                  Muons container name. (default: )
@@ -87,27 +90,30 @@ global algorithm options:
   --decorJetTagsW          Decoration name for w-tags. (default: isW)
 
 preselect options (all selections are inclusive: x >= min, x =< max):
-  --jet_minNum             min num of jets passing cuts (default: 0)
-  --jet_maxNum             max num of jets passing cuts (default: 100)
-  --jet_minPt              jet min pt [GeV] (default: 0.0)
-  --jet_maxPt              jet max pt [GeV] (default: 1000000.0)
-  --jet_minMass            jet min mass [GeV] (default: 0.0)
-  --jet_maxMass            jet max mass [GeV] (default: 1000000.0)
-  --jet_minEta             jet min eta (default: -10.0)
-  --jet_maxEta             jet max eta (default: 10.0)
-  --jet_minPhi             jet min phi (default: -4.0)
-  --jet_maxPhi             jet max phi (default: 4.0)
-  --bjet_minNum            min num of bjets passing cuts (default: 0)
-  --bjet_maxNum            max num of bjets passing cuts (default: 100)
-  --bjet_minPt             bjet min pt [GeV] (default: 0.0)
-  --bjet_maxPt             bjet max pt [GeV] (default: 1000000.0)
-  --bjet_minMass           bjet min mass [GeV] (default: 0.0)
-  --bjet_maxMass           bjet max mass [GeV] (default: 1000000.0)
-  --bjet_minEta            bjet min eta (default: -10.0)
-  --bjet_maxEta            bjet max eta (default: 10.0)
-  --bjet_minPhi            bjet min phi (default: -4.0)
-  --bjet_maxPhi            bjet max phi (default: 4.0)
-  --bjet_MV1               bjet min MV1 (default: 0.0)
+  --jetLargeR_minNum       min num of large-R jets passing cuts (default: 0)
+  --jetLargeR_maxNum       max num of large-R jets passing cuts (default: 100)
+  --jetLargeR_minPt        large-R jet min pt [GeV] (default: 0.0)
+  --jetLargeR_maxPt        large-R jet max pt [GeV] (default: 1000000.0)
+  --jetLargeR_minMass      large-R jet min mass [GeV] (default: 0.0)
+  --jetLargeR_maxMass      large-R jet max mass [GeV] (default: 1000000.0)
+  --jetLargeR_minEta       large-R jet min eta (default: -10.0)
+  --jetLargeR_maxEta       large-R jet max eta (default: 10.0)
+  --jetLargeR_minPhi       large-R jet min phi (default: -4.0)
+  --jetLargeR_maxPhi       large-R jet max phi (default: 4.0)
+  --jet_minNum             min num of small-R jets passing cuts (default: 0)
+  --jet_maxNum             max num of small-R jets passing cuts (default: 100)
+  --bjet_minNum            min num of small-R bjets passing cuts (default: 0)
+  --bjet_maxNum            max num of small-R bjets passing cuts (default:
+                           100)
+  --jet_minPt              small-R jet min pt [GeV] (default: 0.0)
+  --jet_maxPt              small-R jet max pt [GeV] (default: 1000000.0)
+  --jet_minMass            small-R jet min mass [GeV] (default: 0.0)
+  --jet_maxMass            small-R jet max mass [GeV] (default: 1000000.0)
+  --jet_minEta             small-R jet min eta (default: -10.0)
+  --jet_maxEta             small-R jet max eta (default: 10.0)
+  --jet_minPhi             small-R jet min phi (default: -4.0)
+  --jet_maxPhi             small-R jet max phi (default: 4.0)
+  --jet_MV1                small-R jet min MV1 (default: 0.0)
 
 audit options:
   --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)
@@ -119,7 +125,7 @@ audit options:
 
 optimization dump options:
   --optimizationDump       Enable to dump optimization ttree of values to cut
-                             against (default: False)
+                           against (default: False)
 
 report options:
   --numLeadingJets         Number of leading+subleading plots to make.

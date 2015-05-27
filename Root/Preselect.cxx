@@ -103,7 +103,10 @@ EL::StatusCode Preselect :: execute ()
   if(num_passJetsLargeR < m_jetLargeR_minNum) return EL::StatusCode::SUCCESS;
   if(num_passJetsLargeR > m_jetLargeR_maxNum) return EL::StatusCode::SUCCESS;
 
+  // for small-R jets, count number of jets that pass standard cuts
   int num_passJets = 0;
+  //    but also count how many of those that pass the cuts are also b-tagged
+  int num_passBJets = 0;
   for(const auto jet: *in_jets){
     if(jet->pt()/1000. < m_jet_minPt)  continue;
     if(jet->pt()/1000. > m_jet_maxPt)  continue;
@@ -113,14 +116,19 @@ EL::StatusCode Preselect :: execute ()
     if(jet->eta()      > m_jet_maxEta)  continue;
     if(jet->phi()      < m_jet_minPhi)  continue;
     if(jet->phi()      > m_jet_maxPhi)  continue;
-    if(jet->btagging()->MV1_discriminant() < m_jet_MV1) continue;
     num_passJets++;
+    if(jet->btagging()->MV1_discriminant() < m_jet_MV1) continue;
+    num_passBJets++;
   }
 
   // only select event if:
   //    m_jet_minNum <= num_passJets <= m_jet_maxNum
   if(num_passJets < m_jet_minNum) return EL::StatusCode::SUCCESS;
   if(num_passJets > m_jet_maxNum) return EL::StatusCode::SUCCESS;
+  // and if:
+  //    m_bjet_minNum <= num_passBJets <= m_bjet_maxNum
+  if(num_passBJets < m_bjet_minNum) return EL::StatusCode::SUCCESS;
+  if(num_passBJets > m_bjet_maxNum) return EL::StatusCode::SUCCESS;
 
   pass_preSel(*eventInfo) = 1;
   return EL::StatusCode::SUCCESS;

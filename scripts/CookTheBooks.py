@@ -208,6 +208,8 @@ if __name__ == "__main__":
 
   group_preselect.add_argument('--jet_minNum',  type=int, metavar='', help='min num of small-R jets passing cuts',  default = 0)
   group_preselect.add_argument('--jet_maxNum',  type=int, metavar='', help='max num of small-R jets passing cuts',  default = 100)
+  group_preselect.add_argument('--bjet_minNum',  type=int, metavar='', help='min num of small-R bjets passing cuts',  default = 0)
+  group_preselect.add_argument('--bjet_maxNum',  type=int, metavar='', help='max num of small-R bjets passing cuts',  default = 100)
   group_preselect.add_argument('--jet_minPt',   type=float, metavar='', help='small-R jet min pt [GeV]',   default = 0.0)
   group_preselect.add_argument('--jet_maxPt',   type=float, metavar='', help='small-R jet max pt [GeV]',   default = 1.e6)
   group_preselect.add_argument('--jet_minMass', type=float, metavar='', help='small-R jet min mass [GeV]', default = 0.0)
@@ -333,8 +335,8 @@ if __name__ == "__main__":
     preselect = ROOT.Preselect()
     for opt in ['jetLargeR_minNum', 'jetLargeR_maxNum', 'jetLargeR_minPt', 'jetLargeR_maxPt', 'jetLargeR_minMass',
                 'jetLargeR_maxMass', 'jetLargeR_minEta', 'jetLargeR_maxEta', 'jetLargeR_minPhi',
-                'jetLargeR_maxPhi', 'jet_minNum', 'jet_maxNum', 'jet_minPt',
-                'jet_maxPt', 'jet_minMass', 'jet_maxMass', 'jet_minEta',
+                'jetLargeR_maxPhi', 'jet_minNum', 'jet_maxNum', 'bjet_minNum', 'bjet_maxNum',
+                'jet_minPt', 'jet_maxPt', 'jet_minMass', 'jet_maxMass', 'jet_minEta',
                 'jet_maxEta', 'jet_minPhi', 'jet_maxPhi', 'jet_MV1']:
       printStr = "\tsetting {0: >10}.m_{1:<30} = {2}".format('Preselect', opt, getattr(args, opt))
       cookBooks_logger.info("\t%s", printStr)

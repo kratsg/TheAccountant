@@ -22,7 +22,9 @@ public:
         m_jetLargeR_maxPhi    = 4.0;
 
   int m_jet_minNum      = 0,
-      m_jet_maxNum      = 100;
+      m_jet_maxNum      = 100,
+      m_bjet_minNum     = 0,
+      m_bjet_maxNum     = 100;
   float m_jet_minPt    = 0.0,
         m_jet_maxPt    = 1.e6,
         m_jet_minMass  = 0.0,
