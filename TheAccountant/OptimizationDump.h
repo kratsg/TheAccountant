@@ -7,6 +7,9 @@
 #include "xAODRootAccess/TEvent.h"
 #include "xAODRootAccess/TStore.h"
 
+// reclustering
+#include <xAODJetReclustering/JetReclusteringTool.h>
+
 // root includes
 #include <TTree.h>
 
@@ -48,6 +51,8 @@ private:
   int m_n_topTag_Loose; //!
   int m_n_topTag_Medium; //!
   int m_n_topTag_Tight; //!
+
+  JetReclusteringTool* m_jetReclusteringTool; //!
 
 public:
   // this is a standard constructor

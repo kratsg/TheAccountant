@@ -46,7 +46,8 @@ OptimizationDump :: OptimizationDump () :
   m_numJetsLargeR(-99),
   m_n_topTag_Loose(0),
   m_n_topTag_Medium(0),
-  m_n_topTag_Tight(0)
+  m_n_topTag_Tight(0),
+  m_jetReclusteringTool(nullptr)
 {}
 
 EL::StatusCode OptimizationDump :: setupJob (EL::Job& job)
@@ -84,6 +85,12 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->Branch ("n_t_loose", &m_n_topTag_Loose, "n_t_loose/I");
   m_tree->Branch ("n_t_medium", &m_n_topTag_Medium, "n_t_medium/I");
   m_tree->Branch ("n_t_tight", &m_n_topTag_Tight, "n_t_tight/I");
+
+  m_jetReclusteringTool = new JetReclusteringTool("RC10Jets");
+  RETURN_CHECK("initialize()", m_jetReclusteringTool->setProperty("InputJetContainer",  m_inputJets), "");
+  RETURN_CHECK("initialize()", m_jetReclusteringTool->setProperty("OutputJetContainer", "RC10Jets"), "");
+  RETURN_CHECK("initialize()", m_jetReclusteringTool->setProperty("ReclusterRadius",    1.0), "");
+  RETURN_CHECK("initialize()", m_jetReclusteringTool->initialize(), "");
 
   return EL::StatusCode::SUCCESS;
 }
@@ -129,6 +136,9 @@ EL::StatusCode OptimizationDump :: execute ()
   // dereference the iterator since it's just a single object
   const xAOD::MissingET* in_met = *met_final;
 
+  // build the reclustered, trimmed jets
+  m_jetReclusteringTool->execute();
+
   // compute variables for optimization
   m_eventWeight = 0.0;
   if(decor_eventWeight.isAvailable(*eventInfo)) m_eventWeight = decor_eventWeight(*eventInfo);
@@ -152,5 +162,10 @@ EL::StatusCode OptimizationDump :: execute ()
 }
 
 EL::StatusCode OptimizationDump :: postExecute () { return EL::StatusCode::SUCCESS; }
-EL::StatusCode OptimizationDump :: finalize () { return EL::StatusCode::SUCCESS; }
+
+EL::StatusCode OptimizationDump :: finalize () {
+  if(m_jetReclusteringTool) delete m_jetReclusteringTool;
+  return EL::StatusCode::SUCCESS;
+}
+
 EL::StatusCode OptimizationDump :: histFinalize () { return EL::StatusCode::SUCCESS; }
