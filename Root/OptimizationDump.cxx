@@ -30,6 +30,7 @@
 
 // c++ includes
 #include <set>
+#include <stdlib.h>
 
 namespace HF = HelperFunctions;
 namespace VD = VariableDefinitions;
@@ -47,7 +48,12 @@ OptimizationDump :: OptimizationDump () :
   m_n_topTag_Loose(0),
   m_n_topTag_Medium(0),
   m_n_topTag_Tight(0),
-  m_jetReclusteringTools(3, nullptr)
+  m_jetReclusteringTools(3, nullptr),
+  m_rc_pt(4, -99),
+  m_rc_m(4, -99),
+  m_rc_split12(4, -99),
+  m_rc_split23(4, -99),
+  m_rc_nsj(4, -99)
 {}
 
 EL::StatusCode OptimizationDump :: setupJob (EL::Job& job)
@@ -86,11 +92,34 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->Branch ("n_t_medium", &m_n_topTag_Medium, "n_t_medium/I");
   m_tree->Branch ("n_t_tight", &m_n_topTag_Tight, "n_t_tight/I");
 
+  // initialize branches for reclustered jets
+  for(int r=8; r<14; r+=2){
+    std::string begin = "rc_"+std::to_string(r)+"_";
+    for(int i=0; i<4; i++){
+      std::string branchName;
+
+      branchName = begin+"pt_"+std::to_string(i);
+      m_tree->Branch(branchName.c_str(), &(m_rc_pt[i]), (branchName+"/F").c_str());
+
+      branchName = begin+"m_"+std::to_string(i);
+      m_tree->Branch(branchName.c_str(), &(m_rc_m[i]), (branchName+"/F").c_str());
+
+      branchName = begin+"split12_"+std::to_string(i);
+      m_tree->Branch(branchName.c_str(), &(m_rc_split12[i]), (branchName+"/F").c_str());
+
+      branchName = begin+"split23_"+std::to_string(i);
+      m_tree->Branch(branchName.c_str(), &(m_rc_split23[i]), (branchName+"/F").c_str());
+
+      branchName = begin+"nsj_"+std::to_string(i);
+      m_tree->Branch(branchName.c_str(), &(m_rc_nsj[i]), (branchName+"/I").c_str());
+    }
+  }
+
   for(int i=0; i<3; i++){
     char outputContainer[8];
     float radius = 0.8 + (0.2*i); // 0.8, 1.0, 1.2
-    sprintf(outputContainer, "RC%2.0fJets", radius*10);
-    m_jetReclusteringTools[i] = new JetReclusteringTool(outputContainer);
+    sprintf(outputContainer, "RC%02.0fJets", radius*10);
+    m_jetReclusteringTools[i] = new JetReclusteringTool(outputContainer+std::to_string(std::rand()));
     RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("InputJetContainer",  m_inputJets), "");
     RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("OutputJetContainer", outputContainer), "");
     RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("ReclusterRadius",    radius), "");
@@ -157,9 +186,9 @@ EL::StatusCode OptimizationDump :: execute ()
   m_numJetsLargeR = in_jetsLargeR->size();
 
   // tagging variables
-  m_n_topTag_Loose  = VD::topTag(eventInfo, in_jets, VD::WP::Loose);
-  m_n_topTag_Medium = VD::topTag(eventInfo, in_jets, VD::WP::Medium);
-  m_n_topTag_Tight  = VD::topTag(eventInfo, in_jets, VD::WP::Tight);
+  m_n_topTag_Loose  = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Loose);
+  m_n_topTag_Medium = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Medium);
+  m_n_topTag_Tight  = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Tight);
 
   // fill in all variables
   m_tree->Fill();

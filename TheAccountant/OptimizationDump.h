@@ -55,6 +55,13 @@ private:
   // three sets of reclustered jets for various radii
   std::vector<JetReclusteringTool*> m_jetReclusteringTools; //!
 
+  /* reclustered jet details */
+  std::vector<float> m_rc_pt; //!
+  std::vector<float> m_rc_m; //!
+  std::vector<float> m_rc_split12; //!
+  std::vector<float> m_rc_split23; //!
+  std::vector<int> m_rc_nsj; //!
+
 public:
   // this is a standard constructor
   OptimizationDump ();
