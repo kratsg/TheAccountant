@@ -52,7 +52,8 @@ private:
   int m_n_topTag_Medium; //!
   int m_n_topTag_Tight; //!
 
-  JetReclusteringTool* m_jetReclusteringTool; //!
+  // three sets of reclustered jets for various radii
+  std::vector<JetReclusteringTool*> m_jetReclusteringTools; //!
 
 public:
   // this is a standard constructor

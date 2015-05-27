@@ -47,7 +47,7 @@ OptimizationDump :: OptimizationDump () :
   m_n_topTag_Loose(0),
   m_n_topTag_Medium(0),
   m_n_topTag_Tight(0),
-  m_jetReclusteringTool(nullptr)
+  m_jetReclusteringTools(3, nullptr)
 {}
 
 EL::StatusCode OptimizationDump :: setupJob (EL::Job& job)
@@ -86,11 +86,16 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->Branch ("n_t_medium", &m_n_topTag_Medium, "n_t_medium/I");
   m_tree->Branch ("n_t_tight", &m_n_topTag_Tight, "n_t_tight/I");
 
-  m_jetReclusteringTool = new JetReclusteringTool("RC10Jets");
-  RETURN_CHECK("initialize()", m_jetReclusteringTool->setProperty("InputJetContainer",  m_inputJets), "");
-  RETURN_CHECK("initialize()", m_jetReclusteringTool->setProperty("OutputJetContainer", "RC10Jets"), "");
-  RETURN_CHECK("initialize()", m_jetReclusteringTool->setProperty("ReclusterRadius",    1.0), "");
-  RETURN_CHECK("initialize()", m_jetReclusteringTool->initialize(), "");
+  for(int i=0; i<3; i++){
+    char outputContainer[8];
+    float radius = 0.8 + (0.2*i); // 0.8, 1.0, 1.2
+    sprintf(outputContainer, "RC%2.0fJets", radius*10);
+    m_jetReclusteringTools[i] = new JetReclusteringTool(outputContainer);
+    RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("InputJetContainer",  m_inputJets), "");
+    RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("OutputJetContainer", outputContainer), "");
+    RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("ReclusterRadius",    radius), "");
+    RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->initialize(), "");
+  }
 
   return EL::StatusCode::SUCCESS;
 }
@@ -137,7 +142,8 @@ EL::StatusCode OptimizationDump :: execute ()
   const xAOD::MissingET* in_met = *met_final;
 
   // build the reclustered, trimmed jets
-  m_jetReclusteringTool->execute();
+  for(auto tool: m_jetReclusteringTools)
+    tool->execute();
 
   // compute variables for optimization
   m_eventWeight = 0.0;
@@ -164,7 +170,8 @@ EL::StatusCode OptimizationDump :: execute ()
 EL::StatusCode OptimizationDump :: postExecute () { return EL::StatusCode::SUCCESS; }
 
 EL::StatusCode OptimizationDump :: finalize () {
-  if(m_jetReclusteringTool) delete m_jetReclusteringTool;
+  for(auto tool: m_jetReclusteringTools)
+    if(tool) delete tool;
   return EL::StatusCode::SUCCESS;
 }
 
