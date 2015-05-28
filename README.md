@@ -5,14 +5,14 @@
 - [TheAccountant - A RootCore Package](#theaccountant---a-rootcore-package)
   - [Installing](#installing)
   - [Dependencies](#dependencies)
-    - [Functionality Included](#functionality-included)
+  - [Functionality Included](#functionality-included)
       - [[Audit.cxx](TheAccountant/Audit.h)](#auditcxxtheaccountantaudith)
       - [[Preselect.cxx](TheAccountant/Preselect.h)](#preselectcxxtheaccountantpreselecth)
       - [[Report.cxx](TheAccountant/Report.h)](#reportcxxtheaccountantreporth)
       - [[CookTheBooks.py](scripts/CookTheBooks.py)](#cookthebookspyscriptscookthebookspy)
-    - [Tested Against AnalysisBase versions:](#tested-against-analysisbase-versions)
-      - [Authors](#authors)
-        - [Acknowledgements](#acknowledgements)
+  - [Tested Against AnalysisBase versions:](#tested-against-analysisbase-versions)
+  - [Authors](#authors)
+    - [Acknowledgements](#acknowledgements)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -38,7 +38,7 @@ rc compile
  - uses [Chris Rogan](https://github.com/crogan)'s bad-ass [RestFrames](https://github.com/crogan/RestFrames) package
  - uses [Miles Wu](https://github.com/mileswu)'s awesome [JetSubStructureTools](https://github.com/mileswu/JetSubstructureTools) package
 
-### Functionality Included
+## Functionality Included
 
 <img src="https://github.com/kratsg/TheAccountant/raw/master/img/decayTree.png?raw=true" alt="Decay Tree" width="225" />
 <img src="https://github.com/kratsg/TheAccountant/raw/master/img/visTree.png?raw=true" alt="Visible Tree" width="225" />
@@ -149,13 +149,13 @@ report options:
                            (default: 0)
 ```
 
-### Tested Against AnalysisBase versions:
+## Tested Against AnalysisBase versions:
  - 2.1.30
 
-#### Authors
+## Authors
 - [Giordon Stark](https://github.com/kratsg)
 
-##### Acknowledgements
+### Acknowledgements
 - [Lawrence Lee](https://github.com/lawrenceleejr)
 - [David Miller](https://github.com/fizisist)
 - [Chris Rogan](https://github.com/crogan)
