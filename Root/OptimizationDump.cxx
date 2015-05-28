@@ -81,36 +81,36 @@ EL::StatusCode OptimizationDump :: initialize () {
   TFile *file = wk()->getOutputFile ("optimizationTree");
   m_tree->SetDirectory (file);
 
-  m_tree->Branch( "w",    &m_eventWeight, "w/F");
-  m_tree->Branch ("meff", &m_effectiveMass, "meff/F");
-  m_tree->Branch ("ht",   &m_totalTransverseMomentum, "ht/F");
-  m_tree->Branch ("mt",   &m_totalTransverseMass, "mt/F");
-  m_tree->Branch ("n_j",  &m_numJets, "n_j/I");
-  m_tree->Branch ("n_j_largeR",  &m_numJetsLargeR, "n_j_largeR/I");
+  m_tree->Branch ("event.weight",    &m_eventWeight, "event.weight/F");
+  m_tree->Branch ("m.effective", &m_effectiveMass, "m.effective/F");
+  m_tree->Branch ("pt.total",   &m_totalTransverseMomentum, "pt.total/F");
+  m_tree->Branch ("m.transverse",   &m_totalTransverseMass, "m.transverse/F");
+  m_tree->Branch ("multiplicity.jet",  &m_numJets, "multiplicity.jet/I");
+  m_tree->Branch ("multiplicity.jet.largeR",  &m_numJetsLargeR, "multiplicity.jet.largeR/I");
 
-  m_tree->Branch ("n_t_loose", &m_n_topTag_Loose, "n_t_loose/I");
-  m_tree->Branch ("n_t_medium", &m_n_topTag_Medium, "n_t_medium/I");
-  m_tree->Branch ("n_t_tight", &m_n_topTag_Tight, "n_t_tight/I");
+  m_tree->Branch ("multiplicity.topTag.loose", &m_n_topTag_Loose, "multiplicity.topTag.loose/I");
+  m_tree->Branch ("multiplicity.topTag.medium", &m_n_topTag_Medium, "multiplicity.topTag.medium/I");
+  m_tree->Branch ("multiplicity.topTag.tight", &m_n_topTag_Tight, "multiplicity.topTag.tight/I");
 
   // initialize branches for reclustered jets
-  for(int r=8; r<14; r+=2){
-    std::string begin = "rc_"+std::to_string(r)+"_";
-    for(int i=0; i<4; i++){
+  for(int i=0; i<4; i++){
+    for(int r=8; r<14; r+=2){
+      std::string commonDenominator = "jet.rc"+std::to_string(r)+"."+std::to_string(i);
       std::string branchName;
 
-      branchName = begin+"pt_"+std::to_string(i);
+      branchName = "pt."+commonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_rc_pt[i]), (branchName+"/F").c_str());
 
-      branchName = begin+"m_"+std::to_string(i);
+      branchName = "m."+commonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_rc_m[i]), (branchName+"/F").c_str());
 
-      branchName = begin+"split12_"+std::to_string(i);
+      branchName = "split12."+commonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_rc_split12[i]), (branchName+"/F").c_str());
 
-      branchName = begin+"split23_"+std::to_string(i);
+      branchName = "split23."+commonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_rc_split23[i]), (branchName+"/F").c_str());
 
-      branchName = begin+"nsj_"+std::to_string(i);
+      branchName = "nsj."+commonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_rc_nsj[i]), (branchName+"/I").c_str());
     }
   }
