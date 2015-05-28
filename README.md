@@ -1,3 +1,21 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [TheAccountant - A RootCore Package](#theaccountant---a-rootcore-package)
+  - [Installing](#installing)
+  - [Dependencies](#dependencies)
+    - [Functionality Included](#functionality-included)
+      - [[Audit.cxx](TheAccountant/Audit.h)](#auditcxxtheaccountantaudith)
+      - [[Preselect.cxx](TheAccountant/Preselect.h)](#preselectcxxtheaccountantpreselecth)
+      - [[Report.cxx](TheAccountant/Report.h)](#reportcxxtheaccountantreporth)
+      - [[CookTheBooks.py](scripts/CookTheBooks.py)](#cookthebookspyscriptscookthebookspy)
+    - [Tested Against AnalysisBase versions:](#tested-against-analysisbase-versions)
+      - [Authors](#authors)
+        - [Acknowledgements](#acknowledgements)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # TheAccountant - A RootCore Package
 
 ## Installing
