@@ -12,8 +12,8 @@ namespace TheAccountant
     public:
       JetMETHists(std::string name);
       virtual ~JetMETHists() ;
-      EL::StatusCode initialize();
-      EL::StatusCode execute( const xAOD::JetContainer* jets, const xAOD::MissingET*, float eventWeight);
+      StatusCode initialize();
+      StatusCode execute( const xAOD::JetContainer* jets, const xAOD::MissingET*, float eventWeight);
       using HistogramManager::book; // make other overloaded version of book() to show up in subclass
       using HistogramManager::execute; // overload
 

@@ -1,19 +1,18 @@
 # TheAccountant - A RootCore Package
 
 ## Installing
-The last stable analysis base used is **2.1.32**. To install,
+The last stable analysis base used is **2.3.12**. To install,
 ```bash
 mkdir myRootCore && cd $_
-rcSetup Base,2.1.32
+rcSetup Base,2.3.12
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
 git clone https://github.com/kratsg/xAODJetReclustering
-rc checkout_pkg atlasinst/Institutes/UChicago/xAODAnaHelpers/tags/xAODAnaHelpers-00-00-04
-source xAODAnaHelpers/scripts/ElectronEfficiencyCorrectionPatch_Base.2.1.29.sh
-rc checkout_pkg atlasoff/Reconstruction/Jet/JetSubStructureUtils/tags/JetSubStructureUtils-00-02-08
+git clone https://github.com/UCATLAS/xAODAnaHelpers
+git clone https://github.com/kratsg/JetSubstructureTools
+ln -s JetSubstructureTools/JetSubStructureUtils JetSubStructureUtils
 rc find_packages
-rc compile_pkg Ext_RestFrames
-rc compile_pkg TheAccountant
+rc compile
 ```
 
 ## Dependencies
