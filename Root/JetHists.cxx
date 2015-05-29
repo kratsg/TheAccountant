@@ -47,7 +47,7 @@ StatusCode TheAccountant::JetHists::execute( const xAOD::JetContainer* jets, flo
   float totalMass(0);
   for(const auto jet: *jets){
     totalMass += jet->m();
-    this->execute(jet, eventWeight);
+    if(!this->execute(jet, eventWeight).isSuccess()) return StatusCode::FAILURE;
   }
 
   const xAOD::Jet* j1(nullptr);

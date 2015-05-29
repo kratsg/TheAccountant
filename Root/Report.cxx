@@ -140,17 +140,17 @@ EL::StatusCode Report :: histInitialize () {
   }
 
   for(auto jetPlot: m_jetPlots){
-    jetPlot.second->initialize();
+    RETURN_CHECK("Report::initialize()", jetPlot.second->initialize(), "");
     jetPlot.second->record( wk() );
   }
 
   for(auto jetMETPlot: m_jetMETPlots){
-    jetMETPlot.second->initialize();
+    RETURN_CHECK("Report::initialize()", jetMETPlot.second->initialize(), "");
     jetMETPlot.second->record( wk() );
   }
 
   for(auto METPlot: m_METPlots){
-    METPlot.second->initialize();
+    RETURN_CHECK("Report::initialize()", METPlot.second->initialize(), "");
     METPlot.second->record( wk() );
   }
 
@@ -179,19 +179,19 @@ EL::StatusCode Report :: execute ()
   //const xAOD::TruthParticleContainer*   in_truth    (nullptr);
 
   // start grabbing all the containers that we can
-  RETURN_CHECK("Preselect::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
-  RETURN_CHECK("Preselect::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
-  RETURN_CHECK("Preselect::execute()", HF::retrieve(in_jets,     m_inputJets,       m_event, m_store, m_debug), "Could not get the inputJets container.");
+  RETURN_CHECK("Report::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
+  RETURN_CHECK("Report::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
+  RETURN_CHECK("Report::execute()", HF::retrieve(in_jets,     m_inputJets,       m_event, m_store, m_debug), "Could not get the inputJets container.");
   if(!m_inputMET.empty())
-    RETURN_CHECK("Preselect::execute()", HF::retrieve(in_missinget, m_inputMET,         m_event, m_store, m_debug), "Could not get the inputMET container.");
+    RETURN_CHECK("Report::execute()", HF::retrieve(in_missinget, m_inputMET,         m_event, m_store, m_debug), "Could not get the inputMET container.");
   if(!m_inputElectrons.empty())
-    RETURN_CHECK("Preselect::execute()", HF::retrieve(in_electrons, m_inputElectrons,   m_event, m_store, m_debug), "Could not get the inputElectrons container.");
+    RETURN_CHECK("Report::execute()", HF::retrieve(in_electrons, m_inputElectrons,   m_event, m_store, m_debug), "Could not get the inputElectrons container.");
   if(!m_inputMuons.empty())
-    RETURN_CHECK("Preselect::execute()", HF::retrieve(in_muons,     m_inputMuons,       m_event, m_store, m_debug), "Could not get the inputMuons container.");
+    RETURN_CHECK("Report::execute()", HF::retrieve(in_muons,     m_inputMuons,       m_event, m_store, m_debug), "Could not get the inputMuons container.");
   if(!m_inputTauJets.empty())
-    RETURN_CHECK("Preselect::execute()", HF::retrieve(in_taus,      m_inputTauJets,     m_event, m_store, m_debug), "Could not get the inputTauJets container.");
+    RETURN_CHECK("Report::execute()", HF::retrieve(in_taus,      m_inputTauJets,     m_event, m_store, m_debug), "Could not get the inputTauJets container.");
   if(!m_inputPhotons.empty())
-    RETURN_CHECK("Preselect::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
+    RETURN_CHECK("Report::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
   // retrieve CalibMET_RefFinal for METContainer
   xAOD::MissingETContainer::const_iterator met_final = in_missinget->find("Final");
@@ -208,24 +208,24 @@ EL::StatusCode Report :: execute ()
   float eventWeight(1);
   if( decor_eventWeight.isAvailable(*eventInfo) ) eventWeight = decor_eventWeight(*eventInfo);
   if( m_passPreSel && !pass_preSel.isAvailable(*eventInfo) ){
-    Error("Preselect::execute()", "m_passPreSel is enabled but could not find the decoration on the EventInfo object.");
+    Error("Report::execute()", "m_passPreSel is enabled but could not find the decoration on the EventInfo object.");
     return EL::StatusCode::FAILURE;
   }
 
   // standard all jetsLargeR and all jets
-  if(m_jetPlots["all/jetsLargeR"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-  if(m_jetPlots["all/jets"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-  if(m_jetMETPlots["all/jetsLargeR"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-  if(m_jetMETPlots["all/jets"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-  if(m_METPlots["all/MET"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+  RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR"]->execute(in_jets, eventWeight), "");
+  RETURN_CHECK("Report::execute()", m_jetPlots["all/jets"]->execute(in_jets, eventWeight), "");
+  RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR"]->execute(in_jets, in_met, eventWeight), "");
+  RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jets"]->execute(in_jets, in_met, eventWeight), "");
+  RETURN_CHECK("Report::execute()", m_METPlots["all/MET"]->execute(in_met, eventWeight), "");
 
   // standard preselected jetsLargeR and preselected jets
   if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-    if(m_jetPlots["presel/jetsLargeR"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-    if(m_jetPlots["presel/jets"]->execute(in_jets, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-    if(m_jetMETPlots["presel/jetsLargeR"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-    if(m_jetMETPlots["presel/jets"]->execute(in_jets, in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
-    if(m_METPlots["presel/MET"]->execute(in_met, eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    RETURN_CHECK("Report::execute()", m_jetPlots["presel/jetsLargeR"]->execute(in_jets, eventWeight), "");
+    RETURN_CHECK("Report::execute()", m_jetPlots["presel/jets"]->execute(in_jets, eventWeight), "");
+    RETURN_CHECK("Report::execute()", m_jetMETPlots["presel/jetsLargeR"]->execute(in_jets, in_met, eventWeight), "");
+    RETURN_CHECK("Report::execute()", m_jetMETPlots["presel/jets"]->execute(in_jets, in_met, eventWeight), "");
+    RETURN_CHECK("Report::execute()", m_METPlots["presel/MET"]->execute(in_met, eventWeight), "");
   }
 
   //build up the tagged containers
@@ -243,7 +243,7 @@ EL::StatusCode Report :: execute ()
         if(decor_jetTags_b.isAvailable(*jet)){
           if(decor_jetTags_b(*jet) == 1) jets_bTagged.push_back(jet);
         } else {
-          Error("Preselect::execute()", "m_decor_jetTags_b is set but the decoration is missing on this jet.");
+          Error("Report::execute()", "m_decor_jetTags_b is set but the decoration is missing on this jet.");
           return EL::StatusCode::FAILURE;
         }
       }
@@ -254,7 +254,7 @@ EL::StatusCode Report :: execute ()
         if(decor_jetTags_top.isAvailable(*jet)){
           if(decor_jetTags_top(*jet) == 1) jetsLargeR_topTagged.push_back(jet);
         } else {
-          Error("Preselect::execute()", "m_decor_jetTags_top is set but the decoration is missing on this jet.");
+          Error("Report::execute()", "m_decor_jetTags_top is set but the decoration is missing on this jet.");
           return EL::StatusCode::FAILURE;
         }
       }
@@ -263,7 +263,7 @@ EL::StatusCode Report :: execute ()
         if(decor_jetTags_w.isAvailable(*jet)){
           if(decor_jetTags_w(*jet) == 1) jetsLargeR_wTagged.push_back(jet);
         } else {
-          Error("Preselect::execute()", "m_decor_jetTags_w is set but the decoration is missing on this jet.");
+          Error("Report::execute()", "m_decor_jetTags_w is set but the decoration is missing on this jet.");
           return EL::StatusCode::FAILURE;
         }
       }
@@ -272,36 +272,36 @@ EL::StatusCode Report :: execute ()
     //all/jets/bTag
     //presel/jets/bTag
     if(!m_decor_jetTags_b.empty()){
-      m_jetPlots["all/jets/bTag"]->execute(jets_bTagged.asDataVector(), eventWeight);
-      m_jetMETPlots["all/jets/bTag"]->execute(jets_bTagged.asDataVector(), in_met, eventWeight);
+      RETURN_CHECK("Report::execute()", m_jetPlots["all/jets/bTag"]->execute(jets_bTagged.asDataVector(), eventWeight), "");
+      RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jets/bTag"]->execute(jets_bTagged.asDataVector(), in_met, eventWeight), "");
 
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel/jets/bTag"]->execute(jets_bTagged.asDataVector(), eventWeight);
-        m_jetMETPlots["presel/jets/bTag"]->execute(jets_bTagged.asDataVector(), in_met, eventWeight);
+        RETURN_CHECK("Report::execute()", m_jetPlots["presel/jets/bTag"]->execute(jets_bTagged.asDataVector(), eventWeight), "");
+        RETURN_CHECK("Report::execute()", m_jetMETPlots["presel/jets/bTag"]->execute(jets_bTagged.asDataVector(), in_met, eventWeight), "");
       }
     }
 
     //all/jetsLargeR/topTag
     //presel/jetsLargeR/topTag
     if(!m_decor_jetTags_top.empty()){
-      m_jetPlots["all/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), eventWeight);
-      m_jetMETPlots["all/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), in_met, eventWeight);
+      RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), eventWeight), "");
+      RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), in_met, eventWeight), "");
 
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), eventWeight);
-        m_jetMETPlots["presel/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), in_met, eventWeight);
+        RETURN_CHECK("Report::execute()", m_jetPlots["presel/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), eventWeight), "");
+        RETURN_CHECK("Report::execute()", m_jetMETPlots["presel/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), in_met, eventWeight), "");
       }
     }
 
     //all/jetsLargeR/wTag
     //presel/jetsLargeR/wTag
     if(!m_decor_jetTags_w.empty()){
-      m_jetPlots["all/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), eventWeight);
-      m_jetMETPlots["all/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), in_met, eventWeight);
+      RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), eventWeight), "");
+      RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), in_met, eventWeight), "");
 
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), eventWeight);
-        m_jetMETPlots["presel/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), in_met, eventWeight);
+        RETURN_CHECK("Report::execute()", m_jetPlots["presel/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), eventWeight), "");
+        RETURN_CHECK("Report::execute()", m_jetMETPlots["presel/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), in_met, eventWeight), "");
       }
     }
   }
@@ -309,18 +309,18 @@ EL::StatusCode Report :: execute ()
   //all/jetLargeRX
   //presel/jetLargeRX
   for(int i=1; i <= std::min<int>( m_numLeadingJets, in_jetsLargeR->size() ); ++i ){
-    if(m_jetPlots["all/jetLargeR"+std::to_string(i)]->execute(in_jetsLargeR->at(i-1), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    RETURN_CHECK("Report::execute()", m_jetPlots["all/jetLargeR"+std::to_string(i)]->execute(in_jetsLargeR->at(i-1), eventWeight), "");
     if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-      if(m_jetPlots["presel/jetLargeR"+std::to_string(i)]->execute(in_jetsLargeR->at(i-1), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+      RETURN_CHECK("Report::execute()", m_jetPlots["presel/jetLargeR"+std::to_string(i)]->execute(in_jetsLargeR->at(i-1), eventWeight), "");
     }
   }
 
   //all/jetX
   //presel/jetX
   for(int i=1; i <= std::min<int>( m_numLeadingJets, in_jets->size() ); ++i ){
-    if(m_jetPlots["all/jet"+std::to_string(i)]->execute(in_jets->at(i-1), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+    RETURN_CHECK("Report::execute()", m_jetPlots["all/jet"+std::to_string(i)]->execute(in_jets->at(i-1), eventWeight), "");
     if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-      if(m_jetPlots["presel/jet"+std::to_string(i)]->execute(in_jets->at(i-1), eventWeight) != EL::StatusCode::SUCCESS) return EL::StatusCode::FAILURE;
+      RETURN_CHECK("Report::execute()", m_jetPlots["presel/jet"+std::to_string(i)]->execute(in_jets->at(i-1), eventWeight), "");
     }
   }
 
@@ -328,9 +328,9 @@ EL::StatusCode Report :: execute ()
   //presel/jetX_bTag
   if(!m_decor_jetTags_b.empty()){
     for(int i=1; i <= std::min<int>( m_numLeadingJets, jets_bTagged.size() ); ++i){
-      m_jetPlots["all/jet"+std::to_string(i)+"/bTag"]->execute(jets_bTagged.at(i-1), eventWeight);
+      RETURN_CHECK("Report::execute()", m_jetPlots["all/jet"+std::to_string(i)+"/bTag"]->execute(jets_bTagged.at(i-1), eventWeight), "");
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel/jet"+std::to_string(i)+"/bTag"]->execute(jets_bTagged.at(i-1), eventWeight);
+        RETURN_CHECK("Report::execute()", m_jetPlots["presel/jet"+std::to_string(i)+"/bTag"]->execute(jets_bTagged.at(i-1), eventWeight), "");
       }
     }
   }
@@ -339,9 +339,9 @@ EL::StatusCode Report :: execute ()
   //presel/jetLargeRX_topTag
   if(!m_decor_jetTags_top.empty()){
     for(int i=1; i <= std::min<int>( m_numLeadingJets, jetsLargeR_topTagged.size() ); ++i){
-      m_jetPlots["all/jetLargeR"+std::to_string(i)+"/topTag"]->execute(jetsLargeR_topTagged.at(i-1), eventWeight);
+      RETURN_CHECK("Report::execute()", m_jetPlots["all/jetLargeR"+std::to_string(i)+"/topTag"]->execute(jetsLargeR_topTagged.at(i-1), eventWeight), "");
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel/jetLargeR"+std::to_string(i)+"/topTag"]->execute(jetsLargeR_topTagged.at(i-1), eventWeight);
+        RETURN_CHECK("Report::execute()", m_jetPlots["presel/jetLargeR"+std::to_string(i)+"/topTag"]->execute(jetsLargeR_topTagged.at(i-1), eventWeight), "");
       }
     }
   }
@@ -350,9 +350,9 @@ EL::StatusCode Report :: execute ()
   //presel/jetLargeRX_wTag
   if(!m_decor_jetTags_w.empty()){
     for(int i=1; i <= std::min<int>( m_numLeadingJets, jetsLargeR_wTagged.size() ); ++i){
-      m_jetPlots["all/jetLargeR"+std::to_string(i)+"/wTag"]->execute(jetsLargeR_wTagged.at(i-1), eventWeight);
+      RETURN_CHECK("Report::execute()", m_jetPlots["all/jetLargeR"+std::to_string(i)+"/wTag"]->execute(jetsLargeR_wTagged.at(i-1), eventWeight), "");
       if(m_passPreSel && pass_preSel(*eventInfo) == 1){
-        m_jetPlots["presel/jetLargeR"+std::to_string(i)+"/wTag"]->execute(jetsLargeR_wTagged.at(i-1), eventWeight);
+        RETURN_CHECK("Report::execute()", m_jetPlots["presel/jetLargeR"+std::to_string(i)+"/wTag"]->execute(jetsLargeR_wTagged.at(i-1), eventWeight), "");
       }
     }
   }
