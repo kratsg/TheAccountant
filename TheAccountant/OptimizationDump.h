@@ -15,6 +15,7 @@
 
 // c++ includes
 #include <string>
+#include <array>
 
 class OptimizationDump : public EL::Algorithm
 {
@@ -53,14 +54,14 @@ private:
   int m_n_topTag_Tight; //!
 
   // three sets of reclustered jets for various radii
-  std::vector<JetReclusteringTool*> m_jetReclusteringTools; //!
+  std::array<JetReclusteringTool*, 3> m_jetReclusteringTools; //!
 
   /* reclustered jet details */
-  std::vector<float> m_rc_pt; //!
-  std::vector<float> m_rc_m; //!
-  std::vector<float> m_rc_split12; //!
-  std::vector<float> m_rc_split23; //!
-  std::vector<int> m_rc_nsj; //!
+  std::array<std::array<float, 4>, 3 > m_rc_pt; //!
+  std::array<std::array<float, 4>, 3 > m_rc_m; //!
+  std::array<std::array<float, 4>, 3 > m_rc_split12; //!
+  std::array<std::array<float, 4>, 3 > m_rc_split23; //!
+  std::array<std::array<int, 4>  , 3 > m_rc_nsj; //!
 
 public:
   // this is a standard constructor

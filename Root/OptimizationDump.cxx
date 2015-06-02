@@ -37,6 +37,9 @@
 namespace HF = HelperFunctions;
 namespace VD = VariableDefinitions;
 
+#define ARRAY_INIT {-99, -99, -99, -99}
+#define MULTI_ARRAY_INIT {ARRAY_INIT, ARRAY_INIT, ARRAY_INIT}
+
 // this is needed to distribute the algorithm to the workers
 ClassImp(OptimizationDump)
 OptimizationDump :: OptimizationDump () :
@@ -50,12 +53,12 @@ OptimizationDump :: OptimizationDump () :
   m_n_topTag_Loose(0),
   m_n_topTag_Medium(0),
   m_n_topTag_Tight(0),
-  m_jetReclusteringTools(3, nullptr),
-  m_rc_pt(4, -99),
-  m_rc_m(4, -99),
-  m_rc_split12(4, -99),
-  m_rc_split23(4, -99),
-  m_rc_nsj(4, -99)
+  m_jetReclusteringTools{{nullptr, nullptr, nullptr}},
+  m_rc_pt{MULTI_ARRAY_INIT},
+  m_rc_m{MULTI_ARRAY_INIT},
+  m_rc_split12{MULTI_ARRAY_INIT},
+  m_rc_split23{MULTI_ARRAY_INIT},
+  m_rc_nsj{MULTI_ARRAY_INIT}
 {}
 
 EL::StatusCode OptimizationDump :: setupJob (EL::Job& job)
@@ -96,24 +99,25 @@ EL::StatusCode OptimizationDump :: initialize () {
 
   // initialize branches for reclustered jets
   for(int i=0; i<4; i++){
-    for(int r=8; r<14; r+=2){
-      std::string commonDenominator = "jet_rc"+std::to_string(r)+"_"+std::to_string(i);
+    for(int r=0; r<3; r++){
+      int radius = r*2 + 8;
+      std::string commonDenominator = "jet_rc"+std::to_string(radius)+"_"+std::to_string(i);
       std::string branchName;
 
       branchName = "pt_"+commonDenominator;
-      m_tree->Branch(branchName.c_str(), &(m_rc_pt[i]), (branchName+"/F").c_str());
+      m_tree->Branch(branchName.c_str(), &(m_rc_pt[r][i]), (branchName+"/F").c_str());
 
       branchName = "m_"+commonDenominator;
-      m_tree->Branch(branchName.c_str(), &(m_rc_m[i]), (branchName+"/F").c_str());
+      m_tree->Branch(branchName.c_str(), &(m_rc_m[r][i]), (branchName+"/F").c_str());
 
       branchName = "split12_"+commonDenominator;
-      m_tree->Branch(branchName.c_str(), &(m_rc_split12[i]), (branchName+"/F").c_str());
+      m_tree->Branch(branchName.c_str(), &(m_rc_split12[r][i]), (branchName+"/F").c_str());
 
       branchName = "split23_"+commonDenominator;
-      m_tree->Branch(branchName.c_str(), &(m_rc_split23[i]), (branchName+"/F").c_str());
+      m_tree->Branch(branchName.c_str(), &(m_rc_split23[r][i]), (branchName+"/F").c_str());
 
       branchName = "nsj_"+commonDenominator;
-      m_tree->Branch(branchName.c_str(), &(m_rc_nsj[i]), (branchName+"/I").c_str());
+      m_tree->Branch(branchName.c_str(), &(m_rc_nsj[r][i]), (branchName+"/I").c_str());
     }
   }
 
@@ -193,9 +197,9 @@ EL::StatusCode OptimizationDump :: execute ()
   m_n_topTag_Tight  = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Tight);
 
   // reclustered jets
-  for(int i=0; i<3; i++){
+  for(int r=0; r<3; r++){
     char rcJetContainer[8];
-    float radius = 0.8 + (0.2*i); // 0.8, 1.0, 1.2
+    float radius = 0.8 + (0.2*r); // 0.8, 1.0, 1.2
     sprintf(rcJetContainer, "RC%02.0fJets", radius*10);
     const xAOD::JetContainer* rcJets(nullptr);
     RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(rcJets, rcJetContainer, m_event, m_store, m_debug), ("Could not retrieve the reclustered jet container "+std::string(rcJetContainer)).c_str());
@@ -214,11 +218,11 @@ EL::StatusCode OptimizationDump :: execute ()
         rcJet->getAttribute("Split23", split23);
         if(rcJet->getAttribute("constituentLinks", constitLinks)) nsj = constitLinks.size();
       }
-      m_rc_pt[i] = pt;
-      m_rc_m[i]  = mass;
-      m_rc_split12[i] = split12;
-      m_rc_split23[i] = split23;
-      m_rc_nsj[i] = nsj;
+      m_rc_pt[r][i] = pt;
+      m_rc_m[r][i]  = mass;
+      m_rc_split12[r][i] = split12;
+      m_rc_split23[r][i] = split23;
+      m_rc_nsj[r][i] = nsj;
     }
   }
 
