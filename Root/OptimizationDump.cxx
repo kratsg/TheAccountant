@@ -150,7 +150,6 @@ EL::StatusCode OptimizationDump :: execute ()
   RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
 
   static SG::AuxElement::Accessor< int > pass_preSel("pass_preSel");
-  static SG::AuxElement::Accessor< float > decor_eventWeight("eventWeight");
   if(pass_preSel.isAvailable(*eventInfo) && pass_preSel(*eventInfo) == 0) return EL::StatusCode::SUCCESS;
 
   RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
@@ -181,8 +180,7 @@ EL::StatusCode OptimizationDump :: execute ()
     tool->execute();
 
   // compute variables for optimization
-  m_eventWeight = 0.0;
-  if(decor_eventWeight.isAvailable(*eventInfo)) m_eventWeight = decor_eventWeight(*eventInfo);
+  m_eventWeight = eventInfo->mcEventWeight();
 
   // compute optimization variables
   m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons);
