@@ -11,8 +11,8 @@
       - [[Report.cxx](TheAccountant/Report.h)](#reportcxxtheaccountantreporth)
       - [[CookTheBooks.py](scripts/CookTheBooks.py)](#cookthebookspyscriptscookthebookspy)
   - [Tested Against AnalysisBase versions:](#tested-against-analysisbase-versions)
-  - [Authors](#authors)
-    - [Acknowledgements](#acknowledgements)
+- [Authors](#authors)
+  - [Acknowledgements](#acknowledgements)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -150,12 +150,14 @@ report options:
 ```
 
 ## Tested Against AnalysisBase versions:
- - 2.1.30
+ - 2.3.12
 
-## Authors
+# Authors
 - [Giordon Stark](https://github.com/kratsg)
 
-### Acknowledgements
-- [Lawrence Lee](https://github.com/lawrenceleejr)
+## Acknowledgements
 - [David Miller](https://github.com/fizisist)
+- [Max Swiatlowski](https://github.com/mswiatlo)
+- [Lawrence Lee](https://github.com/lawrenceleejr)
 - [Chris Rogan](https://github.com/crogan)
+
