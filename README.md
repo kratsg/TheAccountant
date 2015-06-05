@@ -1,8 +1,11 @@
+# TheAccountant - A RootCore Package
+
+Run-2 analysis for SUSY search in gluino to stops.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [TheAccountant - A RootCore Package](#theaccountant---a-rootcore-package)
   - [Installing](#installing)
   - [Dependencies](#dependencies)
   - [Functionality Included](#functionality-included)
@@ -16,7 +19,6 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# TheAccountant - A RootCore Package
 
 ## Installing
 The last stable analysis base used is **2.3.12**. To install,
