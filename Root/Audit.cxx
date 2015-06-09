@@ -169,10 +169,6 @@ EL::StatusCode Audit :: execute ()
 
   // start grabbing all the containers that we can
   RETURN_CHECK("Audit::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
-
-  static SG::AuxElement::Accessor< int > pass_preSel("pass_preSel");
-  if(m_passPreSel && pass_preSel.isAvailable(*eventInfo) && pass_preSel(*eventInfo) == 0) return EL::StatusCode::SUCCESS;
-
   if(!m_inputLargeRJets.empty())
     RETURN_CHECK("Audit::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
   if(!m_inputJets.empty())

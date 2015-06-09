@@ -149,14 +149,8 @@ EL::StatusCode OptimizationDump :: execute ()
 
   // start grabbing all the containers that we can
   RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
-
-  static SG::AuxElement::Accessor< int > pass_preSel("pass_preSel");
-  static SG::AuxElement::Accessor< int > isBTag("isBTag");
-  if(pass_preSel.isAvailable(*eventInfo) && pass_preSel(*eventInfo) == 0) return EL::StatusCode::SUCCESS;
-
   RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
   RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_jets,     m_inputJets,       m_event, m_store, m_debug), "Could not get the inputJets container.");
-
   if(!m_inputMET.empty())
     RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_missinget, m_inputMET,         m_event, m_store, m_debug), "Could not get the inputMET container.");
   if(!m_inputElectrons.empty())
@@ -176,6 +170,9 @@ EL::StatusCode OptimizationDump :: execute ()
   }
   // dereference the iterator since it's just a single object
   const xAOD::MissingET* in_met = *met_final;
+
+  static SG::AuxElement::Accessor< int > pass_preSel("pass_preSel");
+  static SG::AuxElement::Accessor< int > isBTag("isBTag");
 
   // build the reclustered, trimmed jets
   for(auto tool: m_jetReclusteringTools)

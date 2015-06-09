@@ -52,7 +52,7 @@ This algorithm sets up a decay tree with a pair of vis-invis particles in each h
 
 #### [Preselect.cxx](TheAccountant/Preselect.h)
 
-This algorithm applies a pre-selection to large-R jets, bjets. Decorates `EventInfo` container with `SG::AuxElement::Decorator< int > pass_preSel("pass_preSel")`.
+This algorithm applies a pre-selection to large-R jets, bjets. If the event does not pass a preselection, it is skipped via `wk()->skipEvent()`.
 
 #### [Report.cxx](TheAccountant/Report.h)
 

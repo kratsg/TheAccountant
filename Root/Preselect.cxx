@@ -84,7 +84,6 @@ EL::StatusCode Preselect :: execute ()
 
   static SG::AuxElement::Decorator< int > pass_preSel("pass_preSel");
   static SG::AuxElement::Decorator< int > isBTag("isBTag");
-  pass_preSel(*eventInfo) = 0;
 
   int num_passJetsLargeR = 0;
   for(const auto jet: *in_jetsLargeR){
@@ -130,14 +129,13 @@ EL::StatusCode Preselect :: execute ()
 
   // only select event if:
   //    m_jet_minNum <= num_passJets <= m_jet_maxNum
-  if(num_passJets < m_jet_minNum) return EL::StatusCode::SUCCESS;
-  if(num_passJets > m_jet_maxNum) return EL::StatusCode::SUCCESS;
+  if(num_passJets < m_jet_minNum) wk()->skipEvent();
+  if(num_passJets > m_jet_maxNum) wk()->skipEvent();
   // and if:
   //    m_bjet_minNum <= num_passBJets <= m_bjet_maxNum
-  if(num_passBJets < m_bjet_minNum) return EL::StatusCode::SUCCESS;
-  if(num_passBJets > m_bjet_maxNum) return EL::StatusCode::SUCCESS;
+  if(num_passBJets < m_bjet_minNum) wk()->skipEvent();
+  if(num_passBJets > m_bjet_maxNum) wk()->skipEvent();
 
-  pass_preSel(*eventInfo) = 1;
   return EL::StatusCode::SUCCESS;
 }
 
