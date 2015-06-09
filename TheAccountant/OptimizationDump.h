@@ -46,6 +46,7 @@ private:
   float m_totalTransverseMomentum; //!
   float m_totalTransverseMass; //!
   int m_numJets; //!
+  int m_numBJets; //!
   int m_numJetsLargeR; //!
 
   /* tagging */

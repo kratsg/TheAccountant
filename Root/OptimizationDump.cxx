@@ -91,6 +91,7 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->Branch ("pt_total",                  &m_totalTransverseMomentum, "pt_total/F");
   m_tree->Branch ("m_transverse",              &m_totalTransverseMass, "m_transverse/F");
   m_tree->Branch ("multiplicity_jet",          &m_numJets, "multiplicity_jet/I");
+  m_tree->Branch ("multiplicity_jet_b",        &m_numBJets, "multiplicity_jet_b/I");
   m_tree->Branch ("multiplicity_jet_largeR",   &m_numJetsLargeR, "multiplicity_jet_largeR/I");
 
   m_tree->Branch ("multiplicity_topTag_loose", &m_n_topTag_Loose, "multiplicity_topTag_loose/I");
@@ -150,6 +151,7 @@ EL::StatusCode OptimizationDump :: execute ()
   RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
 
   static SG::AuxElement::Accessor< int > pass_preSel("pass_preSel");
+  static SG::AuxElement::Accessor< int > isBTag("isBTag");
   if(pass_preSel.isAvailable(*eventInfo) && pass_preSel(*eventInfo) == 0) return EL::StatusCode::SUCCESS;
 
   RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
@@ -186,8 +188,14 @@ EL::StatusCode OptimizationDump :: execute ()
   m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons);
   m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons);
   m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons);
-  m_numJets = in_jets->size();
-  m_numJetsLargeR = in_jetsLargeR->size();
+  m_numJets = 0;
+  m_numBJets = 0;
+  for(auto jet: *in_jets){
+    m_numJets += pass_preSel(*jet);
+    m_numBJets += isBTag(*jet);
+  }
+  m_numJetsLargeR = 0;
+  for(auto jet: *in_jetsLargeR) m_numJetsLargeR += pass_preSel(*jet);
 
   // tagging variables
   m_n_topTag_Loose  = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Loose);
