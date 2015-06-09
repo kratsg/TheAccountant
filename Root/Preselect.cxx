@@ -83,10 +83,12 @@ EL::StatusCode Preselect :: execute ()
   }
 
   static SG::AuxElement::Decorator< int > pass_preSel("pass_preSel");
+  static SG::AuxElement::Decorator< int > isBTag("isBTag");
   pass_preSel(*eventInfo) = 0;
 
   int num_passJetsLargeR = 0;
   for(const auto jet: *in_jetsLargeR){
+    pass_preSel(*jet) = 0;
     if(jet->pt()/1000.  < m_jetLargeR_minPt)  continue;
     if(jet->pt()/1000.  > m_jetLargeR_maxPt)  continue;
     if(jet->m()/1000.   < m_jetLargeR_minMass) continue;
@@ -96,6 +98,7 @@ EL::StatusCode Preselect :: execute ()
     if(jet->phi()       < m_jetLargeR_minPhi)  continue;
     if(jet->phi()       > m_jetLargeR_maxPhi)  continue;
     num_passJetsLargeR++;
+    pass_preSel(*jet) = 1;
   }
 
   // only select event if:
@@ -108,6 +111,8 @@ EL::StatusCode Preselect :: execute ()
   //    but also count how many of those that pass the cuts are also b-tagged
   int num_passBJets = 0;
   for(const auto jet: *in_jets){
+    pass_preSel(*jet) = 0;
+    isBTag(*jet) = 0;
     if(jet->pt()/1000. < m_jet_minPt)  continue;
     if(jet->pt()/1000. > m_jet_maxPt)  continue;
     if(jet->m()/1000.  < m_jet_minMass) continue;
@@ -119,6 +124,8 @@ EL::StatusCode Preselect :: execute ()
     num_passJets++;
     if(jet->btagging()->MV1_discriminant() < m_jet_MV1) continue;
     num_passBJets++;
+    pass_preSel(*jet) = 1;
+    isBTag(*jet) = 1;
   }
 
   // only select event if:
