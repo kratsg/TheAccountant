@@ -33,11 +33,18 @@ namespace VariableDefinitions {
   float mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els);
 
   // top tagging on jets, set the eventInfo with "nTops_<WP>" int decoration
-  //    - static SG::AuxElement::Accessor< int > nTops_loose("nTops_<WP>");
+  //    - static SG::AuxElement::Accessor< int > nTops_wp("nTops_<WP>");
   //        * string of WP is equivalent to how you type it out in enum class
   int topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, WP wp);
   // top tagging on jet, set "isTop_<WP>" int decoration
   bool topTag(const xAOD::Jet* jet, WP wp);
+
+  // b-tagging on jets, set the eventInfo with "nBJets_<WP>" int decoration
+  //    - static SG::AuxElement::Accessor< int > nBJets_wp("nBJets_<WP>");
+  //        * string of WP is equivalent to how you type it out in enum class
+  int bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, WP wp);
+  // b-tagging on jet, set "isB_<WP>" int decoration
+  bool bTag(const xAOD::Jet* jet, WP wp);
 
   // returning subjettiness ratios for a given jet
   //    - use Tau21 if set

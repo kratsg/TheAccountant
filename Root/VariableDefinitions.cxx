@@ -154,6 +154,57 @@ bool VD::topTag(const xAOD::Jet* jet, VD::WP wp){
   return isTop_tagged;
 }
 
+int VD::bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, VD::WP wp){
+
+  static SG::AuxElement::Decorator< int > nBJets_wp("nBJets_"+VD::wp2str(wp));
+
+  // set or reset to 0 b tags
+  nBJets_wp(*eventInfo) = 0;
+
+  // loop over jets, tag, and count top tags
+  int nBJets(0);
+  for(auto jet: *jets) nBJets += static_cast<int>(VD::bTag(jet, wp));
+
+  // tag the event itself with # of jets tagged
+  nBJets_wp(*eventInfo) = nBJets;
+  return nBJets;
+}
+
+bool VD::bTag(const xAOD::Jet* jet, VD::WP wp){
+  bool isB_tagged = false;
+  float MV1(jet->btagging()->MV1_discriminant());
+
+  switch(wp){
+    case VD::WP::Loose:
+    {
+      isB_tagged = MV1 > 0.3511;
+    }
+    break;
+    case VD::WP::Medium:
+    {
+      isB_tagged = MV1 > 0.7892;
+    }
+    break;
+    case VD::WP::Tight:
+    {
+      isB_tagged = MV1 > 0.9827;
+    }
+    break;
+    default:
+    {
+      isB_tagged = false;
+    }
+    break;
+  }
+
+  static SG::AuxElement::Decorator< int > isB_wp("isB_"+VD::wp2str(wp));
+  // tag the jet
+  isB_wp(*jet) = static_cast<int>(isB_tagged);
+
+  return isB_tagged;
+}
+
+
 float VD::Tau21(const xAOD::Jet* jet){
   float tau21(0.0), tau1(0.0), tau2(0.0);
 
