@@ -202,10 +202,7 @@ EL::StatusCode Report :: execute ()
   // dereference the iterator since it's just a single object
   const xAOD::MissingET* in_met = *met_final;
 
-  static SG::AuxElement::Accessor< float > decor_eventWeight("eventWeight");
-
-  float eventWeight(1);
-  if( decor_eventWeight.isAvailable(*eventInfo) ) eventWeight = decor_eventWeight(*eventInfo);
+  float eventWeight(eventInfo->mcEventWeight());
 
   // standard all jetsLargeR and all jets
   RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR"]->execute(in_jets, eventWeight), "");
