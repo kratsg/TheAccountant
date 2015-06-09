@@ -32,8 +32,8 @@ public:
         m_jet_minEta   = -10.0,
         m_jet_maxEta   = 10.0,
         m_jet_minPhi   = -4.0,
-        m_jet_maxPhi   = 4.0,
-        m_jet_MV1      = 0.0;
+        m_jet_maxPhi   = 4.0;
+  std::string m_bTag_wp  = "Loose";
 
   // standard across all algorithms for configuration
   bool m_debug = false;

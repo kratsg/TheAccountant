@@ -218,7 +218,7 @@ if __name__ == "__main__":
   group_preselect.add_argument('--jet_maxEta',  type=float, metavar='', help='small-R jet max eta',  default = 10.0)
   group_preselect.add_argument('--jet_minPhi',  type=float, metavar='', help='small-R jet min phi',  default = -4.0)
   group_preselect.add_argument('--jet_maxPhi',  type=float, metavar='', help='small-R jet max phi',  default = 4.0)
-  group_preselect.add_argument('--jet_MV1',     type=float, metavar='', help='small-R jet min MV1',  default = 0.0)
+  group_preselect.add_argument('--bTag_wp',     type=str, metavar='', help='small-R jet b-tag working point',  default = "Loose")
 
   group_audit = parser.add_argument_group('audit options')
   group_audit.add_argument('--no-minMassJigsaw',
@@ -337,7 +337,7 @@ if __name__ == "__main__":
                 'jetLargeR_maxMass', 'jetLargeR_minEta', 'jetLargeR_maxEta', 'jetLargeR_minPhi',
                 'jetLargeR_maxPhi', 'jet_minNum', 'jet_maxNum', 'bjet_minNum', 'bjet_maxNum',
                 'jet_minPt', 'jet_maxPt', 'jet_minMass', 'jet_maxMass', 'jet_minEta',
-                'jet_maxEta', 'jet_minPhi', 'jet_maxPhi', 'jet_MV1']:
+                'jet_maxEta', 'jet_minPhi', 'jet_maxPhi', 'bTag_wp']:
       printStr = "\tsetting {0: >10}.m_{1:<30} = {2}".format('Preselect', opt, getattr(args, opt))
       cookBooks_logger.info("\t%s", printStr)
       algorithmConfiguration_string.append(printStr)

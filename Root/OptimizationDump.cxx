@@ -171,8 +171,9 @@ EL::StatusCode OptimizationDump :: execute ()
   // dereference the iterator since it's just a single object
   const xAOD::MissingET* in_met = *met_final;
 
-  static SG::AuxElement::Accessor< int > pass_preSel("pass_preSel");
-  static SG::AuxElement::Accessor< int > isBTag("isBTag");
+  static SG::AuxElement::Decorator< int > pass_preSel_jets("pass_preSel_jets");
+  static SG::AuxElement::Decorator< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
+  static SG::AuxElement::Decorator< int > pass_preSel_bjets("pass_preSel_bjets");
 
   // build the reclustered, trimmed jets
   for(auto tool: m_jetReclusteringTools)
@@ -185,14 +186,11 @@ EL::StatusCode OptimizationDump :: execute ()
   m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons);
   m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons);
   m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons);
-  m_numJets = 0;
-  m_numBJets = 0;
-  for(auto jet: *in_jets){
-    m_numJets += pass_preSel(*jet);
-    m_numBJets += isBTag(*jet);
-  }
-  m_numJetsLargeR = 0;
-  for(auto jet: *in_jetsLargeR) m_numJetsLargeR += pass_preSel(*jet);
+
+  // counts of stuff
+  m_numJets = pass_preSel_jets(*eventInfo);
+  m_numBJets = pass_preSel_bjets(*eventInfo);
+  m_numJetsLargeR = pass_preSel_jetsLargeR(*eventInfo);;
 
   // tagging variables
   m_n_topTag_Loose  = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Loose);

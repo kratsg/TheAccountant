@@ -1,21 +1,22 @@
 #include <TheAccountant/VariableDefinitions.h>
 
-// xAH includes
-#include "xAODAnaHelpers/HelperFunctions.h"
-#include "xAODAnaHelpers/tools/ReturnCheck.h"
-
 // P4Helpers
 #include <FourMomUtils/xAODP4Helpers.h>
 
 // for static casting
-#include "xAODBase/IParticleContainer.h"
+#include <xAODBase/IParticleContainer.h>
 
 // c++ includes
 #include <math.h>
+#include <algorithm>
+#include <string>
 
 // substructure
 #include <JetSubStructureUtils/Nsubjettiness.h>
-#include "JetSubStructureUtils/KtSplittingScale.h"
+#include <JetSubStructureUtils/KtSplittingScale.h>
+
+// btagging
+#include <xAODBTagging/BTagging.h>
 
 namespace VD = VariableDefinitions;
 
@@ -37,6 +38,15 @@ std::string VD::wp2str(VD::WP wp){
 
   // should never reach here, we should be synced with the enum class
   return "BadWorkingPoint";
+}
+
+VD::WP VD::str2wp(std::string str){
+  std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+  if(str == "veryloose") return VD::WP::VeryLoose;
+  if(str == "loose")     return VD::WP::Loose;
+  if(str == "medium")    return VD::WP::Medium;
+  if(str == "tight")     return VD::WP::Tight;
+  return VD::WP::None;
 }
 
 

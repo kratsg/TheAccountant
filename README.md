@@ -132,7 +132,7 @@ preselect options (all selections are inclusive: x >= min, x =< max):
   --jet_maxEta             small-R jet max eta (default: 10.0)
   --jet_minPhi             small-R jet min phi (default: -4.0)
   --jet_maxPhi             small-R jet max phi (default: 4.0)
-  --jet_MV1                small-R jet min MV1 (default: 0.0)
+  --bTag_wp                small-R jet b-tag working point (default: Loose)
 
 audit options:
   --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)

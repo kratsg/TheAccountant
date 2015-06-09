@@ -16,10 +16,12 @@ namespace VariableDefinitions {
     VeryLoose,
     Loose,
     Medium,
-    Tight
+    Tight,
+    None
   };
   // helper to convert to actual string for the tagging
   std::string wp2str(WP wp);
+  WP str2wp(std::string str);
 
   // Effective Mass calculated using exclusive or inclusive definition depending on args
   //    Exclusive: Meff(met, jets, 4, 0, 0)
