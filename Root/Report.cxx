@@ -271,6 +271,7 @@ EL::StatusCode Report :: execute ()
     if(!m_decor_jetTags_w.empty()){
       RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), eventWeight), "");
       RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), in_met, eventWeight), "");
+    }
   }
 
   //all/jetLargeRX
