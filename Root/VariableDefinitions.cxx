@@ -90,19 +90,23 @@ float VD::mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const
   float mt(0.0);
 
   // if no leptons passed, return 0.0
-  if(!muons && !els) return mt;
+  if(!muons && !els)
+    return mt;
 
   // get leading lepton
   const xAOD::IParticle* leadingLepton(nullptr);
-  if(muons && !els)
+  if(muons && !els && size(muons) > 0)
     leadingLepton = static_cast<const xAOD::IParticle*>(muons->at(0));
-  else if(!muons && els)
+  else if(!muons && els && size(els) > 0)
     leadingLepton = static_cast<const xAOD::IParticle*>(els->at(0));
-  else
+  else {
+    if(size(muons) < 1 && size(els) < 1)
+      return mt;
     if(muons->at(0)->pt() > els->at(0)->pt())
       leadingLepton = static_cast<const xAOD::IParticle*>(muons->at(0));
     else
       leadingLepton = static_cast<const xAOD::IParticle*>(els->at(0));
+  }
 
   mt = 2*leadingLepton->pt()*met->met()*(1-cos(xAOD::P4Helpers::deltaPhi(leadingLepton, met)));
   return sqrt(fabs(mt));
