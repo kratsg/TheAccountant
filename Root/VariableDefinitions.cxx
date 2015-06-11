@@ -95,26 +95,29 @@ float VD::mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const
 
   // get leading lepton
   const xAOD::IParticle* leadingLepton(nullptr);
-  if(muons && !els && muons->size() > 0)
+  // muons and electrons, both are empty
+  if( (muons && muons->size() == 0)      && (els && els->size() == 0))
+    return mt;
+  // non-empty muons, no electrons
+  else if( (muons && muons->size() > 0 ) && !els                     )
     leadingLepton = static_cast<const xAOD::IParticle*>(muons->at(0));
-  else if(!muons && els && els->size() > 0)
+  // no muons, non-empty electrons
+  else if( !muons                        && (els && els->size() > 0) )
     leadingLepton = static_cast<const xAOD::IParticle*>(els->at(0));
-  else {
-    // if no electrons, then leading lepton is muon
-    if(muons->size() > 0 && els->size() < 1)
+  // non-empty muons, empty electrons
+  else if( (muons && muons->size() > 0 ) && (els && els->size() == 0))
+    leadingLepton = static_cast<const xAOD::IParticle*>(muons->at(0));
+  // empty muons, non-empty electrons
+  else if( (muons && muons->size() == 0) && (els && els->size() > 0) )
+    leadingLepton = static_cast<const xAOD::IParticle*>(els->at(0));
+  // non-empty muons, non-empty electrons
+  else if( (muons && muons->size() > 0 ) && (els && els->size() > 0) ){
+    // if muon pt > electron pt, then leading lepton is muon
+    if(muons->at(0)->pt() > els->at(0)->pt())
       leadingLepton = static_cast<const xAOD::IParticle*>(muons->at(0));
-    // if no muons, then leading lepton is electron
-    else if(muons->size() < 1 && els->size() > 0)
+    // otherwise it is electron
+    else
       leadingLepton = static_cast<const xAOD::IParticle*>(els->at(0));
-    // there is at least one electron and one muon
-    else {
-      // if muon pt > electron pt, then leading lepton is muon
-      if(muons->at(0)->pt() > els->at(0)->pt())
-        leadingLepton = static_cast<const xAOD::IParticle*>(muons->at(0));
-      // otherwise it is electron
-      else
-        leadingLepton = static_cast<const xAOD::IParticle*>(els->at(0));
-    }
   }
 
   mt = 2*leadingLepton->pt()*met->met()*(1-cos(xAOD::P4Helpers::deltaPhi(leadingLepton, met)));
