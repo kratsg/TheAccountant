@@ -89,29 +89,20 @@ float VD::HT(const xAOD::JetContainer* jets, const xAOD::MuonContainer* muons, c
 float VD::mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els){
   float mt(0.0);
 
-  // if no leptons passed, return 0.0
-  if(!muons && !els)
-    return mt;
+  bool els_exist = els && els->size() > 0;
+  bool muons_exist = muons && muons->size() > 0;
 
   // get leading lepton
   const xAOD::IParticle* leadingLepton(nullptr);
-  // muons and electrons, both are empty
-  if( (muons && muons->size() == 0)      && (els && els->size() == 0))
+
+  // if no leptons passed, return 0.0
+  if     (!muons_exist && !els_exist)
     return mt;
-  // non-empty muons, no electrons
-  else if( (muons && muons->size() > 0 ) && !els                     )
+  else if(muons_exist && !els_exist)
     leadingLepton = static_cast<const xAOD::IParticle*>(muons->at(0));
-  // no muons, non-empty electrons
-  else if( !muons                        && (els && els->size() > 0) )
+  else if(!muons_exist && els_exist)
     leadingLepton = static_cast<const xAOD::IParticle*>(els->at(0));
-  // non-empty muons, empty electrons
-  else if( (muons && muons->size() > 0 ) && (els && els->size() == 0))
-    leadingLepton = static_cast<const xAOD::IParticle*>(muons->at(0));
-  // empty muons, non-empty electrons
-  else if( (muons && muons->size() == 0) && (els && els->size() > 0) )
-    leadingLepton = static_cast<const xAOD::IParticle*>(els->at(0));
-  // non-empty muons, non-empty electrons
-  else if( (muons && muons->size() > 0 ) && (els && els->size() > 0) ){
+  else {
     // if muon pt > electron pt, then leading lepton is muon
     if(muons->at(0)->pt() > els->at(0)->pt())
       leadingLepton = static_cast<const xAOD::IParticle*>(muons->at(0));
