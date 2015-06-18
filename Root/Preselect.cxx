@@ -52,6 +52,7 @@ EL::StatusCode Preselect :: initialize ()
 
 EL::StatusCode Preselect :: execute ()
 {
+  if(m_debug) Info("execute()", "Calling execute...");
   const xAOD::EventInfo*                eventInfo     (nullptr);
   const xAOD::JetContainer*             in_jetsLargeR (nullptr);
   const xAOD::JetContainer*             in_jets       (nullptr);
