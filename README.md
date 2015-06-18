@@ -28,7 +28,7 @@ rcSetup Base,2.3.12
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
 git clone https://github.com/kratsg/xAODJetReclustering
-git clone https://github.com/UCATLAS/xAODAnaHelpers && cd xAODAnaHelpers && git checkout g6cd6f9e && cd ../
+git clone https://github.com/UCATLAS/xAODAnaHelpers && cd xAODAnaHelpers && git checkout 6cd6f9ed && cd ../
 git clone https://github.com/kratsg/JetSubstructureTools
 mv JetSubstructureTools ../. && ln -s ../JetSubstructureTools/JetSubStructureUtils JetSubStructureUtils
 rc find_packages
