@@ -197,19 +197,19 @@ bool VD::bTag(const xAOD::Jet* jet, VD::WP wp){
   if(!jet->getAttribute("btag_MV2c20", MV1)) return false;
 
   switch(wp){
-    case VD::WP::Loose:
+    case VD::WP::Loose: // 85%
     {
-      isB_tagged = MV1 > 0.3511;
+      isB_tagged = MV1 > -0.7682;
     }
     break;
-    case VD::WP::Medium:
+    case VD::WP::Medium: // 70%
     {
-      isB_tagged = MV1 > 0.7892;
+      isB_tagged = MV1 > 0.0314;
     }
     break;
-    case VD::WP::Tight:
+    case VD::WP::Tight: // 60%
     {
-      isB_tagged = MV1 > 0.9827;
+      isB_tagged = MV1 > 0.5102;
     }
     break;
     default:
