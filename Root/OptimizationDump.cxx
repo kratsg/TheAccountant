@@ -177,7 +177,7 @@ EL::StatusCode OptimizationDump :: execute ()
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
     // retrieve CalibMET_RefFinal for METContainer
-    xAOD::MissingETContainer::const_iterator met_final = in_missinget->find("Final");
+    xAOD::MissingETContainer::const_iterator met_final = in_missinget->find(m_inputMETName);
     if (met_final == in_missinget->end()) {
       Error("execute()", "No RefFinal inside MET container" );
       return EL::StatusCode::FAILURE;
