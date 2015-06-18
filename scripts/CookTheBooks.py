@@ -151,6 +151,12 @@ if __name__ == "__main__":
                                 type=str,
                                 help='Missing Et container name.',
                                 default='MET_RefFinal')
+  group_algorithms.add_argument('--metid',
+                                dest='inputMETName',
+                                metavar='',
+                                type=str,
+                                help='Missing Et container element to access.',
+                                default='Final')
   group_algorithms.add_argument('--electrons',
                                 dest='inputElectrons',
                                 metavar='',

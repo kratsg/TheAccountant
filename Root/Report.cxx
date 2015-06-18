@@ -169,7 +169,7 @@ EL::StatusCode Report :: execute ()
     RETURN_CHECK("Report::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
   // retrieve CalibMET_RefFinal for METContainer
-  xAOD::MissingETContainer::const_iterator met_final = in_missinget->find("Final");
+  xAOD::MissingETContainer::const_iterator met_final = in_missinget->find(m_inputMETName);
   if (met_final == in_missinget->end()) {
     Error("execute()", "No RefFinal inside MET container" );
     return EL::StatusCode::FAILURE;

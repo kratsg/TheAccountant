@@ -41,6 +41,7 @@ public:
               m_inputLargeRJets       = "",
               m_inputJets      = "",
               m_inputMET        = "MET_RefFinal",
+              m_inputMETName    = "Final",
               m_inputElectrons  = "",
               m_inputMuons      = "",
               m_inputTauJets    = "",

@@ -100,6 +100,8 @@ global algorithm options:
   --jets                   small-R jet container name. (default:
                            AntiKt4LCTopoJets)
   --met                    Missing Et container name. (default: MET_RefFinal)
+  --metid                  Missing Et container element to access. (default:
+                             Final)
   --electrons              Electrons container name. (default: )
   --muons                  Muons container name. (default: )
   --taujets                TauJets container name. (default: )
