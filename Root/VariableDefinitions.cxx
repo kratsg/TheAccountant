@@ -189,7 +189,10 @@ int VD::bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, V
 
 bool VD::bTag(const xAOD::Jet* jet, VD::WP wp){
   bool isB_tagged = false;
-  float MV1(jet->btagging()->MV1_discriminant());
+  const xAOD::BTagging* btagging = jet->btagging();
+  if(!btagging) return isB_tagged;
+
+  float MV1(btagging->MV1_discriminant());
 
   switch(wp){
     case VD::WP::Loose:
