@@ -123,10 +123,6 @@ if __name__ == "__main__":
                                 dest='debug',
                                 action='store_true',
                                 help='Enable verbose output of the algorithms.')
-  group_algorithms.add_argument('--passPreSel',
-                                dest='passPreSel',
-                                action='store_true',
-                                help='For Audit: only run on events that pass pre-selection. For Report: enable additional plots for events that pass pre-selection.')
   group_algorithms.add_argument('--eventInfo',
                                 dest='eventInfo',
                                 metavar='',
@@ -357,7 +353,7 @@ if __name__ == "__main__":
       cookBooks_logger.info("\t%s", printStr)
       algorithmConfiguration_string.append(printStr)
       setattr(audit, 'm_{0}'.format(opt), not(getattr(args, 'disable_{0}'.format(opt))))
-    for opt in ['passPreSel', 'drawDecayTreePlots']:
+    for opt in ['drawDecayTreePlots']:
       printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format('Audit', opt, getattr(args, opt))
       cookBooks_logger.info("\t%s", printStr)
       algorithmConfiguration_string.append(printStr)
@@ -373,7 +369,7 @@ if __name__ == "__main__":
     cookBooks_logger.info("\tcreating report algorithm")
     algorithmConfiguration_string.append("report algorithm options")
     report = ROOT.Report()
-    for opt in ['passPreSel', 'numLeadingJets']:
+    for opt in ['numLeadingJets']:
       printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format('Report', opt, getattr(args, opt))
       cookBooks_logger.info("\t%s", printStr)
       algorithmConfiguration_string.append(printStr)

@@ -91,9 +91,6 @@ job runner options:
 global algorithm options:
   --debug                  Enable verbose output of the algorithms. (default:
                            False)
-  --passPreSel             For Audit: only run on events that pass pre-
-                           selection. For Report: enable additional plots for
-                           events that pass pre-selection. (default: False)
   --eventInfo              EventInfo container name. (default: EventInfo)
   --jetsLargeR             Large-R jet container name. (default:
                            AntiKt10LCTopoJets)
