@@ -379,7 +379,7 @@ if __name__ == "__main__":
     algorithmConfiguration_string.append("global algorithm options")
     for alg in [preselect, audit, optimization_dump, report]:
       if alg is None: continue  # skip optimization_dump if not defined
-      for opt in ['debug', 'eventInfo', 'inputLargeRJets', 'inputJets', 'inputMET', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons', 'decor_jetTags_b', 'decor_jetTags_top', 'decor_jetTags_w']:
+      for opt in ['debug', 'eventInfo', 'inputLargeRJets', 'inputJets', 'inputMET', 'inputMETName', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons', 'decor_jetTags_b', 'decor_jetTags_top', 'decor_jetTags_w']:
         printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format(alg.ClassName(), opt, getattr(args, opt))
         cookBooks_logger.info("\t%s", printStr)
         algorithmConfiguration_string.append(printStr)
