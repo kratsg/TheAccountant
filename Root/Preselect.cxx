@@ -104,8 +104,8 @@ EL::StatusCode Preselect :: execute ()
       return EL::StatusCode::SUCCESS;
     }
 
-    static SG::AuxElement::Decorator< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
-    pass_preSel_jetsLargeR(*eventInfo) = num_passJetsLargeR;
+    //static SG::AuxElement::Decorator< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
+    //pass_preSel_jetsLargeR(*eventInfo) = num_passJetsLargeR;
   }
 
   if(!m_inputJets.empty()){
@@ -126,8 +126,12 @@ EL::StatusCode Preselect :: execute ()
       if(jet->phi()      < m_jet_minPhi)  continue;
       if(jet->phi()      > m_jet_maxPhi)  continue;
       num_passJets++;
-      num_passBJets += static_cast<int>(VD::bTag(jet, bTag_wp));
       pass_preSel(*jet) = 1;
+      if(VD::bTag(jet, bTag_wp)){
+        num_passBJets++;
+        static SG::AuxElement::Decorator< int > isB("isB");
+        isB(*jet) = 1;
+      }
     }
 
     // only select event if:
@@ -144,11 +148,13 @@ EL::StatusCode Preselect :: execute ()
       return EL::StatusCode::SUCCESS;
     }
 
-    static SG::AuxElement::Decorator< int > pass_preSel_jets("pass_preSel_jets");
-    static SG::AuxElement::Decorator< int > pass_preSel_bjets("pass_preSel_bjets");
-    pass_preSel_jets(*eventInfo) = num_passJets;
-    pass_preSel_bjets(*eventInfo) = num_passBJets;
+    //static SG::AuxElement::Decorator< int > pass_preSel_jets("pass_preSel_jets");
+    //static SG::AuxElement::Decorator< int > pass_preSel_bjets("pass_preSel_bjets");
+    //pass_preSel_jets(*eventInfo) = num_passJets;
+    //pass_preSel_bjets(*eventInfo) = num_passBJets;
+
   }
+
 
   return EL::StatusCode::SUCCESS;
 }
