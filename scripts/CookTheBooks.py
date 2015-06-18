@@ -140,7 +140,7 @@ if __name__ == "__main__":
                                 metavar='',
                                 type=str,
                                 help='small-R jet container name.',
-                                default='AntiKt4LCTopoJets')
+                                default='AntiKt4EMTopoJets')
   group_algorithms.add_argument('--met',
                                 dest='inputMET',
                                 metavar='',
