@@ -30,7 +30,7 @@ git clone https://github.com/lawrenceleejr/Ext_RestFrames
 git clone https://github.com/kratsg/xAODJetReclustering
 git clone https://github.com/UCATLAS/xAODAnaHelpers
 git clone https://github.com/kratsg/JetSubstructureTools
-ln -s JetSubstructureTools/JetSubStructureUtils JetSubStructureUtils
+mv JetSubstructureTools ../. && ln -s ../JetSubstructureTools/JetSubStructureUtils JetSubStructureUtils
 rc find_packages
 rc compile
 ```
