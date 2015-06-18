@@ -194,7 +194,7 @@ bool VD::bTag(const xAOD::Jet* jet, VD::WP wp){
   //if(!btagging) return isB_tagged;
   //float MV1(btagging->MV1_discriminant());
   float MV1(0.0);
-  if(!jet->getAttribute("MV1_Discriminant", MV1)) return false;
+  if(!jet->getAttribute("btag_MV1", MV1)) return false;
 
   switch(wp){
     case VD::WP::Loose:
