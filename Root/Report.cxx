@@ -179,7 +179,7 @@ EL::StatusCode Report :: execute ()
   const xAOD::MissingET* in_met = *met_final;
 
   //float eventWeight(eventInfo->mcEventWeight());
-  float eventWeight(1);
+  float eventWeight(eventInfo->auxdata<float>("weight_mc"));
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetPlots["all/jets"]->execute(in_jets, eventWeight), "");
