@@ -111,12 +111,14 @@ EL::StatusCode Preselect :: execute ()
   if(!m_inputJets.empty()){
     // get the working point
     static VD::WP bTag_wp = VD::str2wp(m_bTag_wp);
+    static SG::AuxElement::Decorator< int > isB("isB");
 
     // for small-R jets, count number of jets that pass standard cuts
     int num_passJets = 0;
     int num_passBJets = 0;
     for(const auto jet: *in_jets){
       pass_preSel(*jet) = 0;
+      isB(*jet) = 0;
       if(jet->pt()/1000. < m_jet_minPt)  continue;
       if(jet->pt()/1000. > m_jet_maxPt)  continue;
       if(jet->m()/1000.  < m_jet_minMass) continue;
@@ -129,7 +131,6 @@ EL::StatusCode Preselect :: execute ()
       pass_preSel(*jet) = 1;
       if(VD::bTag(jet, bTag_wp)){
         num_passBJets++;
-        static SG::AuxElement::Decorator< int > isB("isB");
         isB(*jet) = 1;
       }
     }

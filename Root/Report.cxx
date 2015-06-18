@@ -40,58 +40,39 @@ EL::StatusCode Report :: setupJob (EL::Job& job)
 EL::StatusCode Report :: histInitialize () {
   // initialize all histograms here
 
-  m_jetPlots["all/jetsLargeR"]          = new TheAccountant::IParticleKinematicHists( "all/jetsLargeR/" );
-  m_jetPlots["all/jets"]         = new TheAccountant::IParticleKinematicHists( "all/jets/" );
-  m_jetMETPlots["all/jetsLargeR"]       = new TheAccountant::JetMETHists( "all/jetsLargeR/" );
-  m_jetMETPlots["all/jets"]      = new TheAccountant::JetMETHists( "all/jets/" );
-  m_METPlots["all/MET"]               = new TheAccountant::METHists( "all/MET/" );
-
-  if(m_passPreSel){
-    m_jetPlots["presel/jetsLargeR"]     = new TheAccountant::IParticleKinematicHists( "presel/jetsLargeR/" );
-    m_jetPlots["presel/jets"]    = new TheAccountant::IParticleKinematicHists( "presel/jets/" );
-
-    m_jetMETPlots["presel/jetsLargeR"]  = new TheAccountant::JetMETHists( "presel/jetsLargeR/" );
-    m_jetMETPlots["presel/jets"] = new TheAccountant::JetMETHists( "presel/jets/" );
-
-    m_METPlots["presel/MET"]          = new TheAccountant::METHists( "presel/MET/" );
-  }
-
-  // tagged jets
-  //all/jets/bTag
-  //presel/jets/bTag
-  if(!m_decor_jetTags_b.empty()){
-    m_jetPlots["all/jets/bTag"]          = new TheAccountant::IParticleKinematicHists("all/jets/bTag/");
-    m_jetMETPlots["all/jets/bTag"]       = new TheAccountant::JetMETHists("all/jets/bTag/");
-
-    if(m_passPreSel){
-      m_jetPlots["presel/jets/bTag"]     = new TheAccountant::IParticleKinematicHists("presel/jets/bTag/");
-      m_jetMETPlots["presel/jets/bTag"]  = new TheAccountant::JetMETHists("presel/jets/bTag/");
+  if(!m_inputJets.empty()){
+    m_jetPlots["all/jets"]         = new TheAccountant::IParticleKinematicHists( "all/jets/" );
+    m_jetMETPlots["all/jets"]      = new TheAccountant::JetMETHists( "all/jets/" );
+    // tagged jets
+    //all/jets/bTag
+    if(!m_decor_jetTags_b.empty()){
+      m_jetPlots["all/jets/bTag"]          = new TheAccountant::IParticleKinematicHists("all/jets/bTag/");
+      if(!m_inputMET.empty())
+        m_jetMETPlots["all/jets/bTag"]       = new TheAccountant::JetMETHists("all/jets/bTag/");
     }
   }
 
-  //all/jetsLargeR/topTag
-  //presel/jetsLargeR/topTag
-  if(!m_decor_jetTags_top.empty()){
-    m_jetPlots["all/jetsLargeR/topTag"]         = new TheAccountant::IParticleKinematicHists("all/jetsLargeR/topTag/");
-    m_jetMETPlots["all/jetsLargeR/topTag"]      = new TheAccountant::JetMETHists("all/jetsLargeR/topTag/");
+  if(!m_inputLargeRJets.empty()){
+    m_jetPlots["all/jetsLargeR"]          = new TheAccountant::IParticleKinematicHists( "all/jetsLargeR/" );
+    m_jetMETPlots["all/jetsLargeR"]       = new TheAccountant::JetMETHists( "all/jetsLargeR/" );
 
-    if(m_passPreSel){
-      m_jetPlots["presel/jetsLargeR/topTag"]    = new TheAccountant::IParticleKinematicHists("presel/jetsLargeR/topTag/");
-      m_jetMETPlots["presel/jetsLargeR/topTag"] = new TheAccountant::JetMETHists("presel/jetsLargeR/topTag/");
+    //all/jetsLargeR/topTag
+    if(!m_decor_jetTags_top.empty()){
+      m_jetPlots["all/jetsLargeR/topTag"]         = new TheAccountant::IParticleKinematicHists("all/jetsLargeR/topTag/");
+      if(!m_inputMET.empty())
+        m_jetMETPlots["all/jetsLargeR/topTag"]      = new TheAccountant::JetMETHists("all/jetsLargeR/topTag/");
+    }
+
+    //all/jetsLargeR/wTag
+    if(!m_decor_jetTags_w.empty()){
+      m_jetPlots["all/jetsLargeR/wTag"]           = new TheAccountant::IParticleKinematicHists("all/jetsLargeR/wTag/");
+      if(!m_inputMET.empty())
+        m_jetMETPlots["all/jetsLargeR/wTag"]        = new TheAccountant::JetMETHists("all/jetsLargeR/wTag/");
     }
   }
 
-  //all/jetsLargeR/wTag
-  //presel/jetsLargeR/wTag
-  if(!m_decor_jetTags_w.empty()){
-    m_jetPlots["all/jetsLargeR/wTag"]           = new TheAccountant::IParticleKinematicHists("all/jetsLargeR/wTag/");
-    m_jetMETPlots["all/jetsLargeR/wTag"]        = new TheAccountant::JetMETHists("all/jetsLargeR/wTag/");
-
-    if(m_passPreSel){
-      m_jetPlots["presel/jetsLargeR/wTag"]      = new TheAccountant::IParticleKinematicHists("presel/jetsLargeR/wTag/");
-      m_jetMETPlots["presel/jetsLargeR/wTag"]   = new TheAccountant::JetMETHists("presel/jetsLargeR/wTag/");
-    }
-  }
+  if(!m_inputMET.empty())
+    m_METPlots["all/MET"]               = new TheAccountant::METHists( "all/MET/" );
 
   // enable jet counting for jet plots above, set type to jet
   for(auto jetPlot: m_jetPlots){
@@ -104,38 +85,30 @@ EL::StatusCode Report :: histInitialize () {
 
   // NLeadingJets
   for(int i=1; i <= m_numLeadingJets; ++i){
-    //all/jetX
-    //all jetX
-    m_jetPlots["all/jetLargeR"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "all/jetLargeR"+std::to_string(i)+"/" );
-    m_jetPlots["all/jet"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "all/jet"+std::to_string(i)+"/" );
+    if(!m_inputJets.empty()){
+      //all/jetX
+      m_jetPlots["all/jet"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "all/jet"+std::to_string(i)+"/" );
 
-    //presel/jetLargeRX
-    //presel/jetX
-    if(m_passPreSel){
-      m_jetPlots["presel/jetLargeR"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "presel/jetLargeR"+std::to_string(i)+"/" );
-      m_jetPlots["presel/jet"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "presel/jet"+std::to_string(i)+"/" );
+      // tagged jets
+      //all/jetX_bTag
+      if(!m_decor_jetTags_b.empty()){
+        m_jetPlots["all/jet"+std::to_string(i)+"/bTag"] = new TheAccountant::IParticleKinematicHists("all/jet"+std::to_string(i)+"/bTag/");
+      }
     }
 
-    // tagged jets
-    //all/jetX_bTag
-    //presel/jetX_bTag
-    if(!m_decor_jetTags_b.empty()){
-      m_jetPlots["all/jet"+std::to_string(i)+"/bTag"] = new TheAccountant::IParticleKinematicHists("all/jet"+std::to_string(i)+"/bTag/");
-      if(m_passPreSel) m_jetPlots["presel/jet"+std::to_string(i)+"/bTag"] = new TheAccountant::IParticleKinematicHists("presel/jet"+std::to_string(i)+"/bTag/");
-    }
+    if(!m_inputLargeRJets.empty()){
+      //all/jetLargeRX
+      m_jetPlots["all/jetLargeR"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "all/jetLargeR"+std::to_string(i)+"/" );
 
-    //all/jetLargeRX_topTag
-    //presel/jetLargeRX_topTag
-    if(!m_decor_jetTags_top.empty()){
-      m_jetPlots["all/jetLargeR"+std::to_string(i)+"/topTag"] = new TheAccountant::IParticleKinematicHists("all/jetLargeR"+std::to_string(i)+"/topTag/");
-      if(m_passPreSel) m_jetPlots["presel/jetLargeR"+std::to_string(i)+"/topTag"] = new TheAccountant::IParticleKinematicHists("presel/jetLargeR"+std::to_string(i)+"/topTag/");
-    }
+      //all/jetLargeRX_topTag
+      if(!m_decor_jetTags_top.empty()){
+        m_jetPlots["all/jetLargeR"+std::to_string(i)+"/topTag"] = new TheAccountant::IParticleKinematicHists("all/jetLargeR"+std::to_string(i)+"/topTag/");
+      }
 
-    //all/jetLargeRX_wTag
-    //presel/jetLargeRX_wTag
-    if(!m_decor_jetTags_w.empty()){
-      m_jetPlots["all/jetLargeR"+std::to_string(i)+"/wTag"] = new TheAccountant::IParticleKinematicHists("all/jetLargeR"+std::to_string(i)+"/wTag/");
-      if(m_passPreSel) m_jetPlots["presel/jetLargeR"+std::to_string(i)+"/wTag"] = new TheAccountant::IParticleKinematicHists("presel/jetLargeR"+std::to_string(i)+"/wTag/");
+      //all/jetLargeRX_wTag
+      if(!m_decor_jetTags_w.empty()){
+        m_jetPlots["all/jetLargeR"+std::to_string(i)+"/wTag"] = new TheAccountant::IParticleKinematicHists("all/jetLargeR"+std::to_string(i)+"/wTag/");
+      }
     }
   }
 
@@ -180,8 +153,10 @@ EL::StatusCode Report :: execute ()
 
   // start grabbing all the containers that we can
   RETURN_CHECK("Report::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
-  RETURN_CHECK("Report::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
-  RETURN_CHECK("Report::execute()", HF::retrieve(in_jets,     m_inputJets,       m_event, m_store, m_debug), "Could not get the inputJets container.");
+  if(!m_inputJets.empty())
+    RETURN_CHECK("Report::execute()", HF::retrieve(in_jets,     m_inputJets,       m_event, m_store, m_debug), "Could not get the inputJets container.");
+  if(!m_inputLargeRJets.empty())
+    RETURN_CHECK("Report::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
   if(!m_inputMET.empty())
     RETURN_CHECK("Report::execute()", HF::retrieve(in_missinget, m_inputMET,         m_event, m_store, m_debug), "Could not get the inputMET container.");
   if(!m_inputElectrons.empty())
@@ -202,14 +177,23 @@ EL::StatusCode Report :: execute ()
   // dereference the iterator since it's just a single object
   const xAOD::MissingET* in_met = *met_final;
 
-  float eventWeight(eventInfo->mcEventWeight());
+  //float eventWeight(eventInfo->mcEventWeight());
+  float eventWeight(1);
 
-  // standard all jetsLargeR and all jets
-  RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR"]->execute(in_jets, eventWeight), "");
-  RETURN_CHECK("Report::execute()", m_jetPlots["all/jets"]->execute(in_jets, eventWeight), "");
-  RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR"]->execute(in_jets, in_met, eventWeight), "");
-  RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jets"]->execute(in_jets, in_met, eventWeight), "");
-  RETURN_CHECK("Report::execute()", m_METPlots["all/MET"]->execute(in_met, eventWeight), "");
+  if(!m_inputJets.empty()){
+    RETURN_CHECK("Report::execute()", m_jetPlots["all/jets"]->execute(in_jets, eventWeight), "");
+    if(!m_inputMET.empty())
+      RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jets"]->execute(in_jets, in_met, eventWeight), "");
+  }
+
+  if(!m_inputLargeRJets.empty()){
+    RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR"]->execute(in_jetsLargeR, eventWeight), "");
+    if(!m_inputMET.empty())
+      RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR"]->execute(in_jetsLargeR, in_met, eventWeight), "");
+  }
+
+  if(!m_inputMET.empty())
+    RETURN_CHECK("Report::execute()", m_METPlots["all/MET"]->execute(in_met, eventWeight), "");
 
   //build up the tagged containers
   ConstDataVector<xAOD::JetContainer> jets_bTagged(SG::VIEW_ELEMENTS);
@@ -221,84 +205,99 @@ EL::StatusCode Report :: execute ()
     static SG::AuxElement::Accessor< int > decor_jetTags_top(m_decor_jetTags_top);
     static SG::AuxElement::Accessor< int > decor_jetTags_w(m_decor_jetTags_w);
 
-    for(const auto jet: *in_jets){
+    if(!m_inputJets.empty()){
+      for(const auto jet: *in_jets){
+        if(!m_decor_jetTags_b.empty()){
+          if(decor_jetTags_b.isAvailable(*jet)){
+            if(decor_jetTags_b(*jet) == 1) jets_bTagged.push_back(jet);
+          } else {
+            Error("Report::execute()", "m_decor_jetTags_b is set but the decoration is missing on this jet.");
+            return EL::StatusCode::FAILURE;
+          }
+        }
+      }
+    }
+
+    if(!m_inputLargeRJets.empty()){
+      for(const auto jet: *in_jetsLargeR){
+        if(!m_decor_jetTags_top.empty()){
+          if(decor_jetTags_top.isAvailable(*jet)){
+            if(decor_jetTags_top(*jet) == 1) jetsLargeR_topTagged.push_back(jet);
+          } else {
+            Error("Report::execute()", "m_decor_jetTags_top is set but the decoration is missing on this jet.");
+            return EL::StatusCode::FAILURE;
+          }
+        }
+
+        if(!m_decor_jetTags_w.empty()){
+          if(decor_jetTags_w.isAvailable(*jet)){
+            if(decor_jetTags_w(*jet) == 1) jetsLargeR_wTagged.push_back(jet);
+          } else {
+            Error("Report::execute()", "m_decor_jetTags_w is set but the decoration is missing on this jet.");
+            return EL::StatusCode::FAILURE;
+          }
+        }
+      }
+    }
+
+    if(!m_inputJets.empty()){
+      //all/jets/bTag
       if(!m_decor_jetTags_b.empty()){
-        if(decor_jetTags_b.isAvailable(*jet)){
-          if(decor_jetTags_b(*jet) == 1) jets_bTagged.push_back(jet);
-        } else {
-          Error("Report::execute()", "m_decor_jetTags_b is set but the decoration is missing on this jet.");
-          return EL::StatusCode::FAILURE;
-        }
+        RETURN_CHECK("Report::execute()", m_jetPlots["all/jets/bTag"]->execute(jets_bTagged.asDataVector(), eventWeight), "");
+        if(!m_inputMET.empty())
+          RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jets/bTag"]->execute(jets_bTagged.asDataVector(), in_met, eventWeight), "");
       }
     }
 
-    for(const auto jet: *in_jetsLargeR){
+    if(!m_inputLargeRJets.empty()){
+      //all/jetsLargeR/topTag
       if(!m_decor_jetTags_top.empty()){
-        if(decor_jetTags_top.isAvailable(*jet)){
-          if(decor_jetTags_top(*jet) == 1) jetsLargeR_topTagged.push_back(jet);
-        } else {
-          Error("Report::execute()", "m_decor_jetTags_top is set but the decoration is missing on this jet.");
-          return EL::StatusCode::FAILURE;
-        }
+        RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), eventWeight), "");
+        if(!m_inputMET.empty())
+          RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), in_met, eventWeight), "");
       }
 
+      //all/jetsLargeR/wTag
       if(!m_decor_jetTags_w.empty()){
-        if(decor_jetTags_w.isAvailable(*jet)){
-          if(decor_jetTags_w(*jet) == 1) jetsLargeR_wTagged.push_back(jet);
-        } else {
-          Error("Report::execute()", "m_decor_jetTags_w is set but the decoration is missing on this jet.");
-          return EL::StatusCode::FAILURE;
-        }
+        RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), eventWeight), "");
+        if(!m_inputMET.empty())
+          RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), in_met, eventWeight), "");
+      }
+    }
+  }
+
+  if(!m_inputJets.empty()){
+    //all/jetX
+    for(int i=1; i <= std::min<int>( m_numLeadingJets, in_jets->size() ); ++i ){
+      RETURN_CHECK("Report::execute()", m_jetPlots["all/jet"+std::to_string(i)]->execute(in_jets->at(i-1), eventWeight), "");
+    }
+
+    //all/jetX_bTag
+    if(!m_decor_jetTags_b.empty()){
+      for(int i=1; i <= std::min<int>( m_numLeadingJets, jets_bTagged.size() ); ++i){
+        RETURN_CHECK("Report::execute()", m_jetPlots["all/jet"+std::to_string(i)+"/bTag"]->execute(jets_bTagged.at(i-1), eventWeight), "");
+      }
+    }
+  }
+
+  if(!m_inputLargeRJets.empty()){
+    //all/jetLargeRX
+    for(int i=1; i <= std::min<int>( m_numLeadingJets, in_jetsLargeR->size() ); ++i ){
+      RETURN_CHECK("Report::execute()", m_jetPlots["all/jetLargeR"+std::to_string(i)]->execute(in_jetsLargeR->at(i-1), eventWeight), "");
+    }
+
+    //all/jetLargeRX_topTag
+    if(!m_decor_jetTags_top.empty()){
+      for(int i=1; i <= std::min<int>( m_numLeadingJets, jetsLargeR_topTagged.size() ); ++i){
+        RETURN_CHECK("Report::execute()", m_jetPlots["all/jetLargeR"+std::to_string(i)+"/topTag"]->execute(jetsLargeR_topTagged.at(i-1), eventWeight), "");
       }
     }
 
-    //all/jets/bTag
-    if(!m_decor_jetTags_b.empty()){
-      RETURN_CHECK("Report::execute()", m_jetPlots["all/jets/bTag"]->execute(jets_bTagged.asDataVector(), eventWeight), "");
-      RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jets/bTag"]->execute(jets_bTagged.asDataVector(), in_met, eventWeight), "");
-    }
-
-    //all/jetsLargeR/topTag
-    if(!m_decor_jetTags_top.empty()){
-      RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), eventWeight), "");
-      RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR/topTag"]->execute(jetsLargeR_topTagged.asDataVector(), in_met, eventWeight), "");
-    }
-
-    //all/jetsLargeR/wTag
+    //all/jetLargeRX_wTag
     if(!m_decor_jetTags_w.empty()){
-      RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), eventWeight), "");
-      RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR/wTag"]->execute(jetsLargeR_wTagged.asDataVector(), in_met, eventWeight), "");
-    }
-  }
-
-  //all/jetLargeRX
-  for(int i=1; i <= std::min<int>( m_numLeadingJets, in_jetsLargeR->size() ); ++i ){
-    RETURN_CHECK("Report::execute()", m_jetPlots["all/jetLargeR"+std::to_string(i)]->execute(in_jetsLargeR->at(i-1), eventWeight), "");
-  }
-
-  //all/jetX
-  for(int i=1; i <= std::min<int>( m_numLeadingJets, in_jets->size() ); ++i ){
-    RETURN_CHECK("Report::execute()", m_jetPlots["all/jet"+std::to_string(i)]->execute(in_jets->at(i-1), eventWeight), "");
-  }
-
-  //all/jetX_bTag
-  if(!m_decor_jetTags_b.empty()){
-    for(int i=1; i <= std::min<int>( m_numLeadingJets, jets_bTagged.size() ); ++i){
-      RETURN_CHECK("Report::execute()", m_jetPlots["all/jet"+std::to_string(i)+"/bTag"]->execute(jets_bTagged.at(i-1), eventWeight), "");
-    }
-  }
-
-  //all/jetLargeRX_topTag
-  if(!m_decor_jetTags_top.empty()){
-    for(int i=1; i <= std::min<int>( m_numLeadingJets, jetsLargeR_topTagged.size() ); ++i){
-      RETURN_CHECK("Report::execute()", m_jetPlots["all/jetLargeR"+std::to_string(i)+"/topTag"]->execute(jetsLargeR_topTagged.at(i-1), eventWeight), "");
-    }
-  }
-
-  //all/jetLargeRX_wTag
-  if(!m_decor_jetTags_w.empty()){
-    for(int i=1; i <= std::min<int>( m_numLeadingJets, jetsLargeR_wTagged.size() ); ++i){
-      RETURN_CHECK("Report::execute()", m_jetPlots["all/jetLargeR"+std::to_string(i)+"/wTag"]->execute(jetsLargeR_wTagged.at(i-1), eventWeight), "");
+      for(int i=1; i <= std::min<int>( m_numLeadingJets, jetsLargeR_wTagged.size() ); ++i){
+        RETURN_CHECK("Report::execute()", m_jetPlots["all/jetLargeR"+std::to_string(i)+"/wTag"]->execute(jetsLargeR_wTagged.at(i-1), eventWeight), "");
+      }
     }
   }
 
@@ -308,9 +307,9 @@ EL::StatusCode Report :: execute ()
 EL::StatusCode Report :: postExecute () { return EL::StatusCode::SUCCESS; }
 
 EL::StatusCode Report :: finalize () {
-  for( auto jetPlot : m_jetPlots ) {
-    if(jetPlot.second) delete jetPlot.second;
-  }
+  for( auto jetPlot : m_jetPlots )
+    if(jetPlot.second)
+      delete jetPlot.second;
   return EL::StatusCode::SUCCESS;
 }
 
