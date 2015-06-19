@@ -115,6 +115,13 @@ float VD::mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const
   return sqrt(fabs(mt));
 }
 
+float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles){
+  float dPhiMin(2*TMath::Pi());
+  // compute dPhiMin
+  for(const auto particle: *particles) dPhiMin = std::min<float>( fabs(dPhiMin), xAOD::P4Helpers::deltaPhi(particle, met) );
+  return dPhiMin;
+}
+
 int VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, VD::WP wp){
 
   static SG::AuxElement::Decorator< int > nTops_wp("nTops_"+VD::wp2str(wp));
@@ -189,12 +196,7 @@ int VD::bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, V
 
 bool VD::bTag(const xAOD::Jet* jet, VD::WP wp){
   bool isB_tagged = false;
-  //
-  //const xAOD::BTagging* btagging = jet->btagging();
-  //if(!btagging) return isB_tagged;
   float MV1(jet->btagging()->MV1_discriminant());
-  //float MV1(0.0);
-  //if(!jet->getAttribute("btag_MV2c20", MV1)) return false;
 
   switch(wp){
     case VD::WP::Loose: // 85%

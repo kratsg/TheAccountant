@@ -3,6 +3,7 @@
 
 // EDM includes
 #include "xAODEventInfo/EventInfo.h"
+#include "xAODBase/IParticleContainer.h"
 #include "xAODJet/JetContainer.h"
 #include "xAODMuon/MuonContainer.h"
 #include "xAODEgamma/ElectronContainer.h"
@@ -33,6 +34,9 @@ namespace VariableDefinitions {
 
   // Transverse Mass calculated using MET and leading lepton
   float mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els);
+
+  // Calculates the minimum dPhi between the met and the container of particles passed in
+  float dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles);
 
   // top tagging on jets, set the eventInfo with "nTops_<WP>" int decoration
   //    - static SG::AuxElement::Accessor< int > nTops_wp("nTops_<WP>");
