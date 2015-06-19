@@ -326,6 +326,8 @@ if __name__ == "__main__":
     job.options().setDouble(ROOT.EL.Job.optCacheSize, 50*1024*1024)
     job.options().setDouble(ROOT.EL.Job.optCacheLearnEntries, 50)
 
+    # access mode branch
+    job.options().setString( ROOT.EL.Job.optXaodAccessMode, ROOT.EL.Job.optXaodAccessMode_branch )
 
     algorithmConfiguration_string = []
 

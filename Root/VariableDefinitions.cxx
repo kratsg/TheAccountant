@@ -192,9 +192,9 @@ bool VD::bTag(const xAOD::Jet* jet, VD::WP wp){
   //
   //const xAOD::BTagging* btagging = jet->btagging();
   //if(!btagging) return isB_tagged;
-  //float MV1(btagging->MV1_discriminant());
-  float MV1(0.0);
-  if(!jet->getAttribute("btag_MV2c20", MV1)) return false;
+  float MV1(jet->btagging()->MV1_discriminant());
+  //float MV1(0.0);
+  //if(!jet->getAttribute("btag_MV2c20", MV1)) return false;
 
   switch(wp){
     case VD::WP::Loose: // 85%
