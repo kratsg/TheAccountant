@@ -80,6 +80,20 @@ EL::StatusCode Preselect :: execute ()
   if(!m_inputPhotons.empty())
     RETURN_CHECK("Preselect::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
+
+  const xAOD::MissingET* in_met(nullptr);
+  if(!m_inputMET.empty()){
+    // retrieve CalibMET_RefFinal for METContainer
+    xAOD::MissingETContainer::const_iterator met_id = in_missinget->find(m_inputMETName);
+    if (met_id == in_missinget->end()) {
+      Error("execute()", "No %s inside MET container", m_inputMETName.c_str());
+      return EL::StatusCode::FAILURE;
+    }
+    // dereference the iterator since it's just a single object
+    in_met = *met_id;
+  }
+
+
   static SG::AuxElement::Decorator< int > pass_preSel("pass_preSel");
 
   if(!m_inputLargeRJets.empty()){
@@ -155,6 +169,13 @@ EL::StatusCode Preselect :: execute ()
     //pass_preSel_jets(*eventInfo) = num_passJets;
     //pass_preSel_bjets(*eventInfo) = num_passBJets;
 
+  }
+
+  if(!m_inputJets.empty() && !m_inputMET.empty()){
+    if(VD::dPhiMETMin(in_met, in_jets) < 0.4){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
   }
 
 
