@@ -75,6 +75,14 @@ if __name__ == "__main__":
   parser.add_argument('--version',
                       action='version',
                       version='%(prog)s {version}'.format(version=__version__))
+  parser.add_argument('--mode',
+                      dest='access_mode',
+                      type=str,
+                      metavar='{class, branch}',
+                      choices=['class', 'branch'],
+                      default='class',
+                      help='Run using branch access mode or class access mode. See TheAccountant/wiki/Access-Mode for more information')
+
 
   # http://stackoverflow.com/questions/12303547/set-the-default-to-false-if-another-mutually-exclusive-argument-is-true
   group_driver = parser.add_mutually_exclusive_group()
@@ -327,7 +335,10 @@ if __name__ == "__main__":
     job.options().setDouble(ROOT.EL.Job.optCacheLearnEntries, 50)
 
     # access mode branch
-    job.options().setString( ROOT.EL.Job.optXaodAccessMode, ROOT.EL.Job.optXaodAccessMode_branch )
+    if args.access_mode == 'branch':
+      job.options().setString( ROOT.EL.Job.optXaodAccessMode, ROOT.EL.Job.optXaodAccessMode_branch )
+    else:
+      job.options().setString( ROOT.EL.Job.optXaodAccessMode, ROOT.EL.Job.optXaodAccessMode_class )
 
     algorithmConfiguration_string = []
 
