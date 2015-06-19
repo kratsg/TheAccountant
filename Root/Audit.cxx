@@ -185,11 +185,16 @@ EL::StatusCode Audit :: execute ()
   if(!m_inputPhotons.empty())
     RETURN_CHECK("Audit::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
-  // retrieve CalibMET_RefFinal for METContainer
-  xAOD::MissingETContainer::const_iterator met_final = in_missinget->find(m_inputMETName);
-  if (met_final == in_missinget->end()) {
-    Error("execute()", "No RefFinal inside MET container" );
-    return EL::StatusCode::FAILURE;
+  const xAOD::MissingET* in_met(nullptr);
+  if(!m_inputMET.empty()){
+    // retrieve CalibMET_RefFinal for METContainer
+    xAOD::MissingETContainer::const_iterator met_id = in_missinget->find(m_inputMETName);
+    if (met_id == in_missinget->end()) {
+      Error("execute()", "No %s inside MET container", m_inputMETName.c_str());
+      return EL::StatusCode::FAILURE;
+    }
+    // dereference the iterator since it's just a single object
+    in_met = *met_id;
   }
 
   // clear the event
@@ -201,7 +206,7 @@ EL::StatusCode Audit :: execute ()
     in_jets_IDs[VIS.AddLabFrameFourVector( jet->p4() )] = jet;
 
   // no mpz, but why set it this way???
-  INV.SetLabFrameThreeVector(  TVector3( (*met_final)->mpx(), (*met_final)->mpy(), 0 ) );
+  INV.SetLabFrameThreeVector(  TVector3( in_met->mpx(), in_met->mpy(), 0 ) );
 
   // dump information about the jets and met at least
   if(m_debug){
@@ -209,7 +214,7 @@ EL::StatusCode Audit :: execute ()
     for(const auto jet: *in_jets)
         Info("execute()", "\tpT: %0.2f GeV\tm: %0.2f GeV\teta: %0.2f\tphi: %0.2f", jet->pt()/1000., jet->m()/1000., jet->eta(), jet->phi());
     Info("execute()", "Details about MET...");
-    Info("execute()", "\tpx: %0.2f GeV\tpy: %0.2f GeV\tpz: %0.2f GeV", (*met_final)->mpx()/1000., (*met_final)->mpy()/1000., 0.0/1000.);
+    Info("execute()", "\tpx: %0.2f GeV\tpy: %0.2f GeV\tpz: %0.2f GeV", in_met->mpx()/1000., in_met->mpy()/1000., 0.0/1000.);
   }
 
   // analyze the event

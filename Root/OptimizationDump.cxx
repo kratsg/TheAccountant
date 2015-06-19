@@ -178,13 +178,13 @@ EL::StatusCode OptimizationDump :: execute ()
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
     // retrieve CalibMET_RefFinal for METContainer
-    xAOD::MissingETContainer::const_iterator met_final = in_missinget->find(m_inputMETName);
-    if (met_final == in_missinget->end()) {
-      Error("execute()", "No RefFinal inside MET container" );
+    xAOD::MissingETContainer::const_iterator met_id = in_missinget->find(m_inputMETName);
+    if (met_id == in_missinget->end()) {
+      Error("execute()", "No %s inside MET container", m_inputMETName.c_str());
       return EL::StatusCode::FAILURE;
     }
     // dereference the iterator since it's just a single object
-    in_met = *met_final;
+    in_met = *met_id;
     m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons);
   }
 

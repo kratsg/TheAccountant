@@ -169,14 +169,17 @@ EL::StatusCode Report :: execute ()
   if(!m_inputPhotons.empty())
     RETURN_CHECK("Report::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
-  // retrieve CalibMET_RefFinal for METContainer
-  xAOD::MissingETContainer::const_iterator met_final = in_missinget->find(m_inputMETName);
-  if (met_final == in_missinget->end()) {
-    Error("execute()", "No RefFinal inside MET container" );
-    return EL::StatusCode::FAILURE;
+  const xAOD::MissingET* in_met(nullptr);
+  if(!m_inputMET.empty()){
+    // retrieve CalibMET_RefFinal for METContainer
+    xAOD::MissingETContainer::const_iterator met_id = in_missinget->find(m_inputMETName);
+    if (met_id == in_missinget->end()) {
+      Error("execute()", "No %s inside MET container", m_inputMETName.c_str());
+      return EL::StatusCode::FAILURE;
+    }
+    // dereference the iterator since it's just a single object
+    in_met = *met_id;
   }
-  // dereference the iterator since it's just a single object
-  const xAOD::MissingET* in_met = *met_final;
 
   //float eventWeight(eventInfo->mcEventWeight());
   float eventWeight(eventInfo->auxdata<float>("weight_mc"));

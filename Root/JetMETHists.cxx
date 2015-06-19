@@ -1,7 +1,8 @@
 #include <TheAccountant/JetMETHists.h>
 #include <TLorentzVector.h>
 
-#include <FourMomUtils/xAODP4Helpers.h>
+#include <TheAccountant/VariableDefinitions.h>
+namespace VD = VariableDefinitions;
 
 TheAccountant::JetMETHists::JetMETHists (std::string name) :
   HistogramManager(name, "")
@@ -23,10 +24,8 @@ StatusCode TheAccountant::JetMETHists::execute( const xAOD::JetContainer* jets, 
   for(int i=0; i < std::min<int>( m_numLeadingJets, jets->size() ); ++i) sum_jetPt += jets->at(i)->pt();
   m_effectiveMass->Fill( (sum_jetPt + met->met())/1.e3, eventWeight );
 
-  float dPhiMin(2*TMath::Pi());
   // compute dPhiMin
-  for(const auto jet: *jets) dPhiMin = std::min<float>( fabs(dPhiMin), xAOD::P4Helpers::deltaPhi(jet, met) );
-  m_dPhiMin->Fill( dPhiMin, eventWeight);
+  m_dPhiMin->Fill( VD::dPhiMETMin(met, jets), eventWeight);
 
   return StatusCode::SUCCESS;
 }
