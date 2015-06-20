@@ -343,6 +343,10 @@ if __name__ == "__main__":
     # set the name of the tree in our files
     sh_all.setMetaString("nc_tree", "CollectionTree")
 
+    # read susy meta data
+    cookBooks_logger.info("reading all metadata in $ROOTCOREBIN/data/TheAccountant")
+    ROOT.SH.readSusyMetaDir(sh_all,"$ROOTCOREBIN/data/TheAccountant")
+
     # this is the basic description of our job
     cookBooks_logger.info("creating new job")
     job = ROOT.EL.Job()

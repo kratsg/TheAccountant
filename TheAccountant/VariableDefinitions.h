@@ -9,6 +9,9 @@
 #include "xAODEgamma/ElectronContainer.h"
 #include "xAODMissingET/MissingETContainer.h"
 
+// we want to use the metadata if we can
+#include "SampleHandler/MetaObject.h"
+
 /* Caveats: input containers are assumed sorted */
 namespace VariableDefinitions {
   // for tagging primarily, but an enum for working points
@@ -42,7 +45,7 @@ namespace VariableDefinitions {
   float METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int njets);
 
   // Get the event weight consistently
-  float eventWeight(const xAOD::EventInfo*);
+  float eventWeight(const xAOD::EventInfo*, const SH::MetaObject* metaData = nullptr);
 
   // top tagging on jets, set the eventInfo with "nTops_<WP>" int decoration
   //    - static SG::AuxElement::Accessor< int > nTops_wp("nTops_<WP>");

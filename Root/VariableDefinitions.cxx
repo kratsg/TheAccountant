@@ -18,6 +18,9 @@
 // btagging
 #include <xAODBTagging/BTagging.h>
 
+// for event re-weighting
+#include <SampleHandler/MetaFields.h>
+
 namespace VD = VariableDefinitions;
 
 std::string VD::wp2str(VD::WP wp){
@@ -135,10 +138,26 @@ float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* 
   return met_significance;
 }
 
-float VD::eventWeight(const xAOD::EventInfo* ei){
+float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData){
   static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
-  return (weight_mc.isAvailable(*ei)?weight_mc(*ei):ei->mcEventWeight());
+  float weight(weight_mc.isAvailable(*ei)?weight_mc(*ei):ei->mcEventWeight());
 
+  float crossSection(1),
+        kFactor(1),
+        filterEfficiency(1),
+  //      xsUncertainty(1),
+        numEvents(1);
+
+  // if metadata is set, use it, otherwise pass the event weight, uncorrected
+  if(metaData){
+    metaData->castDouble(SH::MetaFields::crossSection, crossSection);
+    metaData->castDouble(SH::MetaFields::kfactor, kFactor);
+    metaData->castDouble(SH::MetaFields::filterEfficiency, filterEfficiency);
+    //metaData->castDouble(SH::MetaFields::crossSectionRelUncertainty, xsUncertainty);
+    metaData->castDouble(SH::MetaFields::numEvents, numEvents);
+  }
+
+  return (weight*crossSection*kFactor*filterEfficiency/numEvents);
 }
 
 int VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, VD::WP wp){

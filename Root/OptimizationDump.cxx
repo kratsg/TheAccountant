@@ -174,7 +174,7 @@ EL::StatusCode OptimizationDump :: execute ()
     RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
   // compute variables for optimization
-  m_eventWeight = VD::eventWeight(eventInfo);
+  m_eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){

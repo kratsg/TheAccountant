@@ -245,7 +245,7 @@ EL::StatusCode Report :: execute ()
     in_met = *met_id;
   }
 
-  float eventWeight = VD::eventWeight(eventInfo);
+  float eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jets"]->execute(in_jets, eventWeight), "");
