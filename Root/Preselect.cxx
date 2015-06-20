@@ -172,7 +172,7 @@ EL::StatusCode Preselect :: execute ()
   }
 
   if(!m_inputJets.empty() && !m_inputMET.empty()){
-    if(VD::dPhiMETMin(in_met, in_jets) < 0.4){
+    if(VD::dPhiMETMin(in_met, in_jets) < m_dPhiMin){
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
