@@ -38,6 +38,9 @@ namespace VariableDefinitions {
   // Calculates the minimum dPhi between the met and the container of particles passed in
   float dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles);
 
+  // Calculates the MET significance as MET/sqrt(HT)
+  float METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int njets);
+
   // top tagging on jets, set the eventInfo with "nTops_<WP>" int decoration
   //    - static SG::AuxElement::Accessor< int > nTops_wp("nTops_<WP>");
   //        * string of WP is equivalent to how you type it out in enum class
