@@ -81,7 +81,7 @@ namespace VariableDefinitions {
   template <typename T>
   ConstDataVector<T> leptonVeto(const T* leptons, std::string d_overlap = "overlaps"){
     ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
-    SG::AuxElement::ConstAccessor<int> isOverlap(d_overlap);
+    SG::AuxElement::ConstAccessor<char> isOverlap(d_overlap);
     for(auto l: *leptons){
       if(!isOverlap.isAvailable(*l) || isOverlap(*l) == 1) continue;
       VetoLeptons.push_back(l);
