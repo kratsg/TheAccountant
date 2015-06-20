@@ -63,105 +63,21 @@ This algorithm creates plots of large-R jets, bjets, and MET. It has functionali
 
 #### [CookTheBooks.py](scripts/CookTheBooks.py)
 
-This is the macro that runs it all. [Start here and the world shall open up before you.](https://www.youtube.com/watch?v=5qH1pBTqvc4)
+This is the macro that runs it all. [Start here and the world shall open up before you.](https://www.youtube.com/watch?v=5qH1pBTqvc4) I use a standard run
 
 ```
-usage: CookTheBooks.py filename [filename] [options]
-
-Become an accountant and cook the books!
-
-positional arguments:
-                           input file(s) to read
-
-job runner options:
-  -h, --help               show this help message and exit
-  --submitDir <directory>  Output directory to store the output. (default:
-                           submitDir)
-  --nevents <n>            Number of events to process for all datasets.
-                           (default: 0)
-  --skip <n>               Number of events to skip at start. (default: 0)
-  -f, --force              Overwrite previous directory if it exists.
-                           (default: False)
-  --version                show program's version number and exit
-  --mode {class, branch}   Run using branch access mode or class access mode.
-                           See TheAccountant/wiki/Access-Mode for more
-                           information (default: class)
-  --direct                 Run your jobs locally. (default: direct)
-  --prooflite              Run your jobs using ProofLite (default: direct)
-  --grid                   Run your jobs on the grid. (default: direct)
-  --condor                 Run your jobs on the condor. (default: direct)
-  --inputList              If enabled, will read in a text file containing a
-                           list of files. (default: False)
-  --inputDQ2               If enabled, will search using DQ2. Can be combined
-                           with `--inputList`. (default: False)
-  -v, --verbose            Enable verbose output of various levels. Default:
-                           no verbosity (default: 0)
-
-global algorithm options:
-  --debug                  Enable verbose output of the algorithms. (default:
-                           False)
-  --eventInfo              EventInfo container name. (default: EventInfo)
-  --jetsLargeR             Large-R jet container name. (default: FinalFatJets)
-  --jets                   small-R jet container name. (default:
-                           FinalSignalJets)
-  --met                    Missing Et container name. (default: Mettst)
-  --metid                  Missing Et container element to access. (default:
-                           Final)
-  --electrons              Electrons container name. (default:
-                           FinalSignalElectrons)
-  --muons                  Muons container name. (default: FinalSignalMuons)
-  --taujets                TauJets container name. (default: )
-  --photons                Photons container name. (default: )
-  --decorJetTagsB          Decoration name for b-tags. (default: )
-  --decorJetTagsTop        Decoration name for top-tags. (default: )
-  --decorJetTagsW          Decoration name for w-tags. (default: )
-
-preselect options (all selections are inclusive: x >= min, x =< max):
-  --jetLargeR_minNum       min num of large-R jets passing cuts (default: 0)
-  --jetLargeR_maxNum       max num of large-R jets passing cuts (default: 100)
-  --jetLargeR_minPt        large-R jet min pt [GeV] (default: 0.0)
-  --jetLargeR_maxPt        large-R jet max pt [GeV] (default: 1000000.0)
-  --jetLargeR_minMass      large-R jet min mass [GeV] (default: 0.0)
-  --jetLargeR_maxMass      large-R jet max mass [GeV] (default: 1000000.0)
-  --jetLargeR_minEta       large-R jet min eta (default: -10.0)
-  --jetLargeR_maxEta       large-R jet max eta (default: 10.0)
-  --jetLargeR_minPhi       large-R jet min phi (default: -4.0)
-  --jetLargeR_maxPhi       large-R jet max phi (default: 4.0)
-  --jet_minNum             min num of small-R jets passing cuts (default: 0)
-  --jet_maxNum             max num of small-R jets passing cuts (default: 100)
-  --bjet_minNum            min num of small-R bjets passing cuts (default: 0)
-  --bjet_maxNum            max num of small-R bjets passing cuts (default:
-                           100)
-  --jet_minPt              small-R jet min pt [GeV] (default: 0.0)
-  --jet_maxPt              small-R jet max pt [GeV] (default: 1000000.0)
-  --jet_minMass            small-R jet min mass [GeV] (default: 0.0)
-  --jet_maxMass            small-R jet max mass [GeV] (default: 1000000.0)
-  --jet_minEta             small-R jet min eta (default: -10.0)
-  --jet_maxEta             small-R jet max eta (default: 10.0)
-  --jet_minPhi             small-R jet min phi (default: -4.0)
-  --jet_maxPhi             small-R jet max phi (default: 4.0)
-  --bTag_wp                small-R jet b-tag working point (default: Loose)
-
-audit options:
-  --no-minMassJigsaw       Disable the minMass Jigsaw (default: False)
-  --no-contraBoostJigsaw   Disable the contraBoost Jigsaw (default: False)
-  --no-hemiJigsaw          Disable the hemi Jigsaw (default: False)
-  --drawDecayTreePlots     Enable to draw the decay tree plots and save the
-                           canvas in the output ROOT file. Please only enable
-                           this if running locally. (default: False)
-
-optimization dump options:
-  --optimizationDump       Enable to dump optimization ttree of values to cut
-                           against (default: False)
-
-report options:
-  --numLeadingJets         Number of leading+subleading plots to make.
-                           (default: 0)
-  --jet_minPtView          Only plot jets that pass a minimum pt. (default:
-                           0.0)
-  --jetLargeR_minPtView    Only plot large-R jets that pass a minimum pt.
-                           (default: 0.0)
+CookTheBooks.py input.root -v -f --jet_minNum=4 --jet_minPt=30 --bjet_minNum=2 --numLeadingJets=4 --optimizationDump --mode=branch --jetLargeR_minPtView=300
 ```
+
+which will
+
+- read the file(s) using branch mode
+- apply the standard preselections
+- dump an optimization ntuple
+- plot the first 4 leading jets in the event
+- only plot large-R jets with Pt > 300 GeV
+
+See the help options `CookTheBooks.py -h` for more information about what you can actually do.
 
 ## Authors
 - [Giordon Stark](https://github.com/kratsg)
