@@ -142,19 +142,19 @@ if __name__ == "__main__":
                                 metavar='',
                                 type=str,
                                 help='Large-R jet container name.',
-                                default='AntiKt10LCTopoJets')
+                                default='FinalFatJets')
   group_algorithms.add_argument('--jets',
                                 dest='inputJets',
                                 metavar='',
                                 type=str,
                                 help='small-R jet container name.',
-                                default='AntiKt4EMTopoJets')
+                                default='FinalSignalJets')
   group_algorithms.add_argument('--met',
                                 dest='inputMET',
                                 metavar='',
                                 type=str,
                                 help='Missing Et container name.',
-                                default='MET_RefFinal')
+                                default='Mettst')
   group_algorithms.add_argument('--metid',
                                 dest='inputMETName',
                                 metavar='',
@@ -166,13 +166,13 @@ if __name__ == "__main__":
                                 metavar='',
                                 type=str,
                                 help='Electrons container name.',
-                                default='')
+                                default='FinalSignalElectrons')
   group_algorithms.add_argument('--muons',
                                 dest='inputMuons',
                                 metavar='',
                                 type=str,
                                 help='Muons container name.',
-                                default='')
+                                default='FinalSignalMuons')
   group_algorithms.add_argument('--taujets',
                                 dest='inputTauJets',
                                 metavar='',
@@ -190,19 +190,19 @@ if __name__ == "__main__":
                                 metavar='',
                                 type=str,
                                 help='Decoration name for b-tags.',
-                                default='isB')
+                                default='')
   group_algorithms.add_argument('--decorJetTagsTop',
                                 dest='decor_jetTags_top',
                                 metavar='',
                                 type=str,
                                 help='Decoration name for top-tags.',
-                                default='isTop')
+                                default='')
   group_algorithms.add_argument('--decorJetTagsW',
                                 dest='decor_jetTags_w',
                                 metavar='',
                                 type=str,
                                 help='Decoration name for w-tags.',
-                                default='isW')
+                                default='')
 
   group_preselect = parser.add_argument_group('preselect options (all selections are inclusive: x >= min, x =< max)')
   group_preselect.add_argument('--jetLargeR_minNum',   type=int, metavar='', help='min num of large-R jets passing cuts',  default=0)
@@ -270,7 +270,6 @@ if __name__ == "__main__":
                             metavar='',
                             help='Only plot large-R jets that pass a minimum pt.',
                             default=0.0)
-
 
   # parse the arguments, throw errors if missing any
   args = parser.parse_args()

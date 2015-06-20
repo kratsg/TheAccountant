@@ -13,7 +13,6 @@ Run-2 analysis for SUSY search in gluino to stops.
       - [[Preselect.cxx](TheAccountant/Preselect.h)](#preselectcxxtheaccountantpreselecth)
       - [[Report.cxx](TheAccountant/Report.h)](#reportcxxtheaccountantreporth)
       - [[CookTheBooks.py](scripts/CookTheBooks.py)](#cookthebookspyscriptscookthebookspy)
-  - [Tested Against AnalysisBase versions:](#tested-against-analysisbase-versions)
 - [Authors](#authors)
   - [Acknowledgements](#acknowledgements)
 
@@ -28,9 +27,13 @@ rcSetup Base,2.3.12
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
 git clone https://github.com/kratsg/xAODJetReclustering
-git clone https://github.com/UCATLAS/xAODAnaHelpers && cd xAODAnaHelpers && git checkout 6cd6f9ed && cd ../
-git clone https://github.com/kratsg/JetSubstructureTools
+
+git clone https://github.com/UCATLAS/xAODAnaHelpers
+cd xAODAnaHelpers && git checkout 6cd6f9ed && cd ../
+
+git clone https://github.com/mileswu/JetSubstructureTools
 mv JetSubstructureTools ../. && ln -s ../JetSubstructureTools/JetSubStructureUtils JetSubStructureUtils
+
 rc find_packages
 rc compile
 ```
@@ -77,6 +80,9 @@ job runner options:
   -f, --force              Overwrite previous directory if it exists.
                            (default: False)
   --version                show program's version number and exit
+  --mode {class, branch}   Run using branch access mode or class access mode.
+                           See TheAccountant/wiki/Access-Mode for more
+                           information (default: class)
   --direct                 Run your jobs locally. (default: direct)
   --prooflite              Run your jobs using ProofLite (default: direct)
   --grid                   Run your jobs on the grid. (default: direct)
@@ -92,20 +98,20 @@ global algorithm options:
   --debug                  Enable verbose output of the algorithms. (default:
                            False)
   --eventInfo              EventInfo container name. (default: EventInfo)
-  --jetsLargeR             Large-R jet container name. (default:
-                           AntiKt10LCTopoJets)
+  --jetsLargeR             Large-R jet container name. (default: FinalFatJets)
   --jets                   small-R jet container name. (default:
-                           AntiKt4LCTopoJets)
-  --met                    Missing Et container name. (default: MET_RefFinal)
+                           FinalSignalJets)
+  --met                    Missing Et container name. (default: Mettst)
   --metid                  Missing Et container element to access. (default:
-                             Final)
-  --electrons              Electrons container name. (default: )
-  --muons                  Muons container name. (default: )
+                           Final)
+  --electrons              Electrons container name. (default:
+                           FinalSignalElectrons)
+  --muons                  Muons container name. (default: FinalSignalMuons)
   --taujets                TauJets container name. (default: )
   --photons                Photons container name. (default: )
-  --decorJetTagsB          Decoration name for b-tags. (default: isB)
-  --decorJetTagsTop        Decoration name for top-tags. (default: isTop)
-  --decorJetTagsW          Decoration name for w-tags. (default: isW)
+  --decorJetTagsB          Decoration name for b-tags. (default: )
+  --decorJetTagsTop        Decoration name for top-tags. (default: )
+  --decorJetTagsW          Decoration name for w-tags. (default: )
 
 preselect options (all selections are inclusive: x >= min, x =< max):
   --jetLargeR_minNum       min num of large-R jets passing cuts (default: 0)
@@ -148,10 +154,11 @@ optimization dump options:
 report options:
   --numLeadingJets         Number of leading+subleading plots to make.
                            (default: 0)
+  --jet_minPtView          Only plot jets that pass a minimum pt. (default:
+                           0.0)
+  --jetLargeR_minPtView    Only plot large-R jets that pass a minimum pt.
+                           (default: 0.0)
 ```
-
-## Tested Against AnalysisBase versions:
- - 2.3.12
 
 # Authors
 - [Giordon Stark](https://github.com/kratsg)
