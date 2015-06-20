@@ -27,7 +27,10 @@ namespace HF = HelperFunctions;
 // this is needed to distribute the algorithm to the workers
 ClassImp(Report)
 
-Report :: Report () {}
+Report :: Report () :
+//  m_topTagDecorationNames({"TopTagLoose", "TopTagTight", "SmoothTopTagLoose", "SmoothTopTagTight"})
+  m_topTagDecorationNames({"SmoothTopTagLoose", "SmoothTopTagTight"})
+{}
 
 EL::StatusCode Report :: setupJob (EL::Job& job)
 {
@@ -43,6 +46,7 @@ EL::StatusCode Report :: histInitialize () {
   if(!m_inputJets.empty()){
     m_jetPlots["all/jets"]         = new TheAccountant::IParticleKinematicHists( "all/jets/" );
     m_jetMETPlots["all/jets"]      = new TheAccountant::JetMETHists( "all/jets/" );
+
     // tagged jets
     //all/jets/bTag
     if(!m_decor_jetTags_b.empty()){
@@ -55,6 +59,11 @@ EL::StatusCode Report :: histInitialize () {
   if(!m_inputLargeRJets.empty()){
     m_jetPlots["all/jetsLargeR"]          = new TheAccountant::IParticleKinematicHists( "all/jetsLargeR/" );
     m_jetMETPlots["all/jetsLargeR"]       = new TheAccountant::JetMETHists( "all/jetsLargeR/" );
+
+    for(auto decorationName: m_topTagDecorationNames){
+      m_jetTagPlots["all/jetsLargeR" + decorationName] = new TheAccountant::JetTagHists( "all/jetsLargeR/" );
+      m_jetTagPlots["all/jetsLargeR" + decorationName]->m_decorationName = decorationName;
+    }
 
     //all/jetsLargeR/topTag
     if(!m_decor_jetTags_top.empty()){
@@ -100,6 +109,11 @@ EL::StatusCode Report :: histInitialize () {
       //all/jetLargeRX
       m_jetPlots["all/jetLargeR"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "all/jetLargeR"+std::to_string(i)+"/" );
 
+      for(auto decorationName: m_topTagDecorationNames){
+        m_jetTagPlots["all/jetLargeR" + decorationName + std::to_string(i)] = new TheAccountant::JetTagHists( "all/jetLargeR"+std::to_string(i)+"/" );
+        m_jetTagPlots["all/jetLargeR" + decorationName + std::to_string(i)]->m_decorationName = decorationName;
+      }
+
       //all/jetLargeRX_topTag
       if(!m_decor_jetTags_top.empty()){
         m_jetPlots["all/jetLargeR"+std::to_string(i)+"/topTag"] = new TheAccountant::IParticleKinematicHists("all/jetLargeR"+std::to_string(i)+"/topTag/");
@@ -125,6 +139,11 @@ EL::StatusCode Report :: histInitialize () {
   for(auto METPlot: m_METPlots){
     RETURN_CHECK("Report::initialize()", METPlot.second->initialize(), "");
     METPlot.second->record( wk() );
+  }
+
+  for(auto jetTagPlot: m_jetTagPlots){
+    RETURN_CHECK("Report::initialize()", jetTagPlot.second->initialize(), "");
+    jetTagPlot.second->record( wk() );
   }
 
   return EL::StatusCode::SUCCESS;
@@ -194,6 +213,8 @@ EL::StatusCode Report :: execute ()
     RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR"]->execute(in_jetsLargeR, eventWeight), "");
     if(!m_inputMET.empty())
       RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR"]->execute(in_jetsLargeR, in_met, eventWeight), "");
+    for(auto decorationName: m_topTagDecorationNames)
+      RETURN_CHECK("Report::execute()", m_jetTagPlots["all/jetsLargeR" + decorationName]->execute(in_jetsLargeR, eventWeight), "");
   }
 
   if(!m_inputMET.empty())
@@ -288,6 +309,8 @@ EL::StatusCode Report :: execute ()
     //all/jetLargeRX
     for(int i=1; i <= std::min<int>( m_numLeadingJets, in_jetsLargeR->size() ); ++i ){
       RETURN_CHECK("Report::execute()", m_jetPlots["all/jetLargeR"+std::to_string(i)]->execute(in_jetsLargeR->at(i-1), eventWeight), "");
+      for(auto decorationName: m_topTagDecorationNames)
+        RETURN_CHECK("Report::execute()", m_jetTagPlots["all/jetLargeR" + decorationName + std::to_string(i)]->execute(in_jetsLargeR->at(i-1), eventWeight), "");
     }
 
     //all/jetLargeRX_topTag
@@ -314,6 +337,19 @@ EL::StatusCode Report :: finalize () {
   for( auto jetPlot : m_jetPlots )
     if(jetPlot.second)
       delete jetPlot.second;
+
+  for(auto jetMETPlot: m_jetMETPlots)
+    if(jetMETPlot.second)
+      delete jetMETPlot.second;
+
+  for(auto METPlot: m_METPlots)
+    if(METPlot.second)
+      delete METPlot.second;
+
+  for(auto jetTagPlot: m_jetTagPlots)
+    if(jetTagPlot.second)
+      delete jetTagPlot.second;
+
   return EL::StatusCode::SUCCESS;
 }
 

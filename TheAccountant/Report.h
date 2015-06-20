@@ -11,6 +11,7 @@
 #include <TheAccountant/IParticleKinematicHists.h>
 #include <TheAccountant/JetMETHists.h>
 #include <TheAccountant/METHists.h>
+#include <TheAccountant/JetTagHists.h>
 
 class Report : public EL::Algorithm
 {
@@ -41,7 +42,10 @@ private:
 
   std::map< std::string, TheAccountant::IParticleKinematicHists* > m_jetPlots; //!
   std::map< std::string, TheAccountant::JetMETHists* > m_jetMETPlots; //!
+  std::map< std::string, TheAccountant::JetTagHists* > m_jetTagPlots; //!
   std::map< std::string, TheAccountant::METHists* > m_METPlots; //!
+
+  std::vector<std::string> m_topTagDecorationNames; //!
 
 public:
   // this is a standard constructor
