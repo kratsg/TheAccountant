@@ -9,6 +9,7 @@
 
 // plots to include
 #include <TheAccountant/IParticleKinematicHists.h>
+#include <TheAccountant/JetHists.h>
 #include <TheAccountant/JetMETHists.h>
 #include <TheAccountant/METHists.h>
 #include <TheAccountant/JetTagHists.h>
@@ -42,7 +43,8 @@ private:
   xAOD::TEvent *m_event;  //!
   xAOD::TStore *m_store;  //!
 
-  std::map< std::string, TheAccountant::IParticleKinematicHists* > m_jetPlots; //!
+  std::map< std::string, TheAccountant::IParticleKinematicHists* > m_jetKinematicPlots; //!
+  std::map< std::string, TheAccountant::JetHists* > m_jetPlots; //!
   std::map< std::string, TheAccountant::JetMETHists* > m_jetMETPlots; //!
   std::map< std::string, TheAccountant::JetTagHists* > m_jetTagPlots; //!
   std::map< std::string, TheAccountant::METHists* > m_METPlots; //!

@@ -17,6 +17,9 @@ namespace TheAccountant
       using HistogramManager::book; // make other overloaded version of book() to show up in subclass
       using HistogramManager::execute; // overload
 
+      bool m_doTopology,
+           m_doSubstructure;
+
     private:
       TH1F* m_massOverPt;//!
 
