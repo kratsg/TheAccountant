@@ -208,23 +208,29 @@ int VD::bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, V
 }
 
 bool VD::bTag(const xAOD::Jet* jet, VD::WP wp){
-  bool isB_tagged = false;
-  float MV1(jet->btagging()->MV1_discriminant());
 
+  // stupid btagging doesn't overload the fucking MVx_discriminant()
+  // float btag_weight(-99.);
+  double btag_weight(-99.);
+  if(!jet->getAttribute("btag_MV2c20", btag_weight))
+    if(!jet->btagging()->MVx_discriminant("MV2c20", btag_weight))
+      return false;
+
+  bool isB_tagged = false;
   switch(wp){
     case VD::WP::Loose: // 85%
     {
-      isB_tagged = MV1 > -0.7682;
+      isB_tagged = btag_weight > -0.7682;
     }
     break;
     case VD::WP::Medium: // 70%
     {
-      isB_tagged = MV1 > 0.0314;
+      isB_tagged = btag_weight > 0.0314;
     }
     break;
     case VD::WP::Tight: // 60%
     {
-      isB_tagged = MV1 > 0.5102;
+      isB_tagged = btag_weight > 0.5102;
     }
     break;
     default:
