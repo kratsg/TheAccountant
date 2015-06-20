@@ -11,6 +11,7 @@
 # @endcode
 #
 
+from __future__ import print_function
 import logging
 
 root_logger = logging.getLogger()
@@ -22,6 +23,17 @@ import os
 import subprocess
 import sys
 import datetime
+import time
+
+import getpass  # input without echo
+
+# catch CTRL+C
+import signal
+def signal_handler(signal, frame):
+  print("Exiting the program now. Have a nice day!     ")  # extra spaces just in case
+  sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+
 
 SCRIPT_START_TIME = datetime.datetime.now()
 
@@ -325,7 +337,7 @@ if __name__ == "__main__":
     sh_all.printContent()
 
     if len(sh_all) == 0:
-      logger.log(25, "No datasets found. Exiting.")
+      cookBooks_logger.log(25, "No datasets found. Exiting.")
       sys.exit(0)
 
     # set the name of the tree in our files
@@ -354,62 +366,69 @@ if __name__ == "__main__":
       job.options().setString( ROOT.EL.Job.optXaodAccessMode, ROOT.EL.Job.optXaodAccessMode_class )
 
     algorithmConfiguration_string = []
+    sleepTime = 50./1000.
+    printStr = "\tsetting {0: >20}.m_{1:<30} = {2}"
 
     # add our algorithm to the job
     cookBooks_logger.info("creating algorithms")
 
+    preselect = ROOT.Preselect()
     cookBooks_logger.info("\tcreating preselect algorithm")
     algorithmConfiguration_string.append("preselect algorithm options")
-    preselect = ROOT.Preselect()
     for opt in ['jetLargeR_minNum', 'jetLargeR_maxNum', 'jetLargeR_minPt', 'jetLargeR_maxPt', 'jetLargeR_minMass',
                 'jetLargeR_maxMass', 'jetLargeR_minEta', 'jetLargeR_maxEta', 'jetLargeR_minPhi',
                 'jetLargeR_maxPhi', 'jet_minNum', 'jet_maxNum', 'bjet_minNum', 'bjet_maxNum',
                 'jet_minPt', 'jet_maxPt', 'jet_minMass', 'jet_maxMass', 'jet_minEta',
                 'jet_maxEta', 'jet_minPhi', 'jet_maxPhi', 'bTag_wp']:
-      printStr = "\tsetting {0: >10}.m_{1:<30} = {2}".format('Preselect', opt, getattr(args, opt))
-      cookBooks_logger.info("\t%s", printStr)
-      algorithmConfiguration_string.append(printStr)
+      cookBooks_logger.info("\t%s", printStr.format('Preselect', opt, getattr(args, opt)))
+      algorithmConfiguration_string.append(printStr.format('Preselect', opt, getattr(args, opt)))
       setattr(preselect, 'm_{0}'.format(opt), getattr(args, opt))
+      time.sleep(sleepTime)
 
+    audit = ROOT.Audit()
     cookBooks_logger.info("\tcreating audit algorithm")
     algorithmConfiguration_string.append("audit algorithm options")
-    audit = ROOT.Audit()
     for opt in ['minMassJigsaw', 'contraBoostJigsaw', 'hemiJigsaw']:
-      printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format('Audit', opt, not(getattr(args, 'disable_{0}'.format(opt))))
-      cookBooks_logger.info("\t%s", printStr)
-      algorithmConfiguration_string.append(printStr)
+      cookBooks_logger.info("\t%s", printStr.format('Audit', opt, not(getattr(args, 'disable_{0}'.format(opt)))))
+      algorithmConfiguration_string.append(printStr.format('Audit', opt, not(getattr(args, 'disable_{0}'.format(opt)))))
       setattr(audit, 'm_{0}'.format(opt), not(getattr(args, 'disable_{0}'.format(opt))))
+      time.sleep(sleepTime)
     for opt in ['drawDecayTreePlots']:
-      printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format('Audit', opt, getattr(args, opt))
-      cookBooks_logger.info("\t%s", printStr)
-      algorithmConfiguration_string.append(printStr)
+      cookBooks_logger.info("\t%s", printStr.format('Audit', opt, getattr(args, opt)))
+      algorithmConfiguration_string.append(printStr.format('Audit', opt, getattr(args, opt)))
       setattr(audit, 'm_{0}'.format(opt), getattr(args, opt))
+      time.sleep(sleepTime)
 
     optimization_dump = None
     if args.optimization_dump:
+      optimization_dump = ROOT.OptimizationDump()
       cookBooks_logger.info("\tcreating optimization dump algorithm")
       algorithmConfiguration_string.append("optimization dump algorithm")
-      optimization_dump = ROOT.OptimizationDump()
       # no other options for now...
+      time.sleep(sleepTime)
 
+    report = ROOT.Report()
     cookBooks_logger.info("\tcreating report algorithm")
     algorithmConfiguration_string.append("report algorithm options")
-    report = ROOT.Report()
     for opt in ['numLeadingJets', 'jet_minPtView', 'jetLargeR_minPtView']:
-      printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format('Report', opt, getattr(args, opt))
-      cookBooks_logger.info("\t%s", printStr)
-      algorithmConfiguration_string.append(printStr)
+      cookBooks_logger.info("\t%s", printStr.format('Report', opt, getattr(args, opt)))
+      algorithmConfiguration_string.append(printStr.format('Report', opt, getattr(args, opt)))
       setattr(report, 'm_{0}'.format(opt), getattr(args, opt))
+      time.sleep(sleepTime)
 
     cookBooks_logger.info("\tsetting global algorithm variables")
     algorithmConfiguration_string.append("global algorithm options")
     for alg in [preselect, audit, optimization_dump, report]:
       if alg is None: continue  # skip optimization_dump if not defined
       for opt in ['debug', 'eventInfo', 'inputLargeRJets', 'inputJets', 'inputMET', 'inputMETName', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons', 'decor_jetTags_b', 'decor_jetTags_top', 'decor_jetTags_w']:
-        printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format(alg.ClassName(), opt, getattr(args, opt))
-        cookBooks_logger.info("\t%s", printStr)
-        algorithmConfiguration_string.append(printStr)
+        cookBooks_logger.info("\t%s", printStr.format(alg.ClassName(), opt, getattr(args, opt)))
+        algorithmConfiguration_string.append(printStr.format(alg.ClassName(), opt, getattr(args, opt)))
         setattr(alg, 'm_{0}'.format(opt), getattr(args, opt))
+        time.sleep(sleepTime)
+
+    print("Press enter to continue or CTRL+C to escape", end='\r')
+    sys.stdout.flush()
+    getpass.getpass(prompt='')
 
     cookBooks_logger.info("adding algorithms")
     job.algsAdd(preselect)
