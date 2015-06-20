@@ -260,6 +260,16 @@ if __name__ == "__main__":
                             metavar='',
                             help='Number of leading+subleading plots to make.',
                             default=0)
+  group_report.add_argument('--jet_minPtView',
+                            type=float,
+                            metavar='',
+                            help='Only plot jets that pass a minimum pt.',
+                            default=0.0)
+  group_report.add_argument('--jetLargeR_minPtView',
+                            type=float,
+                            metavar='',
+                            help='Only plot large-R jets that pass a minimum pt.',
+                            default=0.0)
 
 
   # parse the arguments, throw errors if missing any
@@ -382,7 +392,7 @@ if __name__ == "__main__":
     cookBooks_logger.info("\tcreating report algorithm")
     algorithmConfiguration_string.append("report algorithm options")
     report = ROOT.Report()
-    for opt in ['numLeadingJets']:
+    for opt in ['numLeadingJets', 'jet_minPtView', 'jetLargeR_minPtView']:
       printStr = "\tsetting {0: >10}.m_{1: <30} = {2}".format('Report', opt, getattr(args, opt))
       cookBooks_logger.info("\t%s", printStr)
       algorithmConfiguration_string.append(printStr)

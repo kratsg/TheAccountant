@@ -188,6 +188,28 @@ EL::StatusCode Report :: execute ()
   if(!m_inputPhotons.empty())
     RETURN_CHECK("Report::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
+  // prepare the jets by creating a view container to look at them
+  ConstDataVector<xAOD::JetContainer> in_jetsCDV(SG::VIEW_ELEMENTS);
+  if(!m_inputJets.empty()){
+    for(auto jet: *in_jets){
+      if(jet->pt()/1.e3 < m_jet_minPtView) continue;
+      in_jetsCDV.push_back(jet);
+    }
+    // make in_jets point to a view instead
+    in_jets = in_jetsCDV.asDataVector();
+  }
+
+  ConstDataVector<xAOD::JetContainer> in_jetsLargeRCDV(SG::VIEW_ELEMENTS);
+  if(!m_inputLargeRJets.empty()){
+    for(auto jet: *in_jetsLargeR){
+      if(jet->pt()/1.e3 < m_jetLargeR_minPtView) continue;
+      in_jetsLargeRCDV.push_back(jet);
+    }
+    // make in_jetsLargeR point to a view instead
+    in_jetsLargeR = in_jetsLargeRCDV.asDataVector();
+  }
+
+
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
     // retrieve CalibMET_RefFinal for METContainer

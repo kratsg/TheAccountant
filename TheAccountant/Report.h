@@ -35,6 +35,8 @@ public:
   std::string m_decor_jetTags_b   = "", // isB,
               m_decor_jetTags_top = "", // isTop,
               m_decor_jetTags_w   = ""; // isW;
+  float m_jet_minPtView,
+        m_jetLargeR_minPtView;
 
 private:
   xAOD::TEvent *m_event;  //!
