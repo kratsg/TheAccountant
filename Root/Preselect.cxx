@@ -119,8 +119,8 @@ EL::StatusCode Preselect :: execute ()
       return EL::StatusCode::SUCCESS;
     }
 
-    //static SG::AuxElement::Decorator< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
-    //pass_preSel_jetsLargeR(*eventInfo) = num_passJetsLargeR;
+    static SG::AuxElement::Decorator< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
+    pass_preSel_jetsLargeR(*eventInfo) = num_passJetsLargeR;
   }
 
   if(!m_inputJets.empty()){
@@ -164,10 +164,10 @@ EL::StatusCode Preselect :: execute ()
       return EL::StatusCode::SUCCESS;
     }
 
-    //static SG::AuxElement::Decorator< int > pass_preSel_jets("pass_preSel_jets");
-    //static SG::AuxElement::Decorator< int > pass_preSel_bjets("pass_preSel_bjets");
-    //pass_preSel_jets(*eventInfo) = num_passJets;
-    //pass_preSel_bjets(*eventInfo) = num_passBJets;
+    static SG::AuxElement::Decorator< int > pass_preSel_jets("pass_preSel_jets");
+    static SG::AuxElement::Decorator< int > pass_preSel_bjets("pass_preSel_bjets");
+    pass_preSel_jets(*eventInfo) = num_passJets;
+    pass_preSel_bjets(*eventInfo) = num_passBJets;
 
   }
 

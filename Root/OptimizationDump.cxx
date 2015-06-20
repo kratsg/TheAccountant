@@ -173,7 +173,8 @@ EL::StatusCode OptimizationDump :: execute ()
 
   // compute variables for optimization
   //eventInfo->mcEventWeight();
-  float eventWeight(eventInfo->auxdata<float>("weight_mc"));
+  static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
+  m_eventWeight = (weight_mc.isAvailable(*eventInfo)?weight_mc(*eventInfo):1);
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
@@ -197,17 +198,17 @@ EL::StatusCode OptimizationDump :: execute ()
     m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons);
 
     // counts of stuff
-    //static SG::AuxElement::Decorator< int > pass_preSel_jets("pass_preSel_jets");
-    //static SG::AuxElement::Decorator< int > pass_preSel_bjets("pass_preSel_bjets");
-    //m_numJets = pass_preSel_jets(*eventInfo);
-    //m_numBJets = pass_preSel_bjets(*eventInfo);
-    m_numJets = 0;
-    m_numBJets = 0;
-    static SG::AuxElement::ConstAccessor< int > isB("isB");
-    for(auto jet: *in_jets){
-      m_numJets += pass_preSel(*jet);
-      m_numBJets += isB(*jet);
-    }
+    static SG::AuxElement::ConstAccessor< int > pass_preSel_jets("pass_preSel_jets");
+    static SG::AuxElement::ConstAccessor< int > pass_preSel_bjets("pass_preSel_bjets");
+    m_numJets = pass_preSel_jets(*eventInfo);
+    m_numBJets = pass_preSel_bjets(*eventInfo);
+    //m_numJets = 0;
+    //m_numBJets = 0;
+    //static SG::AuxElement::ConstAccessor< int > isB("isB");
+    //for(auto jet: *in_jets){
+    //  m_numJets += pass_preSel(*jet);
+    //  m_numBJets += isB(*jet);
+    //}
 
     // build the reclustered, trimmed jets
     for(auto tool: m_jetReclusteringTools)
@@ -244,11 +245,11 @@ EL::StatusCode OptimizationDump :: execute ()
   }
 
   if(!m_inputLargeRJets.empty()){
-    //static SG::AuxElement::Decorator< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
-    //m_numJetsLargeR = pass_preSel_jetsLargeR(*eventInfo);;
-    m_numJetsLargeR = 0;
-    for(auto jet: *in_jetsLargeR)
-      m_numJetsLargeR += pass_preSel(*jet);
+    static SG::AuxElement::ConstAccessor< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
+    m_numJetsLargeR = pass_preSel_jetsLargeR(*eventInfo);;
+    //m_numJetsLargeR = 0;
+    //for(auto jet: *in_jetsLargeR)
+    //  m_numJetsLargeR += pass_preSel(*jet);
     // tagging variables
     m_n_topTag_Loose  = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Loose);
     m_n_topTag_Medium = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Medium);

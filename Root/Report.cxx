@@ -244,7 +244,8 @@ EL::StatusCode Report :: execute ()
   }
 
   //float eventWeight(eventInfo->mcEventWeight());
-  float eventWeight(eventInfo->auxdata<float>("weight_mc"));
+  static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
+  float eventWeight( (weight_mc.isAvailable(*eventInfo)?weight_mc(*eventInfo):1) );
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jets"]->execute(in_jets, eventWeight), "");
