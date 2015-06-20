@@ -35,8 +35,7 @@ StatusCode TheAccountant::JetTagHists::execute( const xAOD::Jet* jet, float even
   // if -1, could not retrieve decoration
   // 0,1: actual decoration value
   int decorVal(-1);
-  // UNCOMMENT THIS WHEN READY
-  //jet->getAttribute(m_decorationName.c_str(), decorVal);
+  jet->getAttribute(m_decorationName, decorVal);
   m_decorationCount->Fill(decorVal, eventWeight);
 
   return StatusCode::SUCCESS;
