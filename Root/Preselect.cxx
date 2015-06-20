@@ -178,14 +178,27 @@ EL::StatusCode Preselect :: execute ()
     }
   }
 
-  /*
   // lepton veto
-  if(!m_inputElectrons.empty())
-    ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(in_electrons));
-
-  if(!m_inputMuons.empty())
-    ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons));
-  */
+  if(!m_inputElectrons.empty()){
+    if(m_doLeptonVeto){
+      ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(in_electrons));
+      in_electrons = VetoElectrons.asDataVector();
+      if(in_electrons->size() > 0){
+        wk()->skipEvent();
+        return EL::StatusCode::SUCCESS;
+      }
+    }
+  }
+  if(!m_inputMuons.empty()){
+    if(m_doLeptonVeto){
+      ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons));
+      in_muons = VetoMuons.asDataVector();
+      if(in_muons->size() > 0){
+        wk()->skipEvent();
+        return EL::StatusCode::SUCCESS;
+      }
+    }
+  }
 
   return EL::StatusCode::SUCCESS;
 }

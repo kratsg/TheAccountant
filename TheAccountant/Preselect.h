@@ -34,6 +34,7 @@ public:
         m_jet_minPhi   = -4.0,
         m_jet_maxPhi   = 4.0;
   std::string m_bTag_wp  = "Loose";
+  bool m_doLeptonVeto = false;
 
   // standard across all algorithms for configuration
   bool m_debug = false;

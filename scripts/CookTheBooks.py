@@ -241,6 +241,7 @@ if __name__ == "__main__":
   group_preselect.add_argument('--jet_minPhi',  type=float, metavar='', help='small-R jet min phi',  default = -4.0)
   group_preselect.add_argument('--jet_maxPhi',  type=float, metavar='', help='small-R jet max phi',  default = 4.0)
   group_preselect.add_argument('--bTag_wp',     type=str, metavar='', help='small-R jet b-tag working point',  default = "Loose")
+  group_preselect.add_argument('--doLeptonVeto', action='store_true', help='Apply lepton veto in preselection. Useful for 0L analysis.')
 
   group_audit = parser.add_argument_group('audit options')
   group_audit.add_argument('--no-minMassJigsaw',
@@ -383,7 +384,7 @@ if __name__ == "__main__":
                 'jetLargeR_maxMass', 'jetLargeR_minEta', 'jetLargeR_maxEta', 'jetLargeR_minPhi',
                 'jetLargeR_maxPhi', 'jet_minNum', 'jet_maxNum', 'bjet_minNum', 'bjet_maxNum',
                 'jet_minPt', 'jet_maxPt', 'jet_minMass', 'jet_maxMass', 'jet_minEta',
-                'jet_maxEta', 'jet_minPhi', 'jet_maxPhi', 'bTag_wp']:
+                'jet_maxEta', 'jet_minPhi', 'jet_maxPhi', 'bTag_wp', 'doLeptonVeto']:
       cookBooks_logger.info("\t%s", printStr.format('Preselect', opt, getattr(args, opt)))
       algorithmConfiguration_string.append(printStr.format('Preselect', opt, getattr(args, opt)))
       setattr(preselect, 'm_{0}'.format(opt), getattr(args, opt))
