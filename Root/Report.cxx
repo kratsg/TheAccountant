@@ -242,9 +242,8 @@ EL::StatusCode Report :: execute ()
     in_met = *met_id;
   }
 
-  //float eventWeight(eventInfo->mcEventWeight());
   static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
-  float eventWeight( (weight_mc.isAvailable(*eventInfo)?weight_mc(*eventInfo):1) );
+  float eventWeight = (weight_mc.isAvailable(*eventInfo)?weight_mc(*eventInfo):eventInfo->mcEventWeight());
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jets"]->execute(in_jets, eventWeight), "");

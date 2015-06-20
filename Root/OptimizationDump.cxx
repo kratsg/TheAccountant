@@ -50,8 +50,9 @@ OptimizationDump :: OptimizationDump () :
   m_totalTransverseMass(-999.0),
   m_numJets(-99),
   m_numJetsLargeR(-99),
+  m_n_topTag_SmoothLoose(0),
+  m_n_topTag_SmoothTight(0),
   m_n_topTag_Loose(0),
-  m_n_topTag_Medium(0),
   m_n_topTag_Tight(0),
   m_jetReclusteringTools{{nullptr, nullptr, nullptr}},
   m_rc_pt{MULTI_ARRAY_INIT},
@@ -134,8 +135,9 @@ EL::StatusCode OptimizationDump :: initialize () {
 
   if(!m_inputLargeRJets.empty()){
     m_tree->Branch ("multiplicity_jet_largeR",   &m_numJetsLargeR, "multiplicity_jet_largeR/I");
+    m_tree->Branch ("multiplicity_topTag_smoothloose", &m_n_topTag_SmoothLoose, "multiplicity_topTag_smoothloose/I");
+    m_tree->Branch ("multiplicity_topTag_smoothtight", &m_n_topTag_SmoothTight, "multiplicity_topTag_smoothtight/I");
     m_tree->Branch ("multiplicity_topTag_loose", &m_n_topTag_Loose, "multiplicity_topTag_loose/I");
-    m_tree->Branch ("multiplicity_topTag_medium",&m_n_topTag_Medium, "multiplicity_topTag_medium/I");
     m_tree->Branch ("multiplicity_topTag_tight", &m_n_topTag_Tight, "multiplicity_topTag_tight/I");
   }
 
@@ -172,9 +174,8 @@ EL::StatusCode OptimizationDump :: execute ()
     RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
   // compute variables for optimization
-  //eventInfo->mcEventWeight();
   static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
-  m_eventWeight = (weight_mc.isAvailable(*eventInfo)?weight_mc(*eventInfo):1);
+  m_eventWeight = (weight_mc.isAvailable(*eventInfo)?weight_mc(*eventInfo):eventInfo->mcEventWeight());
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
@@ -200,15 +201,8 @@ EL::StatusCode OptimizationDump :: execute ()
     // counts of stuff
     static SG::AuxElement::ConstAccessor< int > pass_preSel_jets("pass_preSel_jets");
     static SG::AuxElement::ConstAccessor< int > pass_preSel_bjets("pass_preSel_bjets");
-    m_numJets = pass_preSel_jets(*eventInfo);
-    m_numBJets = pass_preSel_bjets(*eventInfo);
-    //m_numJets = 0;
-    //m_numBJets = 0;
-    //static SG::AuxElement::ConstAccessor< int > isB("isB");
-    //for(auto jet: *in_jets){
-    //  m_numJets += pass_preSel(*jet);
-    //  m_numBJets += isB(*jet);
-    //}
+    m_numJets = (pass_preSel_jets.isAvailable(*eventInfo))?pass_preSel_jets(*eventInfo):-99;
+    m_numBJets = (pass_preSel_bjets.isAvailable(*eventInfo))?pass_preSel_bjets(*eventInfo):-99;
 
     // build the reclustered, trimmed jets
     for(auto tool: m_jetReclusteringTools)
@@ -221,39 +215,49 @@ EL::StatusCode OptimizationDump :: execute ()
       const xAOD::JetContainer* rcJets(nullptr);
       RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(rcJets, rcJetContainer, m_event, m_store, m_debug), ("Could not retrieve the reclustered jet container "+std::string(rcJetContainer)).c_str());
       for(unsigned int i=0; i<4; i++){
-        float pt(-99.0), mass(-99.0), split12(-99.9), split23(-99.9);
-        int nsj(-99);
+        m_rc_pt[r][i] = -99.0;
+        m_rc_m[r][i]  = -99.0;
+        m_rc_split12[r][i] = -99.0;
+        m_rc_split23[r][i] = -99.0;
+        m_rc_nsj[r][i] = -99;
         // if there are less than 4 jets, then...
         if(i < rcJets->size()){
           auto rcJet = rcJets->at(i);
-          pt = rcJet->pt();
-          mass = rcJet->m();
+          m_rc_pt[r][i] = rcJet->pt();
+          m_rc_m[r][i] = rcJet->m();
           // retrieve attributes from jet -- if it fails, it'll be set to -99
           //    this way, we don't error out when we do jobs
           std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
-          rcJet->getAttribute("Split12", split12);
-          rcJet->getAttribute("Split23", split23);
-          if(rcJet->getAttribute("constituentLinks", constitLinks)) nsj = constitLinks.size();
+          rcJet->getAttribute("Split12", m_rc_split12[r][i]);
+          rcJet->getAttribute("Split23", m_rc_split23[r][i]);
+          if(rcJet->getAttribute("constituentLinks", constitLinks)) m_rc_nsj[r][i] = constitLinks.size();
         }
-        m_rc_pt[r][i] = pt;
-        m_rc_m[r][i]  = mass;
-        m_rc_split12[r][i] = split12;
-        m_rc_split23[r][i] = split23;
-        m_rc_nsj[r][i] = nsj;
       }
     }
   }
 
   if(!m_inputLargeRJets.empty()){
     static SG::AuxElement::ConstAccessor< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
-    m_numJetsLargeR = pass_preSel_jetsLargeR(*eventInfo);;
-    //m_numJetsLargeR = 0;
-    //for(auto jet: *in_jetsLargeR)
-    //  m_numJetsLargeR += pass_preSel(*jet);
+    m_numJetsLargeR = (pass_preSel_jetsLargeR.isAvailable(*eventInfo))?pass_preSel_jetsLargeR(*eventInfo):-99;
+
+    // THERE MUST BE A BETTER WAY
     // tagging variables
-    m_n_topTag_Loose  = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Loose);
-    m_n_topTag_Medium = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Medium);
-    m_n_topTag_Tight  = VD::topTag(eventInfo, in_jetsLargeR, VD::WP::Tight);
+    m_n_topTag_SmoothLoose = 0;
+    m_n_topTag_SmoothTight = 0;
+    m_n_topTag_Loose = 0;
+    m_n_topTag_Tight = 0;
+    for(auto jet: *in_jetsLargeR){
+      int topTag_SmoothLoose(-1), topTag_SmoothTight(-1),
+          topTag_Loose(-1), topTag_Tight(-1);
+      jet->getAttribute("SmoothTopTagLoose", topTag_SmoothLoose);
+      jet->getAttribute("SmoothTopTagTight", topTag_SmoothTight);
+      jet->getAttribute("TopTagLoose", topTag_Loose);
+      jet->getAttribute("TopTagTight", topTag_Tight);
+      if(topTag_SmoothLoose == 1) m_n_topTag_SmoothLoose++;
+      if(topTag_SmoothTight == 1) m_n_topTag_SmoothTight++;
+      if(topTag_Loose == 1) m_n_topTag_Loose++;
+      if(topTag_Tight == 1) m_n_topTag_Tight++;
+    }
   }
 
   // fill in all variables

@@ -51,8 +51,9 @@ private:
   int m_numJetsLargeR; //!
 
   /* tagging */
+  int m_n_topTag_SmoothLoose; //!
+  int m_n_topTag_SmoothTight; //!
   int m_n_topTag_Loose; //!
-  int m_n_topTag_Medium; //!
   int m_n_topTag_Tight; //!
 
   // three sets of reclustered jets for various radii
