@@ -22,6 +22,7 @@ namespace TheAccountant
     private:
       TH1F* m_effectiveMass;                //!
       TH1F* m_dPhiMin;                      //!
+      TH1F* m_METSignificance;              //!
   };
 }
 #endif

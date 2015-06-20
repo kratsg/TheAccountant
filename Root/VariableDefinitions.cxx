@@ -122,6 +122,19 @@ float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer*
   return dPhiMin;
 }
 
+float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int njets){
+  float met_significance(0.0);
+  float ht(0.0);
+
+  for(int i=0; i < std::min<int>(njets, jets->size()); i++){
+    const auto jet = jets->at(i);
+    if(jet->pt()/1.e3 < 30.) continue;
+    ht += jet->pt();
+  }
+  if(ht > 0) met_significance = (met->met()/1.e3)/sqrt(ht/1.e3);
+  return met_significance;
+}
+
 int VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, VD::WP wp){
 
   static SG::AuxElement::Decorator< int > nTops_wp("nTops_"+VD::wp2str(wp));
