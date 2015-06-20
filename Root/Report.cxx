@@ -22,7 +22,10 @@
 #include "xAODAnaHelpers/HelperFunctions.h"
 #include "xAODAnaHelpers/tools/ReturnCheck.h"
 
+#include <TheAccountant/VariableDefinitions.h>
+
 namespace HF = HelperFunctions;
+namespace VD = VariableDefinitions;
 
 // this is needed to distribute the algorithm to the workers
 ClassImp(Report)
@@ -242,8 +245,7 @@ EL::StatusCode Report :: execute ()
     in_met = *met_id;
   }
 
-  static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
-  float eventWeight = (weight_mc.isAvailable(*eventInfo)?weight_mc(*eventInfo):eventInfo->mcEventWeight());
+  float eventWeight = VD::eventWeight(eventInfo);
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jets"]->execute(in_jets, eventWeight), "");

@@ -41,6 +41,9 @@ namespace VariableDefinitions {
   // Calculates the MET significance as MET/sqrt(HT)
   float METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int njets);
 
+  // Get the event weight consistently
+  float eventWeight(const xAOD::EventInfo*);
+
   // top tagging on jets, set the eventInfo with "nTops_<WP>" int decoration
   //    - static SG::AuxElement::Accessor< int > nTops_wp("nTops_<WP>");
   //        * string of WP is equivalent to how you type it out in enum class
@@ -70,6 +73,19 @@ namespace VariableDefinitions {
   float Split23(const xAOD::Jet* jet);
   float Split34(const xAOD::Jet* jet);
   void KtSplittingScale(const xAOD::Jet* jet);
+
+  // build lepton veto using overlaps
+  template <typename T>
+  ConstDataVector<T> leptonVeto(const T* leptons, std::string d_overlap = "overlaps"){
+    ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
+    SG::AuxElement::ConstAccessor<int> isOverlap(d_overlap);
+    for(auto l: *leptons){
+      if(!isOverlap.isAvailable(*l) || isOverlap(*l) == 1) continue;
+      VetoLeptons.push_back(l);
+    }
+    return VetoLeptons;
+  }
+
 }
 
 #endif

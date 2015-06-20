@@ -178,6 +178,14 @@ EL::StatusCode Preselect :: execute ()
     }
   }
 
+  /*
+  // lepton veto
+  if(!m_inputElectrons.empty())
+    ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(in_electrons));
+
+  if(!m_inputMuons.empty())
+    ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons));
+  */
 
   return EL::StatusCode::SUCCESS;
 }

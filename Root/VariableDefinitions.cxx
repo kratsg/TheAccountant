@@ -135,6 +135,12 @@ float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* 
   return met_significance;
 }
 
+float VD::eventWeight(const xAOD::EventInfo* ei){
+  static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
+  return (weight_mc.isAvailable(*ei)?weight_mc(*ei):ei->mcEventWeight());
+
+}
+
 int VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, VD::WP wp){
 
   static SG::AuxElement::Decorator< int > nTops_wp("nTops_"+VD::wp2str(wp));
