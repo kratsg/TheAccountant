@@ -6,13 +6,13 @@ Run-2 analysis for SUSY search in gluino to stops.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-  - [Installing](#installing)
+- [Installing](#installing)
   - [Dependencies](#dependencies)
-  - [Functionality Included](#functionality-included)
-      - [[Audit.cxx](TheAccountant/Audit.h)](#auditcxxtheaccountantaudith)
-      - [[Preselect.cxx](TheAccountant/Preselect.h)](#preselectcxxtheaccountantpreselecth)
-      - [[Report.cxx](TheAccountant/Report.h)](#reportcxxtheaccountantreporth)
-      - [[CookTheBooks.py](scripts/CookTheBooks.py)](#cookthebookspyscriptscookthebookspy)
+- [Functionality Included](#functionality-included)
+    - [[Audit.cxx](TheAccountant/Audit.h)](#auditcxxtheaccountantaudith)
+    - [[Preselect.cxx](TheAccountant/Preselect.h)](#preselectcxxtheaccountantpreselecth)
+    - [[Report.cxx](TheAccountant/Report.h)](#reportcxxtheaccountantreporth)
+    - [[CookTheBooks.py](scripts/CookTheBooks.py)](#cookthebookspyscriptscookthebookspy)
 - [Authors](#authors)
   - [Acknowledgements](#acknowledgements)
 
@@ -38,7 +38,7 @@ rc find_packages
 rc compile
 ```
 
-## Dependencies
+### Dependencies
  - dependencies are in [cmt/Makefile.RootCore](cmt/Makefile.RootCore)
  - uses [Chris Rogan](https://github.com/crogan)'s bad-ass [RestFrames](https://github.com/crogan/RestFrames) package
  - uses [Miles Wu](https://github.com/mileswu)'s awesome [JetSubStructureTools](https://github.com/mileswu/JetSubstructureTools) package
@@ -62,6 +62,9 @@ This algorithm applies a pre-selection to large-R jets, bjets. If the event does
 This algorithm creates plots of large-R jets, bjets, and MET. It has functionality to create a separate set of plots for those events that pass the pre-selection as well as all events.
 
 #### [CookTheBooks.py](scripts/CookTheBooks.py)
+
+This is the macro that runs it all. [Start here and the world shall open up before you.](https://www.youtube.com/watch?v=5qH1pBTqvc4)
+
 ```
 usage: CookTheBooks.py filename [filename] [options]
 
@@ -160,10 +163,10 @@ report options:
                            (default: 0.0)
 ```
 
-# Authors
+## Authors
 - [Giordon Stark](https://github.com/kratsg)
 
-## Acknowledgements
+### Acknowledgements
 - [David Miller](https://github.com/fizisist)
 - [Max Swiatlowski](https://github.com/mswiatlo)
 - [Lawrence Lee](https://github.com/lawrenceleejr)
