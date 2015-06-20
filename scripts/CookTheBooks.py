@@ -324,6 +324,10 @@ if __name__ == "__main__":
       cookBooks_logger.info("\t\t%d files in %s", dataset.numFiles(), dataset.name())
     sh_all.printContent()
 
+    if len(sh_all) == 0:
+      logger.log(25, "No datasets found. Exiting.")
+      sys.exit(0)
+
     # set the name of the tree in our files
     sh_all.setMetaString("nc_tree", "CollectionTree")
 
