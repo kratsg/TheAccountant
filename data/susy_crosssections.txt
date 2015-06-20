@@ -1,0 +1,595 @@
+id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
+# benchmark point
+106400	SU4	47.700000 1. 1. 1.
+106484	SU4pp	59.950000 1. 1. 1.
+# top pairs 166.8 pb (Approximate NNLO calculations from Hathor)
+# reference: https://twiki.cern.ch/twiki/bin/viewauth/AtlasProtected/TopMC11#MC11_Common_Conventions
+105200	T1	166.8 1. 0.543 1.	mcevt_weight[0][0]	mcevt_weight
+105204	T0	166.8 1. 0.457 1.	mcevt_weight[0][0]	mcevt_weight
+105860	TTbar_PowHeg_Jimmy	166.8	1. 0.543	1.	mcevt_weight[0][0]	mcevt_weight
+105861	PowHeg_T1	166.8 1. 0.543 1.	mcevt_weight[0][0]	mcevt_weight
+107941	PowHeg_T0	166.8 1. 0.457 1.	mcevt_weight[0][0]	mcevt_weight
+105890	AlpgenJimmyttbarlnlnNp0	3.466000 1.690000 1. 1.
+105891	AlpgenJimmyttbarlnlnNp1	3.398700 1.690000 1. 1.
+105892	AlpgenJimmyttbarlnlnNp2	2.123800 1.690000 1. 1.
+105893	AlpgenJimmyttbarlnlnNp3	1.348100 1.690000 1. 1.
+117897	AlpgenJimmyttbarlnlnNp3_baseline	0.946980	1.690000	1.000000	1.000000
+117898	AlpgenJimmyttbarlnlnNp4_baseline	0.334090	1.690000	1.000000	1.000000
+117899	AlpgenJimmyttbarlnlnNp5_baseline	0.127530	1.690000	1.000000	1.000000
+105894	AlpgenJimmyttbarlnqqNp0	13.764000 1.770000 1. 1.
+105895	AlpgenJimmyttbarlnqqNp1	13.608000 1.770000 1. 1.
+105896	AlpgenJimmyttbarlnqqNp2	8.418100 1.770000 1. 1.
+105897	AlpgenJimmyttbarlnqqNp3	5.364100 1.770000 1. 1.
+117887	AlpgenJimmyttbarlnqqNp3_baseline	3.775900	1.770000	1.000000	1.000000
+117888	AlpgenJimmyttbarlnqqNp4_baseline	1.336100	1.770000	1.000000	1.000000
+117889	AlpgenJimmyttbarlnqqNp5_baseline	0.503990	1.770000	1.000000	1.000000
+# For sherpa, summing up all samples below to match 166.8...
+117800	SherpaTtbarLeptLept	3.408500	2.545536	1.000000	1.000000
+117801	SherpaTtbarLeptTaulept	3.405100	2.545536	0.352		1.000000
+117802	SherpaTtbarTauleptTaulept	0.824580	2.545536	0.123904	1.000000
+117803	SherpaTtbarLeptHad	19.868000	2.545536	1.000000	1.000000
+117804	SherpaTtbarLeptTauhad	3.395000	2.545536	0.648		1.000000
+117805	SherpaTtbarTauleptHad	9.875200	2.545536	0.352		1.000000
+117806	SherpaTtbarTauleptTauhad	0.827660	2.545536	0.456192	1.000000
+117807	SherpaTtbarHadHad	28.147000	2.545536	1.000000	1.000000
+117808	SherpaTtbarHadTauhad	9.887900	2.545536	0.648		1.000000
+117809	SherpaTtbarTauhadTauhad	0.812660	2.545536	0.419904	1.000000
+# single top schan = 4.63pb (Phys. Rev. D 81, 054028 (2010)), tchan = 64.57pb (Phys. Rev. D 83, 091503(R) (2011)), 
+# Wt = 15.74 pb (Phys. Rev. D 82, 054018 (2010)), Br(W->lept)=0.108 
+108340	st_tc_enu	6.970000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+108341	st_tc_munu	6.970000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+108342	st_tc_taunu	6.970000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+108343	st_sc_enu	0.500000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+108344	st_sc_munu	0.500000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+108345	st_sc_taunu	0.500000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+108346	st_Wt	15.740000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117360	st_tchan_enu_AcerMC	6.97	1.	1.000000	1.000000
+117361	st_tchan_munu_AcerMC	6.97	1.	1.000000	1.000000
+117362	st_tchan_taunu_AcerMC	6.97	1.	1.000000	1.000000
+117363	st_schan_enu_AcerMC	0.50	1.	1.000000	1.000000
+117364	st_schan_munu_AcerMC	0.50	1.	1.000000	1.000000
+117365	st_schan_taunu_AcerMC	0.50	1.	1.000000	1.000000
+105500	AcerMC_Wt	15.74	1.	1.000000	1.000000
+117314	st_schan_PowHeg_Pythia	1.50	1.000000	1.000000	1.000000
+117315	st_tchan_PowHeg_Pythia	20.92	1.000000	1.000000	1.000000
+# top samples with PS ISR/FSR up/down
+117264	AcerPythiaTT_Std	58.228000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117255	AcerPythiaTT_MinISR	58.230000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117256	AcerPythiaTT_MaxISR	58.230000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117259	AcerPythiaTT_FISRdown	58.230000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117260	AcerPythiaTT_FISRup	58.230000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117249	AcerPythiaTT_LessISR1	58.230000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117250	AcerPythiaTT_LessISR2	58.230000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117251	AcerPythiaTT_MoreISR1	58.230000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117252	AcerPythiaTT_MoreISR2	58.230000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117253	AcerPythiaTT_LessFSR	58.230000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117254	AcerPythiaTT_MoreFSR	58.230000 1.530000 1. 1.	mcevt_weight[0][0]	mcevt_weight
+117257	AcerMCttbar_fsr_down	166.8	1.000000	0.543	1.000000
+117258	AcerMCttbar_fsr_up	166.8	1.000000	0.543	1.000000
+117209	AcerMCttbar_MorePS	166.8	1.000000	0.543	1.000000
+117210	AcerMCttbar_LessPS	166.8	1.000000	0.543	1.000000
+117211	AcerMCttbar_allhad_MorePS	166.8	1.000000	0.457	1.000000
+117212	AcerMCttbar_allhad_LessPS	166.8	1.000000	0.457	1.000000
+117213	st_schan_enu_AcerMC_MorePS	0.50	1.	1.000000	1.000000
+117214	st_schan_enu_AcerMC_LessPS	0.50	1.	1.000000	1.000000
+117215	st_schan_munu_AcerMC_MorePS	0.50	1.	1.000000	1.000000
+117216	st_schan_munu_AcerMC_LessPS	0.50	1.	1.000000	1.000000
+117217	st_schan_taunu_AcerMC_MorePS	0.50	1.	1.000000	1.000000
+117218	st_schan_taunu_AcerMC_LessPS	0.50	1.	1.000000	1.000000
+117219	st_tchan_enu_AcerMC_MorePS	6.97	1.	1.000000	1.000000
+117220	st_tchan_enu_AcerMC_LessPS	6.97	1.	1.000000	1.000000
+117221	st_tchan_munu_AcerMC_MorePS	6.97	1.	1.000000	1.000000
+117222	st_tchan_munu_AcerMC_LessPS	6.97	1.	1.000000	1.000000
+117223	st_tchan_taunu_AcerMC_MorePS	6.97	1.	1.000000	1.000000
+117224	st_tchan_taunu_AcerMC_LessPS	6.97	1.	1.000000	1.000000
+117245	AcerMC_Wt_MorePS	15.74	1.	1.000000	1.000000
+117246	AcerMC_Wt_LessPS	15.74	1.	1.000000	1.000000
+# ttbar+X
+# Samples below need to be cross-checked...
+116108	AlpgenJimmyttbbinclNp0_baseline	0.915610 1. 1. 1.
+116109	AlpgenJimmyttccinclNp0_baseline	1.757800	1.000000	1.000000	1.000000
+119353	PythiaMadgraph_ttbarW	0.124440 1.3 1. 1.
+119354	PythiaMadgraph_ttbarWj	0.083470 1.3 1. 1.
+119355	PythiaMadgraph_ttbarZ	0.095581 1.3 1. 1.
+119356	PythiaMadgraph_ttbarZj	0.081600 1.3 1. 1.
+119583	PythiaMadgraph_ttbarWW	0.001249 1.3 1. 1.
+# VB+jets
+# sherpa V bosons
+#renormalized to Wlnu: 10.46 nb (NNLO) * 3 flavors (weighted events)
+114611	SherpaW5jetstoenu30GeV	10460.000000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+114612	SherpaW5jetstomunu30GeV	10460.000000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+118960	SherpaW5jetstotaunu30GeV	10460.000000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+119128	SherpaW5jetstoenu30GeVScaleMT	10460.000000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+119129	SherpaW5jetstomunu30GeVScaleMT	10460.000000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+119930	SherpaW5jetstotaunu30GeVScaleMT	10460.000000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+144073	SherpaW5jetstoenu30GeV_weighted	8531.600000	1.226	1.000000	1.000000
+144074	SherpaW5jetstomunu30GeV_weighted	10190.000000	1.026	1.000000	1.000000
+144075	SherpaW5jetstotaunu30GeV_weighted	9047.700000	1.156	1.000000	1.000000
+#renorzed to Znunu: 5.817 nb (NNLO), Zll: 1.069 nb (NNLO) * 3 flavors
+114609	SherpaZ5jetstoee30GeV	899.950000	1.1878	1.	1.	mcevt_weight[0][0]	mcevt_weight
+114610	SherpaZ5jetstomumu30GeV	899.720000	1.1881	1.	1.	mcevt_weight[0][0]	mcevt_weight
+118959	SherpaZ5jetstonunu30GeV	4818.100000	1.2073	1.	1.	mcevt_weight[0][0]	mcevt_weight
+119932	SherpaZ5jetstonunu30GeVScaleMT	5817.000000 1. 1. 1.	mcevt_weight[0][0]	mcevt_weight
+118961	SherpaZ5jetstotautau30GeV	904.390000	1.1820	1.	1.	mcevt_weight[0][0]	mcevt_weight
+119931	SherpaZ5jetstotautau30GeVScaleMT	904.390 1.1820 1. 1.	mcevt_weight[0][0]	mcevt_weight
+109525	SherpaZ3jetstoeeEnhancedcb	952.140000	1.1227	1.	1.	mcevt_weight[0][0]	mcevt_weight
+109526	SherpaZ3jetstomumuEnhancedcb	957.270000	1.1167	1.	1.	mcevt_weight[0][0]	mcevt_weight
+109527	SherpaZ3jetstotautauEnhancedcb	953.700000	1.1185	1.	1.	mcevt_weight[0][0]	mcevt_weight
+144069	SherpaZ5jetstonunu30GeV_weighted	5155.400000	1.128	1.000000	1.000000
+144070	SherpaZ5jetstoee30GeV_weighted	853.640000	1.252	1.000000	1.000000
+144071	SherpaZ5jetstomumu30GeV_weighted	752.190000	1.421	1.000000	1.000000
+144072	SherpaZ5jetstotautau30GeV_weighted	984.730000	1.086	1.000000	1.000000
+# samples below are not renormalized to any specific value
+128975	SherpaZeeHeavyJets	60.143000	1.000000	1.000000	1.000000
+128976	SherpaZmumuHeavyJets	60.171000	1.000000	1.000000	1.000000
+128977	SherpaZtautauHeavyJets	60.177000	1.000000	1.000000	1.000000
+128979	SherpaZnunuHeavyJets	323.380000	1.000000	1.000000	1.000000
+126569	SherpaVBFWenu	8.403900	1.000000	1.000000	1.000000
+126570	SherpaVBFWmunu	8.414300	1.000000	1.000000	1.000000
+126571	SherpaVBFWtaunu	8.422400	1.000000	1.000000	1.000000
+# algpen W boson
+#renormalized to Wlnu: 10.46 nb (NNLO) * 3 flavors
+107680	WenuNp0		6932. 1.1955 1. 1.
+107681	WenuNp1		1305. 1.1955 1. 1.
+107682	WenuNp2		378. 	1.1955 1. 1.
+107683	WenuNp3		101.9 	1.1955 1. 1.
+107684	WenuNp4		25.7 	1.1955 1. 1.
+107685	WenuNp5		7.00 	1.1955 1. 1.
+144018	AlpgenJimmyWenuNp5_excl_pt20	5.814400	1.1955	1.000000	1.000000
+144022	AlpgenJimmyWenuNp6_pt20	1.546300	1.1955	1.000000	1.000000
+144196	AlpgenJimmyWenuNp1_pt20_susyfilt	1305.	1.1955	0.005659	1.000000
+144197	AlpgenJimmyWenuNp2_pt20_susyfilt	378.	1.1955	0.016520	1.000000
+144198	AlpgenJimmyWenuNp3_pt20_susyfilt	101.9	1.1955	0.034040	1.000000
+144199	AlpgenJimmyWenuNp4_pt20_susyfilt	25.7	1.1955	0.056390	1.000000
+107690	WmunuNp0	6932.	1.1955 1. 1.
+107691	WmunuNp1	1305.	1.1955 1. 1.
+107692	WmunuNp2	378.	1.1955 1. 1.
+107693	WmunuNp3	101.9	1.1955 1. 1.
+107694	WmunuNp4	25.7	1.1955 1. 1.
+107695	WmunuNp5	7.00	1.1955 1. 1.
+144019	AlpgenJimmyWmunuNp5_excl_pt20	5.822200	1.1955	1.000000	1.000000
+144023	AlpgenJimmyWmunuNp6_pt20	1.537100	1.1955	1.000000	1.000000
+144200	AlpgenJimmyWmunuNp1_pt20_susyfilt	1305.	1.1955	0.005422	1.000000
+144201	AlpgenJimmyWmunuNp2_pt20_susyfilt	378.	1.1955	0.016234	1.000000
+144202	AlpgenJimmyWmunuNp3_pt20_susyfilt	101.9	1.1955	0.033596	1.000000
+144203	AlpgenJimmyWmunuNp4_pt20_susyfilt	25.7	1.1955	0.056165	1.000000
+107700	WtaunuNp0	6932.	1.1955 1. 1.
+107701	WtaunuNp1	1305.	1.1955 1. 1.
+107702	WtaunuNp2	378.	1.1955 1. 1.
+107703	WtaunuNp3	101.9	1.1955 1. 1.
+107704	WtaunuNp4	25.7	1.1955 1. 1.
+107705	WtaunuNp5	7.00	1.1955 1. 1.
+144020	AlpgenJimmyWtaunuNp5_excl_pt20	5.820400	1.1955	1.000000	1.000000
+144024	AlpgenJimmyWtaunuNp6_pt20	1.544400	1.1955	1.000000	1.000000
+144204	AlpgenJimmyWtaunuNp1_pt20_susyfilt	1305.	1.1955	0.008387	1.000000
+144205	AlpgenJimmyWtaunuNp2_pt20_susyfilt	378.	1.1955	0.024476	1.000000
+144206	AlpgenJimmyWtaunuNp3_pt20_susyfilt	101.9	1.1955	0.050024	1.000000
+144207	AlpgenJimmyWtaunuNp4_pt20_susyfilt	25.7	1.1955	0.081906	1.000000
+117680	AlpgenPythiaWenuNp0_pt20	8269.	1.012	1.000000	1.000000
+117681	AlpgenPythiaWenuNp1_pt20	1486.	1.012	1.000000	1.000000
+117682	AlpgenPythiaWenuNp2_pt20	431.	1.012	1.000000	1.000000
+117683	AlpgenPythiaWenuNp3_pt20	112.7	1.012	1.000000	1.000000
+117684	AlpgenPythiaWenuNp4_pt20	27.3	1.012	1.000000	1.000000
+117685	AlpgenPythiaWenuNp5_pt20	7.7	1.012	1.000000	1.000000
+117690	AlpgenPythiaWmunuNp0_pt20	8269.	1.012	1.000000	1.000000
+117691	AlpgenPythiaWmunuNp1_pt20	1486.	1.012	1.000000	1.000000
+117692	AlpgenPythiaWmunuNp2_pt20	431.	1.012	1.000000	1.000000
+117693	AlpgenPythiaWmunuNp3_pt20	112.7	1.012	1.000000	1.000000
+117694	AlpgenPythiaWmunuNp4_pt20	27.3	1.012	1.000000	1.000000
+117695	AlpgenPythiaWmunuNp5_pt20	7.7	1.012	1.000000	1.000000
+# alpgen Z boson
+#renormalized to Znunu: 5.817 nb (NNLO)
+107710	AlpgenJimmyZnunuNp0_pt20_filt1jet	3572.000000	1.2604	0.011091	1.000000
+107711	AlpgenJimmyZnunuNp1_pt20_filt1jet	738.730000	1.2604	0.611200	1.000000
+107712	AlpgenJimmyZnunuNp2_pt20_filt1jet	222.910000	1.2604	0.881580	1.000000
+107713	AlpgenJimmyZnunuNp3_pt20_filt1jet	61.874000	1.2604	0.967510	1.000000
+107714	AlpgenJimmyZnunuNp4_pt20_filt1jet	15.635000	1.2604	0.992050	1.000000
+107715	AlpgenJimmyZnunuNp5_pt20_filt1jet	4.309400	1.2604	0.998540	1.000000
+144017	AlpgenJimmyZnunuNp5_excl_pt20_filt1jet	3.581200	1.2604	0.998080	1.000000
+144021	AlpgenJimmyZnunuNp6_pt20_filt1jet	0.921980	1.2604	0.999690	1.000000
+144192	AlpgenJimmyZnunuNp1_pt20_susyfilt	36.833000	1.2604	0.349050	1.000000
+144193	AlpgenJimmyZnunuNp2_pt20_susyfilt	34.291000	1.2604	0.295850	1.000000
+144194	AlpgenJimmyZnunuNp3_pt20_susyfilt	16.124000	1.2604	0.335180	1.000000
+144195	AlpgenJimmyZnunuNp4_pt20_susyfilt	5.480600	1.2604	0.397330	1.000000
+#renorzed to Zll: 1.069 nb (NNLO) * 3 flavors
+107650	ZeeNp0		669.6	1.24345 1. 1.
+107651	ZeeNp1		134.55	1.24345 1. 1.
+107652	ZeeNp2		40.65	1.24345 1. 1.
+107653	ZeeNp3		11.26	1.24345 1. 1.
+107654	ZeeNp4		2.84	1.24345 1. 1.
+107655	ZeeNp5		0.76 	1.24345 1. 1.
+107660	ZmumuNp0	669.6	1.24345 1. 1.
+107661	ZmumuNp1	134.55	1.24345 1. 1.
+107662	ZmumuNp2	40.65	1.24345 1. 1.
+107663	ZmumuNp3	11.26	1.24345 1. 1.
+107664	ZmumuNp4	2.84	1.24345 1. 1.
+107665	ZmumuNp5	0.76	1.24345 1. 1.
+107670	ZtautauNp0	669.6	1.24345 1. 1.
+107671	ZtautauNp1	134.55	1.24345 1. 1.
+107672	ZtautauNp2	40.65	1.24345 1. 1.
+107673	ZtautauNp3	11.26	1.24345 1. 1.
+107674	ZtautauNp4	2.84	1.24345 1. 1.
+107675	ZtautauNp5	0.76	1.24345 1. 1.
+117650	AlpgenPythiaZeeNp0_pt20	812.	1.037	1.000000	1.000000
+117651	AlpgenPythiaZeeNp1_pt20	153.	1.037	1.000000	1.000000
+117652	AlpgenPythiaZeeNp2_pt20	49.4	1.037	1.000000	1.000000
+117653	AlpgenPythiaZeeNp3_pt20	12.5	1.037	1.000000	1.000000
+117654	AlpgenPythiaZeeNp4_pt20	3.04	1.037	1.000000	1.000000
+117655	AlpgenPythiaZeeNp5_pt20	0.84	1.037	1.000000	1.000000
+117660	AlpgenPythiaZmumuNp0_pt20	812.	1.037	1.000000	1.000000
+117661	AlpgenPythiaZmumuNp1_pt20	153.	1.037	1.000000	1.000000
+117662	AlpgenPythiaZmumuNp2_pt20	49.4	1.037	1.000000	1.000000
+117663	AlpgenPythiaZmumuNp3_pt20	12.5	1.037	1.000000	1.000000
+117664	AlpgenPythiaZmumuNp4_pt20	3.04	1.037	1.000000	1.000000
+117665	AlpgenPythiaZmumuNp5_pt20	0.84	1.037	1.000000	1.000000
+# W/Z+HF (assume same scale factor as W/Z inclusive)
+106280	AlpgenJimmyWbbNp0_pt20	3.340000 1.1955 1. 1.
+106281	AlpgenJimmyWbbNp1_pt20	2.680000 1.1955 1. 1.
+106282	AlpgenJimmyWbbNp2_pt20	1.390000 1.1955 1. 1.
+106283	AlpgenJimmyWbbNp3_pt20	0.660000 1.1955 1. 1.
+107280	AlpgenJimmyWbbFullNp0_pt20	47.320000 1.1955 1. 1.
+107281	AlpgenJimmyWbbFullNp1_pt20	35.770000 1.1955 1. 1.
+107282	AlpgenJimmyWbbFullNp2_pt20	17.340000 1.1955 1. 1.
+107283	AlpgenJimmyWbbFullNp3_pt20	6.630000 1.1955 1. 1.
+126530	AlpGenPythiaWbbmunuN0p	44.504000	1.012	1.000000	1.000000
+126531	AlpGenPythiaWbbmunuN1p	36.070000	1.012	1.000000	1.000000
+126532	AlpGenPythiaWbbmunuN2p	17.922000	1.012	1.000000	1.000000
+126533	AlpGenPythiaWbbmunuN3p	7.416800	1.012	1.000000	1.000000
+117284	WccFullNp0	127.530000 1.1955 1. 1.
+117285	WccFullNp1	104.680000 1.1955 1. 1.
+117286	WccFullNp2	52.080000 1.1955 1. 1.
+117287	WccFullNp3	16.960000 1.1955 1. 1.
+117288	AlpgenWcNp0_pt20	437.590000 1.1955 1. 1.
+117289	AlpgenWcNp1_pt20	161.460000 1.1955 1. 1.
+117290	AlpgenWcNp2_pt20	42.880000 1.1955 1. 1.
+117291	AlpgenWcNp3_pt20	9.980000 1.1955 1. 1.
+117292	AlpgenWcNp4_pt20	2.420000 1.1955 1. 1.
+117293	AlpgenWcNp0_pt20	644.15	1.1955	1.	1.
+117294	AlpgenWcNp1_pt20  	204.93	1.1955	1.	1.
+117295	AlpgenWcNp2_pt20	51.01	1.1955	1.	1.
+117296	AlpgenWcNp3_pt20	11.36	1.1955	1.	1.
+117297	AlpgenWcNp4_pt20	2.765500	1.1955	1.000000	1.000000
+116297	AlpgenWcNp4_pt20	2.77	1.1955	1.	1.
+118962	AlpgenJimmyZnunubbNp0_pt20_filt1jet	32.800000 1.2604 1. 1.
+118963	AlpgenJimmyZnunubbNp1_pt20_filt1jet	14.500000 1.2604 1. 1.
+118964	AlpgenJimmyZnunubbNp2_pt20_filt1jet	5.240000 1.2604 1. 1.
+118965	AlpgenJimmyZnunubbNp3_pt20_filt1jet	1.560000 1.2604 1. 1.
+109300	AlpgenJimmyZeebbNp0_nofilter	6.570000 1.24345 1. 1.
+109301	AlpgenJimmyZeebbNp1_nofilter	2.480000 1.24345 1. 1.
+109302	AlpgenJimmyZeebbNp2_nofilter	0.890000 1.24345 1. 1.
+109303	AlpgenJimmyZeebbNp3_nofilter	0.390000 1.24345 1. 1.
+109305	AlpgenJimmyZmumubbNp0_nofilter	6.560000 1.24345 1. 1.
+109306	AlpgenJimmyZmumubbNp1_nofilter	2.470000 1.24345 1. 1.
+109307	AlpgenJimmyZmumubbNp2_nofilter	0.890000 1.24345 1. 1.
+109308	AlpgenJimmyZmumubbNp3_nofilter	0.390000 1.24345 1. 1.
+126560	AlpgenPythiaZmumubbNp0_nofilter	5.794200	1.037	1.000000	1.000000
+126561	AlpgenPythiaZmumubbNp1_nofilter	2.790400	1.037	1.000000	1.000000
+126562	AlpgenPythiaZmumubbNp2_nofilter	0.993090	1.037	1.000000	1.000000
+126563	AlpgenPythiaZmumubbNp3_nofilter	0.335880	1.037	1.000000	1.000000
+109310	AlpgenJimmyZtautaubbNp0_nofilter	6.570000 1.24345 1. 1.
+109311	AlpgenJimmyZtautaubbNp1_nofilter	2.490000 1.24345 1. 1.
+109312	AlpgenJimmyZtautaubbNp2_nofilter	0.890000 1.24345 1. 1.
+109313	AlpgenJimmyZtautaubbNp3_nofilter	0.390000 1.24345 1. 1.
+109380	AlpgenJimmyZeebbNp0_3Leptons	6.558300 1.24345 0.089383 1.
+109381	AlpgenJimmyZeebbNp1_3Leptons	2.473800 1.24345 0.139290 1.
+109382	AlpgenJimmyZeebbNp2_3Leptons	0.891470 1.24345 0.163310 1.
+109383	AlpgenJimmyZeebbNp3_3Leptons	0.391060 1.24345 0.195910 1.
+109385	AlpgenJimmyZmumubbNp0_3Leptons	6.562200 1.24345 0.089504 1.
+109386	AlpgenJimmyZmumubbNp1_3Leptons	2.473800 1.24345 0.139750 1.
+109387	AlpgenJimmyZmumubbNp2_3Leptons	0.886600 1.24345 0.163720 1.
+109388	AlpgenJimmyZmumubbNp3_3Leptons	0.391110 1.24345 0.195650 1.
+126414	AlpgenJimmyZeeccNp0_nofilter	12.091000	1.24345	1.000000	1.000000
+126415	AlpgenJimmyZeeccNp1_nofilter	5.236800	1.24345	1.000000	1.000000
+126416	AlpgenJimmyZeeccNp2_nofilter	2.205100	1.24345	1.000000	1.000000
+126417	AlpgenJimmyZeeccNp3_nofilter	0.765020	1.24345	1.000000	1.000000
+126418	AlpgenJimmyZmumuccNp0_nofilter	12.101000	1.24345	1.000000	1.000000
+126419	AlpgenJimmyZmumuccNp1_nofilter	5.259700	1.24345	1.000000	1.000000
+126420	AlpgenJimmyZmumuccNp2_nofilter	2.196200	1.24345	1.000000	1.000000
+126421	AlpgenJimmyZmumuccNp3_nofilter	0.766270	1.24345	1.000000	1.000000
+# Drell-Yan (assume same scale factor as On-shell Zll)
+116250	AlpgenJimmyZeeNp0_Mll10to40_pt20	3054.700000 1.24345 1. 1.
+116251	AlpgenJimmyZeeNp1_Mll10to40_pt20	84.910000 1.24345 1. 1.
+116252	AlpgenJimmyZeeNp2_Mll10to40_pt20	41.190000 1.24345 1. 1.
+116253	AlpgenJimmyZeeNp3_Mll10to40_pt20	8.350000 1.24345 1. 1.
+116254	AlpgenJimmyZeeNp4_Mll10to40_pt20	1.850000 1.24345 1. 1.
+116255	AlpgenJimmyZeeNp5_Mll10to40_pt20	0.460000 1.24345 1. 1.
+116260	AlpgenJimmyZmumuNp0_Mll10to40_pt20	3054.900000 1.24345 1. 1.
+116261	AlpgenJimmyZmumuNp1_Mll10to40_pt20	84.780000 1.24345 1. 1.
+116262	AlpgenJimmyZmumuNp2_Mll10to40_pt20	41.130000 1.24345 1. 1.
+116263	AlpgenJimmyZmumuNp3_Mll10to40_pt20	8.340000 1.24345 1. 1.
+116264	AlpgenJimmyZmumuNp4_Mll10to40_pt20	1.870000 1.24345 1. 1.
+116265	AlpgenJimmyZmumuNp5_Mll10to40_pt20	0.460000 1.24345 1. 1.
+116270	AlpgenJimmyZtautauNp0_Mll10to40_pt20	3054.800000 1.24345 1. 1.
+116271	AlpgenJimmyZtautauNp1_Mll10to40_pt20	84.880000 1.24345 1. 1.
+116272	AlpgenJimmyZtautauNp2_Mll10to40_pt20	41.280000 1.24345 1. 1.
+116273	AlpgenJimmyZtautauNp3_Mll10to40_pt20	8.350000 1.24345 1. 1.
+116274	AlpgenJimmyZtautauNp4_Mll10to40_pt20	1.830000 1.24345 1. 1.
+116275	AlpgenJimmyZtautauNp5_Mll10to40_pt20	0.460000 1.24345 1. 1.
+116940 	AlpgenJimmyZtautaullNp0_Mll10to40Pt15Pt5	390.19	1.24345	0.0005	1.
+116941	AlpgenJimmyZtautaullNp1_Mll10to40Pt15Pt5	10.87	1.24345	0.029	1.	
+116942	AlpgenJimmyZtautaullNp2_Mll10to40Pt15Pt5	5.28	1.24345	0.027	1.
+116943	AlpgenJimmyZtautaullNp3_Mll10to40Pt15Pt5	1.07	1.24345	0.049	1.
+116944	AlpgenJimmyZtautaullNp4_Mll10to40Pt15Pt5	0.24	1.24345	0.071	1.
+116945	AlpgenJimmyZtautaullNp5_Mll10to40Pt15Pt5	0.06	1.24345	0.092	1.
+116946	AlpgenJimmyZeeNp0_Mll10to40Pt15Pt5	3055.70	1.24345	0.036	1.
+116947	AlpgenJimmyZeeNp1_Mll10to40Pt15Pt5	85.06	1.24345	0.474	1.
+116948	AlpgenJimmyZmumuNp0_Mll10to40Pt15Pt5	3055.70	1.24345	0.037	1.
+116949	AlpgenJimmyZmumuNp1_Mll10to40Pt15Pt5	85.07	1.24345	0.489	1.
+# Drell-Yan + HF
+128130	AlpgenJimmyLowMassDYeebbNp0_nofilter	11.681	1.24345	1.0 	1.0 
+128131	AlpgenJimmyLowMassDYeebbNp1_nofilter	1.8518	1.24345	1.0 	1.0 
+128132	AlpgenJimmyLowMassDYeebbNp2_nofilter	0.69043	1.24345	1.0 	1.0 
+128133	AlpgenJimmyLowMassDYeebbNp3_nofilter	0.33126	1.24345	1.0 	1.0 
+128135	AlpgenJimmyLowMassDYmumubbNp0_nofilter	11.675	1.24345	1.0 	1.0 
+128136	AlpgenJimmyLowMassDYmumubbNp1_nofilter	1.8566	1.24345	1.0 	1.0 
+128137	AlpgenJimmyLowMassDYmumubbNp2_nofilter	0.69262	1.24345	1.0 	1.0 
+128138	AlpgenJimmyLowMassDYmumubbNp3_nofilter	0.33327	1.24345	1.0 	1.0 
+128140	AlpgenJimmyLowMassDYtautaubbNp0_nofilter	11.677	1.24345	1.0 	1.0 
+128141	AlpgenJimmyLowMassDYtautaubbNp1_nofilter	1.8414	1.24345	1.0 	1.0 
+128142	AlpgenJimmyLowMassDYtautaubbNp2_nofilter	0.68319	1.24345	1.0 	1.0 
+128143	AlpgenJimmyLowMassDYtautaubbNp3_nofilter	0.33195	1.24345	1.0 	1.0 
+# Pythia W/Z/DY (no k-factor applied...)
+106043	PythiaWenu_no_filter	8700.200000	1.000000	1.000000	1.000000
+106044	PythiaWmunu_no_filter	8701.700000	1.000000	1.000000	1.000000
+106046	PythiaZee_no_filter	834.610000	1.000000	1.000000	1.000000
+106047	PythiaZmumu_no_filter	834.620000	1.000000	1.000000	1.000000
+107055	PythiaDrellYanLowMtautau_M10	3301.600000	1.000000	1.000000	1.000000
+108319	PythiaDrellYan_mumu	1240.400000	1.000000	1.000000	1.000000
+108320	PythiaDrellYan_ee	1240.900000	1.000000	1.000000	1.000000
+# SM DiBoson samples: NLO cross-sections source ATL-COM-PHYS-2010-695
+105985	HerwigWW	29.60	1.48	0.388	1.
+# ZZ: k = MCFM NLO ([66;116]GeV) / Herwig LO ([66;116]GeV) = 5.96 / 4.40 = 1.35
+105986	HerwigZZ	4.60	1.35	0.212	1.
+# WZ: k = MCFM NLO (m>60) / Herwig LO (m>60) = 18.5 / 10.80 = 1.7
+105987	HerwigWZ	11.23	1.70	0.31	1.
+119357	PythiaMadgraph_WWjj	0.22 1. 1. 1.
+142604	WZ_Herwig_3leptFilt	11.48	1.7	0.013	1.	
+106001	Pythia_MadGraph_Wplusenugamma	27.97	1.	1.	1.
+106002	Pythia_MadGraph_Wplusmunugamma	27.94	1.	1.	1.
+106003	Pythia_MadGraph_Wplustaunugamma	25.42	1.	0.17	1.
+108288	Pythia_MadGraph_Wminusenugamma	18.59	1.	1.	1.
+108289	Pythia_MadGraph_Wminusmunugamma	18.59	1.	1.	1.
+108290	Pythia_MadGraph_Wminustaunugamma	16.86	1.	0.17	1.
+108323	Pythia_MadGraph_Zeegamma	10.02	1.	1.	1.
+108324	Pythia_MadGraph_Zmumugamma	10.02	1.	1.	1.
+108325	Pythia_MadGraph_Ztautaugamma	9.76	1.	0.17	1.
+118615	Pythia_MadGraph_Wminushadgammagamma	0.039177	1.000000	1.000000	1.000000
+118616	Pythia_MadGraph_Wminuslepgammagamma	0.029331	1.000000	1.000000	1.000000
+118617	Pythia_MadGraph_Wplushadgammagamma	0.039128	1.000000	1.000000	1.000000
+118618	Pythia_MadGraph_Wpluslepgammagamma	0.040508	1.000000	1.000000	1.000000
+118619	Pythia_MadGraph_Znunugammagamma	0.014589	1.000000	1.000000	1.000000
+# Sherpa diboson samples (no clue about k-factor yet)
+125950	SherpaZtoee2JetsEW2JetsQCD15GeVM40	0.447020	1.000000	1.000000	1.000000
+125951	SherpaZtomm2JetsEW2JetsQCD15GeVM40	0.445850	1.000000	1.000000	1.000000
+125952	SherpaZtott2JetsEW2JetsQCD15GeVM40	0.444450	1.000000	1.000000	1.000000
+125956	SherpaZtoee2JetsEW2JetsQCD15GeVM07to40	0.477270	1.000000	1.000000	1.000000
+125957	SherpaZtomm2JetsEW2JetsQCD15GeVM07to40	0.477120	1.000000	1.000000	1.000000
+125958	SherpaZtott2JetsEW2JetsQCD15GeVM07to40	0.469240	1.000000	1.000000	1.000000
+126013	Sherpa_Wenugamma_1jet	72.870000	1.000000	1.000000	1.000000
+126014	Sherpa_Wmunugamma_1jet	72.873000	1.000000	1.000000	1.000000
+126017	Sherpa_Znunugamma	1.035400	1.000000	1.000000	1.000000
+126018	Sherpa_Wenugamma_highpt	2.966100	1.000000	1.000000	1.000000
+126019	Sherpa_Wmunugamma_highpt	2.964200	1.000000	1.000000	1.000000
+126020	Sherpa_Zeegamma_highpt	0.477900	1.000000	1.000000	1.000000
+126021	Sherpa_Zmumugamma_highpt	0.477620	1.000000	1.000000	1.000000
+126022	Sherpa_Znunugamma_highpt	2.316000	1.000000	1.000000	1.000000
+126148	SherpaZZ4l	0.108580	1.000000	1.000000	1.000000
+126307	SherpaWenugammagamma_upto2jets	0.067151	1.000000	1.000000	1.000000
+126308	SherpaWmunugammagamma_upto2jets	0.067050	1.000000	1.000000	1.000000
+126309	SherpaWtaunugammagamma_upto2jets	0.067055	1.000000	1.000000	1.000000
+128810	SherpaWWlnulnu	2.983200	1.000000	1.000000	1.000000
+128811	SherpaWZlllnu	0.361640	1.000000	1.000000	1.000000
+128812	SherpaWZlllnuLowMass	1.020900	1.000000	1.000000	1.000000
+128813	SherpaZZllll	0.266220	1.000000	1.000000	1.000000
+128814	SherpaZZllnn	0.238380	1.000000	1.000000	1.000000
+143062	SherpaWZlnnn	0.718680	1.000000	1.000000	1.000000
+143063	SherpaWZqqnn	1.424900	1.000000	1.000000	1.000000
+143064	SherpaWtolnu2JetsEW1JetQCD	24.537000	1.000000	1.000000	1.000000
+143065	SherpaZtonunu2JetsEW1JetQCD	1.336800	1.000000	1.000000	1.000000
+145161	Sherpa_Zeegamma_3jets	15.516000	1.000000	1.000000	1.000000
+145162	Sherpa_Zmumugamma_3jets	15.625000	1.000000	1.000000	1.000000
+145163	Sherpa_Zeegamma_highpt	0.525150	1.000000	1.000000	1.000000
+145164	Sherpa_Zmumugamma_highpt	0.525280	1.000000	1.000000	1.000000
+# k-factors obtained as MCFM NLO CT10/ Sherpa <=1 jet CT10, for opposite flavor lepton pairs and mSFOS>20GeV, assuming they are applicable to the produced Sherpa <=3 jet samples below, needs expert confirmation
+126892	Sherpa_CT10_llnunu_WW	3.6690	1.09	1.	1.
+126893	Sherpa_CT10_lllnu_WZ	6.2579	1.08	1.	1.
+126894	Sherpa_CT10_llll_ZZ	4.6244	1.14	1.	1.
+126895	Sherpa_CT10_llnunu_ZZ	0.33788	1.17	1.	1.
+# end of k-factors obtained
+# Alpgen diboson
+107100	AlpgenJimmyWWlnulnuNp0	2.094900	1.251000	1.000000	1.000000
+107101	AlpgenJimmyWWlnulnuNp1	0.995880	1.251000	1.000000	1.000000
+107102	AlpgenJimmyWWlnulnuNp2	0.440980	1.251000	1.000000	1.000000
+107103	AlpgenJimmyWWlnulnuNp3	0.229160	1.251000	1.000000	1.000000
+107104	AlpgenJimmyWZincllNp0	0.672190	1.280000	1.000000	1.000000
+107105	AlpgenJimmyWZincllNp1	0.413610	1.280000	1.000000	1.000000
+107106	AlpgenJimmyWZincllNp2	0.218390	1.280000	1.000000	1.000000
+107107	AlpgenJimmyWZincllNp3	0.127950	1.280000	1.000000	1.000000
+107108	AlpgenJimmyZZincllNp0	0.509590	1.300000	1.000000	1.000000
+107109	AlpgenJimmyZZincllNp1	0.230700	1.300000	1.000000	1.000000
+107110	AlpgenJimmyZZincllNp2	0.087417	1.300000	1.000000	1.000000
+107111	AlpgenJimmyZZincllNp3	0.038714	1.300000	1.000000	1.000000
+117410	AlpgenJimmyWgammaNp0_pt20	213.270000	1.000000	1.000000	1.000000
+117411	AlpgenJimmyWgammaNp1_pt20	52.228000	1.000000	1.000000	1.000000
+117412	AlpgenJimmyWgammaNp2_pt20	17.259000	1.000000	1.000000	1.000000
+117413	AlpgenJimmyWgammaNp3_pt20	5.333900	1.000000	1.000000	1.000000
+117414	AlpgenJimmyWgammaNp4_pt20	1.376200	1.000000	1.000000	1.000000
+117415	AlpgenJimmyWgammaNp5_pt20	0.344450	1.000000	1.000000	1.000000
+126310	AlpgenJimmyWenugammagammaNp0	0.021768	1.000000	1.000000	1.000000
+126311	AlpgenJimmyWenugammagammaNp1	0.020362	1.000000	1.000000	1.000000
+126312	AlpgenJimmyWenugammagammaNp2	0.012105	1.000000	1.000000	1.000000
+126313	AlpgenJimmyWmunugammagammaNp0	0.021814	1.000000	1.000000	1.000000
+126314	AlpgenJimmyWmunugammagammaNp1	0.020518	1.000000	1.000000	1.000000
+126315	AlpgenJimmyWmunugammagammaNp2	0.012103	1.000000	1.000000	1.000000
+# McAtNLO diboson
+105921	McAtNlo_JIMMY_WpWm_enuenu	0.510480	1.000000	1.000000	1.000000
+105922	McAtNlo_JIMMY_WpWm_enumunu	0.509510	1.000000	1.000000	1.000000
+105923	McAtNlo_JIMMY_WpWm_enutaunu	0.509500	1.000000	1.000000	1.000000
+105924	McAtNlo_JIMMY_WpWm_munumunu	0.509100	1.000000	1.000000	1.000000
+105925	McAtNlo_JIMMY_WpWm_munuenu	0.509270	1.000000	1.000000	1.000000
+105926	McAtNlo_JIMMY_WpWm_munutaunu	0.509570	1.000000	1.000000	1.000000
+105927	McAtNlo_JIMMY_WpWm_taunutaunu	0.510490	1.000000	1.000000	1.000000
+105928	McAtNlo_JIMMY_WpWm_taunuenu	0.509240	1.000000	1.000000	1.000000
+105929	McAtNlo_JIMMY_WpWm_taunumunu	0.509570	1.000000	1.000000	1.000000
+105930  McAtNlo_JIMMY_ZZ_llqq    0.2704855942    1    1    1
+105931  McAtNlo_JIMMY_ZZ_llll    0.025797963    1    1    1
+105932  McAtNlo_JIMMY_ZZ_llnunu    0.0770552789    1    1    1
+105940  McAtNlo_JIMMY_WpZ_lnuqq    1.6945848432    1    1    1
+105941  McAtNlo_JIMMY_WpZ_lnull    0.1643921343    1    1    1
+105942  McAtNlo_JIMMY_WpZ_qqll    0.514304472    1    1    1
+105970  McAtNlo_JIMMY_WmZ_lnuqq    0.9278841103    1    1    1
+105971  McAtNlo_JIMMY_WmZ_lnull    0.0897206496    1    1    1
+105972  McAtNlo_JIMMY_WmZ_qqll    0.279905044    1    1    1
+106024  McAtNlo_JIMMY_WpZ_taunull    0.0856057572    1    1    1
+106025  McAtNlo_JIMMY_WpZ_lnutautau    0.0820944634    1    1    1
+106026  McAtNlo_JIMMY_WpZ_taunutautau    0.0427764724    1    1    1
+106027  McAtNlo_JIMMY_WmZ_taunull    0.0466780083    1    1    1
+106028  McAtNlo_JIMMY_WmZ_lnutautau    0.0448901369    1    1    1
+106029  McAtNlo_JIMMY_WmZ_taunutautau    0.0233870978    1    1    1
+106036  McAtNlo_JIMMY_ZZ_2l2tau    0.0128883946    1    1    1
+106037  McAtNlo_JIMMY_ZZ_4tau    0.0065069194    1    1    1
+113190  McAtNlo_JIMMY_WpZ_qqtautau    0.2567659385    1    1    1
+113191  McAtNlo_JIMMY_WmZ_qqtautau    0.1397224596    1    1    1
+113192  McAtNlo_JIMMY_ZZ_tautaununu    0.0385905338    1    1    1
+113193  McAtNlo_JIMMY_ZZ_tautauqq    0.1347543326    1    1    1
+# PowHeg diboson
+126399   PowHegBoxZZeemm_Pythia_mll025_m4l40 0.891 1.000000 1.000000 1.000000
+126400   PowHegBoxZZeeee_Pythia_mll025_m4l40 0.445 1.000000 1.000000 1.000000
+126401   PowHegBoxZZmmmm_Pythia_mll025_m4l40 0.438 1.000000 1.000000 1.000000
+126406	PowHegBoxZZeenn_Pythia	0.036060	1.000000	1.000000	1.000000
+126407	PowHegBoxZZmmnn_Pythia	0.036058	1.000000	1.000000	1.000000
+126408	PowHegBoxZZttnn_Pythia	0.036060	1.000000	1.000000	1.000000
+# Box diagram gg->WW
+106011	gg2WW0240_JIMMY_WW_enuenu	0.015240	1.000000	1.000000	1.000000
+106012	gg2WW0240_JIMMY_WW_enumunu	0.015240	1.000000	1.000000	1.000000
+106013	gg2WW0240_JIMMY_WW_enutaunu	0.015240	1.000000	1.000000	1.000000
+106014	gg2WW0240_JIMMY_WW_munumunu	0.015240	1.000000	1.000000	1.000000
+106015	gg2WW0240_JIMMY_WW_munuenu	0.015240	1.000000	1.000000	1.000000
+106016	gg2WW0240_JIMMY_WW_munutaunu	0.015240	1.000000	1.000000	1.000000
+106017	gg2WW0240_JIMMY_WW_taunutaunu	0.015240	1.000000	1.000000	1.000000
+106018	gg2WW0240_JIMMY_WW_taunuenu	0.015240	1.000000	1.000000	1.000000
+106019	gg2WW0240_JIMMY_WW_taunumunu	0.015240	1.000000	1.000000	1.000000
+# Pythia gamma+jets
+108081	PythiaPhotonJet_Unbinned35	18524.000000	1.000000	0.604880	1.000000
+108082	PythiaPhotonJet_Unbinned70	1628.500000	1.000000	0.663900	1.000000
+108083	PythiaPhotonJet_Unbinned140	89.231000	1.000000	0.795600	1.000000
+108084	PythiaPhotonJet_Unbinned280	3.442900	1.000000	0.852610	1.000000
+108087	PythiaPhotonJet_Unbinned17	242320.000000	1.000000	0.463580	1.000000
+# Pythia digamma
+105964  Pythiagamgam15                  868.11          1.000000        0.132400        1.000000
+119584  Pythiagamgam15_highmass         3.3321          1.000000        0.418240        1.000000       
+145606  Pythiagamgam15_M_gt_800         0.028570        1.000000        0.303550        1.000000
+145607  Pythiagamgam15_M_gt_1500        0.0015445       1.000000        0.213290        1.000000
+# Alpgen gamma+jets
+106123	AlpgenJimmyGamNp1	74108.000000	1.000000	1.000000	1.000000
+106124	AlpgenJimmyGamNp2	21605.000000	1.000000	1.000000	1.000000
+106125	AlpgenJimmyGamNp3	5801.300000	1.000000	1.000000	1.000000
+106126	AlpgenJimmyGamNp4	1359.700000	1.000000	1.000000	1.000000
+106127	AlpgenJimmyGamNp5	352.230000	1.000000	1.000000	1.000000
+116390	AlpgenJimmyGamNp1_JetFilter_Nj2Et20	74235.000000	1.000000	0.109330	1.000000
+116391	AlpgenJimmyGamNp2_JetFilter_Nj2Et20	21574.000000	1.000000	0.310520	1.000000
+116392	AlpgenJimmyGamNp3_JetFilter_Nj2Et20	5861.900000	1.000000	0.467240	1.000000
+116393	AlpgenJimmyGamNp4_JetFilter_Nj2Et20	1355.900000	1.000000	0.624500	1.000000
+150090	AlpgenJimmyGamNp1_pt20_susyfilt	469.940000	1.000000	0.151280	1.000000
+150091	AlpgenJimmyGamNp2_pt20_susyfilt	457.080000	1.000000	0.169770	1.000000
+150092	AlpgenJimmyGamNp3_pt20_susyfilt	230.860000	1.000000	0.222460	1.000000
+150093	AlpgenJimmyGamNp4_pt20_susyfilt	84.269000	1.000000	0.288780	1.000000
+150094	AlpgenJimmyGamNp5_pt20_susyfilt	24.670000	1.000000	0.363020	1.000000
+150095	AlpgenJimmyGamNp6_pt20_susyfilt	7.259900	1.000000	0.457180	1.000000
+150107	AlpgenJimmyGamNp5_incl_pt20_susyfilt	30.275000	1.000000	0.381560	1.000000
+# sherpa gamma+jets: Sherpa LO
+113714	SherpaY4JetsPt35	22480	1.	1.	1.
+113715	SherpaY4JetsPt70	1773.6	1.	1.	1.
+113716	SherpaY4JetsPt140	102.81	1.	1.	1.
+113717	SherpaY4JetsPt280	3.9969	1.	1.	1.
+126371	SherpaY4JetsPt500	0.16327	1.	1.	1.
+# sherpa gamma+HF
+109370	Sherpa_gammabb_z	1.371700	1.000000	1.000000	1.000000
+109371	Sherpa_gammabb_noz	827.850000	1.000000	1.000000	1.000000
+# QCD
+105802	JF17_pythia_jet_filter	1368200000.000000	1.000000	0.067266	1.000000
+105805	filtMinBias	48445000000.000000 1.000000 0.053244 1.
+105807	JF35_pythia_jet_filter	64446000.000000	1.000000	0.125170	1.000000
+105009	J0	12030000000.000000 1. 1. 1.
+105010	J1	807266000.000000 1. 1. 1.
+105011	J2	48048000.000000 1. 1. 1.
+105012	J3	2192900.000000 1. 1. 1.
+105013	J4	87701.000000 1. 1. 1.
+105014	J5	2350.100000 1. 1. 1.
+105015	J6	33.610000 1. 1. 1.
+105016	J7	0.137440 1. 1. 1.
+105017	J8	0.000006 1. 1. 1.
+# pythia QCD with muon gen filter
+109276	muJ0	9860500000.000000 1.000000 0.000069 1.
+109277	muJ1	678010000.000000 1.000000 0.001147 1.
+109278	muJ2	40965000.000000 1.000000 0.005351 1.
+109279	muJ3	2193100.000000 1.000000 0.012951 1.
+109280	muJ4	87680.000000 1.000000 0.022100 1.
+109281	muJ5	2348.900000 1.000000 0.030094 1.
+109435	muJ6	33.592000 1.000000 0.033558 1.
+# python QCD with electron gen filter
+109270	J0_pythia_jetjet_1elec	12032000000.000000	1.000000	0.000074	1.000000
+109271	J1_pythia_jetjet_1elec	806980000.000000	1.000000	0.001232	1.000000
+109272	J2_pythia_jetjet_1elec	48036000.000000	1.000000	0.006189	1.000000
+109273	J3_pythia_jetjet_1elec	2535600.000000	1.000000	0.016974	1.000000
+109274	J4_pythia_jetjet_1elec	99614.000000	1.000000	0.034734	1.000000
+# pythCD, different tune (DW)
+115859	DWJ0	9752970000.000000 1. 1. 1.
+115860	DWJ1	673020000.000000 1. 1. 1.
+115861	DWJ2	41194700.000000 1. 1. 1.
+115862	DWJ3	2193250.000000 1. 1. 1.
+115863	DWJ4	87848.700000 1. 1. 1.
+115864	DWJ5	2328.560000 1. 1. 1.
+115865	DWJ6	33.846100 1. 1. 1.
+# Single lepton-filtered QCD (PythiaB)
+108405  PythiaB_bbmu15X   84700.0 1. 1. 1.
+106059  PythiaB_ccmu15X   31630.0 1. 1. 1.
+108326  PythiaB_bbe15X    84680.0 1. 1. 1.
+108327  PythiaB_cce15X    30930.0 1. 1. 1.
+# Double lepton-filtered QCD (PythiaB)
+105757  PythiaB_mu10mu10X 2435.0 1. 1. 1.
+105758  PythiaB_mu10e10X  4380.0 1. 1. 1.
+105759  PythiaB_e10e10X   1228.0 1. 1. 1.
+#top alpgen QCD samples
+107310	AlpTopQcdbbJ4Np0	69.634000 1. 1. 1.
+107311	AlpTopQcdbbJ4Np1	455.630000 1. 1. 1.
+107312	AlpTopQcdbbJ4Np2	571.440000 1. 1. 1.
+107313	AlpTopQcdbbJ4Np3	372.830000 1. 1. 1.
+107314	AlpTopQcdbbJ4Np4	229.360000 1. 1. 1.
+107315	AlpTopQcdbbJ5Np0	1.338000 1. 1. 1.
+107316	AlpTopQcdbbJ5Np1	9.043400 1. 1. 1.
+107317	AlpTopQcdbbJ5Np2	16.234000 1. 1. 1.
+107318	AlpTopQcdbbJ5Np3	14.619000 1. 1. 1.
+107319	AlpTopQcdbbJ5Np4	14.130000 1. 1. 1.
+107320	AlpTopQcdbbTopfiltjetJ2Np0	283.000000 1. 1. 1.
+107321	AlpTopQcdbbTopfiltjetJ2Np1	2089.300000 1. 1. 1.
+107322	AlpTopQcdbbTopfiltjetJ2Np2	7525.700000 1. 1. 1.
+107323	AlpTopQcdbbTopfiltjetJ2Np3	2890.900000 1. 1. 1.
+107324	AlpTopQcdbbTopfiltjetJ2Np4	735.000000 1. 1. 1.
+107325	AlpTopQcdbbTopfiltjetJ3Np0	40.500000 1. 1. 1.
+107326	AlpTopQcdbbTopfiltjetJ3Np1	1649.100000 1. 1. 1.
+107327	AlpTopQcdbbTopfiltjetJ3Np2	4934.600000 1. 1. 1.
+107328	AlpTopQcdbbTopfiltjetJ3Np3	2572.700000 1. 1. 1.
+107329	AlpTopQcdbbTopfiltjetJ3Np4	971.100000 1. 1. 1.
+107330	AlpTopQcdbbTopfiltjetJ1Np0	543.000000 1. 1. 1.
+107331	AlpTopQcdbbTopfiltjetJ1Np1	588.100000 1. 1. 1.
+108362	AlpTopQcdJ4Np2	15748.000000 1. 1. 1.
+108363	AlpTopQcdJ4Np3	29461.000000 1. 1. 1.
+108364	AlpTopQcdJ4Np4	20097.000000 1. 1. 1.
+108365	AlpTopQcdJ4Np5	8696.700000 1. 1. 1.
+108366	AlpTopQcdJ4Np6	3427.200000 1. 1. 1.
+108367	AlpTopQcdJ5pNp2	325.630000 1. 1. 1.
+108368	AlpTopQcdJ5pNp3	754.030000 1. 1. 1.
+108369	AlpTopQcdJ5pNp4	710.060000 1. 1. 1.
+108370	AlpTopQcdJ5pNp5	421.270000 1. 1. 1.
+108371	AlpTopQcdJ5pNp6	240.820000 1. 1. 1.
+108382	AlpTopQcdTopfiltjetJ2Np2	75418.710000 1. 1. 1.
+108383	AlpTopQcdTopfiltjetJ2Np3	169593.940000 1. 1. 1.
+108384	AlpTopQcdTopfiltjetJ2Np4	266950.900000 1. 1. 1.
+108385	AlpTopQcdTopfiltjetJ2Np5	58737.080000 1. 1. 1.
+108386	AlpTopQcdTopfiltjetJ2Np6	9816.780000 1. 1. 1.
+108387	AlpTopQcdTopfiltjetJ3pNp2	11520.220000 1. 1. 1.
+108388	AlpTopQcdTopfiltjetJ3pNp3	117274.090000 1. 1. 1.
+108389	AlpTopQcdTopfiltjetJ3pNp4	173797.720000 1. 1. 1.
+108390	AlpTopQcdTopfiltjetJ3pNp5	54182.560000 1. 1. 1.
+108391	AlpTopQcdTopfiltjetJ3pNp6	13755.490000 1. 1. 1.
