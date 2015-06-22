@@ -140,7 +140,11 @@ float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* 
 
 float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData){
   // is it data?
-  if(!ei->eventType( xAOD::EventInfo::IS_SIMULATION ))
+  static SG::AuxElement::ConstAccessor<uint32_t> eventType("eventTypeBitmask");
+  if(!eventType.isAvailable(*ei))
+    return 1;
+  //if(!ei->eventType( xAOD::EventInfo::IS_SIMULATION ))
+  if( !(static_cast<uint32_t>(eventType(*ei)) & xAOD::EventInfo::IS_SIMULATION) )
     return 1;
 
   static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
