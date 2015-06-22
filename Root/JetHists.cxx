@@ -57,7 +57,7 @@ StatusCode TheAccountant::JetHists::execute( const xAOD::JetContainer* jets, flo
     if(!this->execute(jet, eventWeight).isSuccess()) return StatusCode::FAILURE;
   }
 
-  m_ht->Fill( VD::HT(jets)/1.e3, eventWeight );
+  m_ht->Fill( VD::HT(jets, nullptr, nullptr)/1.e3, eventWeight );
 
   if(m_doTopology){
     const xAOD::Jet* j1(nullptr);

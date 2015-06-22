@@ -20,13 +20,9 @@ StatusCode TheAccountant::JetMETHists::initialize() {
 }
 
 StatusCode TheAccountant::JetMETHists::execute( const xAOD::JetContainer* jets, const xAOD::MissingET* met, float eventWeight ) {
-  float sum_jetPt(0);
-  // sum of leading N jets in event
-  for(int i=0; i < std::min<int>( m_numLeadingJets, jets->size() ); ++i) sum_jetPt += jets->at(i)->pt();
-
   // compute effective mass
-  float meff((sum_jetPt + met->met())/1.e3);
-  m_effectiveMass->Fill( meff, eventWeight );
+  float meff( VD::Meff(met, jets, m_numLeadingJets, nullptr, nullptr));
+  m_effectiveMass->Fill( meff/1.e3, eventWeight );
 
   // compute dPhiMin
   m_dPhiMin->Fill( VD::dPhiMETMin(met, jets), eventWeight);
