@@ -56,7 +56,7 @@ VD::WP VD::str2wp(std::string str){
 float VD::Meff(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int numJets, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els){
   float meff(0.0);
 
-  for(int i=0; i<numJets; i++)
+  for(int i=0; i< std::min<int>(jets->size(), numJets); i++)
     meff += jets->at(i)->pt();
 
   if(muons)
