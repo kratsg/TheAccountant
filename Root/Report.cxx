@@ -260,7 +260,7 @@ EL::StatusCode Report :: execute ()
     if(!m_inputMET.empty())
       RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR"]->execute(in_jetsLargeR, in_met, eventWeight), "");
     for(auto decorationName: m_topTagDecorationNames)
-      RETURN_CHECK("Report::execute()", m_jetTagPlots["all/jetsLargeR" + decorationName]->execute(in_jetsLargeR, eventWeight), "");
+      RETURN_CHECK("Report::execute()", m_jetTagPlots["all/jetsLargeR" + decorationName]->execute(in_jetsLargeR, in_met, eventWeight), "");
   }
 
   if(!m_inputMET.empty())

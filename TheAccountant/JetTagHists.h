@@ -3,6 +3,7 @@
 
 #include "xAODAnaHelpers/HistogramManager.h"
 #include "xAODJet/JetContainer.h"
+#include <xAODMissingET/MissingETContainer.h>
 
 namespace TheAccountant
 {
@@ -12,7 +13,7 @@ namespace TheAccountant
       JetTagHists(std::string name);
       virtual ~JetTagHists() ;
       StatusCode initialize();
-      StatusCode execute( const xAOD::JetContainer* jets, const xAOD::MissingET* = nullptr, float eventWeight);
+      StatusCode execute( const xAOD::JetContainer* jets, const xAOD::MissingET*, float eventWeight);
       StatusCode execute( const xAOD::Jet* jet, float eventWeight);
       using HistogramManager::book; // make other overloaded version of book() to show up in subclass
       using HistogramManager::execute; // overload
@@ -25,6 +26,7 @@ namespace TheAccountant
       TH1F* m_decorationCount;          //!
       TH2F* m_meff_decor;               //!
       TH2F* m_metSig_decor;             //!
+      TH2F* m_ht_decor;                 //!
   };
 }
 #endif

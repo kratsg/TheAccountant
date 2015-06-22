@@ -22,15 +22,17 @@ TheAccountant::JetTagHists::~JetTagHists () {}
 StatusCode TheAccountant::JetTagHists::initialize() {
   m_decorationCount = book(m_name, m_decorationName, m_decorationName, 3, -1.5, 1.5);
 
-  m_meff_decor      = book(m_name, m_m_decorationName+"_Meff", m_m_decorationName, 6, -1.5, 4.5,
+  m_meff_decor      = book(m_name, m_decorationName+"_Meff", m_decorationName, 6, -1.5, 4.5,
                                  "M_{eff} [GeV]", 120, 0, 3000.);
-  m_metSig_decor    = book(m_name, m_m_decorationName+"_METSig", m_m_decorationName, 6, -1.5, 4.5,
+  m_metSig_decor    = book(m_name, m_decorationName+"_METSig", m_decorationName, 6, -1.5, 4.5,
                                    "E_{T}^{miss}/#sqrt{H_{T}^{jet}} GeV^{1/2}", 40, 0., 20.);
+  m_ht_decor        = book(m_name, m_decorationName+"_HT", m_decorationName, 6, -1.5, 4.5,
+                                   "#sum p_{T}^{jet} [GeV]", 100, 0, 3000.);
 
   return StatusCode::SUCCESS;
 }
 
-StatusCode TheAccountant::JetMETHists::execute( const xAOD::JetContainer* jets, const xAOD::MissingET* met, float eventWeight ) {
+StatusCode TheAccountant::JetTagHists::execute( const xAOD::JetContainer* jets, const xAOD::MissingET* met, float eventWeight ) {
   int numDecor(0);
   for(const auto jet: *jets){
     if(!this->execute(jet, eventWeight).isSuccess()) return StatusCode::FAILURE;
@@ -39,11 +41,13 @@ StatusCode TheAccountant::JetMETHists::execute( const xAOD::JetContainer* jets, 
     numDecor += static_cast<int>(decorVal == 1);
   }
 
-  float meff(VD::Meff(jets, met));
+  float meff(VD::Meff(met, jets, m_numLeadingJets, nullptr, nullptr));
   float metsig(VD::METSignificance(met, jets, m_numLeadingJets));
+  float ht(VD::HT(jets, nullptr, nullptr));
 
-  m_meff_decor->Fill( numDecor, meff, eventWeight );
-  m_metSig_decor->Fill( numDecor, metsig );
+  m_meff_decor->Fill( numDecor, meff/1.e3, eventWeight );
+  m_metSig_decor->Fill( numDecor, metsig, eventWeight );
+  m_ht_decor->Fill( numDecor, ht/1.e3, eventWeight );
 
   return StatusCode::SUCCESS;
 }
