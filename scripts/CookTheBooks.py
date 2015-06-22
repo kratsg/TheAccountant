@@ -137,6 +137,10 @@ if __name__ == "__main__":
                       action='count',
                       default=0,
                       help='Enable verbose output of various levels. Default: no verbosity')
+  parser.add_argument('-y', '--yes',
+                      dest='skip_confirm',
+                      action='store_true',
+                      help='Skip the configuration confirmation. Useful for when running in the background.')
 
   group_algorithms = parser.add_argument_group('global algorithm options')
   group_algorithms.add_argument('--debug',
@@ -433,9 +437,10 @@ if __name__ == "__main__":
         setattr(alg, 'm_{0}'.format(opt), getattr(args, opt))
         time.sleep(sleepTime)
 
-    print("Press enter to continue or CTRL+C to escape", end='\r')
-    sys.stdout.flush()
-    getpass.getpass(prompt='')
+    if not args.skip_confirm:
+      print("Press enter to continue or CTRL+C to escape", end='\r')
+      sys.stdout.flush()
+      getpass.getpass(prompt='')
 
     cookBooks_logger.info("adding algorithms")
     job.algsAdd(preselect)
