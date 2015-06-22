@@ -139,6 +139,10 @@ float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* 
 }
 
 float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData){
+  // is it data?
+  if(!ei->eventType( xAOD::EventInfo::IS_SIMULATION ))
+    return 1;
+
   static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
   float weight(weight_mc.isAvailable(*ei)?weight_mc(*ei):ei->mcEventWeight());
 
