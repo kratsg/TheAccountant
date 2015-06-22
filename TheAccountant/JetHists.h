@@ -22,6 +22,7 @@ namespace TheAccountant
 
     private:
       TH1F* m_massOverPt;//!
+      TH1F* m_ht;        //!
 
       //topology
       TH1F* m_dEta;                     //!

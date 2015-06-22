@@ -21,13 +21,30 @@ TheAccountant::JetTagHists::~JetTagHists () {}
 
 StatusCode TheAccountant::JetTagHists::initialize() {
   m_decorationCount = book(m_name, m_decorationName, m_decorationName, 3, -1.5, 1.5);
+
+  m_meff_decor      = book(m_name, m_m_decorationName+"_Meff", m_m_decorationName, 6, -1.5, 4.5,
+                                 "M_{eff} [GeV]", 120, 0, 3000.);
+  m_metSig_decor    = book(m_name, m_m_decorationName+"_METSig", m_m_decorationName, 6, -1.5, 4.5,
+                                   "E_{T}^{miss}/#sqrt{H_{T}^{jet}} GeV^{1/2}", 40, 0., 20.);
+
   return StatusCode::SUCCESS;
 }
 
-StatusCode TheAccountant::JetTagHists::execute( const xAOD::JetContainer* jets, float eventWeight ) {
+StatusCode TheAccountant::JetMETHists::execute( const xAOD::JetContainer* jets, const xAOD::MissingET* met, float eventWeight ) {
+  int numDecor(0);
   for(const auto jet: *jets){
     if(!this->execute(jet, eventWeight).isSuccess()) return StatusCode::FAILURE;
+    int decorVal(-1);
+    jet->getAttribute(m_decorationName, decorVal);
+    numDecor += static_cast<int>(decorVal == 1);
   }
+
+  float meff(VD::Meff(jets, met));
+  float metsig(VD::METSignificance(met, jets, m_numLeadingJets));
+
+  m_meff_decor->Fill( numDecor, meff, eventWeight );
+  m_metSig_decor->Fill( numDecor, metsig );
+
   return StatusCode::SUCCESS;
 }
 

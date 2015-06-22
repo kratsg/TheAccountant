@@ -23,13 +23,17 @@ StatusCode TheAccountant::JetMETHists::execute( const xAOD::JetContainer* jets, 
   float sum_jetPt(0);
   // sum of leading N jets in event
   for(int i=0; i < std::min<int>( m_numLeadingJets, jets->size() ); ++i) sum_jetPt += jets->at(i)->pt();
-  m_effectiveMass->Fill( (sum_jetPt + met->met())/1.e3, eventWeight );
+
+  // compute effective mass
+  float meff((sum_jetPt + met->met())/1.e3);
+  m_effectiveMass->Fill( meff, eventWeight );
 
   // compute dPhiMin
   m_dPhiMin->Fill( VD::dPhiMETMin(met, jets), eventWeight);
 
   // compute significance
-  m_METSignificance->Fill( VD::METSignificance(met, jets, m_numLeadingJets), eventWeight );
+  float metsig(VD::METSignificance(met, jets, m_numLeadingJets));
+  m_METSignificance->Fill( metsig, eventWeight );
 
   return StatusCode::SUCCESS;
 }

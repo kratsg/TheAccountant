@@ -23,6 +23,7 @@ TheAccountant::JetHists::~JetHists () {}
 
 StatusCode TheAccountant::JetHists::initialize() {
   m_massOverPt  = book(m_name, "MOverPt", "#frac{m^{jet}}{p_{T}}", 100, 0, 5);
+  m_ht          = book(m_name, "HT", "#sum p_{T}^{jet} [GeV]", 100, 0, 3000.);
 
   if(m_doTopology){
     //topology
@@ -55,6 +56,8 @@ StatusCode TheAccountant::JetHists::execute( const xAOD::JetContainer* jets, flo
     totalMass += jet->m();
     if(!this->execute(jet, eventWeight).isSuccess()) return StatusCode::FAILURE;
   }
+
+  m_ht->Fill( VD::HT(jets)/1.e3, eventWeight );
 
   if(m_doTopology){
     const xAOD::Jet* j1(nullptr);
