@@ -139,7 +139,8 @@ float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* 
 }
 
 float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData){
-/* MONKEY PATCH
+  // for now, we will return 1.0 to make it consistent and scale in optimization and plotting (fuck)
+  return 1.0;
   // is it data?
   static SG::AuxElement::ConstAccessor<uint32_t> eventType("eventTypeBitmask");
   if(!eventType.isAvailable(*ei)){
@@ -153,9 +154,6 @@ float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData)
 
   static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
   float weight(weight_mc.isAvailable(*ei)?weight_mc(*ei):ei->mcEventWeight());
-END MONKEY PATCH */
-
-  float weight(1.0);
 
   float crossSection(1),
         kFactor(1),
