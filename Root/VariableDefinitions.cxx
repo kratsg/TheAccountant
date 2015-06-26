@@ -139,16 +139,23 @@ float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* 
 }
 
 float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData){
+/* MONKEY PATCH
   // is it data?
   static SG::AuxElement::ConstAccessor<uint32_t> eventType("eventTypeBitmask");
-  if(!eventType.isAvailable(*ei))
+  if(!eventType.isAvailable(*ei)){
+    std::cout << "Warning: eventType is not available. Returning 1." << std::endl;
     return 1;
+  }
+
   //if(!ei->eventType( xAOD::EventInfo::IS_SIMULATION ))
   if( !(static_cast<uint32_t>(eventType(*ei)) & xAOD::EventInfo::IS_SIMULATION) )
     return 1;
 
   static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
   float weight(weight_mc.isAvailable(*ei)?weight_mc(*ei):ei->mcEventWeight());
+END MONKEY PATCH */
+
+  float weight(1.0);
 
   float crossSection(1),
         kFactor(1),

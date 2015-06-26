@@ -175,6 +175,7 @@ EL::StatusCode OptimizationDump :: execute ()
 
   // compute variables for optimization
   m_eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
+  std::cout << VD::eventWeight(eventInfo, nullptr) << "|" << m_eventWeight << std::endl;
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
@@ -256,6 +257,12 @@ EL::StatusCode OptimizationDump :: execute ()
       if(topTag_SmoothTight == 1) m_n_topTag_SmoothTight++;
       if(topTag_Loose == 1) m_n_topTag_Loose++;
       if(topTag_Tight == 1) m_n_topTag_Tight++;
+
+      /*
+      if(topTag_SmoothLoose == 1 || topTag_SmoothTight == 1 || topTag_Loose == 1 || topTag_Tight == 1){
+        std::cout << topTag_SmoothLoose << topTag_SmoothTight << topTag_Loose << topTag_Tight << "|run#" <<eventInfo->auxdata<uint>("runNumber") << "|event#"  << eventInfo->auxdata<unsigned long long>("eventNumber") << "|lumi#" << eventInfo->auxdata<uint>("lumiBlock") << std::endl;
+      }
+      */
     }
   }
 
