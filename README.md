@@ -20,16 +20,16 @@ Run-2 analysis for SUSY search in gluino to stops.
 
 
 ## Installing
-The last stable analysis base used is **2.3.12**. To install,
+The last stable analysis base used is **2.3.14**. To install,
 ```bash
 mkdir myRootCore && cd $_
-rcSetup Base,2.3.12
+rcSetup Base,2.3.14
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
 git clone https://github.com/kratsg/xAODJetReclustering
 
 git clone https://github.com/UCATLAS/xAODAnaHelpers
-cd xAODAnaHelpers && git checkout 6cd6f9ed && cd ../
+cd xAODAnaHelpers && git checkout 00-03-05 && cd ../
 
 git clone https://github.com/mileswu/JetSubstructureTools
 mv JetSubstructureTools ../. && ln -s ../JetSubstructureTools/JetSubStructureUtils JetSubStructureUtils
