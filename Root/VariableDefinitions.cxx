@@ -165,11 +165,11 @@ END MONKEY PATCH */
 
   // if metadata is set, use it, otherwise pass the event weight, uncorrected
   if(metaData){
-    metaData->castDouble(SH::MetaFields::crossSection, crossSection);
-    metaData->castDouble(SH::MetaFields::kfactor, kFactor);
-    metaData->castDouble(SH::MetaFields::filterEfficiency, filterEfficiency);
-    //metaData->castDouble(SH::MetaFields::crossSectionRelUncertainty, xsUncertainty);
-    metaData->castDouble(SH::MetaFields::numEvents, numEvents);
+    crossSection = metaData->castDouble(SH::MetaFields::crossSection, crossSection);
+    kFactor = metaData->castDouble(SH::MetaFields::kfactor, kFactor);
+    filterEfficiency = metaData->castDouble(SH::MetaFields::filterEfficiency, filterEfficiency);
+    //xsUncertainty = metaData->castDouble(SH::MetaFields::crossSectionRelUncertainty, xsUncertainty);
+    numEvents = metaData->castDouble(SH::MetaFields::numEvents, numEvents);
   }
 
   return (weight*crossSection*kFactor*filterEfficiency/numEvents);

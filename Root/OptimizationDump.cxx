@@ -175,7 +175,6 @@ EL::StatusCode OptimizationDump :: execute ()
 
   // compute variables for optimization
   m_eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
-  std::cout << VD::eventWeight(eventInfo, nullptr) << "|" << m_eventWeight << std::endl;
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
