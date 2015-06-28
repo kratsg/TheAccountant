@@ -56,169 +56,41 @@ if __name__ == "__main__":
   parser._optionals.title = "job runner options"
 
   # positional argument, require the first argument to be the input filename
-  parser.add_argument('input_filename',
-                      metavar='',
-                      type=str,
-                      nargs='+',
-                      help='input file(s) to read')
-  parser.add_argument('--submitDir',
-                      dest='submit_dir',
-                      metavar='<directory>',
-                      type=str,
-                      required=False,
-                      help='Output directory to store the output.',
-                      default='submitDir')
-  parser.add_argument('--nevents',
-                      dest='num_events',
-                      metavar='<n>',
-                      type=int,
-                      help='Number of events to process for all datasets.',
-                      default=0)
-  parser.add_argument('--skip',
-                      dest='skip_events',
-                      metavar='<n>',
-                      type=int,
-                      help='Number of events to skip at start.',
-                      default=0)
-  parser.add_argument('-f', '--force',
-                      dest='force_overwrite',
-                      action='store_true',
-                      help='Overwrite previous directory if it exists.')
-  parser.add_argument('--version',
-                      action='version',
-                      version='%(prog)s {version}'.format(version=__version__))
-  parser.add_argument('--mode',
-                      dest='access_mode',
-                      type=str,
-                      metavar='{class, branch}',
-                      choices=['class', 'branch'],
-                      default='class',
-                      help='Run using branch access mode or class access mode. See TheAccountant/wiki/Access-Mode for more information')
-
+  parser.add_argument('input_filename', metavar='', type=str, nargs='+', help='input file(s) to read')
+  parser.add_argument('--submitDir', dest='submit_dir', metavar='<directory>', type=str, required=False, help='Output directory to store the output.', default='submitDir')
+  parser.add_argument('--nevents', dest='num_events', metavar='<n>', type=int, help='Number of events to process for all datasets.', default=0)
+  parser.add_argument('--skip', dest='skip_events', metavar='<n>', type=int, help='Number of events to skip at start.', default=0)
+  parser.add_argument('-f', '--force', dest='force_overwrite', action='store_true', help='Overwrite previous directory if it exists.')
+  parser.add_argument('--version', action='version', version='%(prog)s {version}'.format(version=__version__))
+  parser.add_argument('--mode', dest='access_mode', type=str, metavar='{class, branch}', choices=['class', 'branch'], default='class', help='Run using branch access mode or class access mode. See TheAccountant/wiki/Access-Mode for more information')
 
   # http://stackoverflow.com/questions/12303547/set-the-default-to-false-if-another-mutually-exclusive-argument-is-true
   group_driver = parser.add_mutually_exclusive_group()
-  group_driver.add_argument('--direct',
-                      dest='driver',
-                      metavar='',
-                      action='store_const',
-                      const='direct',
-                      help='Run your jobs locally.')
-  group_driver.add_argument('--prooflite',
-                      dest='driver',
-                      metavar='',
-                      action='store_const',
-                      const='prooflite',
-                      help='Run your jobs using ProofLite')
-  group_driver.add_argument('--grid',
-                      dest='driver',
-                      metavar='',
-                      action='store_const',
-                      const='grid',
-                      help='Run your jobs on the grid.')
-  group_driver.add_argument('--condor',
-                      dest='driver',
-                      metavar='',
-                      action='store_const',
-                      const='condor',
-                      help='Run your jobs on the condor.')
+  group_driver.add_argument('--direct', dest='driver', metavar='', action='store_const', const='direct', help='Run your jobs locally.')
+  group_driver.add_argument('--prooflite', dest='driver', metavar='', action='store_const', const='prooflite', help='Run your jobs using ProofLite')
+  group_driver.add_argument('--grid', dest='driver', metavar='', action='store_const', const='grid', help='Run your jobs on the grid.')
+  group_driver.add_argument('--condor', dest='driver', metavar='', action='store_const', const='condor', help='Run your jobs on the condor.')
   group_driver.set_defaults(driver='direct')
 
-  parser.add_argument('--inputList',
-                      dest='input_from_file',
-                      action='store_true',
-                      help='If enabled, will read in a text file containing a list of files.')
-  parser.add_argument('--inputDQ2',
-                      dest='input_from_DQ2',
-                      action='store_true',
-                      help='If enabled, will search using DQ2. Can be combined with `--inputList`.')
-  parser.add_argument('-v', '--verbose',
-                      dest='verbose',
-                      action='count',
-                      default=0,
-                      help='Enable verbose output of various levels. Default: no verbosity')
-  parser.add_argument('-y', '--yes',
-                      dest='skip_confirm',
-                      action='store_true',
-                      help='Skip the configuration confirmation. Useful for when running in the background.')
+  parser.add_argument('--inputList', dest='input_from_file', action='store_true', help='If enabled, will read in a text file containing a list of files.')
+  parser.add_argument('--inputDQ2', dest='input_from_DQ2', action='store_true', help='If enabled, will search using DQ2. Can be combined with `--inputList`.')
+  parser.add_argument('-v', '--verbose', dest='verbose', action='count', default=0, help='Enable verbose output of various levels. Default: no verbosity')
+  parser.add_argument('-y', '--yes', dest='skip_confirm', action='store_true', help='Skip the configuration confirmation. Useful for when running in the background.')
 
   group_algorithms = parser.add_argument_group('global algorithm options')
-  group_algorithms.add_argument('--debug',
-                                dest='debug',
-                                action='store_true',
-                                help='Enable verbose output of the algorithms.')
-  group_algorithms.add_argument('--eventInfo',
-                                dest='eventInfo',
-                                metavar='',
-                                type=str,
-                                help='EventInfo container name.',
-                                default='EventInfo')
-  group_algorithms.add_argument('--jetsLargeR',
-                                dest='inputLargeRJets',
-                                metavar='',
-                                type=str,
-                                help='Large-R jet container name.',
-                                default='FinalFatJets')
-  group_algorithms.add_argument('--jets',
-                                dest='inputJets',
-                                metavar='',
-                                type=str,
-                                help='small-R jet container name.',
-                                default='FinalSignalJets')
-  group_algorithms.add_argument('--met',
-                                dest='inputMET',
-                                metavar='',
-                                type=str,
-                                help='Missing Et container name.',
-                                default='Mettst')
-  group_algorithms.add_argument('--metid',
-                                dest='inputMETName',
-                                metavar='',
-                                type=str,
-                                help='Missing Et container element to access.',
-                                default='Final')
-  group_algorithms.add_argument('--electrons',
-                                dest='inputElectrons',
-                                metavar='',
-                                type=str,
-                                help='Electrons container name.',
-                                default='FinalSignalElectrons')
-  group_algorithms.add_argument('--muons',
-                                dest='inputMuons',
-                                metavar='',
-                                type=str,
-                                help='Muons container name.',
-                                default='FinalSignalMuons')
-  group_algorithms.add_argument('--taujets',
-                                dest='inputTauJets',
-                                metavar='',
-                                type=str,
-                                help='TauJets container name.',
-                                default='')
-  group_algorithms.add_argument('--photons',
-                                dest='inputPhotons',
-                                metavar='',
-                                type=str,
-                                help='Photons container name.',
-                                default='')
-  group_algorithms.add_argument('--decorJetTagsB',
-                                dest='decor_jetTags_b',
-                                metavar='',
-                                type=str,
-                                help='Decoration name for b-tags.',
-                                default='')
-  group_algorithms.add_argument('--decorJetTagsTop',
-                                dest='decor_jetTags_top',
-                                metavar='',
-                                type=str,
-                                help='Decoration name for top-tags.',
-                                default='')
-  group_algorithms.add_argument('--decorJetTagsW',
-                                dest='decor_jetTags_w',
-                                metavar='',
-                                type=str,
-                                help='Decoration name for w-tags.',
-                                default='')
+  group_algorithms.add_argument('--debug', dest='debug', action='store_true', help='Enable verbose output of the algorithms.')
+  group_algorithms.add_argument('--eventInfo', dest='eventInfo', metavar='', type=str, help='EventInfo container name.', default='EventInfo')
+  group_algorithms.add_argument('--jetsLargeR', dest='inputLargeRJets', metavar='', type=str, help='Large-R jet container name.', default='FinalFatJets')
+  group_algorithms.add_argument('--jets', dest='inputJets', metavar='', type=str, help='small-R jet container name.', default='FinalSignalJets')
+  group_algorithms.add_argument('--met', dest='inputMET', metavar='', type=str, help='Missing Et container name.', default='Mettst')
+  group_algorithms.add_argument('--metid', dest='inputMETName', metavar='', type=str, help='Missing Et container element to access.', default='Final')
+  group_algorithms.add_argument('--electrons', dest='inputElectrons', metavar='', type=str, help='Electrons container name.', default='FinalSignalElectrons')
+  group_algorithms.add_argument('--muons', dest='inputMuons', metavar='', type=str, help='Muons container name.', default='FinalSignalMuons')
+  group_algorithms.add_argument('--taujets', dest='inputTauJets', metavar='', type=str, help='TauJets container name.', default='')
+  group_algorithms.add_argument('--photons', dest='inputPhotons', metavar='', type=str, help='Photons container name.', default='')
+  group_algorithms.add_argument('--decorJetTagsB', dest='decor_jetTags_b', metavar='', type=str, help='Decoration name for b-tags.', default='')
+  group_algorithms.add_argument('--decorJetTagsTop', dest='decor_jetTags_top', metavar='', type=str, help='Decoration name for top-tags.', default='')
+  group_algorithms.add_argument('--decorJetTagsW', dest='decor_jetTags_w', metavar='', type=str, help='Decoration name for w-tags.', default='')
 
   group_preselect = parser.add_argument_group('preselect options (all selections are inclusive: x >= min, x =< max)')
   group_preselect.add_argument('--jetLargeR_minNum',   type=int, metavar='', help='min num of large-R jets passing cuts',  default=0)
@@ -250,45 +122,18 @@ if __name__ == "__main__":
   group_preselect.add_argument('--numLeptons',  type=int,   metavar='', help='Require exactly n leptons in the event.', default=0)
 
   group_audit = parser.add_argument_group('audit options')
-  group_audit.add_argument('--no-minMassJigsaw',
-                           dest='disable_minMassJigsaw',
-                           action='store_true',
-                           help='Disable the minMass Jigsaw')
-  group_audit.add_argument('--no-contraBoostJigsaw',
-                           dest='disable_contraBoostJigsaw',
-                           action='store_true',
-                           help='Disable the contraBoost Jigsaw')
-  group_audit.add_argument('--no-hemiJigsaw',
-                           dest='disable_hemiJigsaw',
-                           action='store_true',
-                           help='Disable the hemi Jigsaw')
-  group_audit.add_argument('--drawDecayTreePlots',
-                           dest='drawDecayTreePlots',
-                           action='store_true',
-                           help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
+  group_audit.add_argument('--no-minMassJigsaw', dest='disable_minMassJigsaw', action='store_true', help='Disable the minMass Jigsaw')
+  group_audit.add_argument('--no-contraBoostJigsaw', dest='disable_contraBoostJigsaw', action='store_true', help='Disable the contraBoost Jigsaw')
+  group_audit.add_argument('--no-hemiJigsaw', dest='disable_hemiJigsaw', action='store_true', help='Disable the hemi Jigsaw')
+  group_audit.add_argument('--drawDecayTreePlots', dest='drawDecayTreePlots', action='store_true', help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
 
   group_optimizationDump = parser.add_argument_group('optimization dump options')
-  group_optimizationDump.add_argument('--optimizationDump',
-                           dest='optimization_dump',
-                           action='store_true',
-                           help='Enable to dump optimization ttree of values to cut against')
+  group_optimizationDump.add_argument('--optimizationDump', dest='optimization_dump', action='store_true', help='Enable to dump optimization ttree of values to cut against')
 
   group_report = parser.add_argument_group('report options')
-  group_report.add_argument('--numLeadingJets',
-                            type=int,
-                            metavar='',
-                            help='Number of leading+subleading plots to make.',
-                            default=0)
-  group_report.add_argument('--jet_minPtView',
-                            type=float,
-                            metavar='',
-                            help='Only plot jets that pass a minimum pt.',
-                            default=0.0)
-  group_report.add_argument('--jetLargeR_minPtView',
-                            type=float,
-                            metavar='',
-                            help='Only plot large-R jets that pass a minimum pt.',
-                            default=0.0)
+  group_report.add_argument('--numLeadingJets', type=int, metavar='', help='Number of leading+subleading plots to make.', default=0)
+  group_report.add_argument('--jet_minPtView', type=float, metavar='', help='Only plot jets that pass a minimum pt.', default=0.0)
+  group_report.add_argument('--jetLargeR_minPtView', type=float, metavar='', help='Only plot large-R jets that pass a minimum pt.', default=0.0)
 
   # parse the arguments, throw errors if missing any
   args = parser.parse_args()
@@ -386,12 +231,7 @@ if __name__ == "__main__":
     preselect = ROOT.Preselect()
     cookBooks_logger.info("\tcreating preselect algorithm")
     algorithmConfiguration_string.append("preselect algorithm options")
-    for opt in ['jetLargeR_minNum', 'jetLargeR_maxNum', 'jetLargeR_minPt', 'jetLargeR_maxPt', 'jetLargeR_minMass',
-                'jetLargeR_maxMass', 'jetLargeR_minEta', 'jetLargeR_maxEta', 'jetLargeR_minPhi',
-                'jetLargeR_maxPhi', 'jet_minNum', 'jet_maxNum', 'bjet_minNum', 'bjet_maxNum',
-                'jet_minPt', 'jet_maxPt', 'jet_minMass', 'jet_maxMass', 'jet_minEta',
-                'jet_maxEta', 'jet_minPhi', 'jet_maxPhi', 'bTag_wp', 'doLeptonVeto',
-                'dPhiMin', 'minMET', 'numLeptons']:
+    for opt in map(lambda x: x.dest, group_preselect._group_actions):
       cookBooks_logger.info("\t%s", printStr.format('Preselect', opt, getattr(args, opt)))
       algorithmConfiguration_string.append(printStr.format('Preselect', opt, getattr(args, opt)))
       setattr(preselect, 'm_{0}'.format(opt), getattr(args, opt))
@@ -422,7 +262,7 @@ if __name__ == "__main__":
     report = ROOT.Report()
     cookBooks_logger.info("\tcreating report algorithm")
     algorithmConfiguration_string.append("report algorithm options")
-    for opt in ['numLeadingJets', 'jet_minPtView', 'jetLargeR_minPtView']:
+    for opt in map(lambda x: x.dest, group_report._group_actions):
       cookBooks_logger.info("\t%s", printStr.format('Report', opt, getattr(args, opt)))
       algorithmConfiguration_string.append(printStr.format('Report', opt, getattr(args, opt)))
       setattr(report, 'm_{0}'.format(opt), getattr(args, opt))
@@ -432,7 +272,7 @@ if __name__ == "__main__":
     algorithmConfiguration_string.append("global algorithm options")
     for alg in [preselect, audit, optimization_dump, report]:
       if alg is None: continue  # skip optimization_dump if not defined
-      for opt in ['debug', 'eventInfo', 'inputLargeRJets', 'inputJets', 'inputMET', 'inputMETName', 'inputElectrons', 'inputMuons', 'inputTauJets', 'inputPhotons', 'decor_jetTags_b', 'decor_jetTags_top', 'decor_jetTags_w']:
+      for opt in map(lambda x: x.dest, group_algorithms._group_actions):
         cookBooks_logger.info("\t%s", printStr.format(alg.ClassName(), opt, getattr(args, opt)))
         algorithmConfiguration_string.append(printStr.format(alg.ClassName(), opt, getattr(args, opt)))
         setattr(alg, 'm_{0}'.format(opt), getattr(args, opt))
