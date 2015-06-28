@@ -34,8 +34,9 @@ public:
         m_jet_minPhi   = -4.0,
         m_jet_maxPhi   = 4.0;
   std::string m_bTag_wp  = "Loose";
-  bool m_doLeptonVeto = false;
   float m_dPhiMin      = 0.4;
+  float m_minMET       = 0.0;
+  int m_numLeptons     = 0; // default is 0L channel
 
   // standard across all algorithms for configuration
   bool m_debug = false;

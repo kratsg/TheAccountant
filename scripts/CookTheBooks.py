@@ -232,10 +232,10 @@ if __name__ == "__main__":
   group_preselect.add_argument('--jetLargeR_minPhi',   type=float, metavar='', help='large-R jet min phi',  default = -4.0)
   group_preselect.add_argument('--jetLargeR_maxPhi',   type=float, metavar='', help='large-R jet max phi',  default = 4.0)
 
-  group_preselect.add_argument('--jet_minNum',  type=int, metavar='', help='min num of small-R jets passing cuts',  default = 0)
-  group_preselect.add_argument('--jet_maxNum',  type=int, metavar='', help='max num of small-R jets passing cuts',  default = 100)
-  group_preselect.add_argument('--bjet_minNum',  type=int, metavar='', help='min num of small-R bjets passing cuts',  default = 0)
-  group_preselect.add_argument('--bjet_maxNum',  type=int, metavar='', help='max num of small-R bjets passing cuts',  default = 100)
+  group_preselect.add_argument('--jet_minNum',  type=int,   metavar='', help='min num of small-R jets passing cuts',  default = 0)
+  group_preselect.add_argument('--jet_maxNum',  type=int,   metavar='', help='max num of small-R jets passing cuts',  default = 100)
+  group_preselect.add_argument('--bjet_minNum', type=int,   metavar='', help='min num of small-R bjets passing cuts',  default = 0)
+  group_preselect.add_argument('--bjet_maxNum', type=int,   metavar='', help='max num of small-R bjets passing cuts',  default = 100)
   group_preselect.add_argument('--jet_minPt',   type=float, metavar='', help='small-R jet min pt [GeV]',   default = 0.0)
   group_preselect.add_argument('--jet_maxPt',   type=float, metavar='', help='small-R jet max pt [GeV]',   default = 1.e6)
   group_preselect.add_argument('--jet_minMass', type=float, metavar='', help='small-R jet min mass [GeV]', default = 0.0)
@@ -244,9 +244,10 @@ if __name__ == "__main__":
   group_preselect.add_argument('--jet_maxEta',  type=float, metavar='', help='small-R jet max eta',  default = 10.0)
   group_preselect.add_argument('--jet_minPhi',  type=float, metavar='', help='small-R jet min phi',  default = -4.0)
   group_preselect.add_argument('--jet_maxPhi',  type=float, metavar='', help='small-R jet max phi',  default = 4.0)
-  group_preselect.add_argument('--bTag_wp',     type=str, metavar='', help='small-R jet b-tag working point',  default = "Loose")
-  group_preselect.add_argument('--doLeptonVeto', action='store_true', help='Apply lepton veto in preselection. Useful for 0L analysis.')
-  group_preselect.add_argument('--dPhiMin', type=float, metavar='', help='dPhiMin(jet, met) cut to apply.', default=0.4)
+  group_preselect.add_argument('--bTag_wp',     type=str,   metavar='', help='small-R jet b-tag working point',  default = "Loose")
+  group_preselect.add_argument('--dPhiMin',     type=float, metavar='', help='dPhiMin(jet, met) cut to apply.', default=0.4)
+  group_preselect.add_argument('--minMET',      type=float, metavar='', help='Missing Et cut [GeV]', default=0.0)
+  group_preselect.add_argument('--numLeptons',  type=int,   metavar='', help='Require exactly n leptons in the event.', default=0)
 
   group_audit = parser.add_argument_group('audit options')
   group_audit.add_argument('--no-minMassJigsaw',
@@ -390,7 +391,7 @@ if __name__ == "__main__":
                 'jetLargeR_maxPhi', 'jet_minNum', 'jet_maxNum', 'bjet_minNum', 'bjet_maxNum',
                 'jet_minPt', 'jet_maxPt', 'jet_minMass', 'jet_maxMass', 'jet_minEta',
                 'jet_maxEta', 'jet_minPhi', 'jet_maxPhi', 'bTag_wp', 'doLeptonVeto',
-                'dPhiMin']:
+                'dPhiMin', 'minMET', 'numLeptons']:
       cookBooks_logger.info("\t%s", printStr.format('Preselect', opt, getattr(args, opt)))
       algorithmConfiguration_string.append(printStr.format('Preselect', opt, getattr(args, opt)))
       setattr(preselect, 'm_{0}'.format(opt), getattr(args, opt))

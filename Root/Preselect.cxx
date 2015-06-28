@@ -171,6 +171,13 @@ EL::StatusCode Preselect :: execute ()
 
   }
 
+  if(!m_inputMET.empty()){
+    if(in_met->met()/1.e3 < m_minMET){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+  }
+
   if(!m_inputJets.empty() && !m_inputMET.empty()){
     if(VD::dPhiMETMin(in_met, in_jets) < m_dPhiMin){
       wk()->skipEvent();
@@ -178,26 +185,22 @@ EL::StatusCode Preselect :: execute ()
     }
   }
 
+  unsigned int numLeptons(0);
   // lepton veto
   if(!m_inputElectrons.empty()){
-    if(m_doLeptonVeto){
-      ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(in_electrons));
-      in_electrons = VetoElectrons.asDataVector();
-      if(in_electrons->size() > 0){
-        wk()->skipEvent();
-        return EL::StatusCode::SUCCESS;
-      }
-    }
+    ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(in_electrons));
+    in_electrons = VetoElectrons.asDataVector();
+    numLeptons += in_electrons->size();
   }
   if(!m_inputMuons.empty()){
-    if(m_doLeptonVeto){
-      ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons));
-      in_muons = VetoMuons.asDataVector();
-      if(in_muons->size() > 0){
-        wk()->skipEvent();
-        return EL::StatusCode::SUCCESS;
-      }
-    }
+    ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons));
+    in_muons = VetoMuons.asDataVector();
+    numLeptons += in_muons->size();
+  }
+
+  if(numLeptons != static_cast<unsigned int>(m_numLeptons)){
+    wk()->skipEvent();
+    return EL::StatusCode::SUCCESS;
   }
 
   return EL::StatusCode::SUCCESS;
