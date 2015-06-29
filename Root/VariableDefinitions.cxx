@@ -140,21 +140,22 @@ float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* 
 
 float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData){
   // for now, we will return 1.0 to make it consistent and scale in optimization and plotting (fuck)
-  return 1.0;
-  // is it data?
   static SG::AuxElement::ConstAccessor<uint32_t> eventType("eventTypeBitmask");
   if(!eventType.isAvailable(*ei)){
     std::cout << "Warning: eventType is not available. Returning 1." << std::endl;
-    return 1;
+    return 1.0;
   }
 
   //if(!ei->eventType( xAOD::EventInfo::IS_SIMULATION ))
   if( !(static_cast<uint32_t>(eventType(*ei)) & xAOD::EventInfo::IS_SIMULATION) )
-    return 1;
+    return 1.0;
 
   static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
-  float weight(weight_mc.isAvailable(*ei)?weight_mc(*ei):ei->mcEventWeight());
+  float weight(weight_mc.isAvailable(*ei)?weight_mc(*ei):1.0);
+  //float weight(weight_mc.isAvailable(*ei)?weight_mc(*ei):ei->mcEventWeight());
 
+  return weight;
+  // don't need to do this
   float crossSection(1),
         kFactor(1),
         filterEfficiency(1),
