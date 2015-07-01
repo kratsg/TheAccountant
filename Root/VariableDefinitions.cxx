@@ -290,34 +290,38 @@ bool VD::bTag(const xAOD::Jet* jet, VD::WP wp){
 float VD::Tau21(const xAOD::Jet* jet){
   float tau21(0.0), tau1(0.0), tau2(0.0);
 
-  if(jet->getAttribute("Tau21", tau21)){
+  if(jet->getAttribute("Tau21_wta", tau21)){
     return tau21;
-  } else if(jet->getAttribute("Tau1", tau1) && jet->getAttribute("Tau2", tau2)){
-    static SG::AuxElement::Decorator< float > Tau21("Tau21");
+  } else if(jet->getAttribute("Tau1_wta", tau1) && jet->getAttribute("Tau2_wta", tau2)){
+    static SG::AuxElement::Decorator< float > Tau21("Tau21_wta");
     Tau21(*jet) = tau2/tau1;
     return tau2/tau1;
   } else {
     // this should never be called, but we include it
-    std::cout << "Warning <VariableDefinition>: Calculating subjettiness." << std::endl;
-    VD::Nsubjettiness(jet);
-    return VD::Tau21(jet);
+    //std::cout << "Warning <VariableDefinition>: Calculating subjettiness." << std::endl;
+    //VD::Nsubjettiness(jet);
+    //return VD::Tau21(jet);
+    std::cout << "Warning <VariableDefinition>: Cannot find subjettiness Tau21." << std::endl;
+    return -99;
   }
 }
 
 float VD::Tau32(const xAOD::Jet* jet){
   float tau32(0.0), tau2(0.0), tau3(0.0);
 
-  if(jet->getAttribute("Tau32", tau32)){
+  if(jet->getAttribute("Tau32_wta", tau32)){
     return tau32;
-  } else if(jet->getAttribute("Tau2", tau2) && jet->getAttribute("Tau3", tau3)){
-    static SG::AuxElement::Decorator< float > Tau32("Tau32");
+  } else if(jet->getAttribute("Tau2_wta", tau2) && jet->getAttribute("Tau3_wta", tau3)){
+    static SG::AuxElement::Decorator< float > Tau32("Tau32_wta");
     Tau32(*jet) = tau3/tau2;
     return tau3/tau2;
   } else {
     // this should never be called, but we include it
-    std::cout << "Warning <VariableDefinition>: Calculating subjettiness." << std::endl;
-    VD::Nsubjettiness(jet);
-    return VD::Tau32(jet);
+    //std::cout << "Warning <VariableDefinition>: Calculating subjettiness." << std::endl;
+    //VD::Nsubjettiness(jet);
+    //return VD::Tau32(jet);
+    std::cout << "Warning <VariableDefinition>: Cannot find subjettiness Tau32." << std::endl;
+    return -99;
   }
 }
 

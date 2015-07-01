@@ -118,10 +118,19 @@ StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eventWe
     }
     // else, use defaults
 
+    /*
+       xAOD::TEvent::getInputObject:0: RuntimeWarning: Key 0x39b44ab4 unknown
+       xAOD::TVirtualEvent::retrieve:0: RuntimeWarning: Couldn't retrieve 10DataVectorIN4xAOD9IParticleEN16DataModel_detail6NoBaseEE/0x39b44ab4
+       terminate called after throwing an instance of 'std::runtime_error'
+         what():  ElementLink::operator*() Element not available
+         Aborted
+    */
+    /*
     JetSubStructureUtils::SubjetFinder subjetFinder(subjet_clustering, subjet_radius, 0.0);
     std::vector<fastjet::PseudoJet> subjets = subjetFinder.result(*jet);
     for(auto subjet: subjets) m_subjet_ptFrac->Fill( subjet.pt()/jet->pt(), eventWeight);
     m_subjet_multiplicity->Fill( subjets.size(), eventWeight);
+    */
 
     m_constituents_multiplicity->Fill( jet->numConstituents(), eventWeight);
     if(Width.isAvailable(*jet)) m_constituents_width->Fill( Width(*jet), eventWeight);

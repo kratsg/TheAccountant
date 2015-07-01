@@ -100,11 +100,10 @@ EL::StatusCode Report :: histInitialize () {
   for(auto jetPlot: m_jetPlots){
     // do topology for all
     jetPlot.second->m_doTopology = true;
-    if(jetPlot.first == "all/jets") continue;
-    if(jetPlot.first == "all/jets/bTag") continue;
+    if(jetPlot.first.find("all/jetsLargeR") == std::string::npos) continue;
+    std::cout << jetPlot.first << std::endl;
     // only do substructure for the largeR jets
-    // !!! Do not have valid constituents !!!
-    //jetPlot.second->m_doSubstructure = true;
+    jetPlot.second->m_doSubstructure = true;
   }
 
   // set the numLeadingJets for the JetMET histograms
