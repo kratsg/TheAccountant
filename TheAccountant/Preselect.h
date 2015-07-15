@@ -7,6 +7,10 @@
 #include "xAODRootAccess/TEvent.h"
 #include "xAODRootAccess/TStore.h"
 
+// trigger
+#include "TrigConfxAOD/xAODConfigTool.h"
+#include "TrigDecisionTool/TrigDecisionTool.h"
+
 class Preselect : public EL::Algorithm
 {
 public:
@@ -37,6 +41,7 @@ public:
   float m_dPhiMin      = 0.4;
   float m_minMET       = 0.0;
   int m_numLeptons     = 0; // default is 0L channel
+  std::string m_triggerSelection = ""; // empty is none
 
   // standard across all algorithms for configuration
   bool m_debug = false;
@@ -56,6 +61,8 @@ public:
 private:
   xAOD::TEvent *m_event; //!
   xAOD::TStore *m_store; //!
+  TrigConf::xAODConfigTool* m_trigConf; //!
+  Trig::TrigDecisionTool* m_TDT; //!
 
 public:
   // this is a standard constructor

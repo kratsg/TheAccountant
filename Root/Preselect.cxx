@@ -47,6 +47,20 @@ EL::StatusCode Preselect :: initialize ()
   m_event = wk()->xaodEvent();
   m_store = wk()->xaodStore();
 
+  if(!m_triggerSelection.empty()){
+    Info("initialize()", "Initializing for trigger selections: %s", m_triggerSelection.c_str());
+    // trigger configuration, needed for TDT
+    TrigConf::xAODConfigTool* m_trigConf = new TrigConf::xAODConfigTool("TA_xAODConfigTool");
+    RETURN_CHECK("initialize()", m_trigConf->initialize(), "Could not initialize TrigConf::xAODConfigTool.");
+    ToolHandle< TrigConf::ITrigConfigTool > configHandle( m_trigConf );
+
+    // The decision tool
+    Trig::TrigDecisionTool* m_TDT = new Trig::TrigDecisionTool("TA_TrigDecTool");
+    RETURN_CHECK("initialize()", m_TDT->setProperty("ConfigTool", configHandle), "Could not set ConfigTool property");
+    RETURN_CHECK("initialize()", m_TDT->setProperty("TrigDecisionKey", "xTrigDecision"), "Could not set TrigDecisionKey property");
+    RETURN_CHECK("initialize()", m_TDT->initialize(), "Could not initialize Trig::TrigDecisionTool");
+  }
+
   return EL::StatusCode::SUCCESS;
 }
 
@@ -93,6 +107,14 @@ EL::StatusCode Preselect :: execute ()
     in_met = *met_id;
   }
 
+  // handle trigger
+  if(!m_triggerSelection.empty()){
+    const Trig::ChainGroup* triggerChainGroup = m_TDT->getChainGroup(m_triggerSelection);
+    if ( !triggerChainGroup->isPassed() ) {
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+  }
 
   static SG::AuxElement::Decorator< int > pass_preSel("pass_preSel");
 
@@ -207,5 +229,11 @@ EL::StatusCode Preselect :: execute ()
 }
 
 EL::StatusCode Preselect :: postExecute () { return EL::StatusCode::SUCCESS; }
-EL::StatusCode Preselect :: finalize () { return EL::StatusCode::SUCCESS; }
+EL::StatusCode Preselect :: finalize () {
+  if(!m_triggerSelection.empty()){
+    if(m_trigConf) delete m_trigConf;
+    if(m_TDT) delete m_TDT;
+  }
+  return EL::StatusCode::SUCCESS;
+}
 EL::StatusCode Preselect :: histFinalize () { return EL::StatusCode::SUCCESS; }
