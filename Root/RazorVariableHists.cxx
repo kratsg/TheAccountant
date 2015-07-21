@@ -32,13 +32,13 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
 
 StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eventInfo, float eventWeight){
 
-  SG::AuxElement::ConstAccessor< RF::DecayFrame > SS_decor("SS");
-  SG::AuxElement::ConstAccessor< RF::DecayFrame > S1_decor("S1");
-  SG::AuxElement::ConstAccessor< RF::DecayFrame > S2_decor("S2");
-  SG::AuxElement::ConstAccessor< RF::DecayFrame > V1_decor("V1");
-  SG::AuxElement::ConstAccessor< RF::DecayFrame > V2_decor("V2");
-  SG::AuxElement::ConstAccessor< RF::DecayFrame > I1_decor("I1");
-  SG::AuxElement::ConstAccessor< RF::DecayFrame > I2_decor("I2");
+  SG::AuxElement::ConstAccessor< RF::RDecayFrame > SS_decor("SS");
+  SG::AuxElement::ConstAccessor< RF::RDecayFrame > S1_decor("S1");
+  SG::AuxElement::ConstAccessor< RF::RDecayFrame > S2_decor("S2");
+  SG::AuxElement::ConstAccessor< RF::RVisibleFrame > V1_decor("V1");
+  SG::AuxElement::ConstAccessor< RF::RVisibleFrame > V2_decor("V2");
+  SG::AuxElement::ConstAccessor< RF::RInvisibleFrame > I1_decor("I1");
+  SG::AuxElement::ConstAccessor< RF::RInvisibleFrame > I2_decor("I2");
 
   ss_mass->           Fill( SS_decor(*eventInfo).GetMass()/1000., eventWeight);
   ss_invgamma->       Fill( 1./eventInfo->SS.GetGammaInParentFrame(),eventWeight);
