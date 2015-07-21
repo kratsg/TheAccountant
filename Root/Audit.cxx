@@ -247,6 +247,27 @@ EL::StatusCode Audit :: execute ()
     Info("execute()", "\t\tNElements:     %d",    VIS.GetNElementsInFrame(V2));
   }
 
+  //N Harrison 7/20                                                             
+  static SG::AuxElement::Decorator<RF::RDecayFrame> SS_decor("SS");
+  SS_decor(*eventInfo) = SS;
+  static SG::AuxElement::Decorator<RF::RDecayFrame> S1_decor("S1");
+  S1_decor(*eventInfo) = S1;
+  static SG::AuxElement::Decorator<RF::RDecayFrame> S2_decor("S2");
+  S2_decor(*eventInfo) = S2;
+  static SG::AuxElement::Decorator<RF::RVisibleFrame> V1_decor("V1");
+  V1_decor(*eventInfo) = V1;    
+  static SG::AuxElement::Decorator<RF::RVisibleFrame> V2_decor("V2");
+  V2_decor(*eventInfo) = V2;  
+  static SG::AuxElement::Decorator<RF::RInvisibleFrame> I1_decor("I1");
+  I1_decor(*eventInfo) = I1;
+  static SG::AuxElement::Decorator<RF::RInvisibleFrame> I2_decor("I2");
+  I2_decor(*eventInfo) = I2;
+
+
+
+  //
+
+
   /* TODO
      QCD rejection stuff
   */

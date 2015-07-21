@@ -6,6 +6,7 @@
 // Infrastructure include(s):
 #include "xAODRootAccess/TEvent.h"
 #include "xAODRootAccess/TStore.h"
+#include "xAODEventInfo/EventInfo.h"
 
 // plots to include
 #include <TheAccountant/IParticleKinematicHists.h>
@@ -48,6 +49,7 @@ private:
   std::map< std::string, TheAccountant::JetMETHists* > m_jetMETPlots; //!
   std::map< std::string, TheAccountant::JetTagHists* > m_jetTagPlots; //!
   std::map< std::string, TheAccountant::METHists* > m_METPlots; //!
+  std::map< std::string, TheAccountant::RazorVariableHists* > m_RazorPlots; //!
 
   std::vector<std::string> m_topTagDecorationNames; //!
 
