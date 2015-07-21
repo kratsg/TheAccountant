@@ -44,6 +44,9 @@ EL::StatusCode Report :: setupJob (EL::Job& job)
 
 EL::StatusCode Report :: histInitialize () {
   // initialize all histograms here
+  
+  m_RazorPlots["all/razor"] = new TheAccountant::RazorVariableHists("all/razor/");
+
 
   if(!m_inputJets.empty()){
     m_jetKinematicPlots["all/jets"] = new TheAccountant::IParticleKinematicHists( "all/jets/" );
@@ -245,8 +248,11 @@ EL::StatusCode Report :: execute ()
     // dereference the iterator since it's just a single object
     in_met = *met_id;
   }
-
+  
   float eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
+
+
+  RETURN_CHECK("Report::execute()", m_RazorPlots["all/razor"]->execute(eventInfo, eventWeight),"");
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jets"]->execute(in_jets, eventWeight), "");
