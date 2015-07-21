@@ -262,6 +262,7 @@ EL::StatusCode Audit :: execute ()
   I1_decor(*eventInfo) = I1;
   static SG::AuxElement::Decorator<RF::RInvisibleFrame> I2_decor("I2");
   I2_decor(*eventInfo) = I2;
+  static SG::AuxElement::Decorator<RF::CombinatoricGroup> VIS_decor("VIS");
 
 
 

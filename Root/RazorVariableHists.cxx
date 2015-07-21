@@ -39,22 +39,25 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   SG::AuxElement::ConstAccessor< RF::RVisibleFrame > V2_decor("V2");
   SG::AuxElement::ConstAccessor< RF::RInvisibleFrame > I1_decor("I1");
   SG::AuxElement::ConstAccessor< RF::RInvisibleFrame > I2_decor("I2");
+  SG::AuxElement::ConstAccessor< RF::CombinatoricGroup > VIS_decor("VIS");
+
 
   ss_mass->           Fill( SS_decor(*eventInfo).GetMass()/1000., eventWeight);
-  ss_invgamma->       Fill( 1./eventInfo->SS.GetGammaInParentFrame(),eventWeight);
-  ss_dphivis->        Fill( eventInfo->SS.GetDeltaPhiBoostVisible(), eventWeight);
-  ss_costheta->       Fill( eventInfo->SS.GetCosDecayAngle(), eventWeight);
-  ss_dphidecayangle-> Fill( eventInfo->SS.GetDeltaPhiDecayAngle(), eventWeight);
-  ss_visshape->       Fill( eventInfo->SS.GetVisibleShape(), eventWeight);
-  ss_mdeltaR->        Fill( eventInfo->SS.GetVisibleShape()*eventInfo->SS.GetMass(), eventWeight);
-  s1_mass->           Fill( eventInfo->S1.GetMass()/1000., eventWeight);
-  s1_costheta->       Fill( eventInfo->S1.GetCosDecayAngle(), eventWeight);
-  s2_mass->           Fill( eventInfo->S2.GetMass()/1000., eventWeight);
-  s2_costheta->       Fill( eventInfo->S2.GetCosDecayAngle(), eventWeight);
-  i1_depth->          Fill( eventInfo->S1.GetFrameDepth(eventInfo->I1), eventWeight);
-  i2_depth->          Fill( eventInfo->S2.GetFrameDepth(eventInfo->I2), eventWeight);
-  v1_nelements->      Fill( eventInfo->VIS.GetNElementsInFrame(eventInfo->V1), eventWeight);
-  v2_nelements->      Fill( eventInfo->VIS.GetNElementsInFrame(eventInfo->V2), eventWeight);
+  ss_invgamma->       Fill( 1./SS_decor(*eventInfo).GetGammaInParentFrame(),eventWeight);
+  ss_dphivis->        Fill( SS_decor(*eventInfo).GetDeltaPhiBoostVisible(), eventWeight);
+  ss_costheta->       Fill( SS_decor(*eventInfo).GetCosDecayAngle(), eventWeight);
+  ss_dphidecayangle-> Fill( SS_decor(*eventInfo).GetDeltaPhiDecayAngle(), eventWeight);
+  ss_visshape->       Fill( SS_decor(*eventInfo).GetVisibleShape(), eventWeight);
+  ss_mdeltaR->        Fill( SS_decor(*eventInfo).GetVisibleShape()*SS_decor(*eventInfo).GetMass(), eventWeight);
+  s1_mass->           Fill( S1_decor(*eventInfo).GetMass()/1000., eventWeight);
+  s1_costheta->       Fill( S1_decor(*eventInfo).GetCosDecayAngle(), eventWeight);
+  s2_mass->           Fill( S2_decor(*eventInfo).GetMass()/1000., eventWeight);
+  s2_costheta->       Fill( S2_decor(*eventInfo).GetCosDecayAngle(), eventWeight);
+  i1_depth->          Fill( S1_decor(*eventInfo).GetFrameDepth(I1_decor(*eventInfo)), eventWeight);
+  i2_depth->          Fill( S2_decor(*eventInfo).GetFrameDepth(I2_decor(*eventInfo)), eventWeight);
+  v1_nelements->      Fill( VIS_decor(*eventInfo).GetNElementsInFrame(V1_decor(*eventInfo)), eventWeight);
+  v2_nelements->      Fill( VIS_decor(*eventInfo).GetNElementsInFrame(V2_decor(*eventInfo)), eventWeight);
 
   return StatusCode::SUCCESS;
 }
+
