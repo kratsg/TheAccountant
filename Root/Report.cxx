@@ -146,6 +146,11 @@ EL::StatusCode Report :: histInitialize () {
     }
   }
 
+  for(auto razorPlot: m_RazorPlots){
+    RETURN_CHECK("Report::initializse()", razorPlot.second->initialize(),"");
+    razorPlot.second->record( wk() );
+  }
+
   for(auto jetKinematicPlot: m_jetKinematicPlots){
     RETURN_CHECK("Report::initialize()", jetKinematicPlot.second->initialize(), "");
     jetKinematicPlot.second->record( wk() );
