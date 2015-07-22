@@ -15,6 +15,7 @@
 #include <TheAccountant/METHists.h>
 #include <TheAccountant/JetTagHists.h>
 
+#include <TheAccountant/RazorVariableHists.h>
 class Report : public EL::Algorithm
 {
   // put your configuration variables here as public variables.
