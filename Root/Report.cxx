@@ -220,6 +220,7 @@ EL::StatusCode Report :: execute ()
 
   // prepare the jets by creating a view container to look at them
   ConstDataVector<xAOD::JetContainer> in_jetsCDV(SG::VIEW_ELEMENTS);
+
   if(!m_inputJets.empty()){
     for(auto jet: *in_jets){
       if(jet->pt()/1.e3 < m_jet_minPtView) continue;
@@ -255,7 +256,7 @@ EL::StatusCode Report :: execute ()
   float eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
 
 
-  RETURN_CHECK("Report::execute()", m_RazorPlots["all/razor"]->execute(eventInfo, eventWeight),"");
+  RETURN_CHECK("Report::execute()", m_RazorPlots["all/razor"]->execute(eventInfo, in_met,in_jets, eventWeight),"");
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jets"]->execute(in_jets, eventWeight), "");

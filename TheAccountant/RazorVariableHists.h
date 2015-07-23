@@ -21,6 +21,8 @@
 //namespace RF = RestFrames;
 
 #include "xAODEventInfo/EventInfo.h"
+#include "xAODMissingET/MissingETContainer.h"
+#include "xAODJet/JetContainer.h"
 
 namespace TheAccountant
 {
@@ -31,7 +33,7 @@ namespace TheAccountant
     virtual ~RazorVariableHists() ; 
 
     StatusCode initialize();
-    StatusCode execute( const xAOD::EventInfo* eventInfo, float eventWeight );
+    StatusCode execute( const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, float eventWeight );
 
     using HistogramManager::book;
     using HistogramManager::execute;
@@ -45,18 +47,36 @@ namespace TheAccountant
     TH1F* ss_visshape;
     TH1F* ss_mdeltaR;
 
+    TH2F* ss_mass_vs_leadJetPt;
+    TH2F* ss_mass_vs_leadJetEta;
+    TH2F* ss_mass_vs_leadJetPhi;
+    TH2F* ss_mass_vs_leadJetMass;
+    TH2F* ss_mass_vs_leadJetEnergy;
+    TH2F* ss_mass_vs_leadJetRapidity;
+    TH2F* ss_mass_vs_jetMultiplicity;
+
+    
+    TH2F* ss_invgamma_vs_MET;
+
+    TH2F* ss_mdeltaR_vs_leadJetPt;
+    TH2F* ss_mdeltaR_vs_leadJetEta;
+    TH2F* ss_mdeltaR_vs_leadJetPhi;
+    TH2F* ss_mdeltaR_vs_leadJetMass;
+    TH2F* ss_mdeltaR_vs_leadJetEnergy;
+    TH2F* ss_mdeltaR_vs_leadJetRapidity;
+    TH2F* ss_mdeltaR_vs_jetMultiplicity;
+
+
     TH1F* s1_mass;
     TH1F* s1_costheta;
 
     TH1F* s2_mass;
     TH1F* s2_costheta;
 
-    TH1F* i1_depth;
-    
+    TH1F* i1_depth;    
     TH1F* i2_depth;
 
     TH1F* v1_nelements;
-
     TH1F* v2_nelements;
 
   };
