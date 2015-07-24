@@ -230,7 +230,7 @@ if __name__ == "__main__":
       required_environment_variables = ['PATHENA_GRID_SETUP_SH', 'PANDA_CONFIG_ROOT', 'ATLAS_LOCAL_PANDACLIENT_PATH', 'PANDA_SYS', 'ATLAS_LOCAL_PANDACLI_VERSION']
       for env_var in required_environment_variables:
         if os.getenv(env_var) is None:
-          raise EnvironmentError('Panda client is not setup. Run localSetupPandaClients.')
+          raise EnvironmentError('Panda client is not setup. Run localSetupPandaClient.')
 
     # check submission directory
     if args.force_overwrite:
