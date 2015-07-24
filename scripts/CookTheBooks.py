@@ -86,7 +86,7 @@ if __name__ == "__main__":
   drivers_parser = parser.add_subparsers(prog='CookTheBooks.py', title='drivers', dest='driver', description='specify where to run jobs')
   direct = drivers_parser.add_parser('direct', help='Run your jobs locally.', usage=driverUsageStr)
   prooflite = drivers_parser.add_parser('prooflite', help='Run your jobs using ProofLite', usage=driverUsageStr)
-  grid = drivers_parser.add_parser('grid', help='Run your jobs on the grid', usage=driverUsageStr)
+  prun = drivers_parser.add_parser('prun', help='Run your jobs on the grid using prun. Use prun --help for descriptions of the options.', usage=driverUsageStr)
   condor = drivers_parser.add_parser('condor', help='Flock your jobs to condor', usage=driverUsageStr)
 
   # standard options for other drivers
@@ -114,28 +114,28 @@ if __name__ == "__main__":
   #.add_argument('--optXaodAccessMode_branch', type=str, required=False, default=None)
   #.add_argument('--optXaodAccessMode_class', type=str, required=False, default=None)
 
-  # define arguments for grid driver
-  grid.add_argument('--optGridCloud',            metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridDestSE',           metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridExcludedSite',     metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridExpress',          metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridMaxCpuCount',      metavar='', type=int, required=False, default=None)
-  grid.add_argument('--optGridMaxNFilesPerJob',  metavar='', type=int, required=False, default=None)
-  grid.add_argument('--optGridMaxFileSize',      metavar='', type=int, required=False, default=None)
-  grid.add_argument('--optGridMemory',           metavar='', type=int, required=False, default=None)
-  grid.add_argument('--optGridMergeOutput',      metavar='', type=int, required=False, default=1)
-  grid.add_argument('--optGridNFiles',           metavar='', type=int, required=False, default=None)
-  grid.add_argument('--optGridNFilesPerJob',     metavar='', type=int, required=False, default=None)
-  grid.add_argument('--optGridNGBPerJob',        metavar='', type=int, required=False, default=2)
-  grid.add_argument('--optGridNJobs',            metavar='', type=int, required=False, default=None)
-  grid.add_argument('--optGridNoSubmit',         metavar='', type=int, required=False, default=None)
-  grid.add_argument('--optGridSite',             metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridUseChirpServer',   metavar='', type=int, required=False, default=None)
-  grid.add_argument('--optTmpDir',               metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optRootVer',              metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optCmtConfig',            metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridDisableAutoRetry', metavar='', type=int, required=False, default=1)
-  grid.add_argument('--optGridOutputSampleName', metavar='', type=str, required=True, help='Define the value for _TAXX')
+  # define arguments for prun driver
+  prun.add_argument('--optGridCloud',            metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridDestSE',           metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridExcludedSite',     metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridExpress',          metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridMaxCpuCount',      metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridMaxNFilesPerJob',  metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridMaxFileSize',      metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridMemory',           metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridMergeOutput',      metavar='', type=int, required=False, default=1)
+  prun.add_argument('--optGridNFiles',           metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridNFilesPerJob',     metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridNGBPerJob',        metavar='', type=int, required=False, default=2)
+  prun.add_argument('--optGridNJobs',            metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridNoSubmit',         metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridSite',             metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridUseChirpServer',   metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optTmpDir',               metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optRootVer',              metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optCmtConfig',            metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridDisableAutoRetry', metavar='', type=int, required=False, default=1)
+  prun.add_argument('--optGridOutputSampleName', metavar='', type=str, required=True, help='Define the value for _TAXX')
 
   # define arguments for condor driver
   condor.add_argument('--optCondorConf', metavar='', type=str, required=False, default=None)
@@ -226,7 +226,7 @@ if __name__ == "__main__":
     import timing
 
     # check environment variables for various options first before trying to do anything else
-    if args.driver == 'grid':
+    if args.driver == 'prun':
       required_environment_variables = ['PATHENA_GRID_SETUP_SH', 'PANDA_CONFIG_ROOT', 'ATLAS_LOCAL_PANDACLIENT_PATH', 'PANDA_SYS', 'ATLAS_LOCAL_PANDACLI_VERSION']
       for env_var in required_environment_variables:
         if os.getenv(env_var) is None:
@@ -277,8 +277,9 @@ if __name__ == "__main__":
 
     # print out the samples we found
     cookBooks_logger.info("\t%d different dataset(s) found", len(sh_all))
-    for dataset in sh_all:
-      cookBooks_logger.info("\t\t%d files in %s", dataset.numFiles(), dataset.name())
+    if not args.input_from_DQ2:
+      for dataset in sh_all:
+        cookBooks_logger.info("\t\t%d files in %s", dataset.numFiles(), dataset.name())
     sh_all.printContent()
 
     if len(sh_all) == 0:
@@ -389,10 +390,10 @@ if __name__ == "__main__":
       driver = ROOT.EL.DirectDriver()
     elif (args.driver == "prooflite"):
       driver = ROOT.EL.ProofDriver()
-    elif (args.driver == "grid"):
+    elif (args.driver == "prun"):
       driver = ROOT.EL.PrunDriver()
 
-      for opt, t in map(lambda x: (x.dest, x.type), grid._actions):
+      for opt, t in map(lambda x: (x.dest, x.type), prun._actions):
         if getattr(args, opt) is None: continue  # skip if not set
         if opt in ['help', 'optGridOutputSampleName']: continue  # skip some options
         if t in [float]:
@@ -409,8 +410,10 @@ if __name__ == "__main__":
 
 
       # "user.%nickname%.%in:name[2]%.%in:name[3]%.%in:name[4]%.%in:name[5]%.%in:name[6]%_TA{0:s}
-      driver.options().setString("nc_outputSampleName", "user.%nickname%.%in:name%_TA{0:s}".format(args.optGridOutputSampleName))
-      cookBooks_logger.info("\t - driver.options().setString(nc_outputSampleName, user.%nickname%.%in:name%_TA{0:s})".format(args.optGridOutputSampleName))
+      # "user.%nickname%.%in:name%_TA{0:s}"
+      nc_outputSampleNameStr = "user.%nickname%.%in:name[1]%.%in:name[2]%.%in:name[5]%.%in:name[6]%_TA{0:s}".format(args.optGridOutputSampleName)
+      driver.options().setString("nc_outputSampleName", nc_outputSampleNameStr)
+      cookBooks_logger.info("\t - driver.options().setString(nc_outputSampleName, {0:s})".format(nc_outputSampleNameStr))
 
     elif (args.driver == "condor"):
       driver = ROOT.EL.CondorDriver()
@@ -418,7 +421,7 @@ if __name__ == "__main__":
     user_confirm(args)
 
     cookBooks_logger.info("\tsubmit job")
-    if args.driver in ["grid"]:
+    if args.driver in ["prun"]:
       driver.submitOnly(job, args.submit_dir)
     else:
       driver.submit(job, args.submit_dir)
