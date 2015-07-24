@@ -84,6 +84,56 @@ if __name__ == "__main__":
   grid = drivers_parser.add_parser('grid', help='Run your jobs on the grid', usage=driverUsageStr)
   condor = drivers_parser.add_parser('condor', help='Flock your jobs to condor', usage=driverUsageStr)
 
+  # standard options for other drivers
+  #.add_argument('--optCacheLearnEntries', type=str, required=False, default=None)
+  #.add_argument('--optCacheSize', type=str, required=False, default=None)
+  #.add_argument('--optD3PDCacheMinByte', type=str, required=False, default=None)
+  #.add_argument('--optD3PDCacheMinByteFraction', type=str, required=False, default=None)
+  #.add_argument('--optD3PDCacheMinEvent', type=str, required=False, default=None)
+  #.add_argument('--optD3PDCacheMinEventFraction', type=str, required=False, default=None)
+  #.add_argument('--optD3PDPerfStats', type=str, required=False, default=None)
+  #.add_argument('--optD3PDReadStats', type=str, required=False, default=None)
+  #.add_argument('--optDisableMetrics', type=str, required=False, default=None)
+  #.add_argument('--optEventsPerWorker', type=str, required=False, default=None)
+  #.add_argument('--optFilesPerWorker', type=str, required=False, default=None)
+  #.add_argument('--optMaxEvents', type=str, required=False, default=None)
+  #.add_argument('--optPerfTree', type=str, required=False, default=None)
+  #.add_argument('--optPrintPerFileStats', type=str, required=False, default=None)
+  #.add_argument('--optRemoveSubmitDir', type=str, required=False, default=None)
+  #.add_argument('--optResetShell', type=str, required=False, default=None)
+  #.add_argument('--optSkipEvents', type=str, required=False, default=None)
+  #.add_argument('--optSubmitFlags', type=str, required=False, default=None)
+  #.add_argument('--optXAODPerfStats', type=str, required=False, default=None)
+  #.add_argument('--optXAODReadStats', type=str, required=False, default=None)
+  #.add_argument('--optXaodAccessMode', type=str, required=False, default=None)
+  #.add_argument('--optXaodAccessMode_branch', type=str, required=False, default=None)
+  #.add_argument('--optXaodAccessMode_class', type=str, required=False, default=None)
+
+  # define arguments for grid driver
+  grid.add_argument('--optGridCloud',            metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridDestSE',           metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridExcludedSite',     metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridExpress',          metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridMaxCpuCount',      metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridMaxNFilesPerJob',  metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridMaxFileSize',      metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridMemory',           metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridMergeOutput',      metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridNFiles',           metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridNFilesPerJob',     metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridNGBPerJob',        metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridNJobs',            metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridNoSubmit',         metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridSite',             metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridUseChirpServer',   metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optTmpDir',               metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optRootVer',              metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optCmtConfig',            metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridDisableAutoRetry', metavar='', type=str, required=False, default=None)
+
+  # define arguments for condor driver
+  condor.add_argument('--optCondorConf', metavar='', type=str, required=False, default=None)
+
   # positional argument, require the first argument to be the input filename
   parser.add_argument('input_filename', metavar='file', type=str, nargs='+', help='input file(s) to read')
   parser.add_argument('--submitDir', dest='submit_dir', metavar='<directory>', type=str, required=False, help='Output directory to store the output.', default='submitDir')
@@ -315,28 +365,43 @@ if __name__ == "__main__":
     # make the driver we want to use:
     # this one works by running the algorithm directly
     cookBooks_logger.info("creating driver")
+    cookBooks_logger.info("\trunning on {0:s}".format(args.driver))
     driver = None
     if (args.driver == "direct"):
-      cookBooks_logger.info("\trunning on direct")
       driver = ROOT.EL.DirectDriver()
-      cookBooks_logger.info("\tsubmit job")
-      driver.submit(job, args.submit_dir)
     elif (args.driver == "prooflite"):
-      cookBooks_logger.info("\trunning on prooflite")
       driver = ROOT.EL.ProofDriver()
-      cookBooks_logger.info("\tsubmit job")
-      driver.submit(job, args.submit_dir)
     elif (args.driver == "grid"):
-      cookBooks_logger.info("\trunning on Grid")
       driver = ROOT.EL.PrunDriver()
-      driver.options().setString("nc_outputSampleName", "user.%nickname%.%in:name[2]%.%in:name[3]%")
+
+      for opt, t in map(lambda x: (x.dest, x.type), grid._actions):
+        if getattr(args, opt) is None: continue  # skip if not set
+        if opt == 'help': continue  # skip the 'help' option
+        if t in [float]:
+          setter = 'setDouble'
+        elif t in [int]:
+          setter = 'setInteger'
+        elif t in [bool]:
+          setter = 'setBool'
+        else:
+          setter = 'setString'
+        getattr(driver.options(), setter)(getattr(ROOT.EL.Job, opt), getattr(args, opt))
+        cookBooks_logger.info("\t - driver.options().{0:s}(\"{1:s}\", {2:s})".format(setter, getattr(ROOT.EL.Job, opt), getattr(args, opt)))
+
+      driver.options().setString("nc_outputSampleName", "user.%nickname%.%in:name[2]%.%in:name[3]%.%in:name[4]%.%in:name[5]%.%in:name[6]%_TA{0:s}".format('04'))
+      #driver.options().setDouble("nc_nGBPerJob", args.nGBPerJob)
       #driver.options().setDouble("nc_disableAutoRetry", 1)
-      driver.options().setDouble("nc_nFilesPerJob", 1)
+      #driver.options().setDouble("nc_nFilesPerJob", 1)
+      #driver.options().setDouble(ROOT.EL.Job.optGridMergeOutput, args.optGridMergeOutput)
       driver.options().setDouble(ROOT.EL.Job.optGridMergeOutput, 1);
-      cookBooks_logger.info("\tsubmit job")
-      driver.submitOnly(job, args.submit_dir)
     elif (args.driver == "condor"):
       driver = ROOT.EL.CondorDriver()
+
+    import sys; sys.exit(0)
+    cookBooks_logger.info("\tsubmit job")
+    if args.driver in ["grid"]:
+      driver.submitOnly(job, args.submit_dir)
+    else:
       driver.submit(job, args.submit_dir)
 
     SCRIPT_END_TIME = datetime.datetime.now()
