@@ -39,6 +39,7 @@ namespace TheAccountant
     using HistogramManager::execute;
 
   private:
+    TH1F* jet_multiplicity;
     TH1F* ss_mass;
     TH1F* ss_invgamma;
     TH1F* ss_dphivis;
