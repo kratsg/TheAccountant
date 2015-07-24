@@ -72,7 +72,10 @@ This algorithm creates plots of large-R jets, bjets, and MET. It has functionali
 This is the macro that runs it all. [Start here and the world shall open up before you.](https://www.youtube.com/watch?v=5qH1pBTqvc4) I use a standard run
 
 ```
-CookTheBooks.py input.root -v -f --jet_minNum=4 --jet_minPt=30 --bjet_minNum=2 --numLeadingJets=4 --optimizationDump --mode=branch --jetLargeR_minPtView=300
+CookTheBooks.py direct input.root\
+  -v -f --jet_minNum=4 --jet_minPt=30\
+  --bjet_minNum=2 --numLeadingJets=4\
+  --optimizationDump --mode=branch --jetLargeR_minPtView=300
 ```
 
 which will
@@ -96,7 +99,8 @@ CookTheBooks.py -h drivers
 to look up the drivers usable. As we use the `argparse` module with subcommands, one of the slight gotchas is that you must specify all of the subcommand arguments before the first positional argument. In this context, this means you must specify your driver, your driver's configurations, and then the filenames to run over. So you will end up writing a line that looks like
 
 ```
-CookTheBooks.py condor --condorConfig1=foo --condorConfig2=bar input.root /path/to/sample/DAOD.pool.root --jets=AntiKt4LCTopoJets
+CookTheBooks.py condor --condorConfig1=foo --condorConfig2=bar\
+    input.root /path/to/sample/DAOD.pool.root --jets=AntiKt4LCTopoJets
 ```
 
 which is not often too bad, and this forces you to think about what you want to run on first, before fooling around with other options (which is a good thing in my book).
