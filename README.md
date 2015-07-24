@@ -9,10 +9,14 @@ Run-2 analysis for SUSY search in gluino to stops.
 - [Installing](#installing)
   - [Dependencies](#dependencies)
 - [Functionality Included](#functionality-included)
+  - [Algorithms and Scripts](#algorithms-and-scripts)
     - [[Audit.cxx](TheAccountant/Audit.h)](#auditcxxtheaccountantaudith)
     - [[Preselect.cxx](TheAccountant/Preselect.h)](#preselectcxxtheaccountantpreselecth)
     - [[Report.cxx](TheAccountant/Report.h)](#reportcxxtheaccountantreporth)
     - [[CookTheBooks.py](scripts/CookTheBooks.py)](#cookthebookspyscriptscookthebookspy)
+  - [Samples and Drivers and Bash, oh my](#samples-and-drivers-and-bash-oh-my)
+    - [Direct](#direct)
+    - [Prun](#prun)
 - [Authors](#authors)
   - [Acknowledgements](#acknowledgements)
 
@@ -49,6 +53,8 @@ rc compile
 <img src="https://github.com/kratsg/TheAccountant/raw/master/img/visTree.png?raw=true" alt="Visible Tree" width="225" />
 <img src="https://github.com/kratsg/TheAccountant/raw/master/img/invTree.png?raw=true" alt="Invisible Tree" width="225" />
 
+### Algorithms and Scripts
+
 #### [Audit.cxx](TheAccountant/Audit.h)
 
 This algorithm sets up a decay tree with a pair of vis-invis particles in each hemisphere.
@@ -77,7 +83,62 @@ which will
 - plot the first 4 leading jets in the event
 - only plot large-R jets with Pt > 300 GeV
 
-See the help options `CookTheBooks.py -h` for more information about what you can actually do.
+See the help options `CookTheBooks.py -h` for more information about what you can actually do. Each of the specific sections in `CookTheBooks.py` can have a lot of options, so you might want to try something like `CookTheBooks.py -h audit` or `CookTheBooks.py -h preselect` to see only options for that specific algorithm or section.
+
+### Samples and Drivers and Bash, oh my
+
+So one of the bigger questions is - how do I run this? There's a few ways depending on what you want to do. There are various drivers supported which you can find out via
+
+```
+CookTheBooks.py -h drivers
+```
+
+to look up the drivers usable. As we use the `argparse` module with subcommands, one of the slight gotchas is that you must specify all of the subcommand arguments before the first positional argument. In this context, this means you must specify your driver, your driver's configurations, and then the filenames to run over. So you will end up writing a line that looks like
+
+```
+CookTheBooks.py condor --condorConfig1=foo --condorConfig2=bar input.root /path/to/sample/DAOD.pool.root --jets=AntiKt4LCTopoJets
+```
+
+which is not often too bad, and this forces you to think about what you want to run on first, before fooling around with other options (which is a good thing in my book).
+
+#### Direct
+
+```bash
+CookTheBooks.py direct -h
+```
+
+The direct driver is most often best for quick testing, but also running things locally. In this particular case, you can run on a single file, a bunch of files in different locations, or lots of different samples. Below are code examples that can help:
+
+- Running on a single file
+  ```bash
+  CookTheBooks.py direct input.root
+  ```
+- Running on different files
+  ```
+  CookTheBooks.py direct input1.root /path/to/some/input2.root "other_inputs_*.root"
+  ```
+- Running on different samples
+  ```
+  CookTheBooks.py direct "/path/to/sampleA/*.root" /path/to/sampleB/test.root
+  ```
+
+Note that in the case where multiple root files exist in a given sample (using a `*`; such as in `sampleA` example above), you will want to surround the path name with quotes to prevent your shell from auto-expanding (makes it harder for me to determine that multiple files belong to a sample).
+
+#### Prun
+
+```bash
+CookTheBooks.py prun -h
+```
+
+The prun driver is most often best if you need to run on a lot of files and you would rather not copy them and run locally... running on the grid. The code will check to make sure you have `prun` set up correctly via `localSetupPandaClient` (it will notify you if you don't, so don't worry). There are a lot of options available for the `PrunDriver`. Some are set by default based on experience of others and you should rarely need to manage it. The only required option for submitting jobs is to add a "tag" to the end as the form `_TA%s`.
+
+In this driver, you can only run on DQ2 sample names, so this can be done by providing input file lists to read in, or just passing in the sample name instead. Here is an example of a job that was ran so you can get an idea:
+
+```bash
+CookTheBooks.py grid --optGridOutputSampleName=TEST2 "mc15_13TeV.410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad.merge.AOD.e3698_s2608_s2183_r6630_r6264"
+```
+
+which is on bigpanda [here](http://bigpanda.cern.ch/task/6078737/).
 
 ## Authors
 - [Giordon Stark](https://github.com/kratsg)
