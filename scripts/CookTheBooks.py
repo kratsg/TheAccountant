@@ -45,18 +45,46 @@ if __name__ == "__main__":
   class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter):
     pass
 
+  class _HelpAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+      if not values:
+        parser.print_help()
+      else:
+        available_groups = [group.title for group in parser._action_groups]
+        if values in available_groups:
+          action_group = parser._action_groups[available_groups.index(values)]
+          formatter = parser._get_formatter()
+          formatter.start_section(action_group.title)
+          formatter.add_text(action_group.description)
+          formatter.add_arguments(action_group._group_actions)
+          formatter.end_section()
+          parser._print_message(formatter.format_help())
+        else:
+          print("That is not a valid subsection. Chose from {{{0:s}}}".format(','.join(available_groups)))
+      parser.exit()
+
   __version__ = subprocess.check_output(["git", "describe", "--always"], cwd=os.path.dirname(os.path.realpath(__file__))).strip()
   __short_hash__ = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=os.path.dirname(os.path.realpath(__file__))).strip()
 
-  parser = argparse.ArgumentParser(description='Become an accountant and cook the books!',
-                                   usage='%(prog)s filename [filename] [options]',
+  parser = argparse.ArgumentParser(add_help=False, description='Become an accountant and cook the books!',
+                                   usage='%(prog)s {driver} ... file [file ...] [options]',
                                    formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
+  parser.add_argument('-h', '--help', nargs='?', action=_HelpAction, help='show this help message and exit')  # add custom help
 
   # http://stackoverflow.com/a/16981688
-  parser._optionals.title = "job runner options"
+  parser._positionals.title = "required"
+  parser._optionals.title = "optional"
+
+  driverUsageStr = '%(prog)s ... file [file ...] [options]'
+  # first is the driver
+  drivers_parser = parser.add_subparsers(prog='CookTheBooks.py', title='driver', dest='driver', description='specify where to run jobs')
+  direct = drivers_parser.add_parser('direct', help='Run your jobs locally.', usage=driverUsageStr)
+  prooflite = drivers_parser.add_parser('prooflite', help='Run your jobs using ProofLite', usage=driverUsageStr)
+  grid = drivers_parser.add_parser('grid', help='Run your jobs on the grid', usage=driverUsageStr)
+  condor = drivers_parser.add_parser('condor', help='Flock your jobs to condor', usage=driverUsageStr)
 
   # positional argument, require the first argument to be the input filename
-  parser.add_argument('input_filename', metavar='', type=str, nargs='+', help='input file(s) to read')
+  parser.add_argument('input_filename', metavar='file', type=str, nargs='+', help='input file(s) to read')
   parser.add_argument('--submitDir', dest='submit_dir', metavar='<directory>', type=str, required=False, help='Output directory to store the output.', default='submitDir')
   parser.add_argument('--nevents', dest='num_events', metavar='<n>', type=int, help='Number of events to process for all datasets.', default=0)
   parser.add_argument('--skip', dest='skip_events', metavar='<n>', type=int, help='Number of events to skip at start.', default=0)
@@ -64,20 +92,12 @@ if __name__ == "__main__":
   parser.add_argument('--version', action='version', version='%(prog)s {version}'.format(version=__version__))
   parser.add_argument('--mode', dest='access_mode', type=str, metavar='{class, branch}', choices=['class', 'branch'], default='class', help='Run using branch access mode or class access mode. See TheAccountant/wiki/Access-Mode for more information')
 
-  # http://stackoverflow.com/questions/12303547/set-the-default-to-false-if-another-mutually-exclusive-argument-is-true
-  group_driver = parser.add_mutually_exclusive_group()
-  group_driver.add_argument('--direct', dest='driver', metavar='', action='store_const', const='direct', help='Run your jobs locally.')
-  group_driver.add_argument('--prooflite', dest='driver', metavar='', action='store_const', const='prooflite', help='Run your jobs using ProofLite')
-  group_driver.add_argument('--grid', dest='driver', metavar='', action='store_const', const='grid', help='Run your jobs on the grid.')
-  group_driver.add_argument('--condor', dest='driver', metavar='', action='store_const', const='condor', help='Run your jobs on the condor.')
-  group_driver.set_defaults(driver='direct')
-
   parser.add_argument('--inputList', dest='input_from_file', action='store_true', help='If enabled, will read in a text file containing a list of files.')
   parser.add_argument('--inputDQ2', dest='input_from_DQ2', action='store_true', help='If enabled, will search using DQ2. Can be combined with `--inputList`.')
   parser.add_argument('-v', '--verbose', dest='verbose', action='count', default=0, help='Enable verbose output of various levels. Default: no verbosity')
   parser.add_argument('-y', '--yes', dest='skip_confirm', action='store_true', help='Skip the configuration confirmation. Useful for when running in the background.')
 
-  group_algorithms = parser.add_argument_group('global algorithm options')
+  group_algorithms = parser.add_argument_group('global', description='global algorithm options')
   group_algorithms.add_argument('--debug', dest='debug', action='store_true', help='Enable verbose output of the algorithms.')
   group_algorithms.add_argument('--eventInfo', dest='eventInfo', metavar='', type=str, help='EventInfo container name.', default='EventInfo')
   group_algorithms.add_argument('--jetsLargeR', dest='inputLargeRJets', metavar='', type=str, help='Large-R jet container name.', default='FinalFatJets')
@@ -92,7 +112,7 @@ if __name__ == "__main__":
   group_algorithms.add_argument('--decorJetTagsTop', dest='decor_jetTags_top', metavar='', type=str, help='Decoration name for top-tags.', default='')
   group_algorithms.add_argument('--decorJetTagsW', dest='decor_jetTags_w', metavar='', type=str, help='Decoration name for w-tags.', default='')
 
-  group_preselect = parser.add_argument_group('preselect options (all selections are inclusive: x >= min, x =< max)')
+  group_preselect = parser.add_argument_group('preselect', description='all selections are inclusive: x >= min, x =< max')
   group_preselect.add_argument('--jetLargeR_minNum',   type=int, metavar='', help='min num of large-R jets passing cuts',  default=0)
   group_preselect.add_argument('--jetLargeR_maxNum',   type=int, metavar='', help='max num of large-R jets passing cuts',  default = 100)
   group_preselect.add_argument('--jetLargeR_minPt',    type=float, metavar='', help='large-R jet min pt [GeV]',   default = 0.0)
@@ -122,16 +142,16 @@ if __name__ == "__main__":
   group_preselect.add_argument('--numLeptons',  type=int,   metavar='', help='Require exactly n leptons in the event.', default=0)
   group_preselect.add_argument('--triggerSelection', type=str, metavar='', help='Specify a pattern of triggers to select on.', default='')
 
-  group_audit = parser.add_argument_group('audit options')
+  group_audit = parser.add_argument_group('audit')
   group_audit.add_argument('--no-minMassJigsaw', dest='disable_minMassJigsaw', action='store_true', help='Disable the minMass Jigsaw')
   group_audit.add_argument('--no-contraBoostJigsaw', dest='disable_contraBoostJigsaw', action='store_true', help='Disable the contraBoost Jigsaw')
   group_audit.add_argument('--no-hemiJigsaw', dest='disable_hemiJigsaw', action='store_true', help='Disable the hemi Jigsaw')
   group_audit.add_argument('--drawDecayTreePlots', dest='drawDecayTreePlots', action='store_true', help='Enable to draw the decay tree plots and save the canvas in the output ROOT file. Please only enable this if running locally.')
 
-  group_optimizationDump = parser.add_argument_group('optimization dump options')
+  group_optimizationDump = parser.add_argument_group('optimization')
   group_optimizationDump.add_argument('--optimizationDump', dest='optimization_dump', action='store_true', help='Enable to dump optimization ttree of values to cut against')
 
-  group_report = parser.add_argument_group('report options')
+  group_report = parser.add_argument_group('report')
   group_report.add_argument('--numLeadingJets', type=int, metavar='', help='Number of leading+subleading plots to make.', default=0)
   group_report.add_argument('--jet_minPtView', type=float, metavar='', help='Only plot jets that pass a minimum pt.', default=0.0)
   group_report.add_argument('--jetLargeR_minPtView', type=float, metavar='', help='Only plot large-R jets that pass a minimum pt.', default=0.0)
@@ -308,7 +328,7 @@ if __name__ == "__main__":
     elif (args.driver == "grid"):
       cookBooks_logger.info("\trunning on Grid")
       driver = ROOT.EL.PrunDriver()
-      driver.options().setString("nc_outputSampleName", "user.gstark.%%in:name[2]%%.%%in:name[3]%%")
+      driver.options().setString("nc_outputSampleName", "user.%nickname%.%in:name[2]%.%in:name[3]%")
       #driver.options().setDouble("nc_disableAutoRetry", 1)
       driver.options().setDouble("nc_nFilesPerJob", 1)
       driver.options().setDouble(ROOT.EL.Job.optGridMergeOutput, 1);
