@@ -25,22 +25,27 @@ import sys
 import datetime
 import time
 
-import getpass  # input without echo
-
-# catch CTRL+C
-import signal
-def signal_handler(signal, frame):
-  print("Exiting the program now. Have a nice day!     ")  # extra spaces just in case
-  sys.exit(0)
-signal.signal(signal.SIGINT, signal_handler)
-
-
 SCRIPT_START_TIME = datetime.datetime.now()
 
 # think about using argcomplete
 # https://argcomplete.readthedocs.org/en/latest/#activating-global-completion%20argcomplete
 
 if __name__ == "__main__":
+
+  import getpass  # input without echo
+  # catch CTRL+C
+  import signal
+  def signal_handler(signal, frame):
+    print("Exiting the program now. Have a nice day!     ")  # extra spaces just in case
+    sys.exit(0)
+  signal.signal(signal.SIGINT, signal_handler)
+
+  def user_confirm(args):
+    if not args.skip_confirm:
+      print("Press enter to continue or CTRL+C to escape", end='\r')
+      sys.stdout.flush()
+      getpass.getpass(prompt='')
+
   # if we want multiple custom formatters, use inheriting
   class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter):
     pass
@@ -114,22 +119,23 @@ if __name__ == "__main__":
   grid.add_argument('--optGridDestSE',           metavar='', type=str, required=False, default=None)
   grid.add_argument('--optGridExcludedSite',     metavar='', type=str, required=False, default=None)
   grid.add_argument('--optGridExpress',          metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridMaxCpuCount',      metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridMaxNFilesPerJob',  metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridMaxFileSize',      metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridMemory',           metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridMergeOutput',      metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridNFiles',           metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridNFilesPerJob',     metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridNGBPerJob',        metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridNJobs',            metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridNoSubmit',         metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridMaxCpuCount',      metavar='', type=int, required=False, default=None)
+  grid.add_argument('--optGridMaxNFilesPerJob',  metavar='', type=int, required=False, default=None)
+  grid.add_argument('--optGridMaxFileSize',      metavar='', type=int, required=False, default=None)
+  grid.add_argument('--optGridMemory',           metavar='', type=int, required=False, default=None)
+  grid.add_argument('--optGridMergeOutput',      metavar='', type=int, required=False, default=1)
+  grid.add_argument('--optGridNFiles',           metavar='', type=int, required=False, default=None)
+  grid.add_argument('--optGridNFilesPerJob',     metavar='', type=int, required=False, default=None)
+  grid.add_argument('--optGridNGBPerJob',        metavar='', type=int, required=False, default=2)
+  grid.add_argument('--optGridNJobs',            metavar='', type=int, required=False, default=None)
+  grid.add_argument('--optGridNoSubmit',         metavar='', type=int, required=False, default=None)
   grid.add_argument('--optGridSite',             metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridUseChirpServer',   metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridUseChirpServer',   metavar='', type=int, required=False, default=None)
   grid.add_argument('--optTmpDir',               metavar='', type=str, required=False, default=None)
   grid.add_argument('--optRootVer',              metavar='', type=str, required=False, default=None)
   grid.add_argument('--optCmtConfig',            metavar='', type=str, required=False, default=None)
-  grid.add_argument('--optGridDisableAutoRetry', metavar='', type=str, required=False, default=None)
+  grid.add_argument('--optGridDisableAutoRetry', metavar='', type=int, required=False, default=1)
+  grid.add_argument('--optGridOutputSampleName', metavar='', type=str, required=True, help='Define the value for _TAXX')
 
   # define arguments for condor driver
   condor.add_argument('--optCondorConf', metavar='', type=str, required=False, default=None)
@@ -218,15 +224,30 @@ if __name__ == "__main__":
 
   try:
     import timing
-    import ROOT
 
-    cookBooks_logger.info("loading packages")
-    ROOT.gROOT.Macro("$ROOTCOREDIR/scripts/load_packages.C")
+    # check environment variables for various options first before trying to do anything else
+    if args.driver == 'grid':
+      required_environment_variables = ['PATHENA_GRID_SETUP_SH', 'PANDA_CONFIG_ROOT', 'ATLAS_LOCAL_PANDACLIENT_PATH', 'PANDA_SYS', 'ATLAS_LOCAL_PANDACLI_VERSION']
+      for env_var in required_environment_variables:
+        if os.getenv(env_var) is None:
+          raise EnvironmentError('Panda client is not setup. Run localSetupPandaClients.')
 
+    # check submission directory
     if args.force_overwrite:
       cookBooks_logger.info("removing {0:s}".format(args.submit_dir))
       import shutil
       shutil.rmtree(args.submit_dir, True)
+    else:
+      # check if directory exists
+      if os.path.exists(args.submit_dir):
+        raise OSError('Output directory {0:s} already exists. Either re-run with -f/--force, choose a different --submitDir, or rm -rf it yourself. Just deal with it, dang it.'.format(args.submit_dir))
+
+    # at this point, we should import ROOT and do stuff
+    import ROOT
+    cookBooks_logger.info("loading packages")
+    ROOT.gROOT.Macro("$ROOTCOREDIR/scripts/load_packages.C")
+    # load the standard algorithm since pyroot delays quickly
+    ROOT.EL.Algorithm()
 
     #Set up the job for xAOD access:
     ROOT.xAOD.Init("CookTheBooks").ignore();
@@ -350,10 +371,7 @@ if __name__ == "__main__":
         setattr(alg, 'm_{0}'.format(opt), getattr(args, opt))
         time.sleep(sleepTime)
 
-    if not args.skip_confirm:
-      print("Press enter to continue or CTRL+C to escape", end='\r')
-      sys.stdout.flush()
-      getpass.getpass(prompt='')
+    user_confirm(args)
 
     cookBooks_logger.info("adding algorithms")
     job.algsAdd(preselect)
@@ -376,7 +394,7 @@ if __name__ == "__main__":
 
       for opt, t in map(lambda x: (x.dest, x.type), grid._actions):
         if getattr(args, opt) is None: continue  # skip if not set
-        if opt == 'help': continue  # skip the 'help' option
+        if opt in ['help', 'optGridOutputSampleName']: continue  # skip some options
         if t in [float]:
           setter = 'setDouble'
         elif t in [int]:
@@ -385,19 +403,20 @@ if __name__ == "__main__":
           setter = 'setBool'
         else:
           setter = 'setString'
-        getattr(driver.options(), setter)(getattr(ROOT.EL.Job, opt), getattr(args, opt))
-        cookBooks_logger.info("\t - driver.options().{0:s}(\"{1:s}\", {2:s})".format(setter, getattr(ROOT.EL.Job, opt), getattr(args, opt)))
 
-      driver.options().setString("nc_outputSampleName", "user.%nickname%.%in:name[2]%.%in:name[3]%.%in:name[4]%.%in:name[5]%.%in:name[6]%_TA{0:s}".format('04'))
-      #driver.options().setDouble("nc_nGBPerJob", args.nGBPerJob)
-      #driver.options().setDouble("nc_disableAutoRetry", 1)
-      #driver.options().setDouble("nc_nFilesPerJob", 1)
-      #driver.options().setDouble(ROOT.EL.Job.optGridMergeOutput, args.optGridMergeOutput)
-      driver.options().setDouble(ROOT.EL.Job.optGridMergeOutput, 1);
+        getattr(driver.options(), setter)(getattr(ROOT.EL.Job, opt), getattr(args, opt))
+        cookBooks_logger.info("\t - driver.options().{0:s}({1:s}, {2})".format(setter, getattr(ROOT.EL.Job, opt), getattr(args, opt)))
+
+
+      # "user.%nickname%.%in:name[2]%.%in:name[3]%.%in:name[4]%.%in:name[5]%.%in:name[6]%_TA{0:s}
+      driver.options().setString("nc_outputSampleName", "user.%nickname%.%in:name%_TA{0:s}".format(args.optGridOutputSampleName))
+      cookBooks_logger.info("\t - driver.options().setString(nc_outputSampleName, user.%nickname%.%in:name%_TA{0:s})".format(args.optGridOutputSampleName))
+
     elif (args.driver == "condor"):
       driver = ROOT.EL.CondorDriver()
 
-    import sys; sys.exit(0)
+    user_confirm(args)
+
     cookBooks_logger.info("\tsubmit job")
     if args.driver in ["grid"]:
       driver.submitOnly(job, args.submit_dir)
