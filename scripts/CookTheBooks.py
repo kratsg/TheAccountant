@@ -69,7 +69,8 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser(add_help=False, description='Become an accountant and cook the books!',
                                    usage='%(prog)s {driver} ... file [file ...] [options]',
                                    formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
-  parser.add_argument('-h', '--help', nargs='?', action=_HelpAction, help='show this help message and exit')  # add custom help
+  # add custom help
+  parser.add_argument('-h', '--help', metavar='subsection', nargs='?', action=_HelpAction, help='show this help message and exit. You can also pass in the name of a subsection.')
 
   # http://stackoverflow.com/a/16981688
   parser._positionals.title = "required"
