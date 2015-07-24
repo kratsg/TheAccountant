@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
   driverUsageStr = '%(prog)s ... file [file ...] [options]'
   # first is the driver
-  drivers_parser = parser.add_subparsers(prog='CookTheBooks.py', title='driver', dest='driver', description='specify where to run jobs')
+  drivers_parser = parser.add_subparsers(prog='CookTheBooks.py', title='drivers', dest='driver', description='specify where to run jobs')
   direct = drivers_parser.add_parser('direct', help='Run your jobs locally.', usage=driverUsageStr)
   prooflite = drivers_parser.add_parser('prooflite', help='Run your jobs using ProofLite', usage=driverUsageStr)
   grid = drivers_parser.add_parser('grid', help='Run your jobs on the grid', usage=driverUsageStr)
