@@ -248,10 +248,10 @@ EL::StatusCode OptimizationDump :: execute ()
     for(auto jet: *in_jetsLargeR){
       int topTag_SmoothLoose(-1), topTag_SmoothTight(-1),
           topTag_Loose(-1), topTag_Tight(-1);
-      jet->getAttribute("SmoothTopTagLoose", topTag_SmoothLoose);
-      jet->getAttribute("SmoothTopTagTight", topTag_SmoothTight);
-      jet->getAttribute("TopTagLoose", topTag_Loose);
-      jet->getAttribute("TopTagTight", topTag_Tight);
+      jet->getAttribute("LooseSmoothTopTag", topTag_SmoothLoose);
+      jet->getAttribute("TightSmoothTopTag", topTag_SmoothTight);
+      jet->getAttribute("LooseTopTag", topTag_Loose);
+      jet->getAttribute("TightTopTag", topTag_Tight);
       if(topTag_SmoothLoose == 1) m_n_topTag_SmoothLoose++;
       if(topTag_SmoothTight == 1) m_n_topTag_SmoothTight++;
       if(topTag_Loose == 1) m_n_topTag_Loose++;

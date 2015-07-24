@@ -31,7 +31,7 @@ namespace VD = VariableDefinitions;
 ClassImp(Report)
 
 Report :: Report () :
-  m_topTagDecorationNames({"TopTagLoose", "TopTagTight", "SmoothTopTagLoose", "SmoothTopTagTight"})
+  m_topTagDecorationNames({"LooseTopTag", "TightTopTag", "LooseSmoothTopTag", "TightSmoothTopTag"})
 {}
 
 EL::StatusCode Report :: setupJob (EL::Job& job)
