@@ -16,7 +16,7 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
 
   //simple plots of variables
   ss_mass = book(m_name,"ss_mass", "SS mass [GeV]", 50, 1000, 13000.);
-  ss_invgamma = book(m_name, "ss_invgamma", "SS InvGamma [units?]", 40, 0, 4); 
+  ss_invgamma = book(m_name, "ss_invgamma", "SS InvGamma [units?]", 20, 0, 1); 
   ss_dphivis = book(m_name, "ss_dphivis", "SS dPhiIvs [units?]", 100, 0, 3.2);
   ss_costheta = book(m_name, "ss_costheta", "SS CosTheta", 100, -1., 1.);
   ss_dphidecayangle = book(m_name, "ss_dphidecayangle", "SS dPhiDecayAngle [radians?]",100, 0, 3.2);
@@ -28,11 +28,11 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
   s2_costheta = book(m_name, "s2_costheta", "S2 CosTheta", 100,-1., 1.);
   i1_depth = book(m_name, "i1_depth", "I1 Depth [units?]", 4, 0, 4);
   i2_depth = book(m_name, "i2_depth", "I2 Depth [units?]", 4, 0, 4);
-  v1_nelements = book(m_name, "v1_nelements", "V1 NElements", 10, 0, 10);
-  v2_nelements = book(m_name, "v2_nelements", "V2 NElements", 10, 0, 10);
+  v1_nelements = book(m_name, "v1_nelements", "V1 NElements", 15, 0, 15);
+  v2_nelements = book(m_name, "v2_nelements", "V2 NElements", 15, 0, 15);
 
   //comparison plots
-  ss_mass_vs_leadJetPt = book(m_name,"ss_mass_vs_leadJetPt","lead Jet Pt (GeV)",100,0,300,"SS_mass (GeV)",100,1000,13000);
+  ss_mass_vs_leadJetPt = book(m_name,"ss_mass_vs_leadJetPt","lead Jet Pt (GeV)",100,0,3000,"SS_mass (GeV)",100,1000,13000);
   ss_mass_vs_leadJetEta= book(m_name,"ss_mass_vs_leadJetEta","lead Jet Eta (radians)",70,-3.5,3.5,"SS_mass (GeV)",100,1000,13000);
   ss_mass_vs_leadJetPhi= book(m_name,"ss_mass_vs_leadJetPhi","lead Jet Phi (radians)",70,-3.5,3.5,"SS_mass (GeV)",100,1000,13000);
   ss_mass_vs_leadJetMass= book(m_name,"ss_mass_vs_leadJetMass","lead Jet Mass (GeV)",100,0,400,"SS_mass (GeV)",100,1000,13000);
@@ -43,13 +43,15 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
 
   ss_invgamma_vs_MET = book(m_name,"ss_invgamma_vs_MET","MET (GeV)",100,0,1000,"Inv Gamma",40,0,4);
   
-  ss_mdeltaR_vs_leadJetPt = book(m_name,"ss_mdeltaR_vs_leadJetPt","lead Jet Pt (GeV)",100,0,300,"SS_mass (GeV)",75,0,1500);
+  ss_mdeltaR_vs_leadJetPt = book(m_name,"ss_mdeltaR_vs_leadJetPt","lead Jet Pt (GeV)",100,0,3000,"SS_mass (GeV)",75,0,1500);
   ss_mdeltaR_vs_leadJetEta= book(m_name,"ss_mdeltaR_vs_leadJetEta","lead Jet Eta (radians)",70,-3.5,3.5,"SS_mass (GeV)",75,0,1500);
   ss_mdeltaR_vs_leadJetPhi= book(m_name,"ss_mdeltaR_vs_leadJetPhi","lead Jet Phi (radians)",70,-3.5,3.5,"SS_mass (GeV)",75,0,1500);
   ss_mdeltaR_vs_leadJetMass= book(m_name,"ss_mdeltaR_vs_leadJetMass","lead Jet Mass (GeV)",100,0,400,"SS_mass (GeV)",75,0,1500);
   ss_mdeltaR_vs_leadJetEnergy= book(m_name,"ss_mdeltaR_vs_leadJetEnergy","lead Jet E (GeV)",100,0,4000,"SS_mass (GeV)",75,0,1500);
   ss_mdeltaR_vs_leadJetRapidity= book(m_name,"ss_mdeltaR_vs_leadJetRapidity","lead Jet Rapidity",200,-10,10,"SS_mass (GeV)",75,0,1500);
   ss_mdeltaR_vs_jetMultiplicity= book(m_name,"ss_mdeltaR_vs_JetMultiplicity","Jet Multiplicity",12,0,12,"SS_mass (GeV)",75,0,1500);
+
+  jet_multiplicity = book(m_name,"jet_multiplicity","Number of Jets",15,0,15);
 
   return StatusCode::SUCCESS;
 }
@@ -100,7 +102,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   //i1_depth->          Fill( S1_decor(*eventInfo).GetFrameDepth(I1_decor(*eventInfo)), eventWeight);
   
   ss_mass->           Fill( SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_invgamma->       Fill( 1./SS_invgamma_acc(*eventInfo),eventWeight);
+  ss_invgamma->       Fill( SS_invgamma_acc(*eventInfo),eventWeight);
   ss_dphivis->        Fill( SS_dphivis_acc(*eventInfo), eventWeight);
   ss_costheta->       Fill( SS_costheta_acc(*eventInfo), eventWeight);
   ss_dphidecayangle-> Fill( SS_dphidecayangle_acc(*eventInfo), eventWeight);
@@ -132,7 +134,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
       }
   }
   float multiplicity = jets->size();
-
+  jet_multiplicity->Fill(multiplicity, eventWeight);
 
   ss_mass_vs_leadJetPt->Fill(leadingJetPt,SS_mass_acc(*eventInfo)/1000., eventWeight);
   ss_mass_vs_leadJetEta->Fill(leadingJetPhi,SS_mass_acc(*eventInfo)/1000., eventWeight);
