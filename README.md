@@ -120,7 +120,7 @@ The direct driver is most often best for quick testing, but also running things 
 
 - Running on different files
   ```
-  CookTheBooks.py direct input1.root /path/to/some/input2.root "other_inputs_*.root"
+  CookTheBooks.py direct input1.root /path/to/input2.root "other_inputs_*.root"
   ```
 
 - Running on different samples
