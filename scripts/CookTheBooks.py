@@ -73,7 +73,7 @@ if __name__ == "__main__":
   __short_hash__ = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=os.path.dirname(os.path.realpath(__file__))).strip()
 
   parser = argparse.ArgumentParser(add_help=False, description='Become an accountant and cook the books!',
-                                   usage='%(prog)s {driver} ... file [file ...] [options]',
+                                   usage='%(prog)s --files ... file [file ...] [options] {driver} [driver options]',
                                    formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
   # add custom help
   parser.add_argument('-h', '--help', metavar='subsection', nargs='?', action=_HelpAction, help='show this help message and exit. You can also pass in the name of a subsection.')
@@ -82,67 +82,8 @@ if __name__ == "__main__":
   parser._positionals.title = "required"
   parser._optionals.title = "optional"
 
-  driverUsageStr = '%(prog)s ... file [file ...] [options]'
-  # first is the driver
-  drivers_parser = parser.add_subparsers(prog='CookTheBooks.py', title='drivers', dest='driver', description='specify where to run jobs')
-  direct = drivers_parser.add_parser('direct', help='Run your jobs locally.', usage=driverUsageStr)
-  prooflite = drivers_parser.add_parser('prooflite', help='Run your jobs using ProofLite', usage=driverUsageStr)
-  prun = drivers_parser.add_parser('prun', help='Run your jobs on the grid using prun. Use prun --help for descriptions of the options.', usage=driverUsageStr)
-  condor = drivers_parser.add_parser('condor', help='Flock your jobs to condor', usage=driverUsageStr)
-
-  # standard options for other drivers
-  #.add_argument('--optCacheLearnEntries', type=str, required=False, default=None)
-  #.add_argument('--optCacheSize', type=str, required=False, default=None)
-  #.add_argument('--optD3PDCacheMinByte', type=str, required=False, default=None)
-  #.add_argument('--optD3PDCacheMinByteFraction', type=str, required=False, default=None)
-  #.add_argument('--optD3PDCacheMinEvent', type=str, required=False, default=None)
-  #.add_argument('--optD3PDCacheMinEventFraction', type=str, required=False, default=None)
-  #.add_argument('--optD3PDPerfStats', type=str, required=False, default=None)
-  #.add_argument('--optD3PDReadStats', type=str, required=False, default=None)
-  #.add_argument('--optDisableMetrics', type=str, required=False, default=None)
-  #.add_argument('--optEventsPerWorker', type=str, required=False, default=None)
-  #.add_argument('--optFilesPerWorker', type=str, required=False, default=None)
-  #.add_argument('--optMaxEvents', type=str, required=False, default=None)
-  #.add_argument('--optPerfTree', type=str, required=False, default=None)
-  #.add_argument('--optPrintPerFileStats', type=str, required=False, default=None)
-  #.add_argument('--optRemoveSubmitDir', type=str, required=False, default=None)
-  #.add_argument('--optResetShell', type=str, required=False, default=None)
-  #.add_argument('--optSkipEvents', type=str, required=False, default=None)
-  #.add_argument('--optSubmitFlags', type=str, required=False, default=None)
-  #.add_argument('--optXAODPerfStats', type=str, required=False, default=None)
-  #.add_argument('--optXAODReadStats', type=str, required=False, default=None)
-  #.add_argument('--optXaodAccessMode', type=str, required=False, default=None)
-  #.add_argument('--optXaodAccessMode_branch', type=str, required=False, default=None)
-  #.add_argument('--optXaodAccessMode_class', type=str, required=False, default=None)
-
-  # define arguments for prun driver
-  prun.add_argument('--optGridCloud',            metavar='', type=str, required=False, default=None)
-  prun.add_argument('--optGridDestSE',           metavar='', type=str, required=False, default=None)
-  prun.add_argument('--optGridExcludedSite',     metavar='', type=str, required=False, default=None)
-  prun.add_argument('--optGridExpress',          metavar='', type=str, required=False, default=None)
-  prun.add_argument('--optGridMaxCpuCount',      metavar='', type=int, required=False, default=None)
-  prun.add_argument('--optGridMaxNFilesPerJob',  metavar='', type=int, required=False, default=None)
-  prun.add_argument('--optGridMaxFileSize',      metavar='', type=int, required=False, default=None)
-  prun.add_argument('--optGridMemory',           metavar='', type=int, required=False, default=None)
-  prun.add_argument('--optGridMergeOutput',      metavar='', type=int, required=False, default=1)
-  prun.add_argument('--optGridNFiles',           metavar='', type=int, required=False, default=None)
-  prun.add_argument('--optGridNFilesPerJob',     metavar='', type=int, required=False, default=None)
-  prun.add_argument('--optGridNGBPerJob',        metavar='', type=int, required=False, default=2)
-  prun.add_argument('--optGridNJobs',            metavar='', type=int, required=False, default=None)
-  prun.add_argument('--optGridNoSubmit',         metavar='', type=int, required=False, default=None)
-  prun.add_argument('--optGridSite',             metavar='', type=str, required=False, default=None)
-  prun.add_argument('--optGridUseChirpServer',   metavar='', type=int, required=False, default=None)
-  prun.add_argument('--optTmpDir',               metavar='', type=str, required=False, default=None)
-  prun.add_argument('--optRootVer',              metavar='', type=str, required=False, default=None)
-  prun.add_argument('--optCmtConfig',            metavar='', type=str, required=False, default=None)
-  prun.add_argument('--optGridDisableAutoRetry', metavar='', type=int, required=False, default=1)
-  prun.add_argument('--optGridOutputSampleName', metavar='', type=str, required=True, help='Define the value for _TAXX')
-
-  # define arguments for condor driver
-  condor.add_argument('--optCondorConf', metavar='', type=str, required=False, default=None)
-
   # positional argument, require the first argument to be the input filename
-  parser.add_argument('input_filename', metavar='file', type=str, nargs='+', help='input file(s) to read')
+  parser.add_argument('--files', dest='input_filename', metavar='file', type=str, nargs='+', required=True, help='input file(s) to read')
   parser.add_argument('--submitDir', dest='submit_dir', metavar='<directory>', type=str, required=False, help='Output directory to store the output.', default='submitDir')
   parser.add_argument('--nevents', dest='num_events', metavar='<n>', type=int, help='Number of events to process for all datasets.', default=0)
   parser.add_argument('--skip', dest='skip_events', metavar='<n>', type=int, help='Number of events to skip at start.', default=0)
@@ -213,6 +154,65 @@ if __name__ == "__main__":
   group_report.add_argument('--numLeadingJets', type=int, metavar='', help='Number of leading+subleading plots to make.', default=0)
   group_report.add_argument('--jet_minPtView', type=float, metavar='', help='Only plot jets that pass a minimum pt.', default=0.0)
   group_report.add_argument('--jetLargeR_minPtView', type=float, metavar='', help='Only plot large-R jets that pass a minimum pt.', default=0.0)
+
+  driverUsageStr = 'CookTheBooks.py --files ... file [file ...] [options] {0:s} [{0:s} options]'
+  # first is the driver
+  drivers_parser = parser.add_subparsers(prog='CookTheBooks.py', title='drivers', dest='driver', description='specify where to run jobs')
+  direct = drivers_parser.add_parser('direct', help='Run your jobs locally.', usage=driverUsageStr.format('direct'))
+  prooflite = drivers_parser.add_parser('prooflite', help='Run your jobs using ProofLite', usage=driverUsageStr.format('prooflite'))
+  prun = drivers_parser.add_parser('prun', help='Run your jobs on the grid using prun. Use prun --help for descriptions of the options.', usage=driverUsageStr.format('prun'))
+  condor = drivers_parser.add_parser('condor', help='Flock your jobs to condor', usage=driverUsageStr.format('condor'))
+
+  # standard options for other drivers
+  #.add_argument('--optCacheLearnEntries', type=str, required=False, default=None)
+  #.add_argument('--optCacheSize', type=str, required=False, default=None)
+  #.add_argument('--optD3PDCacheMinByte', type=str, required=False, default=None)
+  #.add_argument('--optD3PDCacheMinByteFraction', type=str, required=False, default=None)
+  #.add_argument('--optD3PDCacheMinEvent', type=str, required=False, default=None)
+  #.add_argument('--optD3PDCacheMinEventFraction', type=str, required=False, default=None)
+  #.add_argument('--optD3PDPerfStats', type=str, required=False, default=None)
+  #.add_argument('--optD3PDReadStats', type=str, required=False, default=None)
+  #.add_argument('--optDisableMetrics', type=str, required=False, default=None)
+  #.add_argument('--optEventsPerWorker', type=str, required=False, default=None)
+  #.add_argument('--optFilesPerWorker', type=str, required=False, default=None)
+  #.add_argument('--optMaxEvents', type=str, required=False, default=None)
+  #.add_argument('--optPerfTree', type=str, required=False, default=None)
+  #.add_argument('--optPrintPerFileStats', type=str, required=False, default=None)
+  #.add_argument('--optRemoveSubmitDir', type=str, required=False, default=None)
+  #.add_argument('--optResetShell', type=str, required=False, default=None)
+  #.add_argument('--optSkipEvents', type=str, required=False, default=None)
+  #.add_argument('--optSubmitFlags', type=str, required=False, default=None)
+  #.add_argument('--optXAODPerfStats', type=str, required=False, default=None)
+  #.add_argument('--optXAODReadStats', type=str, required=False, default=None)
+  #.add_argument('--optXaodAccessMode', type=str, required=False, default=None)
+  #.add_argument('--optXaodAccessMode_branch', type=str, required=False, default=None)
+  #.add_argument('--optXaodAccessMode_class', type=str, required=False, default=None)
+
+  # define arguments for prun driver
+  prun.add_argument('--optGridCloud',            metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridDestSE',           metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridExcludedSite',     metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridExpress',          metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridMaxCpuCount',      metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridMaxNFilesPerJob',  metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridMaxFileSize',      metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridMemory',           metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridMergeOutput',      metavar='', type=int, required=False, default=1)
+  prun.add_argument('--optGridNFiles',           metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridNFilesPerJob',     metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridNGBPerJob',        metavar='', type=int, required=False, default=2)
+  prun.add_argument('--optGridNJobs',            metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridNoSubmit',         metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optGridSite',             metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridUseChirpServer',   metavar='', type=int, required=False, default=None)
+  prun.add_argument('--optTmpDir',               metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optRootVer',              metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optCmtConfig',            metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridDisableAutoRetry', metavar='', type=int, required=False, default=1)
+  prun.add_argument('--optGridOutputSampleName', metavar='', type=str, required=True, help='Define the value for _TAXX')
+
+  # define arguments for condor driver
+  condor.add_argument('--optCondorConf', metavar='', type=str, required=False, default=None)
 
   # parse the arguments, throw errors if missing any
   args = parser.parse_args()
@@ -446,7 +446,7 @@ if __name__ == "__main__":
     elif (args.driver == "condor"):
       driver = ROOT.EL.CondorDriver()
 
-    user_confirm(args)
+    user_confirm(args, 4+args.optimization_dump)
 
     cookBooks_logger.info("\tsubmit job")
     if args.driver in ["prun"]:

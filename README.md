@@ -24,19 +24,17 @@ Run-2 analysis for SUSY search in gluino to stops.
 
 
 ## Installing
-The last stable analysis base used is **2.3.14**. To install,
+The last stable analysis base used is **2.3.19**. To install,
 ```bash
 mkdir myRootCore && cd $_
-rcSetup Base,2.3.14
+rcSetup Base,2.3.19
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
 git clone https://github.com/kratsg/xAODJetReclustering
 
 git clone https://github.com/UCATLAS/xAODAnaHelpers
-cd xAODAnaHelpers && git checkout 00-03-05 && cd ../
-
-git clone https://github.com/mileswu/JetSubstructureTools
-mv JetSubstructureTools ../. && ln -s ../JetSubstructureTools/JetSubStructureUtils JetSubStructureUtils
+cd xAODAnaHelpers && git checkout 00-03-12 && cd ../
+python xAODAnaHelpers/scripts/checkoutASGtags.py 2.3.19
 
 rc find_packages
 rc compile
@@ -72,10 +70,11 @@ This algorithm creates plots of large-R jets, bjets, and MET. It has functionali
 This is the macro that runs it all. [Start here and the world shall open up before you.](https://www.youtube.com/watch?v=5qH1pBTqvc4) I use a standard run
 
 ```
-CookTheBooks.py direct input.root\
+CookTheBooks.py --files input.root\
   -v -f --jet_minNum=4 --jet_minPt=30\
   --bjet_minNum=2 --numLeadingJets=4\
-  --optimizationDump --mode=branch --jetLargeR_minPtView=300
+  --optimizationDump --mode=branch --jetLargeR_minPtView=300\
+  direct
 ```
 
 which will
@@ -96,14 +95,14 @@ So one of the bigger questions is - how do I run this? There's a few ways depend
 CookTheBooks.py -h drivers
 ```
 
-to look up the drivers usable. As we use the `argparse` module with subcommands, one of the slight gotchas is that you must specify all of the subcommand arguments before the first positional argument. In this context, this means you must specify your driver, your driver's configurations, and then the filenames to run over. So you will end up writing a line that looks like
+to look up the drivers usable. As we use the `argparse` module with subcommands. One of the ways I've set this up consistently is to specify the driver you use at the end of the command. In this context, this means you must specify your files, the configuration for the algorithms; and then you can specify your driver and your driver's configurations. So you will end up writing a line that looks like
 
 ```
-CookTheBooks.py condor --condorConfig1=foo --condorConfig2=bar\
-    input.root /path/to/sample/DAOD.pool.root --jets=AntiKt4LCTopoJets
+CookTheBooks.py --files input.root /path/to/sample/DAOD.pool.root --jets=AntiKt4LCTopoJets\
+    condor --condorConfig1=foo --condorConfig2=bar
 ```
 
-which is not often too bad, and this forces you to think about what you want to run on first, before fooling around with other options (which is a good thing in my book).
+which is not often too bad. This forces you to realize that the driver is mainly independent of the actual execution of the script.
 
 #### Direct
 
@@ -115,17 +114,17 @@ The direct driver is most often best for quick testing, but also running things 
 
 - Running on a single file
   ```bash
-  CookTheBooks.py direct input.root
+  CookTheBooks.py --files input.root direct
   ```
 
 - Running on different files
   ```
-  CookTheBooks.py direct input1.root /path/to/input2.root "other_inputs_*.root"
+  CookTheBooks.py --files input1.root /path/to/input2.root "other_inputs_*.root" direct
   ```
 
 - Running on different samples
   ```
-  CookTheBooks.py direct "/path/to/sampleA/*.root" /path/to/sampleB/test.root
+  CookTheBooks.py --files "/path/to/sampleA/*.root" /path/to/sampleB/test.root direct
   ```
 
 Note that in the case where multiple root files exist in a given sample (using a `*`; such as in `sampleA` example above), you will want to surround the path name with quotes to prevent your shell from auto-expanding (makes it harder for me to determine that multiple files belong to a sample).
@@ -141,7 +140,7 @@ The prun driver is most often best if you need to run on a lot of files and you 
 In this driver, you can only run on DQ2 sample names, so this can be done by providing input file lists to read in, or just passing in the sample name instead. Here is an example of a job that was ran so you can get an idea:
 
 ```bash
-CookTheBooks.py grid --optGridOutputSampleName=TEST2 "mc15_13TeV.410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad.merge.AOD.e3698_s2608_s2183_r6630_r6264"
+CookTheBooks.py --files "mc15_13TeV.410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad.merge.AOD.e3698_s2608_s2183_r6630_r6264" grid --optGridOutputSampleName=TEST2
 ```
 
 which is on bigpanda [here](http://bigpanda.cern.ch/task/6078737/).
