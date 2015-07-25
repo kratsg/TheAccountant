@@ -36,15 +36,16 @@ if __name__ == "__main__":
   # catch CTRL+C
   import signal
   def signal_handler(signal, frame):
-    print("Exiting the program now. Have a nice day!     ")  # extra spaces just in case
+    print("Exiting the program now. Have a nice day!{0:s}".format(" "*40))  # extra spaces just in case
     sys.exit(0)
   signal.signal(signal.SIGINT, signal_handler)
 
-  def user_confirm(args):
-    if not args.skip_confirm:
-      print("Press enter to continue or CTRL+C to escape", end='\r')
-      sys.stdout.flush()
-      getpass.getpass(prompt='')
+  def user_confirm(args, level=0):
+    # skip confirmation if they increase it enough
+    if args.skip_confirm > level: return True
+    print("Press enter to continue or CTRL+C to escape. To skip this next time, add -{0:s}".format('y'*(level+1)), end='\r')
+    sys.stdout.flush()
+    getpass.getpass(prompt='')
 
   # if we want multiple custom formatters, use inheriting
   class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter):
@@ -149,10 +150,10 @@ if __name__ == "__main__":
   parser.add_argument('--version', action='version', version='%(prog)s {version}'.format(version=__version__))
   parser.add_argument('--mode', dest='access_mode', type=str, metavar='{class, branch}', choices=['class', 'branch'], default='class', help='Run using branch access mode or class access mode. See TheAccountant/wiki/Access-Mode for more information')
 
-  parser.add_argument('--inputList', dest='input_from_file', action='store_true', help='If enabled, will read in a text file containing a list of files.')
-  parser.add_argument('--inputDQ2', dest='input_from_DQ2', action='store_true', help='If enabled, will search using DQ2. Can be combined with `--inputList`.')
+  parser.add_argument('--inputList', dest='use_inputFileList', action='store_true', help='If enabled, will read in a text file containing a list of files.')
+  parser.add_argument('--inputDQ2', dest='use_scanDQ2', action='store_true', help='If enabled, will search using DQ2. Can be combined with `--inputList`.')
   parser.add_argument('-v', '--verbose', dest='verbose', action='count', default=0, help='Enable verbose output of various levels. Default: no verbosity')
-  parser.add_argument('-y', '--yes', dest='skip_confirm', action='store_true', help='Skip the configuration confirmation. Useful for when running in the background.')
+  parser.add_argument('-y', '--yes', dest='skip_confirm', action='count', default=0, help='Skip the configuration confirmations. Useful for when running in the background.')
 
   group_algorithms = parser.add_argument_group('global', description='global algorithm options')
   group_algorithms.add_argument('--debug', dest='debug', action='store_true', help='Enable verbose output of the algorithms.')
@@ -217,8 +218,8 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   # set verbosity for python printing
-  if args.verbose < 5:
-    cookBooks_logger.setLevel(25 - args.verbose*5)
+  if args.verbose < 4:
+    cookBooks_logger.setLevel(20 - args.verbose*5)
   else:
     cookBooks_logger.setLevel(logging.NOTSET + 1)
 
@@ -256,16 +257,31 @@ if __name__ == "__main__":
     cookBooks_logger.info("creating new sample handler")
     sh_all = ROOT.SH.SampleHandler()
 
+    use_scanDQ2 = (args.use_scanDQ2)|(args.driver in ['prun'])
+
+    # this portion is just to output for verbosity
+    if args.use_inputFileList:
+      cookBooks_logger.info("\t\tReading in file(s) containing list of files")
+      if use_scanDQ2:
+        cookBooks_logger.info("\t\tAdding samples using scanDQ2")
+      else:
+        cookBooks_logger.info("\t\tAdding using readFileList")
+    else:
+      if use_scanDQ2:
+        cookBooks_logger.info("\t\tAdding samples using scanDQ2")
+      else:
+        cookBooks_logger.info("\t\tAdding samples using scanDir")
+
     for fname in args.input_filename:
-      if args.input_from_file:
-        if args.input_from_DQ2:
+      if args.use_inputFileList:
+        if use_scanDQ2:
           with open(fname, 'r') as f:
             for line in f:
                 ROOT.SH.scanDQ2(sh_all, line)
         else:
           ROOT.SH.readFileList(sh_all, "sample", fname)
       else:
-        if args.input_from_DQ2:
+        if use_scanDQ2:
           ROOT.SH.scanDQ2(sh_all, fname)
         else:
           # need to parse and split it up
@@ -277,19 +293,19 @@ if __name__ == "__main__":
 
     # print out the samples we found
     cookBooks_logger.info("\t%d different dataset(s) found", len(sh_all))
-    if not args.input_from_DQ2:
+    if not use_scanDQ2:
       for dataset in sh_all:
         cookBooks_logger.info("\t\t%d files in %s", dataset.numFiles(), dataset.name())
     sh_all.printContent()
 
     if len(sh_all) == 0:
-      cookBooks_logger.log(25, "No datasets found. Exiting.")
+      cookBooks_logger.info("No datasets found. Exiting.")
       sys.exit(0)
 
-    # set the name of the tree in our files
+    # set the name of the tree in our files (should be configurable)
     sh_all.setMetaString("nc_tree", "CollectionTree")
 
-    # read susy meta data
+    # read susy meta data (should be configurable)
     cookBooks_logger.info("reading all metadata in $ROOTCOREBIN/data/TheAccountant")
     ROOT.SH.readSusyMetaDir(sh_all,"$ROOTCOREBIN/data/TheAccountant")
 
@@ -299,22 +315,26 @@ if __name__ == "__main__":
     job.sampleHandler(sh_all)
 
     if args.num_events > 0:
-      cookBooks_logger.info("processing only %d events", args.num_events)
+      cookBooks_logger.info("\tprocessing only %d events", args.num_events)
       job.options().setDouble(ROOT.EL.Job.optMaxEvents, args.num_events)
 
     if args.skip_events > 0:
-      cookBooks_logger.info("skipping first %d events", args.skip_events)
+      cookBooks_logger.info("\tskipping first %d events", args.skip_events)
       job.options().setDouble(ROOT.EL.Job.optSkipEvents, args.skip_events)
 
+    # should be configurable
     job.options().setDouble(ROOT.EL.Job.optCacheSize, 50*1024*1024)
     job.options().setDouble(ROOT.EL.Job.optCacheLearnEntries, 50)
 
     # access mode branch
     if args.access_mode == 'branch':
+      cookBooks_logger.info("\tusing branch access mode: ROOT.EL.Job.optXaodAccessMode_branch")
       job.options().setString( ROOT.EL.Job.optXaodAccessMode, ROOT.EL.Job.optXaodAccessMode_branch )
     else:
+      cookBooks_logger.info("\tusing class access mode: ROOT.EL.Job.optXaodAccessMode_class")
       job.options().setString( ROOT.EL.Job.optXaodAccessMode, ROOT.EL.Job.optXaodAccessMode_class )
 
+    # this is where we go over and process all algorithms
     algorithmConfiguration_string = []
     sleepTime = 50./1000.
     printStr = "\tsetting {0: >20}.m_{1:<30} = {2}"
@@ -331,6 +351,8 @@ if __name__ == "__main__":
       setattr(preselect, 'm_{0}'.format(opt), getattr(args, opt))
       time.sleep(sleepTime)
 
+    user_confirm(args, 0)
+
     audit = ROOT.Audit()
     cookBooks_logger.info("\tcreating audit algorithm")
     algorithmConfiguration_string.append("audit algorithm options")
@@ -345,6 +367,8 @@ if __name__ == "__main__":
       setattr(audit, 'm_{0}'.format(opt), getattr(args, opt))
       time.sleep(sleepTime)
 
+    user_confirm(args, 1)
+
     optimization_dump = None
     if args.optimization_dump:
       optimization_dump = ROOT.OptimizationDump()
@@ -352,6 +376,8 @@ if __name__ == "__main__":
       algorithmConfiguration_string.append("optimization dump algorithm")
       # no other options for now...
       time.sleep(sleepTime)
+
+      user_confirm(args, 2)
 
     report = ROOT.Report()
     cookBooks_logger.info("\tcreating report algorithm")
@@ -361,6 +387,8 @@ if __name__ == "__main__":
       algorithmConfiguration_string.append(printStr.format('Report', opt, getattr(args, opt)))
       setattr(report, 'm_{0}'.format(opt), getattr(args, opt))
       time.sleep(sleepTime)
+
+    user_confirm(args, 2+args.optimization_dump)
 
     cookBooks_logger.info("\tsetting global algorithm variables")
     algorithmConfiguration_string.append("global algorithm options")
@@ -372,7 +400,7 @@ if __name__ == "__main__":
         setattr(alg, 'm_{0}'.format(opt), getattr(args, opt))
         time.sleep(sleepTime)
 
-    user_confirm(args)
+    user_confirm(args, 3+args.optimization_dump)
 
     cookBooks_logger.info("adding algorithms")
     job.algsAdd(preselect)
@@ -434,7 +462,7 @@ if __name__ == "__main__":
       f.write('Code:  https://github.com/kratsg/TheAccountant/tree/{0}\n'.format(__short_hash__))
       f.write('Start: {0}\nStop:  {1}\nDelta: {2}\n\n'.format(SCRIPT_START_TIME.strftime("%b %d %Y %H:%M:%S"), SCRIPT_END_TIME.strftime("%b %d %Y %H:%M:%S"), SCRIPT_END_TIME - SCRIPT_START_TIME))
       f.write('job runner options\n')
-      for opt in ['input_filename', 'submit_dir', 'num_events', 'skip_events', 'force_overwrite', 'input_from_file', 'input_from_DQ2', 'verbose', 'driver']:
+      for opt in ['input_filename', 'submit_dir', 'num_events', 'skip_events', 'force_overwrite', 'use_inputFileList', 'use_scanDQ2', 'verbose', 'driver']:
         f.write('\t{0: <51} = {1}\n'.format(opt, getattr(args, opt)))
       for algConfig_str in algorithmConfiguration_string:
         f.write('{0}\n'.format(algConfig_str))
