@@ -140,7 +140,7 @@ The prun driver is most often best if you need to run on a lot of files and you 
 In this driver, you can only run on DQ2 sample names, so this can be done by providing input file lists to read in, or just passing in the sample name instead. Here is an example of a job that was ran so you can get an idea:
 
 ```bash
-CookTheBooks.py --files "mc15_13TeV.410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad.merge.AOD.e3698_s2608_s2183_r6630_r6264" grid --optGridOutputSampleName=TEST2
+CookTheBooks.py --files "mc15_13TeV.410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad.merge.AOD.e3698_s2608_s2183_r6630_r6264" prun --optGridOutputSampleName=TEST2
 ```
 
 which is on bigpanda [here](http://bigpanda.cern.ch/task/6078737/).
