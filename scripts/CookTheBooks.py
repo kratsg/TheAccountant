@@ -285,12 +285,18 @@ if __name__ == "__main__":
         if use_scanDQ2:
           ROOT.SH.scanDQ2(sh_all, fname)
         else:
-          # need to parse and split it up
-          fname_base = os.path.basename(fname)
-          sample_dir = os.path.dirname(os.path.abspath(fname))
-          mother_dir = os.path.dirname(sample_dir)
-          sh_list = ROOT.SH.DiskListLocal(mother_dir)
-          ROOT.SH.scanDir(sh_all, sh_list, fname_base, os.path.basename(sample_dir))
+          if fname.startswith("root://"):
+            # magic!
+            server, path = [string[::-1] for string in a[::-1].split("//",1)][::-1]
+            sh_list = ROOT.SH.DiskListXRD(server, '/{0:s}'.format(path), true)
+            ROOT.SH.ScanDir().scan(sh_all, sh_list)
+          else:
+            # need to parse and split it up
+            fname_base = os.path.basename(fname)
+            sample_dir = os.path.dirname(os.path.abspath(fname))
+            mother_dir = os.path.dirname(sample_dir)
+            sh_list = ROOT.SH.DiskListLocal(mother_dir)
+            ROOT.SH.scanDir(sh_all, sh_list, fname_base, os.path.basename(sample_dir))
 
     # print out the samples we found
     cookBooks_logger.info("\t%d different dataset(s) found", len(sh_all))
