@@ -277,7 +277,8 @@ if __name__ == "__main__":
         if use_scanDQ2:
           with open(fname, 'r') as f:
             for line in f:
-                ROOT.SH.scanDQ2(sh_all, line)
+              if line.startswith('#'): continue
+              ROOT.SH.scanDQ2(sh_all, line.rstrip())
         else:
           ROOT.SH.readFileList(sh_all, "sample", fname)
       else:
@@ -439,7 +440,8 @@ if __name__ == "__main__":
 
       # "user.%nickname%.%in:name[2]%.%in:name[3]%.%in:name[4]%.%in:name[5]%.%in:name[6]%_TA{0:s}
       # "user.%nickname%.%in:name%_TA{0:s}"
-      nc_outputSampleNameStr = "user.%nickname%.%in:name[1]%.%in:name[2]%.%in:name[5]%.%in:name[6]%_TA{0:s}".format(args.optGridOutputSampleName)
+      #nc_outputSampleNameStr = "user.%nickname%.%in:name[1]%.%in:name[2]%.%in:name[5]%.%in:name[6]%_TA{0:s}".format(args.optGridOutputSampleName)
+      nc_outputSampleNameStr = "user.%nickname%.%in:name[4]%.%in:name[6]%_TA{0:s}".format(args.optGridOutputSampleName)
       driver.options().setString("nc_outputSampleName", nc_outputSampleNameStr)
       cookBooks_logger.info("\t - driver.options().setString(nc_outputSampleName, {0:s})".format(nc_outputSampleNameStr))
 
