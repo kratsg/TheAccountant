@@ -220,7 +220,25 @@ EL::StatusCode Preselect :: execute ()
     numLeptons += in_muons->size();
   }
 
-  if(numLeptons != static_cast<unsigned int>(m_numLeptons)){
+  std::string leptonSelection_str = m_leptonSelection.substr(0,2);
+  unsigned int leptonSelection_cut = std::stoul(m_leptonSelection.substr(2, 1));
+  bool pass_leptonSelection = false;
+  if(leptonSelection_str == "==")
+    pass_leptonSelection = (numLeptons == leptonSelection_cut);
+  else if(leptonSelection_str == ">=")
+    pass_leptonSelection = (numLeptons >= leptonSelection_cut);
+  else if(leptonSelection_str == "<=")
+    pass_leptonSelection = (numLeptons <= leptonSelection_cut);
+  else if(leptonSelection_str == " >")
+    pass_leptonSelection = (numLeptons > leptonSelection_cut);
+  else if(leptonSelection_str == " <")
+    pass_leptonSelection = (numLeptons < leptonSelection_cut);
+  else if(leptonSelection_str == "!=")
+    pass_leptonSelection = (numLeptons != leptonSelection_cut);
+  else
+    pass_leptonSelection = false;
+
+  if(!pass_leptonSelection){
     wk()->skipEvent();
     return EL::StatusCode::SUCCESS;
   }
