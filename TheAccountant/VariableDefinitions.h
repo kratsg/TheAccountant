@@ -38,6 +38,9 @@ namespace VariableDefinitions {
   // Transverse Mass calculated using MET and leading lepton
   float mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els);
 
+  // Minimum transverse mass of leading 3 b-jets and the met with a mass set at 0 (default)
+  float mTb(const xAOD::MissingET* met, const xAOD::JetContainer* bjets);
+
   // Calculates the minimum dPhi between the met and the container of particles passed in
   float dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles, unsigned int numLeadingParticles=4);
 
