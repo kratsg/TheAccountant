@@ -39,7 +39,7 @@ namespace VariableDefinitions {
   float mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els);
 
   // Calculates the minimum dPhi between the met and the container of particles passed in
-  float dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles);
+  float dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles, unsigned int numLeadingParticles=4);
 
   // Calculates the MET significance as MET/sqrt(HT)
   float METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int njets);

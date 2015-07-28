@@ -118,11 +118,16 @@ float VD::mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const
   return sqrt(fabs(mt));
 }
 
-float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles){
-  float dPhiMin(2*TMath::Pi());
-  // compute dPhiMin
-  for(const auto particle: *particles) dPhiMin = std::min<float>( fabs(dPhiMin), xAOD::P4Helpers::deltaPhi(particle, met) );
-  return dPhiMin;
+float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles, unsigned int numLeadingParticles){
+  // hold the sorted subset
+  unsigned int numParticles(std::min<unsigned int>(particles->size(), numLeadingParticles));
+  std::vector<const xAOD::IParticle*> subset_particles(numParticles);
+  // copy and sort
+  std::partial_sort_copy(particles->begin(), particles->begin()+numParticles, subset_particles.begin(), subset_particles.end(), [](const xAOD::IParticle* lhs, const xAOD::IParticle* rhs) -> bool { return (lhs->pt() > rhs->pt()); });
+  // compute it
+  std::vector<float> result(numParticles);
+  std::transform(subset_particles.begin(), subset_particles.end(), result.begin(), [met](const xAOD::IParticle* particle) -> float { return fabs(xAOD::P4Helpers::deltaPhi(particle, met)); });
+  return *std::min_element(result.begin(), result.end());
 }
 
 float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int njets){
