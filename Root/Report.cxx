@@ -258,7 +258,7 @@ EL::StatusCode Report :: execute ()
   float eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
 
 
-  RETURN_CHECK("Report::execute()", m_RazorPlots["all/razor"]->execute(eventInfo, in_met,in_jets, eventWeight),"");
+  RETURN_CHECK("Report::execute()", m_RazorPlots["all/razor"]->execute(eventInfo, in_met,in_jets, in_muons, in_electrons,eventWeight),"");
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jets"]->execute(in_jets, eventWeight), "");

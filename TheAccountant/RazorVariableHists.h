@@ -23,6 +23,10 @@
 #include "xAODEventInfo/EventInfo.h"
 #include "xAODMissingET/MissingETContainer.h"
 #include "xAODJet/JetContainer.h"
+//includes for muons and electrons
+#include "xAODMuon/MuonContainer.h"
+#include "xAODEgamma/ElectronContainer.h"
+
 
 namespace TheAccountant
 {
@@ -33,7 +37,7 @@ namespace TheAccountant
     virtual ~RazorVariableHists() ; 
 
     StatusCode initialize();
-    StatusCode execute( const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, float eventWeight );
+    StatusCode execute( const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight );
 
     using HistogramManager::book;
     using HistogramManager::execute;
@@ -56,6 +60,13 @@ namespace TheAccountant
     TH2F* ss_mass_vs_leadJetRapidity;
     TH2F* ss_mass_vs_jetMultiplicity;
 
+    TH2F* ss_mass_vs_subleadJetPt;
+    TH2F* ss_mass_vs_subleadJetEta;
+    TH2F* ss_mass_vs_subleadJetPhi;
+    TH2F* ss_mass_vs_subleadJetMass;
+    TH2F* ss_mass_vs_subleadJetEnergy;
+    TH2F* ss_mass_vs_subleadJetRapidity;
+
     
     TH2F* ss_invgamma_vs_MET;
 
@@ -66,6 +77,29 @@ namespace TheAccountant
     TH2F* ss_mdeltaR_vs_leadJetEnergy;
     TH2F* ss_mdeltaR_vs_leadJetRapidity;
     TH2F* ss_mdeltaR_vs_jetMultiplicity;
+
+    TH2F* ss_mdeltaR_vs_subleadJetPt;
+    TH2F* ss_mdeltaR_vs_subleadJetEta;
+    TH2F* ss_mdeltaR_vs_subleadJetPhi;
+    TH2F* ss_mdeltaR_vs_subleadJetMass;
+    TH2F* ss_mdeltaR_vs_subleadJetEnergy;
+    TH2F* ss_mdeltaR_vs_subleadJetRapidity;
+
+
+    TH2F* ss_mass_invgamma;
+    TH2F* ss_mdeltaR_invgamma;
+
+    TH2F* ss_mass_HT;
+    TH2F* ss_mass_Meff;
+    TH2F* ss_invgamma_Meff;
+
+    TH2F* ss_dphidecayangle_vs_MET;
+
+    TH2F* ss_gamma_Meff;
+    TH2F* ss_gamma_MET;
+    TH2F* ss_costheta_leadJetEta;
+    TH2F* ss_costheta_leadJetPhi;
+    TH2F* ss_costheta_leadJetRapidity;
 
 
     TH1F* s1_mass;
