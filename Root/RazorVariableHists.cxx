@@ -1,9 +1,11 @@
 #include <TheAccountant/RazorVariableHists.h>
 #include "xAODEventInfo/EventInfo.h"
+#include "TheAccountant/VariableDefinitions.h"
 
 using namespace std;
 
 namespace RF = RestFrames;
+namespace VD = VariableDefinitions;
 
 TheAccountant::RazorVariableHists::RazorVariableHists (std::string name) :
   HistogramManager(name, "")
@@ -32,31 +34,47 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
   v2_nelements = book(m_name, "v2_nelements", "V2 NElements", 15, 0, 15);
 
   //comparison plots
-  ss_mass_vs_leadJetPt = book(m_name,"ss_mass_vs_leadJetPt","lead Jet Pt (GeV)",100,0,3000,"SS_mass (GeV)",100,1000,13000);
-  ss_mass_vs_leadJetEta= book(m_name,"ss_mass_vs_leadJetEta","lead Jet Eta (radians)",70,-3.5,3.5,"SS_mass (GeV)",100,1000,13000);
-  ss_mass_vs_leadJetPhi= book(m_name,"ss_mass_vs_leadJetPhi","lead Jet Phi (radians)",70,-3.5,3.5,"SS_mass (GeV)",100,1000,13000);
-  ss_mass_vs_leadJetMass= book(m_name,"ss_mass_vs_leadJetMass","lead Jet Mass (GeV)",100,0,400,"SS_mass (GeV)",100,1000,13000);
-  ss_mass_vs_leadJetEnergy= book(m_name,"ss_mass_vs_leadJetEnergy","lead Jet E (GeV)",100,0,4000,"SS_mass (GeV)",100,1000,13000);
-  ss_mass_vs_leadJetRapidity= book(m_name,"ss_mass_vs_leadJetRapidity","lead Jet Rapidity",200,-10,10,"SS_mass (GeV)",100,1000,13000);
-  ss_mass_vs_jetMultiplicity= book(m_name,"ss_mass_vs_JetMultiplicity","Jet Multiplicity",12,0,12,"SS_mass (GeV)",100,1000,13000);
+  ss_mass_vs_leadJetPt = book(m_name,"ss_mass_vs_leadJetPt","lead Jet Pt (GeV)",50,0,1500,"SS_mass (GeV)",50,1000,13000);
+  ss_mass_vs_leadJetEta= book(m_name,"ss_mass_vs_leadJetEta","lead Jet Eta (radians)",34,-3.4,3.4,"SS_mass (GeV)",50,1000,13000);
+  ss_mass_vs_leadJetPhi= book(m_name,"ss_mass_vs_leadJetPhi","lead Jet Phi (radians)",34,-3.4,3.4,"SS_mass (GeV)",50,1000,13000);
+  ss_mass_vs_leadJetMass= book(m_name,"ss_mass_vs_leadJetMass","lead Jet Mass (GeV)",50,0,200,"SS_mass (GeV)",50,1000,13000);
+  ss_mass_vs_leadJetEnergy= book(m_name,"ss_mass_vs_leadJetEnergy","lead Jet E (GeV)",50,0,4000,"SS_mass (GeV)",50,1000,13000);
+  ss_mass_vs_leadJetRapidity= book(m_name,"ss_mass_vs_leadJetRapidity","lead Jet Rapidity",25,-2.5,2.5,"SS_mass (GeV)",50,1000,13000);
+  ss_mass_vs_jetMultiplicity= book(m_name,"ss_mass_vs_JetMultiplicity","Jet Multiplicity",12,4,15,"SS_mass (GeV)",50,1000,13000);
 
 
-  ss_invgamma_vs_MET = book(m_name,"ss_invgamma_vs_MET","MET (GeV)",100,0,1000,"Inv Gamma",40,0,4);
+  ss_invgamma_vs_MET = book(m_name,"ss_invgamma_vs_MET","MET (GeV)",100,0,1000,"Inv Gamma",20,0,1);
   
-  ss_mdeltaR_vs_leadJetPt = book(m_name,"ss_mdeltaR_vs_leadJetPt","lead Jet Pt (GeV)",100,0,3000,"SS_mass (GeV)",75,0,1500);
-  ss_mdeltaR_vs_leadJetEta= book(m_name,"ss_mdeltaR_vs_leadJetEta","lead Jet Eta (radians)",70,-3.5,3.5,"SS_mass (GeV)",75,0,1500);
-  ss_mdeltaR_vs_leadJetPhi= book(m_name,"ss_mdeltaR_vs_leadJetPhi","lead Jet Phi (radians)",70,-3.5,3.5,"SS_mass (GeV)",75,0,1500);
-  ss_mdeltaR_vs_leadJetMass= book(m_name,"ss_mdeltaR_vs_leadJetMass","lead Jet Mass (GeV)",100,0,400,"SS_mass (GeV)",75,0,1500);
-  ss_mdeltaR_vs_leadJetEnergy= book(m_name,"ss_mdeltaR_vs_leadJetEnergy","lead Jet E (GeV)",100,0,4000,"SS_mass (GeV)",75,0,1500);
-  ss_mdeltaR_vs_leadJetRapidity= book(m_name,"ss_mdeltaR_vs_leadJetRapidity","lead Jet Rapidity",200,-10,10,"SS_mass (GeV)",75,0,1500);
-  ss_mdeltaR_vs_jetMultiplicity= book(m_name,"ss_mdeltaR_vs_JetMultiplicity","Jet Multiplicity",12,0,12,"SS_mass (GeV)",75,0,1500);
+  ss_mdeltaR_vs_leadJetPt = book(m_name,"ss_mdeltaR_vs_leadJetPt","lead Jet Pt (GeV)",30,0,1500,"SS_mdeltaR (GeV)",50,0,800);
+  ss_mdeltaR_vs_leadJetEta= book(m_name,"ss_mdeltaR_vs_leadJetEta","lead Jet Eta (radians)",34,-3.4,3.4,"SS_mdeltaR (GeV)",50,0,800);
+  ss_mdeltaR_vs_leadJetPhi= book(m_name,"ss_mdeltaR_vs_leadJetPhi","lead Jet Phi (radians)",34,-3.4,3.4,"SS_mdeltaR (GeV)",50,0,800);
+  ss_mdeltaR_vs_leadJetMass= book(m_name,"ss_mdeltaR_vs_leadJetMass","lead Jet Mass (GeV)",50,0,200,"SS_mdeltaR (GeV)",50,0,800);
+  ss_mdeltaR_vs_leadJetEnergy= book(m_name,"ss_mdeltaR_vs_leadJetEnergy","lead Jet E (GeV)",50,0,4000,"SS_mdeltaR (GeV)",50,0,800);
+  ss_mdeltaR_vs_leadJetRapidity= book(m_name,"ss_mdeltaR_vs_leadJetRapidity","lead Jet Rapidity",25,-2.5,2.5,"SS_mdeltaR (GeV)",50,0,800);
+  ss_mdeltaR_vs_jetMultiplicity= book(m_name,"ss_mdeltaR_vs_JetMultiplicity","Jet Multiplicity",12,4,15,"SS_mdeltaR (GeV)",50,0,800);
 
   jet_multiplicity = book(m_name,"jet_multiplicity","Number of Jets",15,0,15);
+
+  ss_mass_HT = book(m_name,"ss_mass_HT","HT (GeV)",100,0,3000,"SS_mass (GeV)",100,1000,13000);
+  ss_mass_Meff = book(m_name,"ss_mass_Meff","Meff (GeV)", 100,0,3000,"SS_mass (GeV)",100,1000,13000);
+  ss_invgamma_Meff = book(m_name,"ss_invgamma_Meff","Meff (GeV)",100,0,3000,"Inv Gamma", 20,0,1);
+
+  ss_gamma_Meff = book(m_name,"ss_gamma_Meff","Meff (GeV)",50,0,3000,"ss_gamma",20,0,4);
+  ss_gamma_MET = book(m_name,"ss_gamma_MET","MET (GeV)",50,0,1000,"Gamma",20,0,4);
+  ss_costheta_leadJetEta = book(m_name,"ss_costheta_leadJetEta","lead Jet Eta",34,-3.4,3.4,"ss_costheta",50,-1,1);
+  ss_costheta_leadJetPhi = book(m_name,"ss_costheta_leadJetPhi","lead Jet Phi",34,-3.4,3.4,"ss_costheta",50,-1,1);
+  ss_costheta_leadJetRapidity = book(m_name,"ss_costheta_leadJetRapidity","lead Jet Rapidity",25,-2.5,2.5,"ss_costheta",50,-1,1);
+
+
+  //ss_mass_invgamma = book(m_name,"ss_mass_invgamma","Inv Gamma",20,0,1.,"SS Mass (GeV)",100,1000,13000);
+  //ss_mdeltaR_invgamma = book(m_name,"ss_mdeltaR_invgamma","Inv Gamma",20,0,1.,"SS mDeltaR (GeV)",75,0,1500);
+
+  ss_dphidecayangle_vs_MET = book(m_name,"ss_dphidecayangle_vs_MET","dphidecayangle (rads.)",100,0,3.2,"MET (GeV)",100,0,1000); 
 
   return StatusCode::SUCCESS;
 }
 
-StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, float eventWeight){
+StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight){
 
   SG::AuxElement::ConstAccessor<float> SS_mass_acc("SS_mass");
   SG::AuxElement::ConstAccessor<float> SS_invgamma_acc("SS_invgamma");
@@ -88,19 +106,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   //RF::InvisibleGroup    INV(INV_decor(*eventInfo));
 
 
-  //  ss_mass->           Fill( SS_decor(*eventInfo).GetMass()/1000., eventWeight);
-  //ss_invgamma->       Fill( 1./SS_decor(*eventInfo).GetGammaInParentFrame(),eventWeight);
-  //ss_dphivis->        Fill( SS_decor(*eventInfo).GetDeltaPhiBoostVisible(), eventWeight);
-  //ss_costheta->       Fill( SS_decor(*eventInfo).GetCosDecayAngle(), eventWeight);
-  //ss_dphidecayangle-> Fill( SS_decor(*eventInfo).GetDeltaPhiDecayAngle(), eventWeight);
-  //ss_visshape->       Fill( SS_decor(*eventInfo).GetVisibleShape(), eventWeight);
-  //ss_mdeltaR->        Fill( SS_decor(*eventInfo).GetVisibleShape()*SS_decor(*eventInfo).GetMass(), eventWeight);
-  //s1_mass->           Fill( S1_decor(*eventInfo).GetMass()/1000., eventWeight);
-  //s1_costheta->       Fill( S1_decor(*eventInfo).GetCosDecayAngle(), eventWeight);
-  //s2_mass->           Fill( S2_decor(*eventInfo).GetMass()/1000., eventWeight);
-  //s2_costheta->       Fill( S2_decor(*eventInfo).GetCosDecayAngle(), eventWeight);
-  //i1_depth->          Fill( S1_decor(*eventInfo).GetFrameDepth(I1_decor(*eventInfo)), eventWeight);
-  
+  //  ss_mass->           Fill( SS_decor(*eventInfo).GetMass()/1000
   ss_mass->           Fill( SS_mass_acc(*eventInfo)/1000., eventWeight);
   ss_invgamma->       Fill( SS_invgamma_acc(*eventInfo),eventWeight);
   ss_dphivis->        Fill( SS_dphivis_acc(*eventInfo), eventWeight);
@@ -144,7 +150,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   ss_mass_vs_leadJetRapidity->Fill(leadingJetRapidity,SS_mass_acc(*eventInfo)/1000., eventWeight);
   ss_mass_vs_jetMultiplicity->Fill(multiplicity,SS_mass_acc(*eventInfo)/1000.,eventWeight);
 
-  ss_invgamma_vs_MET->Fill(met->mpx()/1.e3, 1./SS_invgamma_acc(*eventInfo), eventWeight);
+  ss_invgamma_vs_MET->Fill(met->met()/1.e3, SS_invgamma_acc(*eventInfo), eventWeight);
 
   
 
@@ -157,6 +163,26 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   ss_mdeltaR_vs_leadJetRapidity->Fill(leadingJetRapidity,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
   ss_mdeltaR_vs_jetMultiplicity->Fill(multiplicity,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
 
+  //ss_mass_invgamma->Fill(SS_invgamma_acc(*eventInfo),SS_mass_acc(*eventInfo)/1.e3, eventWeight);
+  //ss_mdeltaR_invgamma->Fill(SS_invgamma_acc(*eventInfo),SS_mdeltaR_acc(*eventInfo)/1.e3, eventWeight);
+
+  ss_dphidecayangle_vs_MET->Fill(SS_dphidecayangle_acc(*eventInfo),met->met()/1.e3, eventWeight);
+
+
+
+  float m_eff = VD::Meff(met, jets, jets->size(), in_muons, in_electrons);
+  float m_ht = VD::HT(jets, in_muons, in_electrons);
+
+  ss_mass_HT->Fill(m_ht/1000.,SS_mass_acc(*eventInfo)/1000., eventWeight);
+  ss_mass_Meff->Fill(m_eff/1000.,SS_mass_acc(*eventInfo)/1000., eventWeight);
+  ss_invgamma_Meff->Fill(m_eff/1000.,SS_invgamma_acc(*eventInfo), eventWeight);
+
+  ss_gamma_Meff->Fill(m_eff/1000.,1./SS_invgamma_acc(*eventInfo),eventWeight);
+  ss_gamma_MET->Fill(met->met()/1.e3,1./SS_invgamma_acc(*eventInfo),eventWeight);
+
+  ss_costheta_leadJetEta->Fill(leadingJetEta,SS_costheta_acc(*eventInfo),eventWeight);
+  ss_costheta_leadJetPhi->Fill(leadingJetPhi,SS_costheta_acc(*eventInfo),eventWeight);
+  ss_costheta_leadJetRapidity->Fill(leadingJetRapidity,SS_costheta_acc(*eventInfo),eventWeight);
 
   return StatusCode::SUCCESS;
 }
