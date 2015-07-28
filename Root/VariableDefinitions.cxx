@@ -160,7 +160,7 @@ float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData)
   //float weight(weight_mc.isAvailable(*ei)?weight_mc(*ei):ei->mcEventWeight());
 
   return weight;
-  // don't need to do this
+  /*
   float crossSection(1),
         kFactor(1),
         filterEfficiency(1),
@@ -177,6 +177,7 @@ float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData)
   }
 
   return (weight*crossSection*kFactor*filterEfficiency/numEvents);
+  */
 }
 
 int VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, VD::WP wp){
