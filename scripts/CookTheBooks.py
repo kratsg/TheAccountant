@@ -190,14 +190,14 @@ if __name__ == "__main__":
 
   # define arguments for prun driver
   prun.add_argument('--optGridCloud',            metavar='', type=str, required=False, default=None)
-  prun.add_argument('--optGridDestSE',           metavar='', type=str, required=False, default=None)
+  prun.add_argument('--optGridDestSE',           metavar='', type=str, required=False, default="MWT2_UC_LOCALGROUPDISK")
   prun.add_argument('--optGridExcludedSite',     metavar='', type=str, required=False, default=None)
   prun.add_argument('--optGridExpress',          metavar='', type=str, required=False, default=None)
   prun.add_argument('--optGridMaxCpuCount',      metavar='', type=int, required=False, default=None)
   prun.add_argument('--optGridMaxNFilesPerJob',  metavar='', type=int, required=False, default=None)
   prun.add_argument('--optGridMaxFileSize',      metavar='', type=int, required=False, default=None)
   prun.add_argument('--optGridMemory',           metavar='', type=int, required=False, default=None)
-  prun.add_argument('--optGridMergeOutput',      metavar='', type=int, required=False, default=1)
+  prun.add_argument('--optGridMergeOutput',      metavar='', type=int, required=False, default=None)
   prun.add_argument('--optGridNFiles',           metavar='', type=int, required=False, default=None)
   prun.add_argument('--optGridNFilesPerJob',     metavar='', type=int, required=False, default=None)
   prun.add_argument('--optGridNGBPerJob',        metavar='', type=int, required=False, default=2)
@@ -208,7 +208,7 @@ if __name__ == "__main__":
   prun.add_argument('--optTmpDir',               metavar='', type=str, required=False, default=None)
   prun.add_argument('--optRootVer',              metavar='', type=str, required=False, default=None)
   prun.add_argument('--optCmtConfig',            metavar='', type=str, required=False, default=None)
-  prun.add_argument('--optGridDisableAutoRetry', metavar='', type=int, required=False, default=1)
+  prun.add_argument('--optGridDisableAutoRetry', metavar='', type=int, required=False, default=None)
   prun.add_argument('--optGridOutputSampleName', metavar='', type=str, required=True, help='Define the value for _TAXX')
 
   # define arguments for condor driver
@@ -447,7 +447,7 @@ if __name__ == "__main__":
       # "user.%nickname%.%in:name[2]%.%in:name[3]%.%in:name[4]%.%in:name[5]%.%in:name[6]%_TA{0:s}
       # "user.%nickname%.%in:name%_TA{0:s}"
       #nc_outputSampleNameStr = "user.%nickname%.%in:name[1]%.%in:name[2]%.%in:name[5]%.%in:name[6]%_TA{0:s}".format(args.optGridOutputSampleName)
-      nc_outputSampleNameStr = "user.%nickname%.%in:name[4]%.%in:name[6]%_TA{0:s}".format(args.optGridOutputSampleName)
+      nc_outputSampleNameStr = "user.%nickname%.%in:name[4]%.%in:name[5]%.%in:name[6]%.%in:name[7]%_TA{0:s}".format(args.optGridOutputSampleName)
       driver.options().setString("nc_outputSampleName", nc_outputSampleNameStr)
       cookBooks_logger.info("\t - driver.options().setString(nc_outputSampleName, {0:s})".format(nc_outputSampleNameStr))
 
