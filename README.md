@@ -35,6 +35,9 @@ git clone https://github.com/UCATLAS/xAODAnaHelpers
 cd xAODAnaHelpers && git checkout 00-03-12 && cd ../
 python xAODAnaHelpers/scripts/checkoutASGtags.py 2.3.19
 
+# if you want to use a non-shared condor
+#   - read http://twiki.mwt2.org/bin/view/UCTier3/CondorUCT3
+
 rc find_packages
 rc compile
 ```

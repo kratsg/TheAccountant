@@ -156,7 +156,7 @@ if __name__ == "__main__":
   group_report.add_argument('--numLeadingJets', type=int, metavar='', help='Number of leading+subleading plots to make.', default=0)
   group_report.add_argument('--jet_minPtView', type=float, metavar='', help='Only plot jets that pass a minimum pt.', default=0.0)
   group_report.add_argument('--jetLargeR_minPtView', type=float, metavar='', help='Only plot large-R jets that pass a minimum pt.', default=0.0)
-  group_report.add_argument('--jet_maxAbsEtaView', type=float, metavar='', help='Only plot jets with abs(eta) < cut.' default=2.5)
+  group_report.add_argument('--jet_maxAbsEtaView', type=float, metavar='', help='Only plot jets with abs(eta) < cut.', default=2.5)
   group_report.add_argument('--jetLargeR_maxAbsEtaView', type=float, metavar='', help='Only plot large-R jets with abs(eta) < cut.', default=1.6)
 
   driverUsageStr = 'CookTheBooks.py --files ... file [file ...] [options] {0:s} [{0:s} options]'
@@ -457,6 +457,8 @@ if __name__ == "__main__":
 
     elif (args.driver == "condor"):
       driver = ROOT.EL.CondorDriver()
+      driver.options().setBool(ROOT.EL.Job.optBatchSharedFileSystem, False)
+      #driver.options().setString(ROOT.EL.Job.optCondorConf, args.optCondorConf)
 
     user_confirm(args, 4+args.optimization_dump)
 
