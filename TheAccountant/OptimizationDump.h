@@ -47,6 +47,9 @@ private:
   float m_totalTransverseMomentum; //!
   float m_totalTransverseMass; //!
 
+  float m_dPhiMETMin; //!
+  float m_mTb; //!
+
   float m_met; //!
   float m_met_mpx; //!
   float m_met_mpy; //!

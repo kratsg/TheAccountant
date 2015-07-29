@@ -48,6 +48,8 @@ OptimizationDump :: OptimizationDump () :
   m_effectiveMass(-999.0),
   m_totalTransverseMomentum(-999.0),
   m_totalTransverseMass(-999.0),
+  m_dPhiMETMin(-999.0),
+  m_mTb(-999.0),
   m_met(-999.0),
   m_met_mpx(-999.0),
   m_met_mpy(-999.0),
@@ -97,8 +99,11 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch ("met_px",                    &m_met_mpx, "met_mpx/F");
     m_tree->Branch ("met_py",                    &m_met_mpy, "met_mpy/F");
   }
-  if(!m_inputMET.empty() && !m_inputJets.empty())
+  if(!m_inputMET.empty() && !m_inputJets.empty()){
     m_tree->Branch ("m_effective",               &m_effectiveMass, "m_effective/F");
+    m_tree->Branch ("dPhiMETMin",                &m_dPhiMETMin, "dPhiMETMin/F");
+    m_tree->Branch ("mTb",                       &m_mTb, "mTb/F");
+  }
   if(!m_inputJets.empty()){
     m_tree->Branch ("pt_total",                  &m_totalTransverseMomentum, "pt_total/F");
     m_tree->Branch ("multiplicity_jet",          &m_numJets, "multiplicity_jet/I");
@@ -199,8 +204,18 @@ EL::StatusCode OptimizationDump :: execute ()
     m_met_mpy = in_met->mpy();
   }
 
-  if(!m_inputMET.empty() && !m_inputJets.empty())
+  if(!m_inputMET.empty() && !m_inputJets.empty()){
     m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons);
+    m_dPhiMETMin = VD::dPhiMETMin(in_met, in_jets);
+
+    static SG::AuxElement::Decorator< int > isB("isB");
+    ConstDataVector<xAOD::JetContainer> bjets(SG::VIEW_ELEMENTS);
+    for(const auto jet: *in_jets){
+      if(isB(*jet) != 1) continue;
+      bjets.push_back(jet);
+    }
+    m_mTb = VD::mTb(in_met, bjets.asDataVector());
+  }
 
   static SG::AuxElement::ConstAccessor< int > pass_preSel("pass_preSel");
 
