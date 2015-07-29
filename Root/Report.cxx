@@ -215,6 +215,7 @@ EL::StatusCode Report :: execute ()
   if(!m_inputJets.empty()){
     for(auto jet: *in_jets){
       if(jet->pt()/1.e3 < m_jet_minPtView) continue;
+      if(fabs(jet->eta()) > m_jet_maxAbsEtaView) continue;
       in_jetsCDV.push_back(jet);
     }
     // make in_jets point to a view instead
@@ -225,6 +226,7 @@ EL::StatusCode Report :: execute ()
   if(!m_inputLargeRJets.empty()){
     for(auto jet: *in_jetsLargeR){
       if(jet->pt()/1.e3 < m_jetLargeR_minPtView) continue;
+      if(fabs(jet->eta()) > m_jetLargeR_maxAbsEtaView) continue;
       in_jetsLargeRCDV.push_back(jet);
     }
     // make in_jetsLargeR point to a view instead
