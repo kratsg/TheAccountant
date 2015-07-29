@@ -149,6 +149,7 @@ float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer*
                      unsigned int numLeadingParticles){
   // hold the sorted subset
   unsigned int numParticles(std::min<unsigned int>(particles->size(), numLeadingParticles));
+  if(numParticles == 0) return -99;
   std::vector<const xAOD::IParticle*> subset_particles(numParticles);
   // copy and sort
   std::partial_sort_copy(particles->begin(), particles->begin()+numParticles,
