@@ -61,8 +61,8 @@ namespace VariableDefinitions {
   //    - static SG::AuxElement::Accessor< int > nBJets_wp("nBJets_<WP>");
   //        * string of WP is equivalent to how you type it out in enum class
   int bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, WP wp);
-  // b-tagging on jet, set "isB_<WP>" int decoration
-  bool bTag(const xAOD::Jet* jet, WP wp);
+  // b-tagging on jet, set "isB_<WP>" int decoration, for extra sanity -- make sure we cut at 2.5
+  bool bTag(const xAOD::Jet* jet, WP wp, float maxAbsEta=2.5);
 
   // returning subjettiness ratios for a given jet
   //    - use Tau21 if set

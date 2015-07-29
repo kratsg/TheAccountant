@@ -291,7 +291,9 @@ int VD::bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, V
   return nBJets;
 }
 
-bool VD::bTag(const xAOD::Jet* jet, VD::WP wp){
+bool VD::bTag(const xAOD::Jet* jet, VD::WP wp, float maxAbsEta){
+
+  if(fabs(jet->eta()) > maxAbsEta) return false;
 
   // stupid btagging doesn't overload the fucking MVx_discriminant()
   // float btag_weight(-99.);
