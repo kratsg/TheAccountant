@@ -216,7 +216,7 @@ if __name__ == "__main__":
   prun.add_argument('--optGridOutputSampleName', metavar='', type=str, required=True, help='Define the value for _TAXX')
 
   # define arguments for condor driver
-  condor.add_argument('--optCondorConf', metavar='', type=str, required=False, default=None)
+  condor.add_argument('--optCondorConf', metavar='', type=str, required=False, default='stream_output = true')
 
   # parse the arguments, throw errors if missing any
   args = parser.parse_args()
@@ -462,7 +462,7 @@ if __name__ == "__main__":
     elif (args.driver == "condor"):
       driver = ROOT.EL.CondorDriver()
       driver.options().setBool(ROOT.EL.Job.optBatchSharedFileSystem, False)
-      #driver.options().setString(ROOT.EL.Job.optCondorConf, args.optCondorConf)
+      driver.options().setString(ROOT.EL.Job.optCondorConf, args.optCondorConf)
 
     user_confirm(args, 4+args.optimization_dump)
 
