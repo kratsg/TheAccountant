@@ -213,40 +213,42 @@ EL::StatusCode Preselect :: execute ()
     }
   }
 
-  unsigned int numLeptons(0);
-  // lepton veto
-  if(!m_baselineElectrons.empty()){
-    ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(base_electrons));
-    base_electrons = VetoElectrons.asDataVector();
-    numLeptons += base_electrons->size();
-  }
-  if(!m_baselineMuons.empty()){
-    ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(base_muons));
-    base_muons = VetoMuons.asDataVector();
-    numLeptons += base_muons->size();
-  }
+  if(!m_leptonSelection.empty()){
+    unsigned int numLeptons(0);
+    // lepton veto
+    if(!m_baselineElectrons.empty()){
+      ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(base_electrons));
+      base_electrons = VetoElectrons.asDataVector();
+      numLeptons += base_electrons->size();
+    }
+    if(!m_baselineMuons.empty()){
+      ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(base_muons));
+      base_muons = VetoMuons.asDataVector();
+      numLeptons += base_muons->size();
+    }
 
-  std::string leptonSelection_str = m_leptonSelection.substr(0,2);
-  unsigned int leptonSelection_cut = std::stoul(m_leptonSelection.substr(2, 1));
-  bool pass_leptonSelection = false;
-  if(leptonSelection_str == "==")
-    pass_leptonSelection = (numLeptons == leptonSelection_cut);
-  else if(leptonSelection_str == ">=")
-    pass_leptonSelection = (numLeptons >= leptonSelection_cut);
-  else if(leptonSelection_str == "<=")
-    pass_leptonSelection = (numLeptons <= leptonSelection_cut);
-  else if(leptonSelection_str == " >")
-    pass_leptonSelection = (numLeptons > leptonSelection_cut);
-  else if(leptonSelection_str == " <")
-    pass_leptonSelection = (numLeptons < leptonSelection_cut);
-  else if(leptonSelection_str == "!=")
-    pass_leptonSelection = (numLeptons != leptonSelection_cut);
-  else
-    pass_leptonSelection = false;
+    std::string leptonSelection_str = m_leptonSelection.substr(0,2);
+    unsigned int leptonSelection_cut = std::stoul(m_leptonSelection.substr(2, 1));
+    bool pass_leptonSelection = false;
+    if(leptonSelection_str == "==")
+      pass_leptonSelection = (numLeptons == leptonSelection_cut);
+    else if(leptonSelection_str == ">=")
+      pass_leptonSelection = (numLeptons >= leptonSelection_cut);
+    else if(leptonSelection_str == "<=")
+      pass_leptonSelection = (numLeptons <= leptonSelection_cut);
+    else if(leptonSelection_str == " >")
+      pass_leptonSelection = (numLeptons > leptonSelection_cut);
+    else if(leptonSelection_str == " <")
+      pass_leptonSelection = (numLeptons < leptonSelection_cut);
+    else if(leptonSelection_str == "!=")
+      pass_leptonSelection = (numLeptons != leptonSelection_cut);
+    else
+      pass_leptonSelection = false;
 
-  if(!pass_leptonSelection){
-    wk()->skipEvent();
-    return EL::StatusCode::SUCCESS;
+    if(!pass_leptonSelection){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
   }
 
   return EL::StatusCode::SUCCESS;
