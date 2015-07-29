@@ -140,6 +140,8 @@ if __name__ == "__main__":
   group_preselect.add_argument('--minMET',      type=float, metavar='', help='Missing Et cut [GeV]', default=0.0)
   group_preselect.add_argument('--leptonSelection',  type=str,   metavar='', help='Pass in string of the format XX#. XX can be {"==", "!=", ">=", "<=", " >", " <"} and # is a number from 0-9. Note that for " >" and " <" - you need the preceding space.', default="==0")
   group_preselect.add_argument('--triggerSelection', type=str, metavar='', help='Specify a pattern of triggers to select on.', default='')
+  group_preselect.add_argument('--baselineElectrons',  type=str, metavar='', help='baseline electrons for lepton selection', default='BaseElectrons')
+  group_preselect.add_argument('--baselineMuons',      type=str, metavar='', help='baseline muons for lepton selection', default='BaseMuons')
 
   group_audit = parser.add_argument_group('audit')
   group_audit.add_argument('--no-minMassJigsaw', dest='disable_minMassJigsaw', action='store_true', help='Disable the minMass Jigsaw')

@@ -94,6 +94,12 @@ EL::StatusCode Preselect :: execute ()
   if(!m_inputPhotons.empty())
     RETURN_CHECK("Preselect::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
+  const xAOD::ElectronContainer*        base_electrons  (nullptr);
+  const xAOD::MuonContainer*            base_muons      (nullptr);
+  if(!m_baselineElectrons.empty())
+    RETURN_CHECK("Preselect::execute()", HF::retrieve(base_electrons, m_baselineElectrons,   m_event, m_store, m_debug), "Could not get the baselineElectrons container.");
+  if(!m_baselineMuons.empty())
+    RETURN_CHECK("Preselect::execute()", HF::retrieve(base_muons,     m_baselineMuons,       m_event, m_store, m_debug), "Could not get the baselineMuons container.");
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
@@ -209,15 +215,15 @@ EL::StatusCode Preselect :: execute ()
 
   unsigned int numLeptons(0);
   // lepton veto
-  if(!m_inputElectrons.empty()){
-    ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(in_electrons));
-    in_electrons = VetoElectrons.asDataVector();
-    numLeptons += in_electrons->size();
+  if(!m_baselineElectrons.empty()){
+    ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(base_electrons));
+    base_electrons = VetoElectrons.asDataVector();
+    numLeptons += base_electrons->size();
   }
-  if(!m_inputMuons.empty()){
-    ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons));
-    in_muons = VetoMuons.asDataVector();
-    numLeptons += in_muons->size();
+  if(!m_baselineMuons.empty()){
+    ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(base_muons));
+    base_muons = VetoMuons.asDataVector();
+    numLeptons += base_muons->size();
   }
 
   std::string leptonSelection_str = m_leptonSelection.substr(0,2);
