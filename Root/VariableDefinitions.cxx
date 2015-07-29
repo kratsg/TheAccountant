@@ -121,6 +121,7 @@ float VD::mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const
 float VD::mTb(const xAOD::MissingET* met, const xAOD::JetContainer* bjets){
   // hold the sorted subset
   unsigned int numParticles(std::min<unsigned int>(bjets->size(), 3));
+  if(numParticles == 0) return -99;
   std::vector<const xAOD::Jet*> subset_bjets(numParticles);
   // copy and sort
   std::partial_sort_copy(bjets->begin(), bjets->begin()+numParticles,
@@ -142,7 +143,7 @@ float VD::mTb(const xAOD::MissingET* met, const xAOD::JetContainer* bjets){
                           );
                  });
 
-  return *std::min_element(result.begin(), result.end());
+  return sqrt(*std::min_element(result.begin(), result.end()));
 }
 
 float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles,
