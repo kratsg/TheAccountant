@@ -17,8 +17,7 @@ Run-2 analysis for SUSY search in gluino to stops.
   - [Samples and Drivers and Bash, oh my](#samples-and-drivers-and-bash-oh-my)
     - [Direct](#direct)
     - [Prun](#prun)
-- [Authors](#authors)
-  - [Acknowledgements](#acknowledgements)
+    - [Input DQ2 Samples](#input-dq2-samples)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -144,6 +143,13 @@ CookTheBooks.py --files "mc15_13TeV.410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp1
 ```
 
 which is on bigpanda [here](http://bigpanda.cern.ch/task/6078737/).
+
+#### Input DQ2 Samples
+
+One can specify that the input files are actually samples located on the grid or in one of the storage sites that are accessible via xrd. The best part is that you can specify sample name patterns rather than direct names -- each one will be added for you automatically. These can be run on any driver you choose, so long as you specify the `--inputDQ2` option next to your `--files` option. As an example:
+
+```
+CookTheBooks.py --inputDQ2 --files "user.amarzin.*.ttbar.*_tag_05_output_xAOD.root/" ... {driver}```
 
 ## Authors
 - [Giordon Stark](https://github.com/kratsg)
