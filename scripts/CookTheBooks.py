@@ -247,6 +247,12 @@ if __name__ == "__main__":
       if os.path.exists(args.submit_dir):
         raise OSError('Output directory {0:s} already exists. Either re-run with -f/--force, choose a different --submitDir, or rm -rf it yourself. Just deal with it, dang it.'.format(args.submit_dir))
 
+    # they will need it to get it working
+    use_scanDQ2 = (args.use_scanDQ2)|(args.driver in ['prun', 'condor'])
+    if use_scanDQ2:
+      if os.getenv('XRDSYS') is None:
+        raise EnvironmentError('xrootd client is not setup. Run localSetupFAX or equivalent.')
+
     # at this point, we should import ROOT and do stuff
     import ROOT
     cookBooks_logger.info("loading packages")
@@ -260,8 +266,6 @@ if __name__ == "__main__":
     # create a new sample handler to describe the data files we use
     cookBooks_logger.info("creating new sample handler")
     sh_all = ROOT.SH.SampleHandler()
-
-    use_scanDQ2 = (args.use_scanDQ2)|(args.driver in ['prun'])
 
     # this portion is just to output for verbosity
     if args.use_inputFileList:
@@ -463,7 +467,7 @@ if __name__ == "__main__":
     user_confirm(args, 4+args.optimization_dump)
 
     cookBooks_logger.info("\tsubmit job")
-    if args.driver in ["prun"]:
+    if args.driver in ["prun", "condor"]:
       driver.submitOnly(job, args.submit_dir)
     else:
       driver.submit(job, args.submit_dir)
