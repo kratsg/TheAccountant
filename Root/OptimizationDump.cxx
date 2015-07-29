@@ -48,6 +48,9 @@ OptimizationDump :: OptimizationDump () :
   m_effectiveMass(-999.0),
   m_totalTransverseMomentum(-999.0),
   m_totalTransverseMass(-999.0),
+  m_met(-999.0),
+  m_met_mpx(-999.0),
+  m_met_mpy(-999.0),
   m_numJets(-99),
   m_numJetsLargeR(-99),
   m_n_topTag_SmoothLoose(0),
@@ -88,8 +91,12 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->SetDirectory (file);
 
   m_tree->Branch ("event_weight",              &m_eventWeight, "event_weight/F");
-  if(!m_inputMET.empty())
+  if(!m_inputMET.empty()){
     m_tree->Branch ("m_transverse",              &m_totalTransverseMass, "m_transverse/F");
+    m_tree->Branch ("met",                       &m_met, "met/F");
+    m_tree->Branch ("met_px",                    &m_met_mpx, "met_mpx/F");
+    m_tree->Branch ("met_py",                    &m_met_mpy, "met_mpy/F");
+  }
   if(!m_inputMET.empty() && !m_inputJets.empty())
     m_tree->Branch ("m_effective",               &m_effectiveMass, "m_effective/F");
   if(!m_inputJets.empty()){
@@ -187,6 +194,9 @@ EL::StatusCode OptimizationDump :: execute ()
     // dereference the iterator since it's just a single object
     in_met = *met_id;
     m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons);
+    m_met     = in_met->met();
+    m_met_mpx = in_met->mpx();
+    m_met_mpy = in_met->mpy();
   }
 
   if(!m_inputMET.empty() && !m_inputJets.empty())

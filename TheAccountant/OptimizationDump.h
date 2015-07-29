@@ -46,6 +46,11 @@ private:
   float m_effectiveMass; //!
   float m_totalTransverseMomentum; //!
   float m_totalTransverseMass; //!
+
+  float m_met; //!
+  float m_met_mpx; //!
+  float m_met_mpy; //!
+
   int m_numJets; //!
   int m_numBJets; //!
   int m_numJetsLargeR; //!
