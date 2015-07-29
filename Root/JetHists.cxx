@@ -22,8 +22,9 @@ TheAccountant::JetHists::JetHists (std::string name) :
 TheAccountant::JetHists::~JetHists () {}
 
 StatusCode TheAccountant::JetHists::initialize() {
-  m_massOverPt  = book(m_name, "MOverPt", "#frac{m^{jet}}{p_{T}}", 100, 0, 5);
   m_ht          = book(m_name, "HT", "#sum p_{T}^{jet} [GeV]", 100, 0, 3000.);
+  m_massOverPt  = book(m_name, "MOverPt", "#frac{m^{jet}}{p_{T}}", 100, 0, 5);
+  m_jvt         = book(m_name, "Jvt", "JVT", 110, -0.1, 1);
 
   if(m_doTopology){
     //topology
@@ -86,6 +87,9 @@ StatusCode TheAccountant::JetHists::execute( const xAOD::JetContainer* jets, flo
 StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eventWeight ){
 
   m_massOverPt->Fill( jet->m()/jet->pt(), eventWeight );
+  float jvt(-99.0);
+  jet->getAttribute("Jvt", jvt);
+  m_jvt->Fill(jvt, eventWeight);
 
   if(m_doSubstructure){
     static SG::AuxElement::ConstAccessor<float> Width("Width");
@@ -93,6 +97,15 @@ StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eventWe
     // subjettiness
     m_tau21->Fill( VD::Tau21(jet), eventWeight);
     m_tau32->Fill( VD::Tau32(jet), eventWeight);
+
+    /*
+       xAOD::TEvent::getInputObject:0: RuntimeWarning: Key 0x39b44ab4 unknown
+       xAOD::TVirtualEvent::retrieve:0: RuntimeWarning: Couldn't retrieve 10DataVectorIN4xAOD9IParticleEN16DataModel_detail6NoBaseEE/0x39b44ab4
+       terminate called after throwing an instance of 'std::runtime_error'
+         what():  ElementLink::operator*() Element not available
+         Aborted
+    */
+    /*
 
     // default to using the kt_algorithm and 0.2 radius
     fastjet::JetAlgorithm subjet_clustering(fastjet::kt_algorithm);
@@ -118,14 +131,6 @@ StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eventWe
     }
     // else, use defaults
 
-    /*
-       xAOD::TEvent::getInputObject:0: RuntimeWarning: Key 0x39b44ab4 unknown
-       xAOD::TVirtualEvent::retrieve:0: RuntimeWarning: Couldn't retrieve 10DataVectorIN4xAOD9IParticleEN16DataModel_detail6NoBaseEE/0x39b44ab4
-       terminate called after throwing an instance of 'std::runtime_error'
-         what():  ElementLink::operator*() Element not available
-         Aborted
-    */
-    /*
     JetSubStructureUtils::SubjetFinder subjetFinder(subjet_clustering, subjet_radius, 0.0);
     std::vector<fastjet::PseudoJet> subjets = subjetFinder.result(*jet);
     for(auto subjet: subjets) m_subjet_ptFrac->Fill( subjet.pt()/jet->pt(), eventWeight);

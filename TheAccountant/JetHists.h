@@ -21,8 +21,9 @@ namespace TheAccountant
            m_doSubstructure;
 
     private:
-      TH1F* m_massOverPt;//!
       TH1F* m_ht;        //!
+      TH1F* m_massOverPt;//!
+      TH1F* m_jvt;       //!
 
       //topology
       TH1F* m_dEta;                     //!
