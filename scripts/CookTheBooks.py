@@ -295,8 +295,8 @@ if __name__ == "__main__":
         else:
           if fname.startswith("root://"):
             # magic!
-            server, path = [string[::-1] for string in a[::-1].split("//",1)][::-1]
-            sh_list = ROOT.SH.DiskListXRD(server, '/{0:s}'.format(path), true)
+            server, path = [string[::-1] for string in fname[::-1].split("//",1)][::-1]
+            sh_list = ROOT.SH.DiskListXRD(server, '/{0:s}'.format(path), True)
             ROOT.SH.ScanDir().scan(sh_all, sh_list)
           else:
             # need to parse and split it up
