@@ -43,9 +43,6 @@ public:
   std::string m_leptonSelection = "==0"; // default is 0L channel
   std::string m_triggerSelection = ""; // empty is none
 
-  std::string m_baselineElectrons = "";
-  std::string m_baselineMuons = "";
-
   // standard across all algorithms for configuration
   bool m_debug = false;
   std::string m_eventInfo       = "EventInfo",

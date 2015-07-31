@@ -80,13 +80,15 @@ namespace VariableDefinitions {
   float Split34(const xAOD::Jet* jet);
   void KtSplittingScale(const xAOD::Jet* jet);
 
-  // build lepton veto using overlaps
+  // build lepton veto using overlaps on baseline leptons
   template <typename T>
-  ConstDataVector<T> leptonVeto(const T* leptons, std::string d_overlap = "passOR"){
+  ConstDataVector<T> leptonVeto(const T* leptons, std::string d_overlap = "passOR", std::string d_baseline = "baseline"){
     ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
-    SG::AuxElement::ConstAccessor<char> isOverlap(d_overlap);
+    static SG::AuxElement::ConstAccessor<char> passBaseline(d_baseline);
+    static SG::AuxElement::ConstAccessor<char> passOverlap(d_overlap);
     for(auto l: *leptons){
-      if(!isOverlap.isAvailable(*l) || isOverlap(*l) == 1) continue;
+      if(!passBaseline.isAvailable(*l) || passBaseline(*l) == 0) continue;
+      if(!passOverlap.isAvailable(*l) || passOverlap(*l) == 0) continue;
       VetoLeptons.push_back(l);
     }
     return VetoLeptons;
