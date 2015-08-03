@@ -151,8 +151,11 @@ which is on bigpanda [here](http://bigpanda.cern.ch/task/6078737/).
 
 One can specify that the input files are actually samples located on the grid or in one of the storage sites that are accessible via xrd. The best part is that you can specify sample name patterns rather than direct names -- each one will be added for you automatically. These can be run on any driver you choose, so long as you specify the `--inputDQ2` option next to your `--files` option. As an example:
 
+```bash
+CookTheBooks.py --inputDQ2 --files "user.amarzin.*.ttbar.*_tag_05_output_xAOD.root/" ... {driver}
 ```
-CookTheBooks.py --inputDQ2 --files "user.amarzin.*.ttbar.*_tag_05_output_xAOD.root/" ... {driver}```
+
+This will automatically grab the gLFNs for the files in each of the samples you specify and read them in over `xrootd` automatically.
 
 ## Authors
 - [Giordon Stark](https://github.com/kratsg)
