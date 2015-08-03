@@ -304,21 +304,22 @@ bool VD::bTag(const xAOD::Jet* jet, VD::WP wp, float maxAbsEta){
     if(!jet->btagging()->MVx_discriminant("MV2c20", btag_weight))
       return false;
 
+  // https://twiki.cern.ch/twiki/bin/view/AtlasProtected/BTaggingBenchmarks#MV2c20_tagger_AntiKt4EMTopoJets
   bool isB_tagged = false;
   switch(wp){
     case VD::WP::Loose: // 85%
     {
-      isB_tagged = btag_weight > -0.7682;
+      isB_tagged = btag_weight > -0.7887;
     }
     break;
     case VD::WP::Medium: // 70%
     {
-      isB_tagged = btag_weight > 0.0314;
+      isB_tagged = btag_weight > -0.0436;
     }
     break;
     case VD::WP::Tight: // 60%
     {
-      isB_tagged = btag_weight > 0.5102;
+      isB_tagged = btag_weight > 0.4496;
     }
     break;
     default:
