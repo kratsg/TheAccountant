@@ -37,7 +37,7 @@ namespace TheAccountant
     virtual ~RazorVariableHists() ; 
 
     StatusCode initialize();
-    StatusCode execute( const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight );
+    StatusCode execute( const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::JetContainer* jets_largeR, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight );
 
     using HistogramManager::book;
     using HistogramManager::execute;
@@ -52,6 +52,13 @@ namespace TheAccountant
     TH1F* ss_visshape;
     TH1F* ss_mdeltaR;
 
+    TH1F* ss_mdeltaR_ptless250;
+    TH1F* ss_mdeltaR_pt250to350;
+    TH1F* ss_mdeltaR_ptgreat350;
+
+    TH1F* mass_jets;
+    TH1F* jets_mass_largeR;
+
     TH2F* ss_mass_vs_leadJetPt;
     TH2F* ss_mass_vs_leadJetEta;
     TH2F* ss_mass_vs_leadJetPhi;
@@ -59,16 +66,20 @@ namespace TheAccountant
     TH2F* ss_mass_vs_leadJetEnergy;
     TH2F* ss_mass_vs_leadJetRapidity;
     TH2F* ss_mass_vs_jetMultiplicity;
-
-    TH2F* ss_mass_vs_subleadJetPt;
-    TH2F* ss_mass_vs_subleadJetEta;
-    TH2F* ss_mass_vs_subleadJetPhi;
-    TH2F* ss_mass_vs_subleadJetMass;
-    TH2F* ss_mass_vs_subleadJetEnergy;
-    TH2F* ss_mass_vs_subleadJetRapidity;
-
+    TH2F* ss_mass_vs_2ndJetPt;
+    TH2F* ss_mass_vs_2ndJetEta;
+    TH2F* ss_mass_vs_2ndJetPhi;
+    TH2F* ss_mass_vs_2ndJetMass;
+    TH2F* ss_mass_vs_2ndJetEnergy;
+    TH2F* ss_mass_vs_2ndJetRapidity;
+    TH2F* ss_mass_vs_HT;
+    TH2F* ss_mass_vs_Meff;
     
     TH2F* ss_invgamma_vs_MET;
+    TH2F* ss_invgamma_vs_Meff;
+
+    TH2F* ss_gamma_vs_Meff;
+    TH2F* ss_gamma_vs_MET;
 
     TH2F* ss_mdeltaR_vs_leadJetPt;
     TH2F* ss_mdeltaR_vs_leadJetEta;
@@ -77,30 +88,32 @@ namespace TheAccountant
     TH2F* ss_mdeltaR_vs_leadJetEnergy;
     TH2F* ss_mdeltaR_vs_leadJetRapidity;
     TH2F* ss_mdeltaR_vs_jetMultiplicity;
+    TH2F* ss_mdeltaR_vs_2ndJetPt;
+    TH2F* ss_mdeltaR_vs_2ndJetEta;
+    TH2F* ss_mdeltaR_vs_2ndJetPhi;
+    TH2F* ss_mdeltaR_vs_2ndJetMass;
+    TH2F* ss_mdeltaR_vs_2ndJetEnergy;
+    TH2F* ss_mdeltaR_vs_2ndJetRapidity;
+    TH2F* ss_mdeltaR_vs_HT;
+    TH2F* ss_mdeltaR_vs_Meff;
 
-    TH2F* ss_mdeltaR_vs_subleadJetPt;
-    TH2F* ss_mdeltaR_vs_subleadJetEta;
-    TH2F* ss_mdeltaR_vs_subleadJetPhi;
-    TH2F* ss_mdeltaR_vs_subleadJetMass;
-    TH2F* ss_mdeltaR_vs_subleadJetEnergy;
-    TH2F* ss_mdeltaR_vs_subleadJetRapidity;
+    TH2F* ss_costheta_vs_leadJetEta;
+    TH2F* ss_costheta_vs_leadJetPhi;
+    TH2F* ss_costheta_vs_leadJetRapidity;
+    TH2F* ss_costheta_vs_2ndJetEta;
+    TH2F* ss_costheta_vs_2ndJetPhi;
+    TH2F* ss_costheta_vs_2ndJetRapidity;
 
+    TH1F* ss_abs_costheta;
+    TH1F* s1_abs_costheta;
+    TH1F* s2_abs_costheta;
 
-    TH2F* ss_mass_invgamma;
-    TH2F* ss_mdeltaR_invgamma;
-
-    TH2F* ss_mass_HT;
-    TH2F* ss_mass_Meff;
-    TH2F* ss_invgamma_Meff;
+    TH2F* ss_dphivis_vs_MET;
 
     TH2F* ss_dphidecayangle_vs_MET;
 
-    TH2F* ss_gamma_Meff;
-    TH2F* ss_gamma_MET;
-    TH2F* ss_costheta_leadJetEta;
-    TH2F* ss_costheta_leadJetPhi;
-    TH2F* ss_costheta_leadJetRapidity;
-
+    TH2F* ss_dphidecayangle_vs_METphi;
+    TH2F* ss_dphivis_vs_METphi;
 
     TH1F* s1_mass;
     TH1F* s1_costheta;
