@@ -40,7 +40,9 @@ public:
   std::string m_bTag_wp  = "Loose";
   float m_dPhiMin      = 0.4;
   float m_minMET       = 0.0;
-  std::string m_leptonSelection = "==0"; // default is 0L channel
+  std::string m_baselineLeptonSelection = "",
+              m_signalLeptonSelection = ""; // default is 0L channel
+
   std::string m_triggerSelection = ""; // empty is none
 
   // standard across all algorithms for configuration

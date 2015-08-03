@@ -14,6 +14,11 @@
 
 /* Caveats: input containers are assumed sorted */
 namespace VariableDefinitions {
+  // definitions for baseline, or, signal
+  static SG::AuxElement::ConstAccessor<char> isBaseline("baseline");
+  static SG::AuxElement::ConstAccessor<char> passOverlap("passOR");
+  static SG::AuxElement::ConstAccessor<char> isSignal("signal");
+
   // for tagging primarily, but an enum for working points
   //  - an enum class enforces strong typing
   enum class WP {
@@ -80,15 +85,14 @@ namespace VariableDefinitions {
   float Split34(const xAOD::Jet* jet);
   void KtSplittingScale(const xAOD::Jet* jet);
 
-  // build lepton veto using overlaps on baseline leptons
+  // build lepton veto using overlaps on baseline/signal leptons
   template <typename T>
-  ConstDataVector<T> leptonVeto(const T* leptons, std::string d_overlap = "passOR", std::string d_baseline = "baseline"){
+  ConstDataVector<T> leptonVeto(const T* leptons, bool requireSignal = false){
     ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
-    static SG::AuxElement::ConstAccessor<char> passBaseline(d_baseline);
-    static SG::AuxElement::ConstAccessor<char> passOverlap(d_overlap);
     for(auto l: *leptons){
-      if(!passBaseline.isAvailable(*l) || passBaseline(*l) == 0) continue;
-      if(!passOverlap.isAvailable(*l) || passOverlap(*l) == 0) continue;
+      if(isBaseline(*l) == 0) continue;
+      if(requireSignal && isSignal(*l) == 0) continue;
+      if(passOverlap(*l) == 0) continue;
       VetoLeptons.push_back(l);
     }
     return VetoLeptons;
