@@ -44,6 +44,9 @@ EL::StatusCode Report :: setupJob (EL::Job& job)
 
 EL::StatusCode Report :: histInitialize () {
   // initialize all histograms here
+  
+  m_RazorPlots["all/razor"] = new TheAccountant::RazorVariableHists("all/razor/");
+
 
   if(!m_inputJets.empty()){
     m_jetKinematicPlots["all/jets"] = new TheAccountant::IParticleKinematicHists( "all/jets/" );
@@ -143,6 +146,11 @@ EL::StatusCode Report :: histInitialize () {
     }
   }
 
+  for(auto razorPlot: m_RazorPlots){
+    RETURN_CHECK("Report::initializse()", razorPlot.second->initialize(),"");
+    razorPlot.second->record( wk() );
+  }
+
   for(auto jetKinematicPlot: m_jetKinematicPlots){
     RETURN_CHECK("Report::initialize()", jetKinematicPlot.second->initialize(), "");
     jetKinematicPlot.second->record( wk() );
@@ -212,6 +220,7 @@ EL::StatusCode Report :: execute ()
 
   // prepare the jets by creating a view container to look at them
   ConstDataVector<xAOD::JetContainer> in_jetsCDV(SG::VIEW_ELEMENTS);
+
   if(!m_inputJets.empty()){
     for(auto jet: *in_jets){
       if(jet->pt()/1.e3 < m_jet_minPtView) continue;
@@ -245,8 +254,11 @@ EL::StatusCode Report :: execute ()
     // dereference the iterator since it's just a single object
     in_met = *met_id;
   }
-
+  
   float eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
+
+
+  RETURN_CHECK("Report::execute()", m_RazorPlots["all/razor"]->execute(eventInfo, in_met,in_jets, in_jetsLargeR, in_muons, in_electrons,eventWeight),"");
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jets"]->execute(in_jets, eventWeight), "");

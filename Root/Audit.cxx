@@ -247,6 +247,56 @@ EL::StatusCode Audit :: execute ()
     Info("execute()", "\t\tNElements:     %d",    VIS.GetNElementsInFrame(V2));
   }
 
+  //N Harrison 7/20                                                             
+  // static SG::AuxElement::Decorator<RF::RDecayFrame> SS_decor("SS");
+  //SS_decor(*eventInfo) = SS;
+  //static SG::AuxElement::Decorator<RF::RDecayFrame> S1_decor("S1");
+  //S1_decor(*eventInfo) = S1;
+  //static SG::AuxElement::Decorator<RF::RDecayFrame> S2_decor("S2");
+  //S2_decor(*eventInfo) = S2;
+  //static SG::AuxElement::Decorator<RF::RVisibleFrame> V1_decor("V1");
+  //V1_decor(*eventInfo) = V1;    
+  //static SG::AuxElement::Decorator<RF::RVisibleFrame> V2_decor("V2");
+  //V2_decor(*eventInfo) = V2;  
+  //static SG::AuxElement::Decorator<RF::RInvisibleFrame> I1_decor("I1");
+  //I1_decor(*eventInfo) = I1;
+  //static SG::AuxElement::Decorator<RF::RInvisibleFrame> I2_decor("I2");
+  //I2_decor(*eventInfo) = I2;
+  //static SG::AuxElement::Decorator<RF::CombinatoricGroup> VIS_decor("VIS");
+
+  static SG::AuxElement::Decorator<float> SS_mass_decor("SS_mass");
+  SS_mass_decor(*eventInfo) = SS.GetMass();
+
+  static SG::AuxElement::Decorator<float> SS_invgamma_decor("SS_invgamma");
+  SS_invgamma_decor(*eventInfo) = 1/SS.GetGammaInParentFrame();
+
+  static SG::AuxElement::Decorator<float> SS_dphivis_decor("SS_dphivis");
+  SS_dphivis_decor(*eventInfo) = SS.GetDeltaPhiBoostVisible();
+  static SG::AuxElement::Decorator<float> SS_costheta_decor("SS_costheta");
+  SS_costheta_decor(*eventInfo) = SS.GetCosDecayAngle();
+  static SG::AuxElement::Decorator<float> SS_dphidecayangle_decor("SS_dphidecayangle");
+  SS_dphidecayangle_decor(*eventInfo) = SS.GetDeltaPhiDecayAngle();
+  static SG::AuxElement::Decorator<float> SS_mdeltaR_decor("SS_mdeltaR");
+  SS_mdeltaR_decor(*eventInfo) = SS.GetVisibleShape()*SS.GetMass();
+  static SG::AuxElement::Decorator<float> S1_mass_decor("S1_mass");
+  S1_mass_decor(*eventInfo) = S1.GetMass();
+  static SG::AuxElement::Decorator<float> S2_mass_decor("S2_mass");
+  S2_mass_decor(*eventInfo) = S2.GetMass();
+  static SG::AuxElement::Decorator<float> S1_costheta_decor("S1_costheta");
+  S1_costheta_decor(*eventInfo) = S1.GetCosDecayAngle();
+  static SG::AuxElement::Decorator<float> S2_costheta_decor("S2_costheta");
+  S2_costheta_decor(*eventInfo) = S2.GetCosDecayAngle();
+  static SG::AuxElement::Decorator<float> I1_depth_decor("I1_depth");
+  I1_depth_decor(*eventInfo) = S1.GetFrameDepth(I1);
+  static SG::AuxElement::Decorator<float> I2_depth_decor("I2_depth");
+  I2_depth_decor(*eventInfo) = S2.GetFrameDepth(I2);
+  static SG::AuxElement::Decorator<float> V1_nelements_decor("V1_nelements");
+  V1_nelements_decor(*eventInfo) = VIS.GetNElementsInFrame(V1);
+  static SG::AuxElement::Decorator<float> V2_nelements_decor("V2_nelements");
+  V2_nelements_decor(*eventInfo) = VIS.GetNElementsInFrame(V2);
+  //
+
+
   /* TODO
      QCD rejection stuff
   */
