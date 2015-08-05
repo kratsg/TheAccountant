@@ -141,6 +141,7 @@ if __name__ == "__main__":
   group_preselect.add_argument('--baselineLeptonSelection',  type=str,   metavar='', help='Pass in string of the format XX#. XX can be {"==", "!=", ">=", "<=", " >", " <"} and # is a number from 0-9. Note that for " >" and " <" - you need the preceding space.', default="")
   group_preselect.add_argument('--signalLeptonSelection',  type=str,   metavar='', help='Pass in string of the format XX#. XX can be {"==", "!=", ">=", "<=", " >", " <"} and # is a number from 0-9. Note that for " >" and " <" - you need the preceding space.', default="")
   group_preselect.add_argument('--badJetVeto', action='store_true', help='Enable a veto on an event if there is at least one bad jet')
+  group_preselect.add_argument('--truthMETFilter', type=str, metavar='', help='Pass in a string of the format XX###. XX can be {"==", "!=", ">=", "<=", " >", " <"} and ### is a number from 100-999 GeV. Note that for " >" and " <" - you need the preceding space.', default="")
 
   group_preselect.add_argument('--triggerSelection', type=str, metavar='', help='Specify a pattern of triggers to select on.', default='')
 

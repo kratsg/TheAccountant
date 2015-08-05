@@ -211,6 +211,34 @@ EL::StatusCode Preselect :: execute ()
     }
   }
 
+  // truth met filter
+  if(!m_truthMETFilter.empty()){
+    std::string truthMETSelection_str = m_truthMETFilter.substr(0,2);
+    unsigned int truthMETSelection_cut = std::stoul(m_truthMETFilter.substr(2));
+    bool pass_truthMETSelection = false;
+
+    float met_truth_filter = eventInfo->auxdata<float>("met_truth_filter");
+    if(truthMETSelection_str == "==")
+      pass_truthMETSelection = (met_truth_filter == truthMETSelection_cut);
+    else if(truthMETSelection_str == ">=")
+      pass_truthMETSelection = (met_truth_filter >= truthMETSelection_cut);
+    else if(truthMETSelection_str == "<=")
+      pass_truthMETSelection = (met_truth_filter <= truthMETSelection_cut);
+    else if(truthMETSelection_str == " >")
+      pass_truthMETSelection = (met_truth_filter > truthMETSelection_cut);
+    else if(truthMETSelection_str == " <")
+      pass_truthMETSelection = (met_truth_filter < truthMETSelection_cut);
+    else if(truthMETSelection_str == "!=")
+      pass_truthMETSelection = (met_truth_filter != truthMETSelection_cut);
+    else
+      pass_truthMETSelection = false;
+
+    if(!pass_truthMETSelection){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+  }
+
   // the following is copied twice, need to DRY it
   if(!m_baselineLeptonSelection.empty()){
     unsigned int numLeptons(0);
