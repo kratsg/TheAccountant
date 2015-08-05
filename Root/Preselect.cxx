@@ -255,7 +255,7 @@ EL::StatusCode Preselect :: execute ()
     }
 
     std::string leptonSelection_str = m_baselineLeptonSelection.substr(0,2);
-    unsigned int leptonSelection_cut = std::stoul(m_baselineLeptonSelection.substr(2, 1));
+    unsigned int leptonSelection_cut = std::stoul(m_baselineLeptonSelection.substr(2));
     bool pass_leptonSelection = false;
     if(leptonSelection_str == "==")
       pass_leptonSelection = (numLeptons == leptonSelection_cut);
@@ -293,7 +293,7 @@ EL::StatusCode Preselect :: execute ()
     }
 
     std::string leptonSelection_str = m_signalLeptonSelection.substr(0,2);
-    unsigned int leptonSelection_cut = std::stoul(m_signalLeptonSelection.substr(2, 1));
+    unsigned int leptonSelection_cut = std::stoul(m_signalLeptonSelection.substr(2));
     bool pass_leptonSelection = false;
     if(leptonSelection_str == "==")
       pass_leptonSelection = (numLeptons == leptonSelection_cut);
