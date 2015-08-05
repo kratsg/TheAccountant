@@ -42,6 +42,7 @@ public:
   float m_minMET       = 0.0;
   std::string m_baselineLeptonSelection = "",
               m_signalLeptonSelection = ""; // default is 0L channel
+  bool m_badJetVeto = false;
 
   std::string m_triggerSelection = ""; // empty is none
 
