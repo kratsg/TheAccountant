@@ -17,7 +17,10 @@ Run-2 analysis for SUSY search in gluino to stops.
   - [Samples and Drivers and Bash, oh my](#samples-and-drivers-and-bash-oh-my)
     - [Direct](#direct)
     - [Prun](#prun)
+    - [Condor](#condor)
     - [Input DQ2 Samples](#input-dq2-samples)
+- [Authors](#authors)
+  - [Acknowledgements](#acknowledgements)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
