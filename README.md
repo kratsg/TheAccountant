@@ -147,6 +147,20 @@ CookTheBooks.py --files "mc15_13TeV.410000.PowhegPythiaEvtGen_P2012_ttbar_hdamp1
 
 which is on bigpanda [here](http://bigpanda.cern.ch/task/6078737/).
 
+#### Condor
+
+```bash
+CookTheBooks.py condor -h
+```
+
+The condor driver is the best if you're using UCTier3 + Condor here to flock everything. First, if you want the cache'ing server we have set up, you just need to export the `STORAGEPREFIX` on the submission node (where you run `CookTheBooks.py`)
+
+```bash
+export STORAGEPREFIX=root://uct3-xrd.mwt2.org/
+```
+
+and then after compiling - run `rc make_par` to make sure everything is up-to-date and package the files for transferring to the worker nodes. And then you can just use the condor driver like normal. An example of this script is in [scripts/run.sh](scripts/run.sh) which takes advantage of splitting up each submission into multiple executions for submission.
+
 #### Input DQ2 Samples
 
 One can specify that the input files are actually samples located on the grid or in one of the storage sites that are accessible via xrd. The best part is that you can specify sample name patterns rather than direct names -- each one will be added for you automatically. These can be run on any driver you choose, so long as you specify the `--inputDQ2` option next to your `--files` option. As an example:
