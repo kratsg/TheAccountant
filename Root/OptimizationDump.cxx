@@ -45,6 +45,7 @@ ClassImp(OptimizationDump)
 OptimizationDump :: OptimizationDump () :
   m_tree(new TTree("oTree", "optimization tree")),
   m_eventWeight(0.0),
+  m_eventNumber(-999.0),
   m_effectiveMass(-999.0),
   m_totalTransverseMomentum(-999.0),
   m_totalTransverseMass(-999.0),
@@ -93,6 +94,7 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->SetDirectory (file);
 
   m_tree->Branch ("event_weight",              &m_eventWeight, "event_weight/F");
+  m_tree->Branch ("event_number",              &m_eventNumber, "event_number/I");
   if(!m_inputMET.empty()){
     m_tree->Branch ("m_transverse",              &m_totalTransverseMass, "m_transverse/F");
     m_tree->Branch ("met",                       &m_met, "met/F");
@@ -187,6 +189,7 @@ EL::StatusCode OptimizationDump :: execute ()
 
   // compute variables for optimization
   m_eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
+  m_eventNumber = eventInfo->eventNumber();
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
