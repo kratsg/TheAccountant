@@ -115,7 +115,7 @@ float VD::mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const
   }
 
   mt = 2*leadingLepton->pt()*met->met()*(1-cos(xAOD::P4Helpers::deltaPhi(leadingLepton, met)));
-  return sqrt(fabs(mt));
+  return std::sqrt(std::fabs(mt));
 }
 
 float VD::mTb(const xAOD::MissingET* met, const xAOD::JetContainer* bjets){
@@ -136,14 +136,14 @@ float VD::mTb(const xAOD::MissingET* met, const xAOD::JetContainer* bjets){
                  result.begin(),
                  [met](const xAOD::Jet* bjet)
                  -> float {
-                   return abs(
+                   return std::fabs(
                             pow(met->met() + bjet->pt(), 2)
                             - pow(met->mpx() + bjet->px(), 2)
                             - pow(met->mpy() + bjet->py(), 2)
                           );
                  });
 
-  return sqrt(*std::min_element(result.begin(), result.end()));
+  return std::sqrt(*std::min_element(result.begin(), result.end()));
 }
 
 float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles,
@@ -165,7 +165,7 @@ float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer*
                  result.begin(),
                  [met](const xAOD::IParticle* particle)
                  -> float {
-                   return fabs(xAOD::P4Helpers::deltaPhi(particle, met));
+                   return std::fabs(xAOD::P4Helpers::deltaPhi(particle, met));
                  });
 
   return *std::min_element(result.begin(), result.end());
@@ -180,7 +180,7 @@ float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* 
     if(jet->pt()/1.e3 < 30.) continue;
     ht += jet->pt();
   }
-  if(ht > 0) met_significance = (met->met()/1.e3)/sqrt(ht/1.e3);
+  if(ht > 0) met_significance = (met->met()/1.e3)/std::sqrt(ht/1.e3);
   return met_significance;
 }
 
@@ -295,7 +295,7 @@ int VD::bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, V
 
 bool VD::bTag(const xAOD::Jet* jet, VD::WP wp, float maxAbsEta){
 
-  if(fabs(jet->eta()) > maxAbsEta) return false;
+  if(std::fabs(jet->eta()) > maxAbsEta) return false;
 
   // stupid btagging doesn't overload the fucking MVx_discriminant()
   // float btag_weight(-99.);
@@ -400,11 +400,11 @@ void VD::Nsubjettiness(const xAOD::Jet* jet, float alpha){
   Tau2(*jet) = tau2;
   Tau3(*jet) = tau3;
 
-  if(fabs(tau1) > 1e-8) // Prevent div-0
+  if(std::fabs(tau1) > 1e-8) // Prevent div-0
     Tau21(*jet) = tau2/tau1;
   else
     Tau21(*jet) = -999.0;
-  if(fabs(tau2) > 1e-8) // Prevent div-0
+  if(std::fabs(tau2) > 1e-8) // Prevent div-0
     Tau32(*jet) = tau3/tau2;
   else
     Tau32(*jet) = -999.0;
