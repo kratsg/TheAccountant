@@ -156,23 +156,19 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch ("variableR_top_jet_m", &m_varR_top_m, "variableR_top_jet_m/F");
     m_tree->Branch ("variableR_W_jet_m", &m_varR_W_m, "variableR_W_jet_m/F");
 
-    char outputContainer[15];
-    sprintf(outputContainer,"VarR_top_Jets");
-    m_varRjetReclusteringTools[0] = new JetReclusteringTool(outputContainer+std::to_string(std::rand()));
-    m_varRjetReclusteringTools[1] = new JetReclusteringTool("VarR_W_Jets1");
-    RETURN_CHECK("initialize()", m_varRjetReclusteringTools[0]->setProperty("OutputJetContainer", outputContainer), "");
-    RETURN_CHECK("initialize()", m_varRjetReclusteringTools[1]->setProperty("OutputJetContainer", "VarR_W_Jets"), "");
-//    const float TOPMASS = 173.34;
-    const float WMASS = 80.39;
-    RETURN_CHECK("initialize()", m_varRjetReclusteringTools[0]->setProperty("VariableRMassScale",    2*173.34), "");
-    RETURN_CHECK("initialize()", m_varRjetReclusteringTools[1]->setProperty("VariableRMassScale",    2*WMASS), "");
     for(int i=0; i<2; i++){
+      char outputContainer[15];
+      if(i==0) sprintf(outputContainer,"VarR_top_Jets");
+      else sprintf(outputContainer,"VarR_W_Jets");
+      m_varRjetReclusteringTools[i] = new JetReclusteringTool(outputContainer+std::to_string(std::rand()));
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("OutputJetContainer", outputContainer), "");
+      if(i==0) RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMassScale",    2*173.34), "");
+      else RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMassScale",    2*80.385), "");
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("InputJetContainer",  m_inputJets), "");
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("ReclusterRadius",    1.5), "");
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMinRadius",    0.5), "");
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->initialize(), "");
     }
-
   }
 
   if(!m_inputLargeRJets.empty()){
@@ -275,7 +271,7 @@ EL::StatusCode OptimizationDump :: execute ()
         m_rc_split12[r][i] = -99.0;
         m_rc_split23[r][i] = -99.0;
         m_rc_nsj[r][i] = -99;
-        // if there are less than 4 jets, then...
+        // if there are fewer than 4 jets, then...
         if(i < rcJets->size()){
           auto rcJet = rcJets->at(i);
           m_rc_pt[r][i] = rcJet->pt();
@@ -292,18 +288,21 @@ EL::StatusCode OptimizationDump :: execute ()
 
     for(auto tool: m_varRjetReclusteringTools)
       tool->execute();
-    
-    char varRJetContainer[15];
-    sprintf(varRJetContainer,"VarR_top_Jets");
-    const xAOD::JetContainer* varRJets(nullptr);
-    RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(varRJets, varRJetContainer, m_event, m_store, m_debug), ("Could not retrieve the variable R top jet container "+std::string(varRJetContainer)).c_str());
-    m_numJetsVarR_top = varRJets->size();
-    for(unsigned int i=0; i<4; i++){
-      m_varR_top_m[i]  = -99.0;
-      // if there are less than 4 jets, then...
-      if(i < varRJets->size()){
-        auto varRJet = varRJets->at(i);
-        m_varR_top_m[i] = varRJet->m();
+   
+    for(int i=0; i<2; i++){
+      char varRJetContainer[15];
+      if(i==0) sprintf(varRJetContainer,"VarR_top_Jets");
+      else sprintf(varRJetContainer,"VarR_W_Jets");
+      const xAOD::JetContainer* varRJets(nullptr);
+      RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(varRJets, varRJetContainer, m_event, m_store, m_debug), ("Could not retrieve the variable R jet container "+std::string(varRJetContainer)).c_str());
+      m_numJetsVarR_top = varRJets->size();
+      for(unsigned int j=0; j<4; j++){
+        m_varR_top_m[j]  = -99.0;
+        // if there are fewer than 4 jets, then...
+        if(j < varRJets->size()){
+          auto varRJet = varRJets->at(j);
+          m_varR_top_m[j] = varRJet->m();
+        }
       }
     }
   }
