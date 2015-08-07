@@ -64,7 +64,12 @@ OptimizationDump :: OptimizationDump () :
   m_rc_m{MULTI_ARRAY_INIT},
   m_rc_split12{MULTI_ARRAY_INIT},
   m_rc_split23{MULTI_ARRAY_INIT},
-  m_rc_nsj{MULTI_ARRAY_INIT}
+  m_rc_nsj{MULTI_ARRAY_INIT},
+  m_numJetsVarR_top(-99),
+  m_numJetsVarR_W(-99),
+  m_varRjetReclusteringTools{{nullptr, nullptr}},
+  m_varR_top_m{ARRAY_INIT},
+  m_varR_W_m{ARRAY_INIT}
 {}
 
 EL::StatusCode OptimizationDump :: setupJob (EL::Job& job)
@@ -143,6 +148,29 @@ EL::StatusCode OptimizationDump :: initialize () {
       RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("ReclusterRadius",    radius), "");
       RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->initialize(), "");
     }
+
+    m_tree->Branch ("multiplicity_jet_varR_top", &m_numJetsVarR_top, "multiplicity_jet_varR_top/I");
+    m_tree->Branch ("multiplicity_jet_varR_W", &m_numJetsVarR_W, "multiplicity_jet_varR_W/I");
+    m_tree->Branch ("variableR_top_jet_m", &m_varR_top_m, "variableR_top_jet_m/F");
+    m_tree->Branch ("variableR_W_jet_m", &m_varR_W_m, "variableR_W_jet_m/F");
+
+    char outputContainer[15];
+    sprintf(outputContainer,"VarR_top_Jets");
+    m_varRjetReclusteringTools[0] = new JetReclusteringTool(outputContainer+std::to_string(std::rand()));
+    m_varRjetReclusteringTools[1] = new JetReclusteringTool("VarR_W_Jets1");
+    RETURN_CHECK("initialize()", m_varRjetReclusteringTools[0]->setProperty("OutputJetContainer", outputContainer), "");
+    RETURN_CHECK("initialize()", m_varRjetReclusteringTools[1]->setProperty("OutputJetContainer", "VarR_W_Jets"), "");
+//    const float TOPMASS = 173.34;
+    const float WMASS = 80.39;
+    RETURN_CHECK("initialize()", m_varRjetReclusteringTools[0]->setProperty("VariableRMassScale",    2*173.34), "");
+    RETURN_CHECK("initialize()", m_varRjetReclusteringTools[1]->setProperty("VariableRMassScale",    2*WMASS), "");
+    for(int i=0; i<2; i++){
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("InputJetContainer",  m_inputJets), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("ReclusterRadius",    1.5), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMinRadius",    0.5), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->initialize(), "");
+    }
+
   }
 
   if(!m_inputLargeRJets.empty()){
@@ -256,6 +284,23 @@ EL::StatusCode OptimizationDump :: execute ()
           rcJet->getAttribute("Split23", m_rc_split23[r][i]);
           if(rcJet->getAttribute("constituentLinks", constitLinks)) m_rc_nsj[r][i] = constitLinks.size();
         }
+      }
+    }
+
+    for(auto tool: m_varRjetReclusteringTools)
+      tool->execute();
+    
+    char varRJetContainer[15];
+    sprintf(varRJetContainer,"VarR_top_Jets");
+    const xAOD::JetContainer* varRJets(nullptr);
+    RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(varRJets, varRJetContainer, m_event, m_store, m_debug), ("Could not retrieve the variable R top jet container "+std::string(varRJetContainer)).c_str());
+    m_numJetsVarR_top = varRJets->size();
+    for(unsigned int i=0; i<4; i++){
+      m_varR_top_m[i]  = -99.0;
+      // if there are less than 4 jets, then...
+      if(i < varRJets->size()){
+        auto varRJet = varRJets->at(i);
+        m_varR_top_m[i] = varRJet->m();
       }
     }
   }
