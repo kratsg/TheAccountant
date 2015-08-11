@@ -225,15 +225,15 @@ EL::StatusCode OptimizationDump :: execute ()
   static SG::AuxElement::ConstAccessor<float> V1_nelements_acc("V1_nelements");
   static SG::AuxElement::ConstAccessor<float> V2_nelements_acc("V2_nelements");
 
-  m_ss_mass           = SS_mass_acc(*eventInfo);
+  m_ss_mass           = SS_mass_acc(*eventInfo)/1000.;
   m_ss_invgamma       = SS_invgamma_acc(*eventInfo);
   m_ss_dphivis        = SS_dphivis_acc(*eventInfo);
   m_ss_costheta       = SS_costheta_acc(*eventInfo);
   m_ss_dphidecayangle = SS_dphidecayangle_acc(*eventInfo);
-  m_ss_mdeltaR        = SS_mdeltaR_acc(*eventInfo);
-  m_s1_mass           = S1_mass_acc(*eventInfo);
+  m_ss_mdeltaR        = SS_mdeltaR_acc(*eventInfo)/1000.;
+  m_s1_mass           = S1_mass_acc(*eventInfo)/1000.;
   m_s1_costheta       = S1_costheta_acc(*eventInfo);
-  m_s2_mass           = S2_mass_acc(*eventInfo);
+  m_s2_mass           = S2_mass_acc(*eventInfo)/1000.;
   m_s2_costheta       = S2_costheta_acc(*eventInfo);
   m_i1_depth          = I1_depth_acc(*eventInfo);
   m_i2_depth          = I2_depth_acc(*eventInfo);
@@ -254,13 +254,13 @@ EL::StatusCode OptimizationDump :: execute ()
     // dereference the iterator since it's just a single object
     in_met = *met_id;
     m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons);
-    m_met     = in_met->met();
-    m_met_mpx = in_met->mpx();
-    m_met_mpy = in_met->mpy();
+    m_met     = in_met->met()/1000.;
+    m_met_mpx = in_met->mpx()/1000.;
+    m_met_mpy = in_met->mpy()/1000.;
   }
 
   if(!m_inputMET.empty() && !m_inputJets.empty()){
-    m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons);
+    m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons)/1000.;
     m_dPhiMETMin = VD::dPhiMETMin(in_met, in_jets);
 
     static SG::AuxElement::Decorator< int > isB("isB");
@@ -269,15 +269,15 @@ EL::StatusCode OptimizationDump :: execute ()
       if(isB(*jet) != 1) continue;
       bjets.push_back(jet);
     }
-    m_mTb = VD::mTb(in_met, bjets.asDataVector());
+    m_mTb = VD::mTb(in_met, bjets.asDataVector())/1000.;
   }
 
   static SG::AuxElement::ConstAccessor< int > pass_preSel("pass_preSel");
 
   if(!m_inputJets.empty()){
-    m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons);
+    m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons)/1000.;
 
-    // counts of stuff
+    // number of jets and bjets that pass preselection
     static SG::AuxElement::ConstAccessor< int > pass_preSel_jets("pass_preSel_jets");
     static SG::AuxElement::ConstAccessor< int > pass_preSel_bjets("pass_preSel_bjets");
     m_numJets = (pass_preSel_jets.isAvailable(*eventInfo))?pass_preSel_jets(*eventInfo):-99;
@@ -302,8 +302,8 @@ EL::StatusCode OptimizationDump :: execute ()
         // if there are less than 4 jets, then...
         if(i < rcJets->size()){
           auto rcJet = rcJets->at(i);
-          m_rc_pt[r][i] = rcJet->pt();
-          m_rc_m[r][i] = rcJet->m();
+          m_rc_pt[r][i] = rcJet->pt()/1000.;
+          m_rc_m[r][i] = rcJet->m()/1000.;
           // retrieve attributes from jet -- if it fails, it'll be set to -99
           //    this way, we don't error out when we do jobs
           std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
