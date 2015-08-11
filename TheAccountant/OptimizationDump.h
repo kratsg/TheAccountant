@@ -75,6 +75,17 @@ private:
   std::array<std::array<float, 4>, 3 > m_rc_split23; //!
   std::array<std::array<int, 4>  , 3 > m_rc_nsj; //!
 
+  /* large-R jet details */
+  std::array<float, 4> m_largeR_pt; //!
+  std::array<float, 4> m_largeR_m; //!
+  std::array<float, 4> m_largeR_split12; //!
+  std::array<float, 4> m_largeR_split23; //!
+  std::array<int  , 4> m_largeR_nsj; //!
+  std::array<int  , 4> m_largeR_topTag_loose; //!
+  std::array<int  , 4> m_largeR_topTag_tight; //!
+  std::array<int  , 4> m_largeR_topTag_smoothLoose; //!
+  std::array<int  , 4> m_largeR_topTag_smoothTight; //!
+
   /* razor information */
   float m_ss_mass; //!
   float m_ss_invgamma; //!
