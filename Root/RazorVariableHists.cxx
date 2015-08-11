@@ -112,20 +112,20 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
 
 StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::JetContainer* jets_largeR, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight){
 
-  SG::AuxElement::ConstAccessor<float> SS_mass_acc("SS_mass");
-  SG::AuxElement::ConstAccessor<float> SS_invgamma_acc("SS_invgamma");
-  SG::AuxElement::ConstAccessor<float> SS_dphivis_acc("SS_dphivis");
-  SG::AuxElement::ConstAccessor<float> SS_costheta_acc("SS_costheta");
-  SG::AuxElement::ConstAccessor<float> SS_dphidecayangle_acc("SS_dphidecayangle");
-  SG::AuxElement::ConstAccessor<float> SS_mdeltaR_acc("SS_mdeltaR");
-  SG::AuxElement::ConstAccessor<float> S1_mass_acc("S1_mass");
-  SG::AuxElement::ConstAccessor<float> S2_mass_acc("S2_mass");
-  SG::AuxElement::ConstAccessor<float> S1_costheta_acc("S1_costheta");
-  SG::AuxElement::ConstAccessor<float> S2_costheta_acc("S2_costheta");
-  SG::AuxElement::ConstAccessor<float> I1_depth_acc("I1_depth");
-  SG::AuxElement::ConstAccessor<float> I2_depth_acc("I2_depth");
-  SG::AuxElement::ConstAccessor<float> V1_nelements_acc("V1_nelements");
-  SG::AuxElement::ConstAccessor<float> V2_nelements_acc("V2_nelements");
+  static SG::AuxElement::ConstAccessor<float> SS_mass_acc("SS_mass");
+  static SG::AuxElement::ConstAccessor<float> SS_invgamma_acc("SS_invgamma");
+  static SG::AuxElement::ConstAccessor<float> SS_dphivis_acc("SS_dphivis");
+  static SG::AuxElement::ConstAccessor<float> SS_costheta_acc("SS_costheta");
+  static SG::AuxElement::ConstAccessor<float> SS_dphidecayangle_acc("SS_dphidecayangle");
+  static SG::AuxElement::ConstAccessor<float> SS_mdeltaR_acc("SS_mdeltaR");
+  static SG::AuxElement::ConstAccessor<float> S1_mass_acc("S1_mass");
+  static SG::AuxElement::ConstAccessor<float> S2_mass_acc("S2_mass");
+  static SG::AuxElement::ConstAccessor<float> S1_costheta_acc("S1_costheta");
+  static SG::AuxElement::ConstAccessor<float> S2_costheta_acc("S2_costheta");
+  static SG::AuxElement::ConstAccessor<float> I1_depth_acc("I1_depth");
+  static SG::AuxElement::ConstAccessor<float> I2_depth_acc("I2_depth");
+  static SG::AuxElement::ConstAccessor<float> V1_nelements_acc("V1_nelements");
+  static SG::AuxElement::ConstAccessor<float> V2_nelements_acc("V2_nelements");
 
   ss_mass->           Fill( SS_mass_acc(*eventInfo)/1000., eventWeight);
   ss_invgamma->       Fill( SS_invgamma_acc(*eventInfo),eventWeight);
@@ -143,9 +143,9 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   v1_nelements->      Fill( V1_nelements_acc(*eventInfo), eventWeight);
   v2_nelements->      Fill( V2_nelements_acc(*eventInfo), eventWeight);
 
-  ss_abs_costheta->   Fill( abs(SS_costheta_acc(*eventInfo)), eventWeight);
-  s1_abs_costheta->   Fill( abs(S1_costheta_acc(*eventInfo)), eventWeight);
-  s2_abs_costheta->   Fill( abs(S2_costheta_acc(*eventInfo)), eventWeight);
+  ss_abs_costheta->   Fill( std::fabs(SS_costheta_acc(*eventInfo)), eventWeight);
+  s1_abs_costheta->   Fill( std::fabs(S1_costheta_acc(*eventInfo)), eventWeight);
+  s2_abs_costheta->   Fill( std::fabs(S2_costheta_acc(*eventInfo)), eventWeight);
 
 
   if((SS_mdeltaR_acc(*eventInfo)/1000.)<250)
