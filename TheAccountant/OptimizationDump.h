@@ -83,6 +83,26 @@ private:
   std::array<float, 4> m_varR_top_m; //!
   std::array<float, 4> m_varR_W_m; //!
 
+  /* razor information */
+  float m_ss_mass; //!
+  float m_ss_invgamma; //!
+  float m_ss_dphivis; //!
+  float m_ss_costheta; //!
+  float m_ss_dphidecayangle; //!
+  float m_ss_mdeltaR; //!
+  float m_s1_mass; //!
+  float m_s1_costheta; //!
+  float m_s2_mass; //!
+  float m_s2_costheta; //!
+  int m_i1_depth; //!
+  int m_i2_depth; //!
+  int m_v1_nelements; //!
+  int m_v2_nelements; //!
+  float m_ss_abs_costheta; //!
+  float m_s1_abs_costheta; //!
+  float m_s2_abs_costheta; //!
+
+
 public:
   // this is a standard constructor
   OptimizationDump ();
