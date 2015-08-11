@@ -14,6 +14,7 @@ Run-2 analysis for SUSY search in gluino to stops.
     - [[Preselect.cxx](TheAccountant/Preselect.h)](#preselectcxxtheaccountantpreselecth)
     - [[Report.cxx](TheAccountant/Report.h)](#reportcxxtheaccountantreporth)
     - [[CookTheBooks.py](scripts/CookTheBooks.py)](#cookthebookspyscriptscookthebookspy)
+  - [Patching JetRec for Variable-R](#patching-jetrec-for-variable-r)
   - [Samples and Drivers and Bash, oh my](#samples-and-drivers-and-bash-oh-my)
     - [Direct](#direct)
     - [Prun](#prun)
@@ -91,6 +92,22 @@ which will
 - only plot large-R jets with Pt > 300 GeV
 
 See the help options `CookTheBooks.py -h` for more information about what you can actually do. Each of the specific sections in `CookTheBooks.py` can have a lot of options, so you might want to try something like `CookTheBooks.py -h audit` or `CookTheBooks.py -h preselect` to see only options for that specific algorithm or section.
+
+### Patching JetRec for Variable-R
+
+My package, [kratsg/xAODJetReclustering](https://kratsg.github.io/xAODJetReclustering), has variable-R reclustering functionality. In order to get it to work, you need to checkout `JetRec`
+
+```bash
+rc checkout_pkg atlasoff/Reconstruction/Jet/JetRec/tags/JetRec-03-00-50
+```
+
+and then patch it
+
+```bash
+cd JetRec && patch -p0 < ../TheAccountant/data/JetRec.path && cd -
+```
+
+and you should be good to do. Primarily, we need to remove the `NOVARIABLER` header definition and link the VariableR plugin via `lVariableR` which is what the patch will do. Hopefully, the next version of JetRec will be patched for us.
 
 ### Samples and Drivers and Bash, oh my
 
