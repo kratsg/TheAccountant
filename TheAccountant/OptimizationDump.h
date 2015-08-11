@@ -83,6 +83,17 @@ private:
   std::array<float, 4> m_varR_top_m; //!
   std::array<float, 4> m_varR_W_m; //!
 
+  /* large-R jet details */
+  std::array<float, 4> m_largeR_pt; //!
+  std::array<float, 4> m_largeR_m; //!
+  std::array<float, 4> m_largeR_split12; //!
+  std::array<float, 4> m_largeR_split23; //!
+  std::array<int  , 4> m_largeR_nsj; //!
+  std::array<int  , 4> m_largeR_topTag_loose; //!
+  std::array<int  , 4> m_largeR_topTag_tight; //!
+  std::array<int  , 4> m_largeR_topTag_smoothLoose; //!
+  std::array<int  , 4> m_largeR_topTag_smoothTight; //!
+
   /* razor information */
   float m_ss_mass; //!
   float m_ss_invgamma; //!

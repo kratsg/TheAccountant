@@ -66,11 +66,23 @@ OptimizationDump :: OptimizationDump () :
   m_rc_split12{MULTI_ARRAY_INIT},
   m_rc_split23{MULTI_ARRAY_INIT},
   m_rc_nsj{MULTI_ARRAY_INIT},
+<<<<<<< HEAD
   m_numJetsVarR_top(-99),
   m_numJetsVarR_W(-99),
   m_varRjetReclusteringTools{{nullptr, nullptr}},
   m_varR_top_m{ARRAY_INIT},
   m_varR_W_m{ARRAY_INIT}
+=======
+  m_largeR_pt{ARRAY_INIT},
+  m_largeR_m{ARRAY_INIT},
+  m_largeR_split12{ARRAY_INIT},
+  m_largeR_split23{ARRAY_INIT},
+  m_largeR_nsj{ARRAY_INIT},
+  m_largeR_topTag_loose{ARRAY_INIT},
+  m_largeR_topTag_tight{ARRAY_INIT},
+  m_largeR_topTag_smoothLoose{ARRAY_INIT},
+  m_largeR_topTag_smoothTight{ARRAY_INIT}
+>>>>>>> 844abaeb8f267fc4c7568db44df1d7099093bb5f
 {}
 
 EL::StatusCode OptimizationDump :: setupJob (EL::Job& job)
@@ -177,6 +189,39 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch ("multiplicity_topTag_smoothtight", &m_n_topTag_SmoothTight, "multiplicity_topTag_smoothtight/I");
     m_tree->Branch ("multiplicity_topTag_loose", &m_n_topTag_Loose, "multiplicity_topTag_loose/I");
     m_tree->Branch ("multiplicity_topTag_tight", &m_n_topTag_Tight, "multiplicity_topTag_tight/I");
+
+    // initialize branches for reclustered jets
+    for(int i=0; i<4; i++){
+      std::string commonDenominator = "jet_largeR_"+std::to_string(i);
+      std::string branchName;
+
+      branchName = "pt_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_pt[i]), (branchName+"/F").c_str());
+
+      branchName = "m_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_m[i]), (branchName+"/F").c_str());
+
+      branchName = "split12_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_split12[i]), (branchName+"/F").c_str());
+
+      branchName = "split23_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_split23[i]), (branchName+"/F").c_str());
+
+      branchName = "nsj_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_nsj[i]), (branchName+"/I").c_str());
+
+      branchName = "topTag_Loose_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_topTag_loose[i]), (branchName+"/I").c_str());
+
+      branchName = "topTag_Tight_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_topTag_tight[i]), (branchName+"/I").c_str());
+
+      branchName = "topTag_SmoothLoose_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_topTag_smoothLoose[i]), (branchName+"/I").c_str());
+
+      branchName = "topTag_SmoothTight_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_topTag_smoothTight[i]), (branchName+"/I").c_str());
+    }
   }
 
   m_tree->Branch("razor_ss_mass",           &m_ss_mass          , "razor_ss_mass/F");
@@ -249,15 +294,15 @@ EL::StatusCode OptimizationDump :: execute ()
   static SG::AuxElement::ConstAccessor<float> V1_nelements_acc("V1_nelements");
   static SG::AuxElement::ConstAccessor<float> V2_nelements_acc("V2_nelements");
 
-  m_ss_mass           = SS_mass_acc(*eventInfo);
+  m_ss_mass           = SS_mass_acc(*eventInfo)/1000.;
   m_ss_invgamma       = SS_invgamma_acc(*eventInfo);
   m_ss_dphivis        = SS_dphivis_acc(*eventInfo);
   m_ss_costheta       = SS_costheta_acc(*eventInfo);
   m_ss_dphidecayangle = SS_dphidecayangle_acc(*eventInfo);
-  m_ss_mdeltaR        = SS_mdeltaR_acc(*eventInfo);
-  m_s1_mass           = S1_mass_acc(*eventInfo);
+  m_ss_mdeltaR        = SS_mdeltaR_acc(*eventInfo)/1000.;
+  m_s1_mass           = S1_mass_acc(*eventInfo)/1000.;
   m_s1_costheta       = S1_costheta_acc(*eventInfo);
-  m_s2_mass           = S2_mass_acc(*eventInfo);
+  m_s2_mass           = S2_mass_acc(*eventInfo)/1000.;
   m_s2_costheta       = S2_costheta_acc(*eventInfo);
   m_i1_depth          = I1_depth_acc(*eventInfo);
   m_i2_depth          = I2_depth_acc(*eventInfo);
@@ -278,13 +323,13 @@ EL::StatusCode OptimizationDump :: execute ()
     // dereference the iterator since it's just a single object
     in_met = *met_id;
     m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons);
-    m_met     = in_met->met();
-    m_met_mpx = in_met->mpx();
-    m_met_mpy = in_met->mpy();
+    m_met     = in_met->met()/1000.;
+    m_met_mpx = in_met->mpx()/1000.;
+    m_met_mpy = in_met->mpy()/1000.;
   }
 
   if(!m_inputMET.empty() && !m_inputJets.empty()){
-    m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons);
+    m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons)/1000.;
     m_dPhiMETMin = VD::dPhiMETMin(in_met, in_jets);
 
     static SG::AuxElement::Decorator< int > isB("isB");
@@ -293,15 +338,15 @@ EL::StatusCode OptimizationDump :: execute ()
       if(isB(*jet) != 1) continue;
       bjets.push_back(jet);
     }
-    m_mTb = VD::mTb(in_met, bjets.asDataVector());
+    m_mTb = VD::mTb(in_met, bjets.asDataVector())/1000.;
   }
 
   static SG::AuxElement::ConstAccessor< int > pass_preSel("pass_preSel");
 
   if(!m_inputJets.empty()){
-    m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons);
+    m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons)/1000.;
 
-    // counts of stuff
+    // number of jets and bjets that pass preselection
     static SG::AuxElement::ConstAccessor< int > pass_preSel_jets("pass_preSel_jets");
     static SG::AuxElement::ConstAccessor< int > pass_preSel_bjets("pass_preSel_bjets");
     m_numJets = (pass_preSel_jets.isAvailable(*eventInfo))?pass_preSel_jets(*eventInfo):-99;
@@ -326,8 +371,8 @@ EL::StatusCode OptimizationDump :: execute ()
         // if there are fewer than 4 jets, then...
         if(i < rcJets->size()){
           auto rcJet = rcJets->at(i);
-          m_rc_pt[r][i] = rcJet->pt();
-          m_rc_m[r][i] = rcJet->m();
+          m_rc_pt[r][i] = rcJet->pt()/1000.;
+          m_rc_m[r][i] = rcJet->m()/1000.;
           // retrieve attributes from jet -- if it fails, it'll be set to -99
           //    this way, we don't error out when we do jobs
           std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
@@ -366,15 +411,29 @@ EL::StatusCode OptimizationDump :: execute ()
     static SG::AuxElement::ConstAccessor< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
     m_numJetsLargeR = (pass_preSel_jetsLargeR.isAvailable(*eventInfo))?pass_preSel_jetsLargeR(*eventInfo):-99;
 
+    // initialize for leading 4 largeR jets that pass preselection
+    for(unsigned int i=0; i<4; i++){
+      m_largeR_pt[i] = -99.0;
+      m_largeR_m[i]  = -99.0;
+      m_largeR_split12[i] = -99.0;
+      m_largeR_split23[i] = -99.0;
+      m_largeR_nsj[i] = -99;
+    }
+
     // THERE MUST BE A BETTER WAY
     // tagging variables
     m_n_topTag_SmoothLoose = 0;
     m_n_topTag_SmoothTight = 0;
     m_n_topTag_Loose = 0;
     m_n_topTag_Tight = 0;
+
+    int jetIndex = 0;
     for(auto jet: *in_jetsLargeR){
       int topTag_SmoothLoose(-1), topTag_SmoothTight(-1),
           topTag_Loose(-1), topTag_Tight(-1);
+      // don't count it if it doesn't pass preselection
+      if(pass_preSel(*jet) == 0) continue;
+
       jet->getAttribute("LooseSmoothTopTag", topTag_SmoothLoose);
       jet->getAttribute("TightSmoothTopTag", topTag_SmoothTight);
       jet->getAttribute("LooseTopTag", topTag_Loose);
@@ -384,12 +443,29 @@ EL::StatusCode OptimizationDump :: execute ()
       if(topTag_Loose == 1) m_n_topTag_Loose++;
       if(topTag_Tight == 1) m_n_topTag_Tight++;
 
+      if(jetIndex < 4){
+        m_largeR_pt[jetIndex] = jet->pt()/1000.;
+        m_largeR_m[jetIndex] = jet->m()/1000.;
+        // retrieve attributes from jet -- if it fails, it'll be set to -99
+        //    this way, we don't error out when we do jobs
+        jet->getAttribute("Split12", m_largeR_split12[jetIndex]);
+        jet->getAttribute("Split23", m_largeR_split23[jetIndex]);
+        std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
+        if(jet->getAttribute("constituentLinks", constitLinks)) m_largeR_nsj[jetIndex] = constitLinks.size();
+        // top tagging
+        m_largeR_topTag_loose[jetIndex] = topTag_Loose;
+        m_largeR_topTag_tight[jetIndex] = topTag_Tight;
+        m_largeR_topTag_smoothLoose[jetIndex] = topTag_SmoothLoose;
+        m_largeR_topTag_smoothTight[jetIndex] = topTag_SmoothTight;
+      }
+      jetIndex++;
+    }
+
       /*
       if(topTag_SmoothLoose == 1 || topTag_SmoothTight == 1 || topTag_Loose == 1 || topTag_Tight == 1){
         std::cout << topTag_SmoothLoose << topTag_SmoothTight << topTag_Loose << topTag_Tight << "|run#" <<eventInfo->auxdata<uint>("runNumber") << "|event#"  << eventInfo->auxdata<unsigned long long>("eventNumber") << "|lumi#" << eventInfo->auxdata<uint>("lumiBlock") << std::endl;
       }
       */
-    }
   }
 
   // fill in all variables
