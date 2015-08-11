@@ -104,7 +104,7 @@ rc checkout_pkg atlasoff/Reconstruction/Jet/JetRec/tags/JetRec-03-00-50
 and then patch it
 
 ```bash
-cd JetRec && patch -p0 < ../TheAccountant/data/JetRec.path && cd -
+cd JetRec && patch -p0 < ../TheAccountant/data/JetRec.patch && cd -
 ```
 
 and you should be good to do. Primarily, we need to remove the `NOVARIABLER` header definition and link the VariableR plugin via `lVariableR` which is what the patch will do. Hopefully, the next version of JetRec will be patched for us.
