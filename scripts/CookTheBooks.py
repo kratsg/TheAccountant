@@ -265,6 +265,14 @@ if __name__ == "__main__":
     #Set up the job for xAOD access:
     ROOT.xAOD.Init("CookTheBooks").ignore();
 
+    # check that we have appropriate drivers
+    if args.driver == 'prun':
+      if getattr(ROOT.EL, 'PrunDriver') is None:
+          raise KeyError('Cannot load the Prun driver from EventLoop. Did you not compile it?')
+    elif args.driver == 'condor':
+      if getattr(ROOT.EL, 'CondorDriver') is None:
+        raise KeyError('Cannot load the Condor driver from EventLoop. Did you not compile it?')
+
     # create a new sample handler to describe the data files we use
     cookBooks_logger.info("creating new sample handler")
     sh_all = ROOT.SH.SampleHandler()
