@@ -155,6 +155,24 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch ("multiplicity_topTag_tight", &m_n_topTag_Tight, "multiplicity_topTag_tight/I");
   }
 
+  m_tree->Branch("razor_ss_mass",           &m_ss_mass          , "razor_ss_mass/F");
+  m_tree->Branch("razor_ss_invgamma",       &m_ss_invgamma      , "razor_ss_invgamma/F");
+  m_tree->Branch("razor_ss_dphivis",        &m_ss_dphivis       , "razor_ss_dphivis/F");
+  m_tree->Branch("razor_ss_costheta",       &m_ss_costheta      , "razor_ss_costheta/F");
+  m_tree->Branch("razor_ss_dphidecayangle", &m_ss_dphidecayangle, "razor_ss_dphidecayangle/F");
+  m_tree->Branch("razor_ss_mdeltaR",        &m_ss_mdeltaR       , "razor_ss_mdeltaR/F");
+  m_tree->Branch("razor_s1_mass",           &m_s1_mass          , "razor_s1_mass/F");
+  m_tree->Branch("razor_s1_costheta",       &m_s1_costheta      , "razor_s1_costheta/F");
+  m_tree->Branch("razor_s2_mass",           &m_s2_mass          , "razor_s2_mass/F");
+  m_tree->Branch("razor_s2_costheta",       &m_s2_costheta      , "razor_s2_costheta/F");
+  m_tree->Branch("razor_i1_depth",          &m_i1_depth         , "razor_i1_depth/I");
+  m_tree->Branch("razor_i2_depth",          &m_i2_depth         , "razor_i2_depth/I");
+  m_tree->Branch("razor_v1_nelements",      &m_v1_nelements     , "razor_v1_nelements/I");
+  m_tree->Branch("razor_v2_nelements",      &m_v2_nelements     , "razor_v2_nelements/I");
+  m_tree->Branch("razor_ss_abs_costheta",   &m_ss_abs_costheta  , "razor_ss_abs_costheta/F");
+  m_tree->Branch("razor_s1_abs_costheta",   &m_s1_abs_costheta  , "razor_s1_abs_costheta/F");
+  m_tree->Branch("razor_s2_abs_costheta",   &m_s2_abs_costheta  , "razor_s2_abs_costheta/F");
+
   return EL::StatusCode::SUCCESS;
 }
 
@@ -190,6 +208,40 @@ EL::StatusCode OptimizationDump :: execute ()
   // compute variables for optimization
   m_eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
   m_eventNumber = eventInfo->eventNumber();
+
+  // do all of the razor variables
+  static SG::AuxElement::ConstAccessor<float> SS_mass_acc("SS_mass");
+  static SG::AuxElement::ConstAccessor<float> SS_invgamma_acc("SS_invgamma");
+  static SG::AuxElement::ConstAccessor<float> SS_dphivis_acc("SS_dphivis");
+  static SG::AuxElement::ConstAccessor<float> SS_costheta_acc("SS_costheta");
+  static SG::AuxElement::ConstAccessor<float> SS_dphidecayangle_acc("SS_dphidecayangle");
+  static SG::AuxElement::ConstAccessor<float> SS_mdeltaR_acc("SS_mdeltaR");
+  static SG::AuxElement::ConstAccessor<float> S1_mass_acc("S1_mass");
+  static SG::AuxElement::ConstAccessor<float> S2_mass_acc("S2_mass");
+  static SG::AuxElement::ConstAccessor<float> S1_costheta_acc("S1_costheta");
+  static SG::AuxElement::ConstAccessor<float> S2_costheta_acc("S2_costheta");
+  static SG::AuxElement::ConstAccessor<float> I1_depth_acc("I1_depth");
+  static SG::AuxElement::ConstAccessor<float> I2_depth_acc("I2_depth");
+  static SG::AuxElement::ConstAccessor<float> V1_nelements_acc("V1_nelements");
+  static SG::AuxElement::ConstAccessor<float> V2_nelements_acc("V2_nelements");
+
+  m_ss_mass           = SS_mass_acc(*eventInfo);
+  m_ss_invgamma       = SS_invgamma_acc(*eventInfo);
+  m_ss_dphivis        = SS_dphivis_acc(*eventInfo);
+  m_ss_costheta       = SS_costheta_acc(*eventInfo);
+  m_ss_dphidecayangle = SS_dphidecayangle_acc(*eventInfo);
+  m_ss_mdeltaR        = SS_mdeltaR_acc(*eventInfo);
+  m_s1_mass           = S1_mass_acc(*eventInfo);
+  m_s1_costheta       = S1_costheta_acc(*eventInfo);
+  m_s2_mass           = S2_mass_acc(*eventInfo);
+  m_s2_costheta       = S2_costheta_acc(*eventInfo);
+  m_i1_depth          = I1_depth_acc(*eventInfo);
+  m_i2_depth          = I2_depth_acc(*eventInfo);
+  m_v1_nelements      = V1_nelements_acc(*eventInfo);
+  m_v2_nelements      = V2_nelements_acc(*eventInfo);
+  m_ss_abs_costheta   = std::fabs(SS_costheta_acc(*eventInfo));
+  m_s1_abs_costheta   = std::fabs(S1_costheta_acc(*eventInfo));
+  m_s2_abs_costheta   = std::fabs(S2_costheta_acc(*eventInfo));
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
