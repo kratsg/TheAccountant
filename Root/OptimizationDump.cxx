@@ -166,7 +166,7 @@ EL::StatusCode OptimizationDump :: initialize () {
       else RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMassScale",    2*80.385), "");
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("InputJetContainer",  m_inputJets), "");
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("ReclusterRadius",    1.5), "");
-      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMinRadius",    0.5), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMinRadius",    0.4), "");
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->initialize(), "");
     }
   }
@@ -337,23 +337,26 @@ EL::StatusCode OptimizationDump :: execute ()
         }
       }
     }
-
+    
     for(auto tool: m_varRjetReclusteringTools)
-      tool->execute();
-   
+      tool->execute(); 
+
     for(int i=0; i<2; i++){
       char varRJetContainer[15];
       if(i==0) sprintf(varRJetContainer,"VarR_top_Jets");
       else sprintf(varRJetContainer,"VarR_W_Jets");
       const xAOD::JetContainer* varRJets(nullptr);
       RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(varRJets, varRJetContainer, m_event, m_store, m_debug), ("Could not retrieve the variable R jet container "+std::string(varRJetContainer)).c_str());
-      m_numJetsVarR_top = varRJets->size();
-      for(unsigned int j=0; j<4; j++){
-        m_varR_top_m[j]  = -99.0;
+      if(i==0) m_numJetsVarR_top = varRJets->size();
+      else m_numJetsVarR_W = varRJets->size();
+      for(unsigned int j=0; j<1; j++){
+        if(i==0) m_varR_top_m[j]  = -99.0;
+        else m_varR_W_m[j]  = -99.0;
         // if there are fewer than 4 jets, then...
         if(j < varRJets->size()){
           auto varRJet = varRJets->at(j);
-          m_varR_top_m[j] = varRJet->m();
+          if(i==0) m_varR_top_m[j] = varRJet->m();
+          else m_varR_W_m[j] = varRJet->m();
         }
       }
     }
