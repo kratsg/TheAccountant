@@ -18,11 +18,7 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
 
   //simple plots of variables
   ss_mass = book(m_name,"ss_mass", "SS mass [GeV]", 50, 1000, 13000.);
-<<<<<<< HEAD
   ss_invgamma = book(m_name, "ss_invgamma", "SS InvGamma [units?]", 20, 0, 1);
-=======
-  ss_invgamma = book(m_name, "ss_invgamma", "SS InvGamma [units?]", 20, 0, 1); 
->>>>>>> 9565015e8273730a6527ea185604feec23cd162f
   ss_dphivis = book(m_name, "ss_dphivis", "SS dPhiIvs [units?]", 32, 0, 3.2);
   ss_costheta = book(m_name, "ss_costheta", "SS CosTheta", 100, -1., 1.);
   ss_abs_costheta = book(m_name, "ss_abs_costheta","|cos(#theta)|",25,0,1);
@@ -106,12 +102,7 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
   ss_dphivis_vs_MET = book(m_name,"MET_vs_ss_dphivis","#Delta #phi_{vis} (rads.)",50,0,3.2,"MET (GeV)",50,0,1000);
 
   //comparison plots for ss_dphidecayangle
-<<<<<<< HEAD
   ss_dphidecayangle_vs_MET = book(m_name,"MET_vs_ss_dphidecayangle","#Delta #phi_{decay} (rads.)",50,0,3.2,"MET (GeV)",50,0,1000);
-=======
-  ss_dphidecayangle_vs_MET = book(m_name,"MET_vs_ss_dphidecayangle","#Delta #phi_{decay} (rads.)",50,0,3.2,"MET (GeV)",50,0,1000); 
->>>>>>> 9565015e8273730a6527ea185604feec23cd162f
-
   ss_dphivis_vs_METphi = book(m_name,"ss_dphivis_vs_METphi","MET #phi",50,0,3.2,"SS #Delta#phi_{vis} (radians)",50,0,3.2);
   ss_dphidecayangle_vs_METphi = book(m_name,"ss_dphidecayangle_vs_METphi","MET #phi",50,0,3.2,"SS #Delta#phi_{decay} (radians)",50,0,3.2);
 
@@ -120,7 +111,6 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
 
 StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::JetContainer* jets_largeR, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight){
 
-<<<<<<< HEAD
   static SG::AuxElement::ConstAccessor<float> SS_mass_acc("SS_mass");
   static SG::AuxElement::ConstAccessor<float> SS_invgamma_acc("SS_invgamma");
   static SG::AuxElement::ConstAccessor<float> SS_dphivis_acc("SS_dphivis");
@@ -135,22 +125,6 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   static SG::AuxElement::ConstAccessor<float> I2_depth_acc("I2_depth");
   static SG::AuxElement::ConstAccessor<float> V1_nelements_acc("V1_nelements");
   static SG::AuxElement::ConstAccessor<float> V2_nelements_acc("V2_nelements");
-=======
-  SG::AuxElement::ConstAccessor<float> SS_mass_acc("SS_mass");
-  SG::AuxElement::ConstAccessor<float> SS_invgamma_acc("SS_invgamma");
-  SG::AuxElement::ConstAccessor<float> SS_dphivis_acc("SS_dphivis");
-  SG::AuxElement::ConstAccessor<float> SS_costheta_acc("SS_costheta");
-  SG::AuxElement::ConstAccessor<float> SS_dphidecayangle_acc("SS_dphidecayangle");
-  SG::AuxElement::ConstAccessor<float> SS_mdeltaR_acc("SS_mdeltaR");
-  SG::AuxElement::ConstAccessor<float> S1_mass_acc("S1_mass");
-  SG::AuxElement::ConstAccessor<float> S2_mass_acc("S2_mass");
-  SG::AuxElement::ConstAccessor<float> S1_costheta_acc("S1_costheta");
-  SG::AuxElement::ConstAccessor<float> S2_costheta_acc("S2_costheta");
-  SG::AuxElement::ConstAccessor<float> I1_depth_acc("I1_depth");
-  SG::AuxElement::ConstAccessor<float> I2_depth_acc("I2_depth");
-  SG::AuxElement::ConstAccessor<float> V1_nelements_acc("V1_nelements");
-  SG::AuxElement::ConstAccessor<float> V2_nelements_acc("V2_nelements");
->>>>>>> 9565015e8273730a6527ea185604feec23cd162f
 
   ss_mass->           Fill( SS_mass_acc(*eventInfo)/1000., eventWeight);
   ss_invgamma->       Fill( SS_invgamma_acc(*eventInfo),eventWeight);
@@ -173,16 +147,6 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   s1_abs_costheta->   Fill( std::fabs(S1_costheta_acc(*eventInfo)), eventWeight);
   s2_abs_costheta->   Fill( std::fabs(S2_costheta_acc(*eventInfo)), eventWeight);
 
-
-=======
-  v2_nelements->      Fill( V2_nelements_acc(*eventInfo), eventWeight);      
-
-  ss_abs_costheta->   Fill( abs(SS_costheta_acc(*eventInfo)), eventWeight);
-  s1_abs_costheta->   Fill( abs(S1_costheta_acc(*eventInfo)), eventWeight);
-  s2_abs_costheta->   Fill( abs(S2_costheta_acc(*eventInfo)), eventWeight);
-
-  
->>>>>>> 9565015e8273730a6527ea185604feec23cd162f
   if((SS_mdeltaR_acc(*eventInfo)/1000.)<250)
     ss_mdeltaR_ptless250->Fill(SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
   else if ((SS_mdeltaR_acc(*eventInfo)/1000.)<350)
@@ -190,7 +154,6 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   else
     ss_mdeltaR_ptgreat350->Fill(SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
 
-<<<<<<< HEAD
   float leadingJetPt(0),
         leadingJetEta(0),
         leadingJetPhi(0),
@@ -203,16 +166,12 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
         subleadingJetMass(0),
         subleadingJetE(0),
         subleadingJetRapidity(0);
-=======
-  float leadingJetPt, leadingJetEta, leadingJetPhi, leadingJetMass, leadingJetE, leadingJetRapidity, subleadingJetPt, subleadingJetEta, subleadingJetPhi, subleadingJetMass, subleadingJetE, subleadingJetRapidity;
->>>>>>> 9565015e8273730a6527ea185604feec23cd162f
   float jets_mass = 0;
   //jets work
   int i = 0;
   for ( const auto jet : *jets ) {
     i++;
     jets_mass += jet->m()/1.e3;
-<<<<<<< HEAD
     if (i==1) {        // leading jet
       leadingJetPt       = jet->pt()/1.e3;
       leadingJetEta      = jet->eta();
@@ -229,31 +188,11 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
       subleadingJetE        = jet->e()/1.e3;
       subleadingJetRapidity = jet->rapidity();
     }
-=======
-    if (i==1)
-      {        // leading jet
-	leadingJetPt = jet->pt()/1.e3;
-	leadingJetEta = jet->eta();
-	leadingJetPhi = jet->phi();
-	leadingJetMass = jet->m()/1.e3;
-	leadingJetE = jet->e()/1.e3;
-	leadingJetRapidity = jet->rapidity();
-      }
-    if (i==2)
-      {
-	subleadingJetPt = jet->pt()/1.e3;
-	subleadingJetEta = jet->eta();
-	subleadingJetPhi = jet->phi();
-	subleadingJetMass = jet->m()/1.e3;
-	subleadingJetE = jet->e()/1.e3;
-	subleadingJetRapidity = jet->rapidity();
-      }
->>>>>>> 9565015e8273730a6527ea185604feec23cd162f
   }
   mass_jets->Fill(jets_mass);
 
   float mass_largeR_jets =0;
-<<<<<<< HEAD
+
   //jets_mass_largeR
   for (const auto largeRjet : *jets_largeR)
       mass_largeR_jets += largeRjet->m()/1.e3;
@@ -323,82 +262,6 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   //SS_dphidecayangle 2D plots
   ss_dphidecayangle_vs_MET->        Fill(SS_dphidecayangle_acc(*eventInfo),met->met()/1.e3, eventWeight);
   ss_dphidecayangle_vs_METphi->     Fill(met->phi(),SS_dphidecayangle_acc(*eventInfo),eventWeight);
-=======
-  //jets_mass_largeR 
-  for (const auto largeRjet : *jets_largeR)
-    {
-      mass_largeR_jets += largeRjet->m()/1.e3;
-    }
-  jets_mass_largeR->Fill(mass_largeR_jets);
-
-  float multiplicity = jets->size();
-  jet_multiplicity->Fill(multiplicity, eventWeight);
-
-  float m_eff = VD::Meff(met, jets, jets->size(), in_muons, in_electrons);
-  float m_ht = VD::HT(jets, in_muons, in_electrons);
-
-  //SS_mass 2D plots
-  ss_mass_vs_leadJetPt->Fill(leadingJetPt,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_leadJetEta->Fill(leadingJetPhi,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_leadJetPhi->Fill(leadingJetEta,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_leadJetMass->Fill(leadingJetMass,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_leadJetEnergy->Fill(leadingJetE,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_leadJetRapidity->Fill(leadingJetRapidity,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_2ndJetPt->Fill(subleadingJetPt,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_2ndJetEta->Fill(subleadingJetPhi,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_2ndJetPhi->Fill(subleadingJetEta,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_2ndJetMass->Fill(subleadingJetMass,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_2ndJetEnergy->Fill(subleadingJetE,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_2ndJetRapidity->Fill(subleadingJetRapidity,SS_mass_acc(*eventInfo)/1000., eventWeight); 
-  ss_mass_vs_jetMultiplicity->Fill(multiplicity,SS_mass_acc(*eventInfo)/1000.,eventWeight);
-  ss_mass_vs_HT->Fill(m_ht/1000.,SS_mass_acc(*eventInfo)/1000., eventWeight);
-  ss_mass_vs_Meff->Fill(m_eff/1000.,SS_mass_acc(*eventInfo)/1000., eventWeight);
-
-  //SS_invgamma 2D plots
-  ss_invgamma_vs_MET->Fill(met->met()/1.e3, SS_invgamma_acc(*eventInfo), eventWeight);
-  ss_invgamma_vs_Meff->Fill(m_eff/1.e3,SS_invgamma_acc(*eventInfo),eventWeight);
-
-  //SS_gamma 2D plots
-  ss_gamma_vs_MET->Fill(met->met()/1.e3,1./SS_invgamma_acc(*eventInfo), eventWeight);
-  ss_gamma_vs_Meff->Fill(m_eff/1.e3,1./SS_invgamma_acc(*eventInfo),eventWeight);
-  
-
-  //SS_mdeltaR 2D plots
-  ss_mdeltaR_vs_leadJetPt->Fill(leadingJetPt,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_leadJetEta->Fill(leadingJetPhi,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_leadJetPhi->Fill(leadingJetEta,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_leadJetMass->Fill(leadingJetMass,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_leadJetEnergy->Fill(leadingJetE,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_leadJetRapidity->Fill(leadingJetRapidity,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_2ndJetPt->Fill(subleadingJetPt,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_2ndJetEta->Fill(subleadingJetPhi,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_2ndJetPhi->Fill(subleadingJetEta,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_2ndJetMass->Fill(subleadingJetMass,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_2ndJetEnergy->Fill(subleadingJetE,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_2ndJetRapidity->Fill(subleadingJetRapidity,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_jetMultiplicity->Fill(multiplicity,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ss_mdeltaR_vs_HT->Fill(m_ht/1000.,SS_mdeltaR_acc(*eventInfo)/1000.,eventWeight);
-  ss_mdeltaR_vs_Meff->Fill(m_eff/1.e3,SS_mdeltaR_acc(*eventInfo)/1000.,eventWeight);
-
-  //SS_Costheta 2D plots
-  ss_costheta_vs_leadJetEta->Fill(leadingJetEta,SS_costheta_acc(*eventInfo),eventWeight);
-  ss_costheta_vs_leadJetPhi->Fill(leadingJetPhi,SS_costheta_acc(*eventInfo),eventWeight);
-  ss_costheta_vs_leadJetRapidity->Fill(leadingJetRapidity,SS_costheta_acc(*eventInfo),eventWeight);
-  ss_costheta_vs_2ndJetEta->Fill(subleadingJetEta,SS_costheta_acc(*eventInfo),eventWeight);
-  ss_costheta_vs_2ndJetPhi->Fill(subleadingJetPhi,SS_costheta_acc(*eventInfo),eventWeight);
-  ss_costheta_vs_2ndJetRapidity->Fill(subleadingJetRapidity,SS_costheta_acc(*eventInfo),eventWeight);
-
-  //SS_dphivis 2D plots
-  ss_dphivis_vs_MET->Fill(SS_dphivis_acc(*eventInfo),met->met()/1.e3, eventWeight);
-  ss_dphivis_vs_METphi->Fill(met->phi(),SS_dphivis_acc(*eventInfo),eventWeight);
-
-  //SS_dphidecayangle 2D plots                                                                                                             
-  ss_dphidecayangle_vs_MET->Fill(SS_dphidecayangle_acc(*eventInfo),met->met()/1.e3, eventWeight);
-  ss_dphidecayangle_vs_METphi->Fill(met->phi(),SS_dphidecayangle_acc(*eventInfo),eventWeight);
-
-
->>>>>>> 9565015e8273730a6527ea185604feec23cd162f
 
   return StatusCode::SUCCESS;
 }
-
