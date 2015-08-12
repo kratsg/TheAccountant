@@ -1,7 +1,7 @@
 #!/bin/bash
 
-dataFiles="user.lvalery.*.Gtt.*_tag_05_output_xAOD.root/"
-gttFiles="user.lvalery.*.data.*_tag_05_output_xAOD.root/"
+dataFiles="user.lvalery.*.data.*_tag_05_output_xAOD.root/"
+gttFiles="user.lvalery.*.Gtt.*_tag_05_output_xAOD.root/"
 dijetFiles="user.mleblanc.*.dijet.*_tag_06_output_xAOD.root/"
 topEWFiles="user.lgagnon.*.topEW.*_tag_05_01_output_xAOD.root/"
 dibosonFiles="user.lgagnon.*.diboson.*_tag_05_output_xAOD.root/"
