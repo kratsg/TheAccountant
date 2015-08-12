@@ -23,6 +23,9 @@
 
 #include <TheAccountant/VariableDefinitions.h>
 
+// root include
+#include <TH1F.h>
+
 namespace HF = HelperFunctions;
 namespace VD = VariableDefinitions;
 
@@ -347,6 +350,14 @@ EL::StatusCode Preselect :: finalize () {
     if(m_trigConf) delete m_trigConf;
     if(m_TDT) delete m_TDT;
   }
+
+  for(auto cutflow: m_cutflow){
+    TH1F* hist = new TH1F(("cutflow/"+cutflow.first).c_str(), cutflow.first.c_str(), 2, 1, 3);
+    hist->SetBinContent(1, cutflow.second.first);
+    hist->SetBinContent(1, cutflow.second.second);
+    wk()->addOutput(hist);
+  }
+
   return EL::StatusCode::SUCCESS;
 }
 EL::StatusCode Preselect :: histFinalize () { return EL::StatusCode::SUCCESS; }
