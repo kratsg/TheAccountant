@@ -17,6 +17,7 @@
 #include "xAODMissingET/MissingETContainer.h"
 //#include "xAODBTaggingEfficiency/BTaggingEfficiencyTool.h"
 #include "xAODBTagging/BTagging.h"
+#include "JetSubStructureUtils/BosonTag.h"
 
 // Infrastructure includes
 #include "xAODRootAccess/Init.h"
@@ -168,6 +169,8 @@ EL::StatusCode Audit :: execute ()
   const xAOD::PhotonContainer*          in_photons    (nullptr);
   //const xAOD::TruthParticleContainer*   in_truth    (nullptr);
 
+  //static JetSubStructureUtils::BosonTag WTagger("medium", "smooth", "$ROOTCOREBIN/data/JetSubStructureUtils/config_13TeV_20150528_Wtagging.dat", true, true);
+
   // start grabbing all the containers that we can
   RETURN_CHECK("Audit::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
   if(!m_inputLargeRJets.empty())
@@ -231,11 +234,19 @@ EL::StatusCode Audit :: execute ()
 
   // clear the event
   LAB.ClearEvent();
-
+  
   // create a vector to hold the group element ids for when adding jets
   std::map<const RF::GroupElementID, const xAOD::Jet*> in_jets_IDs;
   for(const auto jet: *in_jets)
-    in_jets_IDs[VIS.AddLabFrameFourVector( jet->p4() )] = jet;
+    {
+      in_jets_IDs[VIS.AddLabFrameFourVector( jet->p4() )] = jet;
+    }
+
+  //tags jets that are likely W boson. 
+  //for(const auto jet: *in_jetsLargeR)
+  //  {
+  //    bool isWTagged = WTagger.result(*jet);
+  //  }
 
   // no mpz, but why set it this way???
   INV.SetLabFrameThreeVector(  TVector3( in_met->mpx(), in_met->mpy(), 0 ) );

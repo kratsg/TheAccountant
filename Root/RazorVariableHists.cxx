@@ -28,67 +28,67 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
 
   ss_dphidecayangle = book(m_name, "ss_dphidecayangle", "SS dPhiDecayAngle [radians?]",32, 0, 3.2);
   ss_visshape = book(m_name, "ss_visshape", "SS VisShape [units?]", 100, 0, 1.);
-  ss_mdeltaR = book(m_name, "ss_mdeltaR", "SS MDeltaR [GeV?]", 50, 0, 1500);
-  s1_mass = book(m_name, "s1_mass", "S1 Mass [GeV]", 50, 0, 6500);
+  ss_mdeltaR = book(m_name, "ss_mdeltaR", "SS MDeltaR [GeV?]", 1300, 0, 13000);
+  s1_mass = book(m_name, "s1_mass", "S1 Mass [GeV]", 200, 0, 6500);
   s1_costheta = book(m_name, "s1_costheta", "S1 CosTheta", 100, -1., 1.);
-  s2_mass = book(m_name, "s2_mass", "S2 Mass [GeV]", 50, 0, 6500.);
+  s2_mass = book(m_name, "s2_mass", "S2 Mass [GeV]", 200, 0, 6500.);
   s2_costheta = book(m_name, "s2_costheta", "S2 CosTheta", 100,-1., 1.);
-  i1_depth = book(m_name, "i1_depth", "I1 Depth [units?]", 4, 0, 4);
-  i2_depth = book(m_name, "i2_depth", "I2 Depth [units?]", 4, 0, 4);
-  v1_nelements = book(m_name, "v1_nelements", "V1 NElements", 15, 0, 15);
-  v2_nelements = book(m_name, "v2_nelements", "V2 NElements", 15, 0, 15);
+  i1_depth = book(m_name, "i1_depth", "I1 Depth [units?]", 8, 0, 8);
+  i2_depth = book(m_name, "i2_depth", "I2 Depth [units?]", 8, 0, 8);
+  v1_nelements = book(m_name, "v1_nelements", "V1 NElements", 20, 0, 20);
+  v2_nelements = book(m_name, "v2_nelements", "V2 NElements", 20, 0, 20);
 
-  ss_mdeltaR_ptless250 = book(m_name,"ss_mdeltaR_ptless250","SS M_{#Delta}^{R} (GeV)",50,0,1500);
-  ss_mdeltaR_pt250to350 = book(m_name,"ss_mdeltaR_pt250to350","SS M_{#Delta}^{R} (GeV)",50,0,1500);
-  ss_mdeltaR_ptgreat350 = book(m_name,"ss_mdeltaR_ptgreat350","SS M_{#Delta}^{R} (GeV)",50,0,1500);
+  ss_mdeltaR_ptless250 = book(m_name,"ss_mdeltaR_ptless250","SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_pt250to350 = book(m_name,"ss_mdeltaR_pt250to350","SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_ptgreat350 = book(m_name,"ss_mdeltaR_ptgreat350","SS M_{#Delta}^{R} (GeV)",1300,0,13000);
 
-  jets_mass_largeR = book(m_name,"jets_mass_largeR","Mass Jets (GeV)",50,0,1500);
+  jets_mass_largeR = book(m_name,"jets_mass_largeR","Mass Jets (GeV)",1300,0,13000);
 
-  jet_multiplicity = book(m_name,"jet_multiplicity","Number of Jets",16,0,16);
+  jet_multiplicity = book(m_name,"jet_multiplicity","Number of Jets",35,0,35);
 
-  mass_jets = book(m_name,"mass_jets","Mass of Jets (GeV)",50,0,1500);
+  mass_jets = book(m_name,"mass_jets","Mass of Jets (GeV)",1300,0,13000);
 
   //comparison plots for ss_mass
-  ss_mass_vs_leadJetPt = book(m_name,"ss_mass_vs_leadJetPt","lead Jet Pt (GeV)",50,0,1500,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_leadJetEta= book(m_name,"ss_mass_vs_leadJetEta","lead Jet Eta (radians)",34,-3.4,3.4,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_leadJetPhi= book(m_name,"ss_mass_vs_leadJetPhi","lead Jet Phi (radians)",34,-3.4,3.4,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_leadJetMass= book(m_name,"ss_mass_vs_leadJetMass","lead Jet Mass (GeV)",50,0,200,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_leadJetEnergy= book(m_name,"ss_mass_vs_leadJetEnergy","lead Jet E (GeV)",50,0,4000,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_leadJetRapidity= book(m_name,"ss_mass_vs_leadJetRapidity","lead Jet Rapidity",25,-2.5,2.5,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_2ndJetPt = book(m_name,"ss_mass_vs_2ndJetPt","2nd Jet Pt (GeV)",50,0,1500,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_2ndJetEta= book(m_name,"ss_mass_vs_2ndJetEta","2nd Jet Eta (radians)",34,-3.4,3.4,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_2ndJetPhi= book(m_name,"ss_mass_vs_2ndJetPhi","2nd Jet Phi (radians)",34,-3.4,3.4,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_2ndJetMass= book(m_name,"ss_mass_vs_2ndJetMass","2nd Jet Mass (GeV)",50,0,200,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_2ndJetEnergy= book(m_name,"ss_mass_vs_2ndJetEnergy","2nd Jet E (GeV)",50,0,4000,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_2ndJetRapidity= book(m_name,"ss_mass_vs_2ndJetRapidity","2nd Jet Rapidity",25,-2.5,2.5,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_jetMultiplicity= book(m_name,"ss_mass_vs_JetMultiplicity","Jet Multiplicity",12,4,15,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_HT = book(m_name,"ss_mass_vs_HT","HT (GeV)",50,400,3000,"SS mass (GeV)",50,1000,13000);
-  ss_mass_vs_Meff = book(m_name,"ss_mass_vs_Meff","M_{eff} (GeV)", 50,500,3000,"SS mass (GeV)",50,1000,13000);
+  ss_mass_vs_leadJetPt = book(m_name,"ss_mass_vs_leadJetPt","lead Jet Pt (GeV)",400,0,13000,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_leadJetEta= book(m_name,"ss_mass_vs_leadJetEta","lead Jet Eta (radians)",34,-3.4,3.4,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_leadJetPhi= book(m_name,"ss_mass_vs_leadJetPhi","lead Jet Phi (radians)",34,-3.4,3.4,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_leadJetMass= book(m_name,"ss_mass_vs_leadJetMass","lead Jet Mass (GeV)",1300,0,13000,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_leadJetEnergy= book(m_name,"ss_mass_vs_leadJetEnergy","lead Jet E (GeV)",1300,0,13000,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_leadJetRapidity= book(m_name,"ss_mass_vs_leadJetRapidity","lead Jet Rapidity",25,-2.5,2.5,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_2ndJetPt = book(m_name,"ss_mass_vs_2ndJetPt","2nd Jet Pt (GeV)",1300,0,13000,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_2ndJetEta= book(m_name,"ss_mass_vs_2ndJetEta","2nd Jet Eta (radians)",34,-3.4,3.4,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_2ndJetPhi= book(m_name,"ss_mass_vs_2ndJetPhi","2nd Jet Phi (radians)",34,-3.4,3.4,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_2ndJetMass= book(m_name,"ss_mass_vs_2ndJetMass","2nd Jet Mass (GeV)",1300,0,13000,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_2ndJetEnergy= book(m_name,"ss_mass_vs_2ndJetEnergy","2nd Jet E (GeV)",400,0,6500,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_2ndJetRapidity= book(m_name,"ss_mass_vs_2ndJetRapidity","2nd Jet Rapidity",25,-2.5,2.5,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_jetMultiplicity= book(m_name,"ss_mass_vs_JetMultiplicity","Jet Multiplicity",12,4,15,"SS mass (GeV)",400,1000,13000);
+  ss_mass_vs_HT = book(m_name,"ss_mass_vs_HT","HT (GeV)",1300,400,13000,"SS mass (GeV)",1300,1000,13000);
+  ss_mass_vs_Meff = book(m_name,"ss_mass_vs_Meff","M_{eff} (GeV)", 1300,500,13000,"SS mass (GeV)",400,1000,13000);
 
   //comparison plots ss_invgamma
-  ss_invgamma_vs_MET = book(m_name,"ss_invgamma_vs_MET","MET (GeV)",50,40,300,"Inv Gamma",20,0,1);
-  ss_invgamma_vs_Meff = book(m_name,"ss_invgamma_vs_Meff","M_{eff} (GeV)",50,500,3000,"Inv Gamma", 20,0,1);
+  ss_invgamma_vs_MET = book(m_name,"ss_invgamma_vs_MET","MET (GeV)",1300,50,13000,"Inv Gamma",20,0,1);
+  ss_invgamma_vs_Meff = book(m_name,"ss_invgamma_vs_Meff","M_{eff} (GeV)",1300,500,13000,"Inv Gamma", 20,0,1);
 
   //comparison plots ss_gamma
-  ss_gamma_vs_Meff = book(m_name,"ss_gamma_Meff","M_{eff} (GeV)",50,0,3000,"SS Gamma",20,1,4);
-  ss_gamma_vs_MET = book(m_name,"ss_gamma_MET","MET (GeV)",50,40,300,"SS Gamma",20,1,4);
+  ss_gamma_vs_Meff = book(m_name,"ss_gamma_Meff","M_{eff} (GeV)",1300,0,13000,"SS Gamma",20,1,4);
+  ss_gamma_vs_MET = book(m_name,"ss_gamma_MET","MET (GeV)",1300,50,13000,"SS Gamma",20,1,4);
 
   //comparison plots for ss_mdeltaR
-  ss_mdeltaR_vs_leadJetPt = book(m_name,"ss_mdeltaR_vs_leadJetPt","lead Jet Pt (GeV)",30,0,1500,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_leadJetEta= book(m_name,"ss_mdeltaR_vs_leadJetEta","lead Jet Eta (radians)",34,-3.4,3.4,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_leadJetPhi= book(m_name,"ss_mdeltaR_vs_leadJetPhi","lead Jet Phi (radians)",34,-3.4,3.4,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_leadJetMass= book(m_name,"ss_mdeltaR_vs_leadJetMass","lead Jet Mass (GeV)",50,0,200,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_leadJetEnergy= book(m_name,"ss_mdeltaR_vs_leadJetEnergy","lead Jet E (GeV)",50,0,4000,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_leadJetRapidity= book(m_name,"ss_mdeltaR_vs_leadJetRapidity","lead Jet Rapidity",25,-2.5,2.5,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_2ndJetPt = book(m_name,"ss_mdeltaR_vs_2ndJetPt","2nd Jet Pt (GeV)",30,0,1500,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_2ndJetEta= book(m_name,"ss_mdeltaR_vs_2ndJetEta","2nd Jet Eta (radians)",34,-3.4,3.4,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_2ndJetPhi= book(m_name,"ss_mdeltaR_vs_2ndJetPhi","2nd Jet Phi (radians)",34,-3.4,3.4,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_2ndJetMass= book(m_name,"ss_mdeltaR_vs_2ndJetMass","2nd Jet Mass (GeV)",50,0,200,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_2ndJetEnergy= book(m_name,"ss_mdeltaR_vs_2ndJetEnergy","2nd Jet E (GeV)",50,0,4000,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_2ndJetRapidity= book(m_name,"ss_mdeltaR_vs_2ndJetRapidity","2nd Jet Rapidity",25,-2.5,2.5,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_jetMultiplicity= book(m_name,"ss_mdeltaR_vs_JetMultiplicity","Jet Multiplicity",12,4,15,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_HT = book(m_name,"ss_mdeltaR_vs_HT","HT (GeV)",50,40,3000,"SS M_{#Delta}^{R} (GeV)",50,0,800);
-  ss_mdeltaR_vs_Meff = book(m_name,"ss_mdeltaR_vs_Meff","M_{eff} (GeV)",50,500,3000,"SS M_{#Delta}^{R} (GeV)",50,0,800);
+  ss_mdeltaR_vs_leadJetPt = book(m_name,"ss_mdeltaR_vs_leadJetPt","lead Jet Pt (GeV)",1300,0,13000,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_leadJetEta= book(m_name,"ss_mdeltaR_vs_leadJetEta","lead Jet Eta (radians)",34,-3.4,3.4,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_leadJetPhi= book(m_name,"ss_mdeltaR_vs_leadJetPhi","lead Jet Phi (radians)",34,-3.4,3.4,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_leadJetMass= book(m_name,"ss_mdeltaR_vs_leadJetMass","lead Jet Mass (GeV)",1300,0,13000,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_leadJetEnergy= book(m_name,"ss_mdeltaR_vs_leadJetEnergy","lead Jet E (GeV)",1300,0,13000,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_leadJetRapidity= book(m_name,"ss_mdeltaR_vs_leadJetRapidity","lead Jet Rapidity",25,-2.5,2.5,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_2ndJetPt = book(m_name,"ss_mdeltaR_vs_2ndJetPt","2nd Jet Pt (GeV)",1300,0,13000,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_2ndJetEta= book(m_name,"ss_mdeltaR_vs_2ndJetEta","2nd Jet Eta (radians)",34,-3.4,3.4,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_2ndJetPhi= book(m_name,"ss_mdeltaR_vs_2ndJetPhi","2nd Jet Phi (radians)",34,-3.4,3.4,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_2ndJetMass= book(m_name,"ss_mdeltaR_vs_2ndJetMass","2nd Jet Mass (GeV)",1300,0,13000,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_2ndJetEnergy= book(m_name,"ss_mdeltaR_vs_2ndJetEnergy","2nd Jet E (GeV)",1300,0,13000,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_2ndJetRapidity= book(m_name,"ss_mdeltaR_vs_2ndJetRapidity","2nd Jet Rapidity",25,-2.5,2.5,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_jetMultiplicity= book(m_name,"ss_mdeltaR_vs_JetMultiplicity","Jet Multiplicity",12,4,15,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_HT = book(m_name,"ss_mdeltaR_vs_HT","HT (GeV)",1300,50,13000,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
+  ss_mdeltaR_vs_Meff = book(m_name,"ss_mdeltaR_vs_Meff","M_{eff} (GeV)",1300,500,13000,"SS M_{#Delta}^{R} (GeV)",1300,0,13000);
 
   //comparison plots for ss_costheta
   ss_costheta_vs_leadJetEta = book(m_name,"ss_costheta_leadJetEta","lead Jet Eta",34,-3.4,3.4,"SS cos(#theta)",50,-1,1);
@@ -99,13 +99,15 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
   ss_costheta_vs_2ndJetRapidity = book(m_name,"ss_costheta_2ndJetRapidity","2nd Jet Rapidity",25,-2.5,2.5,"SS cos(#theta)",50,-1,1);
 
   //comparison plots for ss_dphivis
-  ss_dphivis_vs_MET = book(m_name,"MET_vs_ss_dphivis","#Delta #phi_{vis} (rads.)",50,0,3.2,"MET (GeV)",50,0,1000);
+  ss_dphivis_vs_MET = book(m_name,"MET_vs_ss_dphivis","#Delta #phi_{vis} (rads.)",50,0,3.2,"MET (GeV)",1300,0,13000);
 
   //comparison plots for ss_dphidecayangle
   ss_dphidecayangle_vs_MET = book(m_name,"MET_vs_ss_dphidecayangle","#Delta #phi_{decay} (rads.)",50,0,3.2,"MET (GeV)",50,0,1000);
-
+  ss_dphidecayangle_vs_MET = book(m_name,"MET_vs_ss_dphidecayangle","#Delta #phi_{decay} (rads.)",50,0,3.2,"MET (GeV)",1300,0,13000); 
   ss_dphivis_vs_METphi = book(m_name,"ss_dphivis_vs_METphi","MET #phi",50,0,3.2,"SS #Delta#phi_{vis} (radians)",50,0,3.2);
   ss_dphidecayangle_vs_METphi = book(m_name,"ss_dphidecayangle_vs_METphi","MET #phi",50,0,3.2,"SS #Delta#phi_{decay} (radians)",50,0,3.2);
+
+  ss_mdeltaR_vs_METsig = book(m_name,"ss_mdeltaR_vs_METsig","M_{#Delta}^{R} (GeV)",1300,0,13000,"MET sig",50,0,20);
 
   return StatusCode::SUCCESS;
 }
@@ -228,7 +230,18 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   //SS_gamma 2D plots
   ss_gamma_vs_MET->                 Fill(met->met()/1.e3,1./SS_invgamma_acc(*eventInfo), eventWeight);
   ss_gamma_vs_Meff->                Fill(m_eff/1.e3,1./SS_invgamma_acc(*eventInfo),eventWeight);
+  
+  float met_significance(0.0);
+  float ht(0.0);
 
+  for(int i=0; i < std::min<int>(multiplicity, jets->size()); i++){
+    const auto jet = jets->at(i);
+    if(jet->pt()/1.e3 < 30.) continue;
+    ht += jet->pt();
+  }
+  if(ht > 0) met_significance = (met->met()/1.e3)/sqrt(ht/1.e3);
+  
+  ss_mdeltaR_vs_METsig->Fill(SS_mdeltaR_acc(*eventInfo)/1000., met_significance, eventWeight);
 
   //SS_mdeltaR 2D plots
   ss_mdeltaR_vs_leadJetPt->         Fill(leadingJetPt,SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
@@ -263,6 +276,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   ss_dphidecayangle_vs_MET->        Fill(SS_dphidecayangle_acc(*eventInfo),met->met()/1.e3, eventWeight);
   ss_dphidecayangle_vs_METphi->     Fill(met->phi(),SS_dphidecayangle_acc(*eventInfo),eventWeight);
 
+  
   return StatusCode::SUCCESS;
 }
 
