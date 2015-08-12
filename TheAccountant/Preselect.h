@@ -68,6 +68,9 @@ private:
   TrigConf::xAODConfigTool* m_trigConf; //!
   Trig::TrigDecisionTool* m_TDT; //!
 
+  // a map holding (cutflow, (unweighted, weighted))
+  std::map<std::string, std::pair<float, float>> m_cutflow; //!
+
 public:
   // this is a standard constructor
   Preselect ();
