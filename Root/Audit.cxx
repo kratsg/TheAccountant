@@ -279,7 +279,7 @@ EL::StatusCode Audit :: execute ()
     Info("execute()", "\t\tNElements:     %d",    VIS.GetNElementsInFrame(V2));
   }
 
-  
+ 
   SS_mass_decor(*eventInfo)             = SS.GetMass();
   SS_invgamma_decor(*eventInfo)         = 1/SS.GetGammaInParentFrame();
   SS_dphivis_decor(*eventInfo)          = SS.GetDeltaPhiBoostVisible();
