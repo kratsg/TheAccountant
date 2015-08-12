@@ -94,6 +94,8 @@ EL::StatusCode Preselect :: execute ()
   if(!m_inputPhotons.empty())
     RETURN_CHECK("Preselect::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
 
+  float eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
+
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
     // retrieve CalibMET_RefFinal for METContainer
@@ -113,6 +115,8 @@ EL::StatusCode Preselect :: execute ()
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
+    m_cutflow["trigger"].first += 1;
+    m_cutflow["trigger"].second += eventWeight;
   }
 
   static SG::AuxElement::Decorator< int > pass_preSel("pass_preSel");
@@ -139,6 +143,8 @@ EL::StatusCode Preselect :: execute ()
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
+    m_cutflow["jets_largeR"].first += 1;
+    m_cutflow["jets_largeR"].second += eventWeight;
 
     static SG::AuxElement::Decorator< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
     pass_preSel_jetsLargeR(*eventInfo) = num_passJetsLargeR;
@@ -182,6 +188,8 @@ EL::StatusCode Preselect :: execute ()
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
+    m_cutflow["jets"].first += 1;
+    m_cutflow["jets"].second += eventWeight;
 
     // only select event if:
     //    m_bjet_minNum <= num_passBJets <= m_bjet_maxNum
@@ -189,6 +197,8 @@ EL::StatusCode Preselect :: execute ()
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
+    m_cutflow["bjets"].first += 1;
+    m_cutflow["bjets"].second += eventWeight;
 
     static SG::AuxElement::Decorator< int > pass_preSel_jets("pass_preSel_jets");
     static SG::AuxElement::Decorator< int > pass_preSel_bjets("pass_preSel_bjets");
@@ -202,13 +212,18 @@ EL::StatusCode Preselect :: execute ()
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
+    m_cutflow["met"].first += 1;
+    m_cutflow["met"].second += eventWeight;
   }
+
 
   if(!m_inputJets.empty() && !m_inputMET.empty()){
     if(VD::dPhiMETMin(in_met, in_jets) < m_dPhiMin){
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
+    m_cutflow["dPhiMETMin"].first += 1;
+    m_cutflow["dPhiMETMin"].second += eventWeight;
   }
 
   // truth met filter
@@ -237,6 +252,8 @@ EL::StatusCode Preselect :: execute ()
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
+    m_cutflow["truthMET"].first += 1;
+    m_cutflow["truthMET"].second += eventWeight;
   }
 
   // the following is copied twice, need to DRY it
@@ -276,6 +293,8 @@ EL::StatusCode Preselect :: execute ()
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
+    m_cutflow["leptons_baseline"].first += 1;
+    m_cutflow["leptons_baseline"].second += eventWeight;
   }
 
   if(!m_signalLeptonSelection.empty()){
@@ -314,6 +333,8 @@ EL::StatusCode Preselect :: execute ()
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
+    m_cutflow["leptons_signal"].first += 1;
+    m_cutflow["leptons_signal"].second += eventWeight;
   }
 
 
