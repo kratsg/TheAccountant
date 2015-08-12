@@ -354,7 +354,7 @@ EL::StatusCode Preselect :: finalize () {
   for(auto cutflow: m_cutflow){
     TH1F* hist = new TH1F(("cutflow/"+cutflow.first).c_str(), cutflow.first.c_str(), 2, 1, 3);
     hist->SetBinContent(1, cutflow.second.first);
-    hist->SetBinContent(1, cutflow.second.second);
+    hist->SetBinContent(2, cutflow.second.second);
     wk()->addOutput(hist);
   }
 
