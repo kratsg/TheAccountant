@@ -44,7 +44,7 @@ EL::StatusCode Report :: setupJob (EL::Job& job)
 
 EL::StatusCode Report :: histInitialize () {
   // initialize all histograms here
-  
+
   m_RazorPlots["all/razor"] = new TheAccountant::RazorVariableHists("all/razor/");
 
 
@@ -104,7 +104,6 @@ EL::StatusCode Report :: histInitialize () {
     // do topology for all
     jetPlot.second->m_doTopology = true;
     if(jetPlot.first.find("all/jetsLargeR") == std::string::npos) continue;
-    std::cout << jetPlot.first << std::endl;
     // only do substructure for the largeR jets
     jetPlot.second->m_doSubstructure = true;
   }
@@ -254,7 +253,7 @@ EL::StatusCode Report :: execute ()
     // dereference the iterator since it's just a single object
     in_met = *met_id;
   }
-  
+
   float eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
 
 
