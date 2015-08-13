@@ -11,7 +11,7 @@ ZsherpaFiles="user.lgagnon.*.Z_sherpa.*_tag_05_output_xAOD.root/"
 ttbarIncFiles="user.amarzin.410000.ttbar.DAOD_SUSY10.e3698_s2608_s2183_r6765_r6282_p2375_tag_06_v3_output_xAOD.root/"
 ttbarExcFiles="user.amarzin.407012.ttbar.DAOD_SUSY10.e4023_s2608_r6765_r6282_p2375_tag_06_v3_output_xAOD.root/"
 
-globalOpts=(-v -f -yyyyyy --optimizationDump --inputDQ2 --badJetVeto --electrons="FinalSignalElectrons" --muons="FinalSignalMuons")
+globalOpts=(-v -f -yyyyyy --optimizationDump --inputDQ2 --badJetVeto --electrons="FinalSignalElectrons" --muons="FinalSignalMuons" --jets="FinalSignalJets")
 
 run0L=(--baselineLeptonSelection="==0" --jet_minNum=4 --jet_minPt=30 --bjet_minNum=2 --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=50 --dPhiMin=0.4)
 run1L=(--signalLeptonSelection=" >0" --jet_minNum=2 --jet_minPt=30 --bjet_minNum=1 --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=50 --dPhiMin=0.4)
