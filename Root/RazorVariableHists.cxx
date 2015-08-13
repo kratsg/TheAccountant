@@ -140,12 +140,12 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   i1_depth->          Fill( I1_depth_acc(*eventInfo), eventWeight);
   i2_depth->          Fill( I2_depth_acc(*eventInfo), eventWeight);
   v1_nelements->      Fill( V1_nelements_acc(*eventInfo), eventWeight);
-<<<<<<< HEAD
   v2_nelements->      Fill( V2_nelements_acc(*eventInfo), eventWeight);
 
   ss_abs_costheta->   Fill( std::fabs(SS_costheta_acc(*eventInfo)), eventWeight);
   s1_abs_costheta->   Fill( std::fabs(S1_costheta_acc(*eventInfo)), eventWeight);
   s2_abs_costheta->   Fill( std::fabs(S2_costheta_acc(*eventInfo)), eventWeight);
+
 
   if((SS_mdeltaR_acc(*eventInfo)/1000.)<250)
     ss_mdeltaR_ptless250->Fill(SS_mdeltaR_acc(*eventInfo)/1000., eventWeight);
@@ -192,6 +192,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   mass_jets->Fill(jets_mass);
 
   float mass_largeR_jets =0;
+
 
   //jets_mass_largeR
   for (const auto largeRjet : *jets_largeR)
