@@ -127,6 +127,8 @@ namespace TheAccountant
     TH1F* v1_nelements;
     TH1F* v2_nelements;
 
+    TH2F* ss_mdeltaR_vs_METsig;
+
   };
 }
 #endif
