@@ -168,6 +168,7 @@ if __name__ == "__main__":
   prooflite = drivers_parser.add_parser('prooflite', help='Run your jobs using ProofLite', usage=driverUsageStr.format('prooflite'))
   prun = drivers_parser.add_parser('prun', help='Run your jobs on the grid using prun. Use prun --help for descriptions of the options.', usage=driverUsageStr.format('prun'))
   condor = drivers_parser.add_parser('condor', help='Flock your jobs to condor', usage=driverUsageStr.format('condor'))
+  lsf = drivers_parser.add_parser('lsf', help='Flock your jobs to lsf', usage=driverUsageStr.format('lsf'))
 
   # standard options for other drivers
   #.add_argument('--optCacheLearnEntries', type=str, required=False, default=None)
@@ -220,6 +221,9 @@ if __name__ == "__main__":
   # define arguments for condor driver
   condor.add_argument('--optCondorConf', metavar='', type=str, required=False, default='stream_output = true')
 
+  # define arguments for lsf driver
+  lsf.add_argument('--optLSFConf', metavar='', type=str, required=False, default='-q short')
+
   # parse the arguments, throw errors if missing any
   args = parser.parse_args()
 
@@ -250,7 +254,7 @@ if __name__ == "__main__":
         raise OSError('Output directory {0:s} already exists. Either re-run with -f/--force, choose a different --submitDir, or rm -rf it yourself. Just deal with it, dang it.'.format(args.submit_dir))
 
     # they will need it to get it working
-    use_scanDQ2 = (args.use_scanDQ2)|(args.driver in ['prun', 'condor'])
+    use_scanDQ2 = (args.use_scanDQ2)|(args.driver in ['prun', 'condor','lsf'])
     if use_scanDQ2:
       if os.getenv('XRDSYS') is None:
         raise EnvironmentError('xrootd client is not setup. Run localSetupFAX or equivalent.')
@@ -272,6 +276,9 @@ if __name__ == "__main__":
     elif args.driver == 'condor':
       if getattr(ROOT.EL, 'CondorDriver') is None:
         raise KeyError('Cannot load the Condor driver from EventLoop. Did you not compile it?')
+    elif args.driver == 'lsf':
+      if getattr(ROOT.EL, 'LSFDriver') is None:
+        raise KeyError('Cannot load the LSF driver from EventLoop. Did you not compile it?')
 
     # create a new sample handler to describe the data files we use
     cookBooks_logger.info("creating new sample handler")
@@ -340,6 +347,9 @@ if __name__ == "__main__":
     cookBooks_logger.info("creating new job")
     job = ROOT.EL.Job()
     job.sampleHandler(sh_all)
+
+    if args.driver == 'lsf':
+      job.options().setBool(ROOT.EL.Job.optResetShell, False);
 
     if args.num_events > 0:
       cookBooks_logger.info("\tprocessing only %d events", args.num_events)
@@ -476,10 +486,14 @@ if __name__ == "__main__":
       driver.options().setBool(ROOT.EL.Job.optBatchSharedFileSystem, False)
       driver.options().setString(ROOT.EL.Job.optCondorConf, args.optCondorConf)
 
+    elif (args.driver == "lsf"):
+      driver = ROOT.EL.LSFDriver()
+      driver.options().setString(ROOT.EL.Job.optSubmitFlags, args.optLSFConf)
+
     user_confirm(args, 4+args.optimization_dump)
 
     cookBooks_logger.info("\tsubmit job")
-    if args.driver in ["prun", "condor"]:
+    if args.driver in ["prun", "condor","lsf"]:
       driver.submitOnly(job, args.submit_dir)
     else:
       driver.submit(job, args.submit_dir)
