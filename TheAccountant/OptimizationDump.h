@@ -83,8 +83,10 @@ private:
   /* varR jet properties */
   std::array<float, 4> m_varR_top_m; //!
   std::array<float, 4> m_varR_top_pt; //!
+  std::array<int, 4> m_varR_top_nsj; //!
   std::array<float, 4> m_varR_W_m; //!
   std::array<float, 4> m_varR_W_pt; //!
+  std::array<int, 4> m_varR_W_nsj; //!
 
   /* large-R jet details */
   std::array<float, 4> m_largeR_pt; //!
