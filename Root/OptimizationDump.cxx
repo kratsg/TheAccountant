@@ -66,13 +66,13 @@ OptimizationDump :: OptimizationDump () :
   m_rc_split12{MULTI_ARRAY_INIT},
   m_rc_split23{MULTI_ARRAY_INIT},
   m_rc_nsj{MULTI_ARRAY_INIT},
-<<<<<<< HEAD
   m_numJetsVarR_top(-99),
   m_numJetsVarR_W(-99),
   m_varRjetReclusteringTools{{nullptr, nullptr}},
   m_varR_top_m{ARRAY_INIT},
-  m_varR_W_m{ARRAY_INIT}
-=======
+  m_varR_top_pt{ARRAY_INIT},
+  m_varR_W_m{ARRAY_INIT},
+  m_varR_W_pt{ARRAY_INIT},
   m_largeR_pt{ARRAY_INIT},
   m_largeR_m{ARRAY_INIT},
   m_largeR_split12{ARRAY_INIT},
@@ -82,7 +82,6 @@ OptimizationDump :: OptimizationDump () :
   m_largeR_topTag_tight{ARRAY_INIT},
   m_largeR_topTag_smoothLoose{ARRAY_INIT},
   m_largeR_topTag_smoothTight{ARRAY_INIT}
->>>>>>> 844abaeb8f267fc4c7568db44df1d7099093bb5f
 {}
 
 EL::StatusCode OptimizationDump :: setupJob (EL::Job& job)
@@ -160,13 +159,28 @@ EL::StatusCode OptimizationDump :: initialize () {
       RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("InputJetContainer",  m_inputJets), "");
       RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("OutputJetContainer", outputContainer), "");
       RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("ReclusterRadius",    radius), "");
+      RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("RCJetPtFrac",    m_rcTrimFrac), "");
+      RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("InputJetPtMin",    20.0), "");
       RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->initialize(), "");
     }
 
     m_tree->Branch ("multiplicity_jet_varR_top", &m_numJetsVarR_top, "multiplicity_jet_varR_top/I");
     m_tree->Branch ("multiplicity_jet_varR_W", &m_numJetsVarR_W, "multiplicity_jet_varR_W/I");
-    m_tree->Branch ("variableR_top_jet_m", &m_varR_top_m, "variableR_top_jet_m/F");
-    m_tree->Branch ("variableR_W_jet_m", &m_varR_W_m, "variableR_W_jet_m/F");
+    for(int i=0; i<4; i++){
+      std::string topcommonDenominator = "variableR_top_jet_"+std::to_string(i);
+      std::string WcommonDenominator = "variableR_W_jet_"+std::to_string(i);
+      std::string branchName;
+
+      branchName = "m_"+topcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_top_m[i]), (branchName+"/F").c_str());
+      branchName = "m_"+WcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_W_m[i]), (branchName+"/F").c_str());
+
+      branchName = "pt_"+topcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_top_pt[i]), (branchName+"/F").c_str());
+      branchName = "pt_"+WcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_W_pt[i]), (branchName+"/F").c_str());
+    }
 
     for(int i=0; i<2; i++){
       char outputContainer[15];
@@ -179,6 +193,8 @@ EL::StatusCode OptimizationDump :: initialize () {
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("InputJetContainer",  m_inputJets), "");
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("ReclusterRadius",    1.5), "");
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMinRadius",    0.4), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("RCJetPtFrac",    m_rcTrimFrac), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("InputJetPtMin",    20.0), "");
       RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->initialize(), "");
     }
   }
@@ -394,14 +410,20 @@ EL::StatusCode OptimizationDump :: execute ()
       RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(varRJets, varRJetContainer, m_event, m_store, m_debug), ("Could not retrieve the variable R jet container "+std::string(varRJetContainer)).c_str());
       if(i==0) m_numJetsVarR_top = varRJets->size();
       else m_numJetsVarR_W = varRJets->size();
-      for(unsigned int j=0; j<1; j++){
+      for(unsigned int j=0; j<4; j++){
         if(i==0) m_varR_top_m[j]  = -99.0;
         else m_varR_W_m[j]  = -99.0;
         // if there are fewer than 4 jets, then...
         if(j < varRJets->size()){
           auto varRJet = varRJets->at(j);
-          if(i==0) m_varR_top_m[j] = varRJet->m();
-          else m_varR_W_m[j] = varRJet->m();
+          if(i==0){
+            m_varR_top_m[j] = varRJet->m()/1000.;
+            m_varR_top_pt[j] = varRJet->pt()/1000.;
+          }
+          else{
+            m_varR_W_m[j] = varRJet->m()/1000.;
+            m_varR_W_pt[j] = varRJet->pt()/1000.;
+          }
         }
       }
     }
