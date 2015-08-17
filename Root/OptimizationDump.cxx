@@ -71,8 +71,10 @@ OptimizationDump :: OptimizationDump () :
   m_varRjetReclusteringTools{{nullptr, nullptr}},
   m_varR_top_m{ARRAY_INIT},
   m_varR_top_pt{ARRAY_INIT},
+  m_varR_top_nsj{ARRAY_INIT},
   m_varR_W_m{ARRAY_INIT},
   m_varR_W_pt{ARRAY_INIT},
+  m_varR_W_nsj{ARRAY_INIT},
   m_largeR_pt{ARRAY_INIT},
   m_largeR_m{ARRAY_INIT},
   m_largeR_split12{ARRAY_INIT},
@@ -180,6 +182,11 @@ EL::StatusCode OptimizationDump :: initialize () {
       m_tree->Branch(branchName.c_str(), &(m_varR_top_pt[i]), (branchName+"/F").c_str());
       branchName = "pt_"+WcommonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_varR_W_pt[i]), (branchName+"/F").c_str());
+
+      branchName = "nsj_"+topcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_top_nsj[i]), (branchName+"/I").c_str());
+      branchName = "nsj_"+WcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_W_nsj[i]), (branchName+"/I").c_str());
     }
 
     for(int i=0; i<2; i++){
@@ -411,18 +418,30 @@ EL::StatusCode OptimizationDump :: execute ()
       if(i==0) m_numJetsVarR_top = varRJets->size();
       else m_numJetsVarR_W = varRJets->size();
       for(unsigned int j=0; j<4; j++){
-        if(i==0) m_varR_top_m[j]  = -99.0;
-        else m_varR_W_m[j]  = -99.0;
+        if(i==0){
+          m_varR_top_m[j]  = -99.0;
+          m_varR_top_pt[j]  = -99.0;
+          m_varR_top_nsj[j]  = -99.0;
+        }
+        else{
+          m_varR_W_m[j]  = -99.0;
+          m_varR_W_pt[j]  = -99.0;
+          m_varR_W_nsj[j]  = -99.0;
+        }
         // if there are fewer than 4 jets, then...
         if(j < varRJets->size()){
           auto varRJet = varRJets->at(j);
           if(i==0){
             m_varR_top_m[j] = varRJet->m()/1000.;
             m_varR_top_pt[j] = varRJet->pt()/1000.;
+            std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
+            if(varRJet->getAttribute("constituentLinks", constitLinks)) m_varR_top_nsj[j] = constitLinks.size();
           }
           else{
             m_varR_W_m[j] = varRJet->m()/1000.;
             m_varR_W_pt[j] = varRJet->pt()/1000.;
+            std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
+            if(varRJet->getAttribute("constituentLinks", constitLinks)) m_varR_W_nsj[j] = constitLinks.size();
           }
         }
       }
