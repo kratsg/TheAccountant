@@ -35,6 +35,7 @@ public:
   std::string m_decor_jetTags_b   = "", // isB,
               m_decor_jetTags_top = "", // isTop,
               m_decor_jetTags_w   = ""; // isW;
+  float m_rcTrimFrac = 0.0;
 
 private:
   xAOD::TEvent *m_event; //!
@@ -78,6 +79,12 @@ private:
   std::array<std::array<float, 4>, 3 > m_rc_split12; //!
   std::array<std::array<float, 4>, 3 > m_rc_split23; //!
   std::array<std::array<int, 4>  , 3 > m_rc_nsj; //!
+
+  /* varR jet properties */
+  std::array<float, 4> m_varR_top_m; //!
+  std::array<float, 4> m_varR_top_pt; //!
+  std::array<float, 4> m_varR_W_m; //!
+  std::array<float, 4> m_varR_W_pt; //!
 
   /* large-R jet details */
   std::array<float, 4> m_largeR_pt; //!
