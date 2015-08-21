@@ -111,6 +111,11 @@ EL::StatusCode Preselect :: execute ()
     in_met = *met_id;
   }
 
+  // Get total cutflow
+  m_cutflow["total"].first += 1;
+  m_cutflow["total"].second += eventWeight;
+
+
   // handle trigger
   if(!m_triggerSelection.empty()){
     const Trig::ChainGroup* triggerChainGroup = m_TDT->getChainGroup(m_triggerSelection);
@@ -153,11 +158,14 @@ EL::StatusCode Preselect :: execute ()
     pass_preSel_jetsLargeR(*eventInfo) = num_passJetsLargeR;
   }
 
+
+  ConstDataVector<xAOD::JetContainer> * SelectedJets  =  new ConstDataVector<xAOD::JetContainer>(SG::VIEW_ELEMENTS);
   if(!m_inputJets.empty()){
     // get the working point
     static VD::WP bTag_wp = VD::str2wp(m_bTag_wp);
     static SG::AuxElement::Decorator< int > isB("isB");
     static SG::AuxElement::ConstAccessor< char > isBadJet("bad");
+    static SG::AuxElement::ConstAccessor< char > isSignal("signal");
 
     // for small-R jets, count number of jets that pass standard cuts
     int num_passJets = 0;
@@ -177,90 +185,25 @@ EL::StatusCode Preselect :: execute ()
       if(jet->eta()      > m_jet_maxEta)  continue;
       if(jet->phi()      < m_jet_minPhi)  continue;
       if(jet->phi()      > m_jet_maxPhi)  continue;
+      if(isSignal(*jet) != 1)             continue;
+
+      SelectedJets->push_back(jet);
       num_passJets++;
       pass_preSel(*jet) = 1;
-      if(VD::bTag(jet, bTag_wp)){
+      if(VD::bTag(jet, bTag_wp, 2.5)){
         num_passBJets++;
         isB(*jet) = 1;
       }
     }
 
-    // only select event if:
-    //    m_jet_minNum <= num_passJets <= m_jet_maxNum
-    if(!( (m_jet_minNum <= num_passJets)&&(num_passJets <= m_jet_maxNum) )){
-      wk()->skipEvent();
-      return EL::StatusCode::SUCCESS;
-    }
-    m_cutflow["jets"].first += 1;
-    m_cutflow["jets"].second += eventWeight;
-
-    // only select event if:
-    //    m_bjet_minNum <= num_passBJets <= m_bjet_maxNum
-    if(!( (m_bjet_minNum <= num_passBJets)&&(num_passBJets <= m_bjet_maxNum) )){
-      wk()->skipEvent();
-      return EL::StatusCode::SUCCESS;
-    }
-    m_cutflow["bjets"].first += 1;
-    m_cutflow["bjets"].second += eventWeight;
-
-    static SG::AuxElement::Decorator< int > pass_preSel_jets("pass_preSel_jets");
-    static SG::AuxElement::Decorator< int > pass_preSel_bjets("pass_preSel_bjets");
-    pass_preSel_jets(*eventInfo) = num_passJets;
-    pass_preSel_bjets(*eventInfo) = num_passBJets;
-
-  }
-
-  if(!m_inputMET.empty()){
-    if(in_met->met()/1.e3 < m_minMET){
-      wk()->skipEvent();
-      return EL::StatusCode::SUCCESS;
-    }
-    m_cutflow["met"].first += 1;
-    m_cutflow["met"].second += eventWeight;
-  }
+    // increment cutflow for passing bad jet requirements
+    m_cutflow["bad_jets"].first += 1;
+    m_cutflow["bad_jets"].second += eventWeight;
 
 
-  if(!m_inputJets.empty() && !m_inputMET.empty()){
-    if(VD::dPhiMETMin(in_met, in_jets) < m_dPhiMin){
-      wk()->skipEvent();
-      return EL::StatusCode::SUCCESS;
-    }
-    m_cutflow["dPhiMETMin"].first += 1;
-    m_cutflow["dPhiMETMin"].second += eventWeight;
-  }
 
-  // truth met filter
-  if(!m_truthMETFilter.empty()){
-    std::string truthMETSelection_str = m_truthMETFilter.substr(0,2);
-    unsigned int truthMETSelection_cut = std::stoul(m_truthMETFilter.substr(2));
-    bool pass_truthMETSelection = false;
-
-    float met_truth_filter = eventInfo->auxdata<float>("met_truth_filter");
-    if(truthMETSelection_str == "==")
-      pass_truthMETSelection = (met_truth_filter == truthMETSelection_cut);
-    else if(truthMETSelection_str == ">=")
-      pass_truthMETSelection = (met_truth_filter >= truthMETSelection_cut);
-    else if(truthMETSelection_str == "<=")
-      pass_truthMETSelection = (met_truth_filter <= truthMETSelection_cut);
-    else if(truthMETSelection_str == " >")
-      pass_truthMETSelection = (met_truth_filter > truthMETSelection_cut);
-    else if(truthMETSelection_str == " <")
-      pass_truthMETSelection = (met_truth_filter < truthMETSelection_cut);
-    else if(truthMETSelection_str == "!=")
-      pass_truthMETSelection = (met_truth_filter != truthMETSelection_cut);
-    else
-      pass_truthMETSelection = false;
-
-    if(!pass_truthMETSelection){
-      wk()->skipEvent();
-      return EL::StatusCode::SUCCESS;
-    }
-    m_cutflow["truthMET"].first += 1;
-    m_cutflow["truthMET"].second += eventWeight;
-  }
-
-  // the following is copied twice, need to DRY it
-  if(!m_baselineLeptonSelection.empty()){
+    // the following is copied twice, need to DRY it
+    if(!m_baselineLeptonSelection.empty()){
     unsigned int numLeptons(0);
     // lepton veto
     if(!m_inputElectrons.empty()){
@@ -269,7 +212,7 @@ EL::StatusCode Preselect :: execute ()
       numLeptons += in_electrons->size();
     }
     if(!m_inputMuons.empty()){
-      ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons));
+      ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons, false, true));
       in_muons = VetoMuons.asDataVector();
       numLeptons += in_muons->size();
     }
@@ -309,7 +252,7 @@ EL::StatusCode Preselect :: execute ()
       numLeptons += in_electrons->size();
     }
     if(!m_inputMuons.empty()){
-      ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons, true));
+      ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons, true, true));
       in_muons = VetoMuons.asDataVector();
       numLeptons += in_muons->size();
     }
@@ -340,6 +283,86 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["leptons_signal"].second += eventWeight;
   }
 
+
+
+
+    // only select event if:
+    //    m_jet_minNum <= num_passJets <= m_jet_maxNum
+    if(!( (m_jet_minNum <= num_passJets)&&(num_passJets <= m_jet_maxNum) )){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+    m_cutflow["jets"].first += 1;
+    m_cutflow["jets"].second += eventWeight;
+
+    // only select event if:
+    //    m_bjet_minNum <= num_passBJets <= m_bjet_maxNum
+    if(!( (m_bjet_minNum <= num_passBJets)&&(num_passBJets <= m_bjet_maxNum) )){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+    m_cutflow["bjets"].first += 1;
+    m_cutflow["bjets"].second += eventWeight;
+
+    static SG::AuxElement::Decorator< int > pass_preSel_jets("pass_preSel_jets");
+    static SG::AuxElement::Decorator< int > pass_preSel_bjets("pass_preSel_bjets");
+    pass_preSel_jets(*eventInfo) = num_passJets;
+    pass_preSel_bjets(*eventInfo) = num_passBJets;
+
+  }
+
+  if(!m_inputJets.empty() && !m_inputMET.empty()){
+    const xAOD::JetContainer* SignalJets = SelectedJets->asDataVector(); 
+    if(VD::dPhiMETMin(in_met, SignalJets) < m_dPhiMin){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+    m_cutflow["dPhiMETMin"].first += 1;
+    m_cutflow["dPhiMETMin"].second += eventWeight;
+  }
+
+  if(!m_inputMET.empty()){
+    if(in_met->met()/1.e3 < m_minMET){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+    m_cutflow["missing_et"].first += 1;
+    m_cutflow["missing_et"].second += eventWeight;
+  }
+
+
+
+  // truth met filter
+  if(!m_truthMETFilter.empty()){
+    std::string truthMETSelection_str = m_truthMETFilter.substr(0,2);
+    unsigned int truthMETSelection_cut = std::stoul(m_truthMETFilter.substr(2));
+    bool pass_truthMETSelection = false;
+
+    float met_truth_filter = eventInfo->auxdata<float>("met_truth_filter");
+    if(truthMETSelection_str == "==")
+      pass_truthMETSelection = (met_truth_filter == truthMETSelection_cut);
+    else if(truthMETSelection_str == ">=")
+      pass_truthMETSelection = (met_truth_filter >= truthMETSelection_cut);
+    else if(truthMETSelection_str == "<=")
+      pass_truthMETSelection = (met_truth_filter <= truthMETSelection_cut);
+    else if(truthMETSelection_str == " >")
+      pass_truthMETSelection = (met_truth_filter > truthMETSelection_cut);
+    else if(truthMETSelection_str == " <")
+      pass_truthMETSelection = (met_truth_filter < truthMETSelection_cut);
+    else if(truthMETSelection_str == "!=")
+      pass_truthMETSelection = (met_truth_filter != truthMETSelection_cut);
+    else
+      pass_truthMETSelection = false;
+
+    if(!pass_truthMETSelection){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+    m_cutflow["truthMET"].first += 1;
+    m_cutflow["truthMET"].second += eventWeight;
+  }
+
+  std::cout << "Event passed: " << eventInfo->eventNumber() << std::endl;
 
   return EL::StatusCode::SUCCESS;
 }

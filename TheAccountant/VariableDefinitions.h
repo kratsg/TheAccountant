@@ -18,6 +18,8 @@ namespace VariableDefinitions {
   static SG::AuxElement::ConstAccessor<char> isBaseline("baseline");
   static SG::AuxElement::ConstAccessor<char> passOverlap("passOR");
   static SG::AuxElement::ConstAccessor<char> isSignal("signal");
+  static SG::AuxElement::ConstAccessor<char> isCosmic("cosmic");
+  static SG::AuxElement::ConstAccessor<char> isBad("bad");
 
   // for tagging primarily, but an enum for working points
   //  - an enum class enforces strong typing
@@ -87,12 +89,16 @@ namespace VariableDefinitions {
 
   // build lepton veto using overlaps on baseline/signal leptons
   template <typename T>
-  ConstDataVector<T> leptonVeto(const T* leptons, bool requireSignal = false){
+  ConstDataVector<T> leptonVeto(const T* leptons, bool requireSignal = false, bool additionalMuonCuts = false){
     ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
     for(auto l: *leptons){
       if(isBaseline(*l) == 0) continue;
       if(requireSignal && isSignal(*l) == 0) continue;
       if(passOverlap(*l) == 0) continue;
+      if(additionalMuonCuts){
+        if(isCosmic(*l) == 1) continue;
+        if(isBad(*l) == 1) continue;
+      }
       VetoLeptons.push_back(l);
     }
     return VetoLeptons;
