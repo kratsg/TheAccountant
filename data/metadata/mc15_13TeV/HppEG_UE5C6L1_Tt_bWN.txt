@@ -1,0 +1,6 @@
+# author : tripiana@cern.ch (please report any problems)
+# date   : 03/08/2015
+DSID     FS   CROSSECTION[pb]     K-FACTOR     FILTEREFF   REL.UNCERT
+406009   61       21.5949          1.0          0.04072      0.140595    
+406010   61       8.51615          1.0          0.061771     0.139223    
+406011   61       8.51615          1.0          0.047643     0.139223    

@@ -1,0 +1,8 @@
+# author : tinapotter@gmail.com (please report any problems)
+# date   : 24/06/2015
+# update : 
+# brief  : Both 125 (C1+N2) and 127 (C1-N2) are simulated in Madgraph, the below cross sections are provided separately for 125 and 127, and provided in pb.
+# command: ganga SUSYCrossSectionSubmit.py --tev 13 --dir MC15TestSamples  --processes nn --ipart1 2,2 --ipart2 5,7 --batch --queue 2nd
+# format : datasetID   finalState   XS   BF   filterEff   relUncertainty
+406005	125	0.013495	1.000000	1.000000	0.0688556
+406005	127	0.0051455	1.000000	1.000000	0.0825421
