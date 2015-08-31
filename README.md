@@ -112,7 +112,7 @@ See the help options `CookTheBooks.py -h` for more information about what you ca
 This is the macro that will generate an appropriate `weights.json` for the given samples that you pass in. I use a standard run like
 
 ```bash
-GetWeights.py --files mc15_13TeV:mc15_13TeV.foo.bar.baz --inputDQ2
+GetWeights.py mc15_13TeV:mc15_13TeV.foo.bar.baz/ "mc15_13TeV:mc15_13TeV.someOtherSample*" --inputDQ2
 ```
 
 which will use all information possible to make the most appropriate `weights.json` file we have.
