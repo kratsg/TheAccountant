@@ -42,3 +42,5 @@ CookTheBooks.py --files="${WsherpaFiles}" "${globalOpts[@]}" "${run1L[@]}" --sub
 CookTheBooks.py --files="${ZsherpaFiles}" "${globalOpts[@]}" "${run1L[@]}" --submitDir="${outputDir}/Zsherpa_1L" condor > "${outputDir}/Zsherpa_1L.log" 2>&1 &
 CookTheBooks.py --files="${ttbarIncFiles}" "${globalOpts[@]}" "${run1L[@]}" --truthMETFilter=" <200" --submitDir="${outputDir}/ttbarInc_1L" condor > "${outputDir}/ttbarInc_1L.log" 2>&1 &
 CookTheBooks.py --files="${ttbarExcFiles}" "${globalOpts[@]}" "${run1L[@]}" --truthMETFilter=" >200" --submitDir="${outputDir}/ttbarExc_1L" condor > "${outputDir}/ttbarExc_1L.log" 2>&1 &
+
+GetWeights.py "${gttFiles}" "${dijetFiles}" "${topEWFiles}" "${dibosonFiles}" "${singletopFiles}" "${WsherpaFiles}" "${ZsherpaFiles}" "${ttbarIncFiles}" "${ttbarExcFiles}" -o "${outputDir}/weights.json" > "${outputDir}/weights.log" 2>&1 &
