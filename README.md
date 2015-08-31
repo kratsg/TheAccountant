@@ -73,19 +73,23 @@ cd -
 
 ### Algorithms and Scripts
 
-#### [Audit.cxx](TheAccountant/Audit.h)
+#### Audit.cxx
 
 This algorithm sets up a decay tree with a pair of vis-invis particles in each hemisphere.
 
-#### [Preselect.cxx](TheAccountant/Preselect.h)
+#### OptimizationDump.cxx
 
-This algorithm applies a pre-selection to large-R jets, bjets. If the event does not pass a preselection, it is skipped via `wk()->skipEvent()`.
+This algorithm produces an ntuple used for [Optimization](https://github.com/kratsg/Optimization).
 
-#### [Report.cxx](TheAccountant/Report.h)
+#### Preselect.cxx
+
+This algorithm applies a pre-selection on objects in the event. If the event does not pass a preselection, the event is skipped via `wk()->skipEvent()`.
+
+#### Report.cxx
 
 This algorithm creates plots of large-R jets, bjets, and MET. It has functionality to create a separate set of plots for those events that pass the pre-selection as well as all events.
 
-#### [CookTheBooks.py](scripts/CookTheBooks.py)
+#### CookTheBooks.py
 
 This is the macro that runs it all. [Start here and the world shall open up before you.](https://www.youtube.com/watch?v=5qH1pBTqvc4) I use a standard run
 
@@ -107,7 +111,7 @@ which will
 
 See the help options `CookTheBooks.py -h` for more information about what you can actually do. Each of the specific sections in `CookTheBooks.py` can have a lot of options, so you might want to try something like `CookTheBooks.py -h audit` or `CookTheBooks.py -h preselect` to see only options for that specific algorithm or section.
 
-#### [GetWeights.py](scripts/GetWeights.py)
+#### GetWeights.py
 
 This is the macro that will generate an appropriate `weights.json` for the given samples that you pass in. I use a standard run like
 
