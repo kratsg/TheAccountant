@@ -70,7 +70,7 @@ if __name__ == "__main__":
   __version__ = subprocess.check_output(["git", "describe", "--always"], cwd=os.path.dirname(os.path.realpath(__file__))).strip()
   __short_hash__ = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], cwd=os.path.dirname(os.path.realpath(__file__))).strip()
 
-  parser = argparse.ArgumentParser(add_help=True, description='Grab the number of events from cutflows in the MBJ productions.',
+  parser = argparse.ArgumentParser(add_help=True, description='Make a proper weights file using cutflow information and susytools metadata.',
                                    usage='%(prog)s --files ... file [file ...] [options] {driver} [driver options]',
                                    formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
 
