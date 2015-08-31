@@ -7,6 +7,7 @@ Run-2 analysis for SUSY search in gluino to stops.
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Installing](#installing)
+  - [Grabbing the SUSYTools cross section files](#grabbing-the-susytools-cross-section-files)
   - [Dependencies](#dependencies)
 - [Functionality Included](#functionality-included)
   - [Algorithms and Scripts](#algorithms-and-scripts)
@@ -14,6 +15,7 @@ Run-2 analysis for SUSY search in gluino to stops.
     - [[Preselect.cxx](TheAccountant/Preselect.h)](#preselectcxxtheaccountantpreselecth)
     - [[Report.cxx](TheAccountant/Report.h)](#reportcxxtheaccountantreporth)
     - [[CookTheBooks.py](scripts/CookTheBooks.py)](#cookthebookspyscriptscookthebookspy)
+    - [[GetWeights.py](scripts/GetWeights.py)](#getweightspyscriptsgetweightspy)
   - [Patching JetRec for Variable-R](#patching-jetrec-for-variable-r)
   - [Samples and Drivers and Bash, oh my](#samples-and-drivers-and-bash-oh-my)
     - [Direct](#direct)
@@ -45,6 +47,17 @@ python xAODAnaHelpers/scripts/checkoutASGtags.py 2.3.19
 
 rc find_packages
 rc compile
+```
+
+### Grabbing the SUSYTools cross section files
+
+Most of the time, if you want to run the `GetWeights.py`, it helps to be able to checkout the latest information from SUSYTools. This is how I do it:
+
+```bash
+cd TheAccountant/data/metadata
+svn export svn+ssh://gstark@svn.cern.ch/reps/atlasoff/PhysicsAnalysis/SUSYPhys/SUSYTools/trunk/data/susy_crosssections_13TeV.txt
+svn export svn+ssh://gstark@svn.cern.ch/reps/atlasoff/PhysicsAnalysis/SUSYPhys/SUSYTools/trunk/data/mc15_13TeV/
+cd -
 ```
 
 ### Dependencies
@@ -93,6 +106,16 @@ which will
 - only plot large-R jets with Pt > 300 GeV
 
 See the help options `CookTheBooks.py -h` for more information about what you can actually do. Each of the specific sections in `CookTheBooks.py` can have a lot of options, so you might want to try something like `CookTheBooks.py -h audit` or `CookTheBooks.py -h preselect` to see only options for that specific algorithm or section.
+
+#### [GetWeights.py](scripts/GetWeights.py)
+
+This is the macro that will generate an appropriate `weights.json` for the given samples that you pass in. I use a standard run like
+
+```bash
+GetWeights.py --files mc15_13TeV:mc15_13TeV.foo.bar.baz --inputDQ2
+```
+
+which will use all information possible to make the most appropriate `weights.json` file we have.
 
 ### Patching JetRec for Variable-R
 
