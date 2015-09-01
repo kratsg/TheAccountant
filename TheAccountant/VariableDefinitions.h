@@ -34,15 +34,15 @@ namespace VariableDefinitions {
     return (decor(*obj) == 1);
   }
   template <typename T>
-  bool isBaseline(const T* obj, bool requireDecor=true){ return isDecor<T>(decor_baseline, obj, requireDecor); }
+  bool isBaseline(const T* obj, bool requireDecor=true){ return isDecor(decor_baseline, obj, requireDecor); }
   template <typename T>
-  bool isPassOverlap(const T* obj, bool requireDecor=true){ return isDecor<T>(decor_passOverlap, obj, requireDecor); }
+  bool isPassOverlap(const T* obj, bool requireDecor=true){ return isDecor(decor_passOverlap, obj, requireDecor); }
   template <typename T>
-  bool isSignal(const T* obj, bool requireDecor=true){ return isDecor<T>(decor_signal, obj, requireDecor); }
+  bool isSignal(const T* obj, bool requireDecor=true){ return isDecor(decor_signal, obj, requireDecor); }
   template <typename T>
-  bool isCosmic(const T* obj, bool requireDecor=true){ return isDecor<T>(decor_cosmic, obj, requireDecor); }
+  bool isCosmic(const T* obj, bool requireDecor=true){ return isDecor(decor_cosmic, obj, requireDecor); }
   template <typename T>
-  bool isBad(const T* obj, bool requireDecor=true){ return isDecor<T>(decor_bad, obj, requireDecor); }
+  bool isBad(const T* obj, bool requireDecor=true){ return isDecor(decor_bad, obj, requireDecor); }
 
   // for tagging primarily, but an enum for working points
   //  - an enum class enforces strong typing
