@@ -153,6 +153,7 @@ if __name__ == "__main__":
 
   group_optimizationDump = parser.add_argument_group('optimization')
   group_optimizationDump.add_argument('--optimizationDump', dest='optimization_dump', action='store_true', help='Enable to dump optimization ttree of values to cut against')
+  group_optimizationDump.add_argument('--rcTrimFrac', type=float, metavar='', help='fraction to trim from rc jets',default=0.05)
 
   group_report = parser.add_argument_group('report')
   group_report.add_argument('--numLeadingJets', type=int, metavar='', help='Number of leading+subleading plots to make.', default=0)
@@ -412,7 +413,12 @@ if __name__ == "__main__":
       cookBooks_logger.info("\tcreating optimization dump algorithm")
       algorithmConfiguration_string.append("optimization dump algorithm")
       # no other options for now...
-      time.sleep(sleepTime)
+      for opt in map(lambda x: x.dest, group_optimizationDump._group_actions):
+        cookBooks_logger.info("\t%s", printStr.format('OptimizationDump', opt, getattr(args, opt)))
+        algorithmConfiguration_string.append(printStr.format('OptimizationDump', opt, getattr(args, opt)))
+        setattr(optimization_dump, 'm_{0}'.format(opt), getattr(args, opt))
+        time.sleep(sleepTime)
+     # time.sleep(sleepTime)
 
       user_confirm(args, 2)
 
