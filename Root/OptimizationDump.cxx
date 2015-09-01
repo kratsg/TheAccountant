@@ -66,6 +66,15 @@ OptimizationDump :: OptimizationDump () :
   m_rc_split12{MULTI_ARRAY_INIT},
   m_rc_split23{MULTI_ARRAY_INIT},
   m_rc_nsj{MULTI_ARRAY_INIT},
+  m_numJetsVarR_top(-99),
+  m_numJetsVarR_W(-99),
+  m_varRjetReclusteringTools{{nullptr, nullptr}},
+  m_varR_top_m{ARRAY_INIT},
+  m_varR_top_pt{ARRAY_INIT},
+  m_varR_top_nsj{ARRAY_INIT},
+  m_varR_W_m{ARRAY_INIT},
+  m_varR_W_pt{ARRAY_INIT},
+  m_varR_W_nsj{ARRAY_INIT},
   m_largeR_pt{ARRAY_INIT},
   m_largeR_m{ARRAY_INIT},
   m_largeR_split12{ARRAY_INIT},
@@ -152,7 +161,48 @@ EL::StatusCode OptimizationDump :: initialize () {
       RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("InputJetContainer",  m_inputJets), "");
       RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("OutputJetContainer", outputContainer), "");
       RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("ReclusterRadius",    radius), "");
+      RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("RCJetPtFrac",    m_rcTrimFrac), "");
+      RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->setProperty("InputJetPtMin",    20.0), "");
       RETURN_CHECK("initialize()", m_jetReclusteringTools[i]->initialize(), "");
+    }
+
+    m_tree->Branch ("multiplicity_jet_varR_top", &m_numJetsVarR_top, "multiplicity_jet_varR_top/I");
+    m_tree->Branch ("multiplicity_jet_varR_W", &m_numJetsVarR_W, "multiplicity_jet_varR_W/I");
+    for(int i=0; i<4; i++){
+      std::string topcommonDenominator = "variableR_top_jet_"+std::to_string(i);
+      std::string WcommonDenominator = "variableR_W_jet_"+std::to_string(i);
+      std::string branchName;
+
+      branchName = "m_"+topcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_top_m[i]), (branchName+"/F").c_str());
+      branchName = "m_"+WcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_W_m[i]), (branchName+"/F").c_str());
+
+      branchName = "pt_"+topcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_top_pt[i]), (branchName+"/F").c_str());
+      branchName = "pt_"+WcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_W_pt[i]), (branchName+"/F").c_str());
+
+      branchName = "nsj_"+topcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_top_nsj[i]), (branchName+"/I").c_str());
+      branchName = "nsj_"+WcommonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_varR_W_nsj[i]), (branchName+"/I").c_str());
+    }
+
+    for(int i=0; i<2; i++){
+      char outputContainer[15];
+      if(i==0) sprintf(outputContainer,"VarR_top_Jets");
+      else sprintf(outputContainer,"VarR_W_Jets");
+      m_varRjetReclusteringTools[i] = new JetReclusteringTool(outputContainer+std::to_string(std::rand()));
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("OutputJetContainer", outputContainer), "");
+      if(i==0) RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMassScale",    2*173.34), "");
+      else RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMassScale",    2*80.385), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("InputJetContainer",  m_inputJets), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("ReclusterRadius",    1.5), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("VariableRMinRadius",    0.4), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("RCJetPtFrac",    m_rcTrimFrac), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->setProperty("InputJetPtMin",    20.0), "");
+      RETURN_CHECK("initialize()", m_varRjetReclusteringTools[i]->initialize(), "");
     }
   }
 
@@ -341,7 +391,7 @@ EL::StatusCode OptimizationDump :: execute ()
         m_rc_split12[r][i] = -99.0;
         m_rc_split23[r][i] = -99.0;
         m_rc_nsj[r][i] = -99;
-        // if there are less than 4 jets, then...
+        // if there are fewer than 4 jets, then...
         if(i < rcJets->size()){
           auto rcJet = rcJets->at(i);
           m_rc_pt[r][i] = rcJet->pt()/1000.;
@@ -352,6 +402,47 @@ EL::StatusCode OptimizationDump :: execute ()
           rcJet->getAttribute("Split12", m_rc_split12[r][i]);
           rcJet->getAttribute("Split23", m_rc_split23[r][i]);
           if(rcJet->getAttribute("constituentLinks", constitLinks)) m_rc_nsj[r][i] = constitLinks.size();
+        }
+      }
+    }
+    
+    for(auto tool: m_varRjetReclusteringTools)
+      tool->execute(); 
+
+    for(int i=0; i<2; i++){
+      char varRJetContainer[15];
+      if(i==0) sprintf(varRJetContainer,"VarR_top_Jets");
+      else sprintf(varRJetContainer,"VarR_W_Jets");
+      const xAOD::JetContainer* varRJets(nullptr);
+      RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(varRJets, varRJetContainer, m_event, m_store, m_debug), ("Could not retrieve the variable R jet container "+std::string(varRJetContainer)).c_str());
+      if(i==0) m_numJetsVarR_top = varRJets->size();
+      else m_numJetsVarR_W = varRJets->size();
+      for(unsigned int j=0; j<4; j++){
+        if(i==0){
+          m_varR_top_m[j]  = -99.0;
+          m_varR_top_pt[j]  = -99.0;
+          m_varR_top_nsj[j]  = -99.0;
+        }
+        else{
+          m_varR_W_m[j]  = -99.0;
+          m_varR_W_pt[j]  = -99.0;
+          m_varR_W_nsj[j]  = -99.0;
+        }
+        // if there are fewer than 4 jets, then...
+        if(j < varRJets->size()){
+          auto varRJet = varRJets->at(j);
+          if(i==0){
+            m_varR_top_m[j] = varRJet->m()/1000.;
+            m_varR_top_pt[j] = varRJet->pt()/1000.;
+            std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
+            if(varRJet->getAttribute("constituentLinks", constitLinks)) m_varR_top_nsj[j] = constitLinks.size();
+          }
+          else{
+            m_varR_W_m[j] = varRJet->m()/1000.;
+            m_varR_W_pt[j] = varRJet->pt()/1000.;
+            std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
+            if(varRJet->getAttribute("constituentLinks", constitLinks)) m_varR_W_nsj[j] = constitLinks.size();
+          }
         }
       }
     }

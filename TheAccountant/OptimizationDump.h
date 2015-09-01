@@ -35,6 +35,7 @@ public:
   std::string m_decor_jetTags_b   = "", // isB,
               m_decor_jetTags_top = "", // isTop,
               m_decor_jetTags_w   = ""; // isW;
+  float m_rcTrimFrac = 0.0;
 
 private:
   xAOD::TEvent *m_event; //!
@@ -58,6 +59,8 @@ private:
   int m_numJets; //!
   int m_numBJets; //!
   int m_numJetsLargeR; //!
+  int m_numJetsVarR_top; //!
+  int m_numJetsVarR_W; //!
 
   /* tagging */
   int m_n_topTag_SmoothLoose; //!
@@ -67,6 +70,8 @@ private:
 
   // three sets of reclustered jets for various radii
   std::array<JetReclusteringTool*, 3> m_jetReclusteringTools; //!
+  // two sets of variable R reclustered jets
+  std::array<JetReclusteringTool*, 2> m_varRjetReclusteringTools; //!
 
   /* reclustered jet details */
   std::array<std::array<float, 4>, 3 > m_rc_pt; //!
@@ -74,6 +79,14 @@ private:
   std::array<std::array<float, 4>, 3 > m_rc_split12; //!
   std::array<std::array<float, 4>, 3 > m_rc_split23; //!
   std::array<std::array<int, 4>  , 3 > m_rc_nsj; //!
+
+  /* varR jet properties */
+  std::array<float, 4> m_varR_top_m; //!
+  std::array<float, 4> m_varR_top_pt; //!
+  std::array<int, 4> m_varR_top_nsj; //!
+  std::array<float, 4> m_varR_W_m; //!
+  std::array<float, 4> m_varR_W_pt; //!
+  std::array<int, 4> m_varR_W_nsj; //!
 
   /* large-R jet details */
   std::array<float, 4> m_largeR_pt; //!
