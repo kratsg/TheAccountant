@@ -164,8 +164,6 @@ EL::StatusCode Preselect :: execute ()
     // get the working point
     static VD::WP bTag_wp = VD::str2wp(m_bTag_wp);
     static SG::AuxElement::Decorator< int > isB("isB");
-    static SG::AuxElement::ConstAccessor< char > isBadJet("bad");
-    static SG::AuxElement::ConstAccessor< char > isSignal("signal");
 
     // for small-R jets, count number of jets that pass standard cuts
     int num_passJets = 0;
@@ -173,19 +171,19 @@ EL::StatusCode Preselect :: execute ()
     for(const auto jet: *in_jets){
       pass_preSel(*jet) = 0;
       isB(*jet) = 0;
-      if(m_badJetVeto && isBadJet(*jet) == 1){ // veto on bad jet if enabled
+      if(m_badJetVeto && VD::isBad(jet)){ // veto on bad jet if enabled
         wk()->skipEvent();
         return EL::StatusCode::SUCCESS;
       }
-      if(jet->pt()/1000. < m_jet_minPt)  continue;
-      if(jet->pt()/1000. > m_jet_maxPt)  continue;
+      if(jet->pt()/1000. < m_jet_minPt)   continue;
+      if(jet->pt()/1000. > m_jet_maxPt)   continue;
       if(jet->m()/1000.  < m_jet_minMass) continue;
       if(jet->m()/1000.  > m_jet_maxMass) continue;
       if(jet->eta()      < m_jet_minEta)  continue;
       if(jet->eta()      > m_jet_maxEta)  continue;
       if(jet->phi()      < m_jet_minPhi)  continue;
       if(jet->phi()      > m_jet_maxPhi)  continue;
-      if(isSignal(*jet) != 1)             continue;
+      if(!VD::isSignal(jet))              continue;
 
       SelectedJets->push_back(jet);
       num_passJets++;

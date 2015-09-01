@@ -14,12 +14,35 @@
 
 /* Caveats: input containers are assumed sorted */
 namespace VariableDefinitions {
-  // definitions for baseline, or, signal
-  static SG::AuxElement::ConstAccessor<char> isBaseline("baseline");
-  static SG::AuxElement::ConstAccessor<char> passOverlap("passOR");
-  static SG::AuxElement::ConstAccessor<char> isSignal("signal");
-  static SG::AuxElement::ConstAccessor<char> isCosmic("cosmic");
-  static SG::AuxElement::ConstAccessor<char> isBad("bad");
+
+  // typedef it to make it easier to type: VD::decor_t<char>
+  // http://stackoverflow.com/a/19192151/1532974
+  template <typename T>
+  using decor_t = typename SG::AuxElement::ConstAccessor<T>;
+
+  // global definitions for decorations
+  static decor_t<char> decor_baseline("baseline");
+  static decor_t<char> decor_passOverlap("passOR");
+  static decor_t<char> decor_signal("signal");
+  static decor_t<char> decor_cosmic("cosmic");
+  static decor_t<char> decor_bad("bad");
+
+  // define isXXXX functions
+  template <typename T>
+  bool isDecor(decor_t<char>& decor, const T* obj, bool requireDecor=true){
+    if(requireDecor && !decor.isAvailable(*obj)) return false;
+    return (decor(*obj) == 1);
+  }
+  template <typename T>
+  bool isBaseline(const T* obj, bool requireDecor=true){ return isDecor<T>(decor_baseline, obj, requireDecor); }
+  template <typename T>
+  bool isPassOverlap(const T* obj, bool requireDecor=true){ return isDecor<T>(decor_passOverlap, obj, requireDecor); }
+  template <typename T>
+  bool isSignal(const T* obj, bool requireDecor=true){ return isDecor<T>(decor_signal, obj, requireDecor); }
+  template <typename T>
+  bool isCosmic(const T* obj, bool requireDecor=true){ return isDecor<T>(decor_cosmic, obj, requireDecor); }
+  template <typename T>
+  bool isBad(const T* obj, bool requireDecor=true){ return isDecor<T>(decor_bad, obj, requireDecor); }
 
   // for tagging primarily, but an enum for working points
   //  - an enum class enforces strong typing
@@ -91,13 +114,13 @@ namespace VariableDefinitions {
   template <typename T>
   ConstDataVector<T> leptonVeto(const T* leptons, bool requireSignal = false, bool additionalMuonCuts = false){
     ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
-    for(auto l: *leptons){
-      if(isBaseline(*l) == 0) continue;
-      if(requireSignal && isSignal(*l) == 0) continue;
-      if(passOverlap(*l) == 0) continue;
+    for(const auto l: *leptons){
+      if(!isBaseline(l)) continue;
+      if(requireSignal && !isSignal(l)) continue;
+      if(!isPassOverlap(l)) continue;
       if(additionalMuonCuts){
-        if(isCosmic(*l) == 1) continue;
-        if(isBad(*l) == 1) continue;
+        if(isCosmic(l)) continue;
+        if(isBad(l)) continue;
       }
       VetoLeptons.push_back(l);
     }
