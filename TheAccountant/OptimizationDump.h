@@ -118,10 +118,6 @@ private:
   float m_s1_abs_costheta; //!
   float m_s2_abs_costheta; //!
 
-  /* varR jet properties */
-  std::array<float, 4> m_varR_top_m; //!
-  std::array<float, 4> m_varR_W_m; //!
-
 public:
   // this is a standard constructor
   OptimizationDump ();
