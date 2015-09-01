@@ -312,7 +312,7 @@ EL::StatusCode Preselect :: execute ()
   }
 
   if(!m_inputJets.empty() && !m_inputMET.empty()){
-    const xAOD::JetContainer* SignalJets = SelectedJets->asDataVector(); 
+    const xAOD::JetContainer* SignalJets = SelectedJets->asDataVector();
     if(VD::dPhiMETMin(in_met, SignalJets) < m_dPhiMin){
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
@@ -361,8 +361,6 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["truthMET"].first += 1;
     m_cutflow["truthMET"].second += eventWeight;
   }
-
-  std::cout << "Event passed: " << eventInfo->eventNumber() << std::endl;
 
   return EL::StatusCode::SUCCESS;
 }
