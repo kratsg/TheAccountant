@@ -246,14 +246,11 @@ EL::StatusCode Report :: execute ()
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
-    // retrieve CalibMET_RefFinal for METContainer
-    xAOD::MissingETContainer::const_iterator met_id = in_missinget->find(m_inputMETName);
-    if (met_id == in_missinget->end()) {
+    in_met = in_missinget[m_inputMETName.c_str()];
+    if (!in_met) {
       Error("execute()", "No %s inside MET container", m_inputMETName.c_str());
       return EL::StatusCode::FAILURE;
     }
-    // dereference the iterator since it's just a single object
-    in_met = *met_id;
   }
 
   float eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
