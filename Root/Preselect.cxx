@@ -159,7 +159,6 @@ EL::StatusCode Preselect :: execute ()
   }
 
 
-  ConstDataVector<xAOD::JetContainer> * SelectedJets  =  new ConstDataVector<xAOD::JetContainer>(SG::VIEW_ELEMENTS);
   if(!m_inputJets.empty()){
     // get the working point
     static VD::WP bTag_wp = VD::str2wp(m_bTag_wp);
@@ -185,7 +184,6 @@ EL::StatusCode Preselect :: execute ()
       if(jet->phi()      > m_jet_maxPhi)  continue;
       if(!VD::isSignal(*jet))              continue;
 
-      SelectedJets->push_back(jet);
       num_passJets++;
       pass_preSel(*jet) = 1;
       if(VD::bTag(jet, bTag_wp, 2.5)){
@@ -310,8 +308,7 @@ EL::StatusCode Preselect :: execute ()
   }
 
   if(!m_inputJets.empty() && !m_inputMET.empty()){
-    const xAOD::JetContainer* SignalJets = SelectedJets->asDataVector();
-    if(VD::dPhiMETMin(in_met, SignalJets) < m_dPhiMin){
+    if(VD::dPhiMETMin(in_met, VD::subset_using_decor(in_jets, VD::decor_signal, 1).asDataVector()) < m_dPhiMin){
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
