@@ -101,7 +101,7 @@ EL::StatusCode Preselect :: execute ()
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
-    in_met = in_missinget[m_inputMETName.c_str()];
+    in_met = (*in_missinget)[m_inputMETName.c_str()];
     if (!in_met) {
       Error("execute()", "No %s inside MET container", m_inputMETName.c_str());
       return EL::StatusCode::FAILURE;
