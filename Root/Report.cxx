@@ -225,6 +225,7 @@ EL::StatusCode Report :: execute ()
     for(const auto &jet: *in_jets){
       if(jet->pt()/1.e3 < m_jet_minPtView) continue;
       if(fabs(jet->eta()) > m_jet_maxAbsEtaView) continue;
+      if(!VD::isSignal(*jet)) continue;
       in_jetsCDV.push_back(jet);
     }
     // make in_jets point to a view instead
