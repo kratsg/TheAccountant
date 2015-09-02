@@ -103,7 +103,7 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
 
   //comparison plots for ss_dphidecayangle
   ss_dphidecayangle_vs_MET = book(m_name,"MET_vs_ss_dphidecayangle","#Delta #phi_{decay} (rads.)",50,0,3.2,"MET (GeV)",50,0,1000);
-  ss_dphidecayangle_vs_MET = book(m_name,"MET_vs_ss_dphidecayangle","#Delta #phi_{decay} (rads.)",50,0,3.2,"MET (GeV)",1300,0,13000); 
+  ss_dphidecayangle_vs_MET = book(m_name,"MET_vs_ss_dphidecayangle","#Delta #phi_{decay} (rads.)",50,0,3.2,"MET (GeV)",1300,0,13000);
   ss_dphivis_vs_METphi = book(m_name,"ss_dphivis_vs_METphi","MET #phi",50,0,3.2,"SS #Delta#phi_{vis} (radians)",50,0,3.2);
   ss_dphidecayangle_vs_METphi = book(m_name,"ss_dphidecayangle_vs_METphi","MET #phi",50,0,3.2,"SS #Delta#phi_{decay} (radians)",50,0,3.2);
 
@@ -172,7 +172,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   float jets_mass = 0;
   //jets work
   int i = 0;
-  for ( const auto jet : *jets ) {
+  for ( const auto &jet : *jets ) {
     i++;
     jets_mass += jet->m()/1.e3;
     if (i==1) {        // leading jet
@@ -196,7 +196,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
 
   float mass_largeR_jets =0;
   //jets_mass_largeR
-  for (const auto largeRjet : *jets_largeR)
+  for (const auto &largeRjet : *jets_largeR)
       mass_largeR_jets += largeRjet->m()/1.e3;
 
   float multiplicity = jets->size();
@@ -230,17 +230,17 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   //SS_gamma 2D plots
   ss_gamma_vs_MET->                 Fill(met->met()/1.e3,1./SS_invgamma_acc(*eventInfo), eventWeight);
   ss_gamma_vs_Meff->                Fill(m_eff/1.e3,1./SS_invgamma_acc(*eventInfo),eventWeight);
-  
+
   float met_significance(0.0);
   float ht(0.0);
 
   for(int i=0; i < std::min<int>(multiplicity, jets->size()); i++){
-    const auto jet = jets->at(i);
+    const auto &jet = jets->at(i);
     if(jet->pt()/1.e3 < 30.) continue;
     ht += jet->pt();
   }
   if(ht > 0) met_significance = (met->met()/1.e3)/sqrt(ht/1.e3);
-  
+
   ss_mdeltaR_vs_METsig->Fill(SS_mdeltaR_acc(*eventInfo)/1000., met_significance, eventWeight);
 
   //SS_mdeltaR 2D plots
@@ -276,7 +276,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   ss_dphidecayangle_vs_MET->        Fill(SS_dphidecayangle_acc(*eventInfo),met->met()/1.e3, eventWeight);
   ss_dphidecayangle_vs_METphi->     Fill(met->phi(),SS_dphidecayangle_acc(*eventInfo),eventWeight);
 
-  
+
   return StatusCode::SUCCESS;
 }
 

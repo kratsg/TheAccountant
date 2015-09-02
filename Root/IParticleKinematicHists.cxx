@@ -22,7 +22,7 @@ StatusCode TheAccountant::IParticleKinematicHists::initialize() {
 }
 
 StatusCode TheAccountant::IParticleKinematicHists::execute( const xAOD::IParticleContainer* particles, float eventWeight ) {
-  for( const auto particle : *particles ) {
+  for( const auto &particle : *particles ) {
     if(!this->execute( particle, eventWeight ).isSuccess()) return StatusCode::FAILURE;
   }
 

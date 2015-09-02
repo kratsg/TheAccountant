@@ -69,7 +69,7 @@ EL::StatusCode Report :: histInitialize () {
     m_jetMETPlots["all/jetsLargeR"]       = new TheAccountant::JetMETHists( "all/jetsLargeR/" );
 
     // for top tag counts
-    for(auto decorationName: m_topTagDecorationNames){
+    for(const auto &decorationName: m_topTagDecorationNames){
       m_jetTagPlots["all/jetsLargeR" + decorationName] = new TheAccountant::JetTagHists( "all/jetsLargeR/" );
       m_jetTagPlots["all/jetsLargeR" + decorationName]->m_decorationName = decorationName;
     }
@@ -95,12 +95,12 @@ EL::StatusCode Report :: histInitialize () {
     m_METPlots["all/MET"]               = new TheAccountant::METHists( "all/MET/" );
 
   // enable jet counting for jet plots above, set type to jet
-  for(auto jetKinematicPlot: m_jetKinematicPlots){
+  for(auto &jetKinematicPlot: m_jetKinematicPlots){
     jetKinematicPlot.second->m_countParticles = true;
     jetKinematicPlot.second->m_particleType   = "jet";
   }
 
-  for(auto jetPlot: m_jetPlots){
+  for(auto &jetPlot: m_jetPlots){
     // do topology for all
     jetPlot.second->m_doTopology = true;
     if(jetPlot.first.find("all/jetsLargeR") == std::string::npos) continue;
@@ -109,7 +109,7 @@ EL::StatusCode Report :: histInitialize () {
   }
 
   // set the numLeadingJets for the JetMET histograms
-  for(auto jetMETPlot: m_jetMETPlots) jetMETPlot.second->m_numLeadingJets = m_numLeadingJets;
+  for(auto &jetMETPlot: m_jetMETPlots) jetMETPlot.second->m_numLeadingJets = m_numLeadingJets;
 
   // NLeadingJets
   for(int i=1; i <= m_numLeadingJets; ++i){
@@ -128,7 +128,7 @@ EL::StatusCode Report :: histInitialize () {
       //all/jetLargeRX
       m_jetKinematicPlots["all/jetLargeR"+std::to_string(i)] = new TheAccountant::IParticleKinematicHists( "all/jetLargeR"+std::to_string(i)+"/" );
 
-      for(auto decorationName: m_topTagDecorationNames){
+      for(const auto &decorationName: m_topTagDecorationNames){
         m_jetTagPlots["all/jetLargeR" + decorationName + std::to_string(i)] = new TheAccountant::JetTagHists( "all/jetLargeR"+std::to_string(i)+"/" );
         m_jetTagPlots["all/jetLargeR" + decorationName + std::to_string(i)]->m_decorationName = decorationName;
       }
@@ -145,32 +145,32 @@ EL::StatusCode Report :: histInitialize () {
     }
   }
 
-  for(auto razorPlot: m_RazorPlots){
+  for(auto &razorPlot: m_RazorPlots){
     RETURN_CHECK("Report::initializse()", razorPlot.second->initialize(),"");
     razorPlot.second->record( wk() );
   }
 
-  for(auto jetKinematicPlot: m_jetKinematicPlots){
+  for(auto &jetKinematicPlot: m_jetKinematicPlots){
     RETURN_CHECK("Report::initialize()", jetKinematicPlot.second->initialize(), "");
     jetKinematicPlot.second->record( wk() );
   }
 
-  for(auto jetPlot: m_jetPlots){
+  for(auto &jetPlot: m_jetPlots){
     RETURN_CHECK("Report::initialize()", jetPlot.second->initialize(), "");
     jetPlot.second->record( wk() );
   }
 
-  for(auto jetMETPlot: m_jetMETPlots){
+  for(auto &jetMETPlot: m_jetMETPlots){
     RETURN_CHECK("Report::initialize()", jetMETPlot.second->initialize(), "");
     jetMETPlot.second->record( wk() );
   }
 
-  for(auto METPlot: m_METPlots){
+  for(auto &METPlot: m_METPlots){
     RETURN_CHECK("Report::initialize()", METPlot.second->initialize(), "");
     METPlot.second->record( wk() );
   }
 
-  for(auto jetTagPlot: m_jetTagPlots){
+  for(auto &jetTagPlot: m_jetTagPlots){
     RETURN_CHECK("Report::initialize()", jetTagPlot.second->initialize(), "");
     jetTagPlot.second->record( wk() );
   }
@@ -221,7 +221,7 @@ EL::StatusCode Report :: execute ()
   ConstDataVector<xAOD::JetContainer> in_jetsCDV(SG::VIEW_ELEMENTS);
 
   if(!m_inputJets.empty()){
-    for(auto jet: *in_jets){
+    for(const auto &jet: *in_jets){
       if(jet->pt()/1.e3 < m_jet_minPtView) continue;
       if(fabs(jet->eta()) > m_jet_maxAbsEtaView) continue;
       in_jetsCDV.push_back(jet);
@@ -232,7 +232,7 @@ EL::StatusCode Report :: execute ()
 
   ConstDataVector<xAOD::JetContainer> in_jetsLargeRCDV(SG::VIEW_ELEMENTS);
   if(!m_inputLargeRJets.empty()){
-    for(auto jet: *in_jetsLargeR){
+    for(const auto &jet: *in_jetsLargeR){
       if(jet->pt()/1.e3 < m_jetLargeR_minPtView) continue;
       if(fabs(jet->eta()) > m_jetLargeR_maxAbsEtaView) continue;
       in_jetsLargeRCDV.push_back(jet);
@@ -271,7 +271,7 @@ EL::StatusCode Report :: execute ()
     RETURN_CHECK("Report::execute()", m_jetPlots["all/jetsLargeR"]->execute(in_jetsLargeR, eventWeight), "");
     if(!m_inputMET.empty())
       RETURN_CHECK("Report::execute()", m_jetMETPlots["all/jetsLargeR"]->execute(in_jetsLargeR, in_met, eventWeight), "");
-    for(auto decorationName: m_topTagDecorationNames)
+    for(const auto &decorationName: m_topTagDecorationNames)
       RETURN_CHECK("Report::execute()", m_jetTagPlots["all/jetsLargeR" + decorationName]->execute(in_jetsLargeR, in_met, eventWeight), "");
   }
 
@@ -289,7 +289,7 @@ EL::StatusCode Report :: execute ()
     static SG::AuxElement::Accessor< int > decor_jetTags_w(m_decor_jetTags_w);
 
     if(!m_inputJets.empty()){
-      for(const auto jet: *in_jets){
+      for(const auto &jet: *in_jets){
         if(!m_decor_jetTags_b.empty()){
           if(decor_jetTags_b.isAvailable(*jet)){
             if(decor_jetTags_b(*jet) == 1) jets_bTagged.push_back(jet);
@@ -302,7 +302,7 @@ EL::StatusCode Report :: execute ()
     }
 
     if(!m_inputLargeRJets.empty()){
-      for(const auto jet: *in_jetsLargeR){
+      for(const auto &jet: *in_jetsLargeR){
         if(!m_decor_jetTags_top.empty()){
           if(decor_jetTags_top.isAvailable(*jet)){
             if(decor_jetTags_top(*jet) == 1) jetsLargeR_topTagged.push_back(jet);
@@ -370,7 +370,7 @@ EL::StatusCode Report :: execute ()
     //all/jetLargeRX
     for(int i=1; i <= std::min<int>( m_numLeadingJets, in_jetsLargeR->size() ); ++i ){
       RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jetLargeR"+std::to_string(i)]->execute(in_jetsLargeR->at(i-1), eventWeight), "");
-      for(auto decorationName: m_topTagDecorationNames)
+      for(const auto &decorationName: m_topTagDecorationNames)
         RETURN_CHECK("Report::execute()", m_jetTagPlots["all/jetLargeR" + decorationName + std::to_string(i)]->execute(in_jetsLargeR->at(i-1), eventWeight), "");
     }
 
@@ -395,23 +395,23 @@ EL::StatusCode Report :: execute ()
 EL::StatusCode Report :: postExecute () { return EL::StatusCode::SUCCESS; }
 
 EL::StatusCode Report :: finalize () {
-  for( auto jetKinematicPlot : m_jetKinematicPlots )
+  for(const auto &jetKinematicPlot : m_jetKinematicPlots )
     if(jetKinematicPlot.second)
       delete jetKinematicPlot.second;
 
-  for( auto jetPlot : m_jetPlots )
+  for(const auto &jetPlot : m_jetPlots )
     if(jetPlot.second)
       delete jetPlot.second;
 
-  for(auto jetMETPlot: m_jetMETPlots)
+  for(const auto &jetMETPlot: m_jetMETPlots)
     if(jetMETPlot.second)
       delete jetMETPlot.second;
 
-  for(auto METPlot: m_METPlots)
+  for(const auto &METPlot: m_METPlots)
     if(METPlot.second)
       delete METPlot.second;
 
-  for(auto jetTagPlot: m_jetTagPlots)
+  for(const auto &jetTagPlot: m_jetTagPlots)
     if(jetTagPlot.second)
       delete jetTagPlot.second;
 

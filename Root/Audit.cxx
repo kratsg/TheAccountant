@@ -231,10 +231,10 @@ EL::StatusCode Audit :: execute ()
 
   // clear the event
   LAB.ClearEvent();
-  
+
   // create a vector to hold the group element ids for when adding jets
   std::map<const RF::GroupElementID, const xAOD::Jet*> in_jets_IDs;
-  for(const auto jet: *in_jets)
+  for(const auto &jet: *in_jets)
     in_jets_IDs[VIS.AddLabFrameFourVector( jet->p4() )] = jet;
 
 
@@ -244,7 +244,7 @@ EL::StatusCode Audit :: execute ()
   // dump information about the jets and met at least
   if(m_debug){
     Info("execute()", "Details about input jets...");
-    for(const auto jet: *in_jets)
+    for(const auto &jet: *in_jets)
         Info("execute()", "\tpT: %0.2f GeV\tm: %0.2f GeV\teta: %0.2f\tphi: %0.2f", jet->pt()/1000., jet->m()/1000., jet->eta(), jet->phi());
     Info("execute()", "Details about MET...");
     Info("execute()", "\tpx: %0.2f GeV\tpy: %0.2f GeV\tpz: %0.2f GeV", in_met->mpx()/1000., in_met->mpy()/1000., 0.0/1000.);
