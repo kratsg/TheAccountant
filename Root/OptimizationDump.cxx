@@ -351,6 +351,13 @@ EL::StatusCode OptimizationDump :: execute ()
     m_met_mpy = in_met->mpy()/1000.;
   }
 
+  // in_jets will always contain the signal jets
+  ConstDataVector<xAOD::JetContainer> signalJets;
+  if(!m_inputJets.empty()){
+    signalJets = VD::subset_using_decor(in_jets, VD::decor_signal, 1);
+    in_jets = signalJets.asDataVector();
+  }
+
   if(!m_inputMET.empty() && !m_inputJets.empty()){
     m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons)/1000.;
     m_dPhiMETMin = VD::dPhiMETMin(in_met, in_jets);
