@@ -28,21 +28,28 @@ namespace VariableDefinitions {
   static decor_t<char> decor_bad("bad");
 
   // define isXXXX functions
-  template <typename T>
-  bool isDecor(decor_t<char>& decor, const T& obj, bool requireDecor=true){
+  //    - note that when using a <char> decoration, you often compare to an int
+  template <typename T1, typename T2>
+  bool isDecor(const T1& obj, const decor_t<T2>& decor, const T2& val, const bool& requireDecor=true){
     if(requireDecor && !decor.isAvailable(obj)) return false;
-    return (decor(obj) == 1);
+    return (decor(obj) == val);
   }
+  template <typename T1>
+  bool isDecor(const T1& obj, const decor_t<char>& decor, const int& val, const bool& requireDecor=true){
+    if(requireDecor && !decor.isAvailable(obj)) return false;
+    return (decor(obj) == val);
+  }
+
   template <typename T>
-  bool isBaseline(const T& obj, bool requireDecor=true){ return isDecor(decor_baseline, obj, requireDecor); }
+  bool isBaseline(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_baseline, 1, requireDecor); }
   template <typename T>
-  bool isPassOverlap(const T& obj, bool requireDecor=true){ return isDecor(decor_passOverlap, obj, requireDecor); }
+  bool isPassOverlap(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_passOverlap, 1, requireDecor); }
   template <typename T>
-  bool isSignal(const T& obj, bool requireDecor=true){ return isDecor(decor_signal, obj, requireDecor); }
+  bool isSignal(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_signal, 1, requireDecor); }
   template <typename T>
-  bool isCosmic(const T& obj, bool requireDecor=true){ return isDecor(decor_cosmic, obj, requireDecor); }
+  bool isCosmic(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_cosmic, 1, requireDecor); }
   template <typename T>
-  bool isBad(const T& obj, bool requireDecor=true){ return isDecor(decor_bad, obj, requireDecor); }
+  bool isBad(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_bad, 1, requireDecor); }
 
   // for tagging primarily, but an enum for working points
   //  - an enum class enforces strong typing
@@ -112,7 +119,7 @@ namespace VariableDefinitions {
 
   // build lepton veto using overlaps on baseline/signal leptons
   template <typename T>
-  ConstDataVector<T> leptonVeto(const T* leptons, bool requireSignal = false, bool additionalMuonCuts = false){
+  ConstDataVector<T> leptonVeto(const T* leptons, const bool& requireSignal = false, const bool& additionalMuonCuts = false){
     ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
     for(const auto &l: *leptons){
       if(!isBaseline(*l)) continue;
@@ -125,6 +132,18 @@ namespace VariableDefinitions {
       VetoLeptons.push_back(l);
     }
     return VetoLeptons;
+  }
+
+  // the most arbitrarily generic subset creator ever
+  //    - for example, subset_using_decoration(jets, VD::signal, 1) returns a CDV of jets that pass the signal
+  template <typename T1, typename T2, typename T3>
+  ConstDataVector<T1> subset_using_decor(const T1* cont, const decor_t<T2>& decor, const T3& val, const bool& requireDecor=true){
+    ConstDataVector<T1> subset(SG::VIEW_ELEMENTS);
+    for(const auto &i: *cont){
+      if(!isDecor(*i, decor, val, requireDecor)) continue;
+      subset.push_back(i);
+    }
+    return subset;
   }
 
 }
