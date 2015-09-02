@@ -45,7 +45,8 @@ EL::StatusCode Report :: setupJob (EL::Job& job)
 EL::StatusCode Report :: histInitialize () {
   // initialize all histograms here
 
-  m_RazorPlots["all/razor"] = new TheAccountant::RazorVariableHists("all/razor/");
+  if(!m_inputMET.empty() && !m_inputJets.empty() && !m_inputLargeRJets.empty() && !m_inputMuons.empty() && !m_inputElectrons.empty())
+    m_razorPlots["all/razor"] = new TheAccountant::RazorVariableHists("all/razor/");
 
 
   if(!m_inputJets.empty()){
@@ -145,7 +146,7 @@ EL::StatusCode Report :: histInitialize () {
     }
   }
 
-  for(auto &razorPlot: m_RazorPlots){
+  for(auto &razorPlot: m_razorPlots){
     RETURN_CHECK("Report::initializse()", razorPlot.second->initialize(),"");
     razorPlot.second->record( wk() );
   }
@@ -257,7 +258,8 @@ EL::StatusCode Report :: execute ()
   float eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
 
 
-  RETURN_CHECK("Report::execute()", m_RazorPlots["all/razor"]->execute(eventInfo, in_met,in_jets, in_jetsLargeR, in_muons, in_electrons,eventWeight),"");
+  if(!m_inputMET.empty() && !m_inputJets.empty() && !m_inputLargeRJets.empty() && !m_inputMuons.empty() && !m_inputElectrons.empty())
+    RETURN_CHECK("Report::execute()", m_razorPlots["all/razor"]->execute(eventInfo, in_met,in_jets, in_jetsLargeR, in_muons, in_electrons,eventWeight),"");
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jets"]->execute(in_jets, eventWeight), "");
