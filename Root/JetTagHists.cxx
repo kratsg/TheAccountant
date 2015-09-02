@@ -34,7 +34,7 @@ StatusCode TheAccountant::JetTagHists::initialize() {
 
 StatusCode TheAccountant::JetTagHists::execute( const xAOD::JetContainer* jets, const xAOD::MissingET* met, float eventWeight ) {
   int numDecor(0);
-  for(const auto jet: *jets){
+  for(const auto &jet: *jets){
     if(!this->execute(jet, eventWeight).isSuccess()) return StatusCode::FAILURE;
     int decorVal(-1);
     jet->getAttribute(m_decorationName, decorVal);

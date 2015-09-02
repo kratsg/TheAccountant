@@ -29,20 +29,20 @@ namespace VariableDefinitions {
 
   // define isXXXX functions
   template <typename T>
-  bool isDecor(decor_t<char>& decor, const T* obj, bool requireDecor=true){
-    if(requireDecor && !decor.isAvailable(*obj)) return false;
-    return (decor(*obj) == 1);
+  bool isDecor(decor_t<char>& decor, const T& obj, bool requireDecor=true){
+    if(requireDecor && !decor.isAvailable(obj)) return false;
+    return (decor(obj) == 1);
   }
   template <typename T>
-  bool isBaseline(const T* obj, bool requireDecor=true){ return isDecor(decor_baseline, obj, requireDecor); }
+  bool isBaseline(const T& obj, bool requireDecor=true){ return isDecor(decor_baseline, obj, requireDecor); }
   template <typename T>
-  bool isPassOverlap(const T* obj, bool requireDecor=true){ return isDecor(decor_passOverlap, obj, requireDecor); }
+  bool isPassOverlap(const T& obj, bool requireDecor=true){ return isDecor(decor_passOverlap, obj, requireDecor); }
   template <typename T>
-  bool isSignal(const T* obj, bool requireDecor=true){ return isDecor(decor_signal, obj, requireDecor); }
+  bool isSignal(const T& obj, bool requireDecor=true){ return isDecor(decor_signal, obj, requireDecor); }
   template <typename T>
-  bool isCosmic(const T* obj, bool requireDecor=true){ return isDecor(decor_cosmic, obj, requireDecor); }
+  bool isCosmic(const T& obj, bool requireDecor=true){ return isDecor(decor_cosmic, obj, requireDecor); }
   template <typename T>
-  bool isBad(const T* obj, bool requireDecor=true){ return isDecor(decor_bad, obj, requireDecor); }
+  bool isBad(const T& obj, bool requireDecor=true){ return isDecor(decor_bad, obj, requireDecor); }
 
   // for tagging primarily, but an enum for working points
   //  - an enum class enforces strong typing
@@ -114,13 +114,13 @@ namespace VariableDefinitions {
   template <typename T>
   ConstDataVector<T> leptonVeto(const T* leptons, bool requireSignal = false, bool additionalMuonCuts = false){
     ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
-    for(const auto l: *leptons){
-      if(!isBaseline(l)) continue;
-      if(requireSignal && !isSignal(l)) continue;
-      if(!isPassOverlap(l)) continue;
+    for(const auto &l: *leptons){
+      if(!isBaseline(*l)) continue;
+      if(requireSignal && !isSignal(*l)) continue;
+      if(!isPassOverlap(*l)) continue;
       if(additionalMuonCuts){
-        if(isCosmic(l)) continue;
-        if(isBad(l)) continue;
+        if(isCosmic(*l)) continue;
+        if(isBad(*l)) continue;
       }
       VetoLeptons.push_back(l);
     }

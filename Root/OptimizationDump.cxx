@@ -357,7 +357,7 @@ EL::StatusCode OptimizationDump :: execute ()
 
     static SG::AuxElement::Decorator< int > isB("isB");
     ConstDataVector<xAOD::JetContainer> bjets(SG::VIEW_ELEMENTS);
-    for(const auto jet: *in_jets){
+    for(const auto &jet: *in_jets){
       if(isB(*jet) != 1) continue;
       bjets.push_back(jet);
     }
@@ -376,7 +376,7 @@ EL::StatusCode OptimizationDump :: execute ()
     m_numBJets = (pass_preSel_bjets.isAvailable(*eventInfo))?pass_preSel_bjets(*eventInfo):-99;
 
     // build the reclustered, trimmed jets
-    for(auto tool: m_jetReclusteringTools)
+    for(const auto &tool: m_jetReclusteringTools)
       tool->execute();
 
     for(int r=0; r<3; r++){
@@ -469,7 +469,7 @@ EL::StatusCode OptimizationDump :: execute ()
     m_n_topTag_Tight = 0;
 
     int jetIndex = 0;
-    for(auto jet: *in_jetsLargeR){
+    for(const auto &jet: *in_jetsLargeR){
       int topTag_SmoothLoose(-1), topTag_SmoothTight(-1),
           topTag_Loose(-1), topTag_Tight(-1);
       // don't count it if it doesn't pass preselection
@@ -519,7 +519,7 @@ EL::StatusCode OptimizationDump :: postExecute () { return EL::StatusCode::SUCCE
 
 EL::StatusCode OptimizationDump :: finalize () {
   if(!m_inputJets.empty())
-    for(auto tool: m_jetReclusteringTools)
+    for(const auto &tool: m_jetReclusteringTools)
       if(tool) delete tool;
   return EL::StatusCode::SUCCESS;
 }

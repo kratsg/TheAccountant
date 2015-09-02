@@ -53,7 +53,7 @@ StatusCode TheAccountant::JetHists::initialize() {
 StatusCode TheAccountant::JetHists::execute( const xAOD::JetContainer* jets, float eventWeight ) {
 
   float totalMass(0);
-  for(const auto jet: *jets){
+  for(const auto &jet: *jets){
     totalMass += jet->m();
     if(!this->execute(jet, eventWeight).isSuccess()) return StatusCode::FAILURE;
   }
@@ -133,7 +133,7 @@ StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eventWe
 
     JetSubStructureUtils::SubjetFinder subjetFinder(subjet_clustering, subjet_radius, 0.0);
     std::vector<fastjet::PseudoJet> subjets = subjetFinder.result(*jet);
-    for(auto subjet: subjets) m_subjet_ptFrac->Fill( subjet.pt()/jet->pt(), eventWeight);
+    for(auto &subjet: subjets) m_subjet_ptFrac->Fill( subjet.pt()/jet->pt(), eventWeight);
     m_subjet_multiplicity->Fill( subjets.size(), eventWeight);
     */
 

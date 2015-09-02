@@ -131,7 +131,7 @@ EL::StatusCode Preselect :: execute ()
 
   if(!m_inputLargeRJets.empty()){
     int num_passJetsLargeR = 0;
-    for(const auto jet: *in_jetsLargeR){
+    for(const auto &jet: *in_jetsLargeR){
       pass_preSel(*jet) = 0;
       if(jet->pt()/1000.  < m_jetLargeR_minPt)  continue;
       if(jet->pt()/1000.  > m_jetLargeR_maxPt)  continue;
@@ -168,10 +168,10 @@ EL::StatusCode Preselect :: execute ()
     // for small-R jets, count number of jets that pass standard cuts
     int num_passJets = 0;
     int num_passBJets = 0;
-    for(const auto jet: *in_jets){
+    for(const auto &jet: *in_jets){
       pass_preSel(*jet) = 0;
       isB(*jet) = 0;
-      if(m_badJetVeto && VD::isBad(jet)){ // veto on bad jet if enabled
+      if(m_badJetVeto && VD::isBad(*jet)){ // veto on bad jet if enabled
         wk()->skipEvent();
         return EL::StatusCode::SUCCESS;
       }
@@ -183,7 +183,7 @@ EL::StatusCode Preselect :: execute ()
       if(jet->eta()      > m_jet_maxEta)  continue;
       if(jet->phi()      < m_jet_minPhi)  continue;
       if(jet->phi()      > m_jet_maxPhi)  continue;
-      if(!VD::isSignal(jet))              continue;
+      if(!VD::isSignal(*jet))              continue;
 
       SelectedJets->push_back(jet);
       num_passJets++;
@@ -370,7 +370,7 @@ EL::StatusCode Preselect :: finalize () {
     if(m_TDT) delete m_TDT;
   }
 
-  for(auto cutflow: m_cutflow){
+  for(const auto &cutflow: m_cutflow){
     TH1F* hist = new TH1F(("cutflow/"+cutflow.first).c_str(), cutflow.first.c_str(), 2, 1, 3);
     hist->SetBinContent(1, cutflow.second.first);
     hist->SetBinContent(2, cutflow.second.second);
