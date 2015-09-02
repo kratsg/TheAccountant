@@ -1,15 +1,15 @@
 #!/bin/bash
 
-gttFiles="user.mswiatlo.*.Gtt*tag_08_v2*_output_xAOD.root/"
-ttbarIncFiles="user.mswiatlo:user.mswiatlo.410000.ttbar.DAOD_SUSY10.e3698_s2608_s2183_r6765_r6282_p2375_tag_08_v2_output_xAOD.root/"
-ttbarExcFiles="user.mswiatlo:user.mswiatlo.407012.ttbar.DAOD_SUSY10.e4023_s2608_r6765_r6282_p2375_tag_08_v2_output_xAOD.root/"
+gttFiles="user.lgagnon:user.lgagnon.*.Gtt.DAOD_SUSY10.*_tag_10_v1_output_xAOD.root/"
+ttbarIncFiles="user.lvalery:user.lvalery.410000.ttbar.DAOD_SUSY10.*_tag_10_v1_output_xAOD.root/"
+ttbarExcFiles="user.lvalery:user.lvalery.407012.ttbar.DAOD_SUSY10.*_tag_10_v1_output_xAOD.root/"
 
 globalOpts=(-v -f -yyyyyy --optimizationDump --inputDQ2 --badJetVeto)
 
 run0L_a=(--baselineLeptonSelection="==0" --jet_minNum=4 --jet_minPt=30 --bjet_minNum=2 --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=50 --dPhiMin=0.4 --jet_maxEta=2.8 --jet_minEta=-2.8)
 run0L_b=(--signalLeptonSelection="==0" --jet_minNum=4 --jet_minPt=30 --bjet_minNum=2 --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=50 --dPhiMin=0.4 --jet_maxEta=2.8 --jet_minEta=-2.8)
 run1L=(--signalLeptonSelection=" >0" --jet_minNum=2 --jet_minPt=30 --bjet_minNum=1 --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=50 --dPhiMin=0.4 --jet_maxEta=2.8 --jet_minEta=-2.8)
-outputDir="TA07_MBJ08"
+outputDir="TA07_MBJ10V1"
 
 mkdir -p "${outputDir}"
 
