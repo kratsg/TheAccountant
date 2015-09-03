@@ -317,23 +317,23 @@ EL::StatusCode OptimizationDump :: execute ()
   static SG::AuxElement::ConstAccessor<float> V1_nelements_acc("V1_nelements");
   static SG::AuxElement::ConstAccessor<float> V2_nelements_acc("V2_nelements");
 
-  m_ss_mass           = SS_mass_acc(*eventInfo)/1000.;
-  m_ss_invgamma       = SS_invgamma_acc(*eventInfo);
-  m_ss_dphivis        = SS_dphivis_acc(*eventInfo);
-  m_ss_costheta       = SS_costheta_acc(*eventInfo);
-  m_ss_dphidecayangle = SS_dphidecayangle_acc(*eventInfo);
-  m_ss_mdeltaR        = SS_mdeltaR_acc(*eventInfo)/1000.;
-  m_s1_mass           = S1_mass_acc(*eventInfo)/1000.;
-  m_s1_costheta       = S1_costheta_acc(*eventInfo);
-  m_s2_mass           = S2_mass_acc(*eventInfo)/1000.;
-  m_s2_costheta       = S2_costheta_acc(*eventInfo);
-  m_i1_depth          = I1_depth_acc(*eventInfo);
-  m_i2_depth          = I2_depth_acc(*eventInfo);
-  m_v1_nelements      = V1_nelements_acc(*eventInfo);
-  m_v2_nelements      = V2_nelements_acc(*eventInfo);
-  m_ss_abs_costheta   = std::fabs(SS_costheta_acc(*eventInfo));
-  m_s1_abs_costheta   = std::fabs(S1_costheta_acc(*eventInfo));
-  m_s2_abs_costheta   = std::fabs(S2_costheta_acc(*eventInfo));
+  m_ss_mass           = (SS_mass_acc.isAvailable(*eventInfo))?SS_mass_acc(*eventInfo)/1000.:-99;
+  m_ss_invgamma       = (SS_invgamma_acc.isAvailable(*eventInfo))?SS_invgamma_acc(*eventInfo):-99;
+  m_ss_dphivis        = (SS_dphivis_acc.isAvailable(*eventInfo))?SS_dphivis_acc(*eventInfo):-99;
+  m_ss_costheta       = (SS_costheta_acc.isAvailable(*eventInfo))?SS_costheta_acc(*eventInfo):-99;
+  m_ss_dphidecayangle = (SS_dphidecayangle_acc.isAvailable(*eventInfo))?SS_dphidecayangle_acc(*eventInfo):-99;
+  m_ss_mdeltaR        = (SS_mdeltaR_acc.isAvailable(*eventInfo))?SS_mdeltaR_acc(*eventInfo)/1000.:-99;
+  m_s1_mass           = (S1_mass_acc.isAvailable(*eventInfo))?S1_mass_acc(*eventInfo)/1000.:-99;
+  m_s1_costheta       = (S1_costheta_acc.isAvailable(*eventInfo))?S1_costheta_acc(*eventInfo):-99;
+  m_s2_mass           = (S2_mass_acc.isAvailable(*eventInfo))?S2_mass_acc(*eventInfo)/1000.:-99;
+  m_s2_costheta       = (S2_costheta_acc.isAvailable(*eventInfo))?S2_costheta_acc(*eventInfo):-99;
+  m_i1_depth          = (I1_depth_acc.isAvailable(*eventInfo))?I1_depth_acc(*eventInfo):-99;
+  m_i2_depth          = (I2_depth_acc.isAvailable(*eventInfo))?I2_depth_acc(*eventInfo):-99;
+  m_v1_nelements      = (V1_nelements_acc.isAvailable(*eventInfo))?V1_nelements_acc(*eventInfo):-99;
+  m_v2_nelements      = (V2_nelements_acc.isAvailable(*eventInfo))?V2_nelements_acc(*eventInfo):-99;
+  m_ss_abs_costheta   = (SS_costheta_acc.isAvailable(*eventInfo))?std::fabs(SS_costheta_acc(*eventInfo)):-99;
+  m_s1_abs_costheta   = (S1_costheta_acc.isAvailable(*eventInfo))?std::fabs(S1_costheta_acc(*eventInfo)):-99;
+  m_s2_abs_costheta   = (S2_costheta_acc.isAvailable(*eventInfo))?std::fabs(S2_costheta_acc(*eventInfo)):-99;
 
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
@@ -411,7 +411,7 @@ EL::StatusCode OptimizationDump :: execute ()
       }
     }
 
-    for(auto tool: m_varRjetReclusteringTools)
+    for(const auto& tool: m_varRjetReclusteringTools)
       tool->execute();
 
     for(int i=0; i<2; i++){
@@ -523,9 +523,12 @@ EL::StatusCode OptimizationDump :: execute ()
 EL::StatusCode OptimizationDump :: postExecute () { return EL::StatusCode::SUCCESS; }
 
 EL::StatusCode OptimizationDump :: finalize () {
-  if(!m_inputJets.empty())
+  if(!m_inputJets.empty()){
     for(const auto &tool: m_jetReclusteringTools)
       if(tool) delete tool;
+    for(const auto& tool: m_varRjetReclusteringTools)
+      if(tool) delete tool;
+  }
   return EL::StatusCode::SUCCESS;
 }
 
