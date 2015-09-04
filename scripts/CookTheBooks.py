@@ -75,6 +75,10 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser(add_help=False, description='Become an accountant and cook the books!',
                                    usage='%(prog)s --files ... file [file ...] [options] {driver} [driver options]',
                                    formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
+
+  # there are really no positional arguments in the automatic group
+  parser_requiredNamed = parser.add_argument_group('required named arguments')
+
   # add custom help
   parser.add_argument('-h', '--help', metavar='subsection', nargs='?', action=_HelpAction, help='show this help message and exit. You can also pass in the name of a subsection.')
 
@@ -83,7 +87,7 @@ if __name__ == "__main__":
   parser._optionals.title = "optional"
 
   # positional argument, require the first argument to be the input filename
-  parser.add_argument('--files', dest='input_filename', metavar='file', type=str, nargs='+', required=True, help='input file(s) to read')
+  parser_requiredNamed.add_argument('--files', dest='input_filename', metavar='file', type=str, nargs='+', required=True, help='input file(s) to read')
   parser.add_argument('--submitDir', dest='submit_dir', metavar='<directory>', type=str, required=False, help='Output directory to store the output.', default='submitDir')
   parser.add_argument('--nevents', dest='num_events', metavar='<n>', type=int, help='Number of events to process for all datasets.', default=0)
   parser.add_argument('--skip', dest='skip_events', metavar='<n>', type=int, help='Number of events to skip at start.', default=0)
