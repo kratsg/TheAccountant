@@ -165,11 +165,11 @@ if __name__ == "__main__":
   driverUsageStr = 'CookTheBooks.py --files ... file [file ...] [options] {0:s} [{0:s} options]'
   # first is the driver
   drivers_parser = parser.add_subparsers(prog='CookTheBooks.py', title='drivers', dest='driver', description='specify where to run jobs')
-  direct = drivers_parser.add_parser('direct', help='Run your jobs locally.', usage=driverUsageStr.format('direct'))
-  prooflite = drivers_parser.add_parser('prooflite', help='Run your jobs using ProofLite', usage=driverUsageStr.format('prooflite'))
-  prun = drivers_parser.add_parser('prun', help='Run your jobs on the grid using prun. Use prun --help for descriptions of the options.', usage=driverUsageStr.format('prun'))
-  condor = drivers_parser.add_parser('condor', help='Flock your jobs to condor', usage=driverUsageStr.format('condor'))
-  lsf = drivers_parser.add_parser('lsf', help='Flock your jobs to lsf', usage=driverUsageStr.format('lsf'))
+  direct = drivers_parser.add_parser('direct', help='Run your jobs locally.', usage=driverUsageStr.format('direct'), formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
+  prooflite = drivers_parser.add_parser('prooflite', help='Run your jobs using ProofLite', usage=driverUsageStr.format('prooflite'), formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
+  prun = drivers_parser.add_parser('prun', help='Run your jobs on the grid using prun. Use prun --help for descriptions of the options.', usage=driverUsageStr.format('prun'), formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
+  condor = drivers_parser.add_parser('condor', help='Flock your jobs to condor', usage=driverUsageStr.format('condor'), formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
+  lsf = drivers_parser.add_parser('lsf', help='Flock your jobs to lsf', usage=driverUsageStr.format('lsf'), formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
 
   # standard options for other drivers
   #.add_argument('--optCacheLearnEntries', type=str, required=False, default=None)
