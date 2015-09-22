@@ -3,22 +3,8 @@
 
 #include "xAODAnaHelpers/HistogramManager.h"
 
-// RestFrames includes                                                          
-#include "RestFrames/RestFrame.hh"
-#include "RestFrames/RFrame.hh"
-#include "RestFrames/RLabFrame.hh"
-#include "RestFrames/RDecayFrame.hh"
-#include "RestFrames/RVisibleFrame.hh"
-#include "RestFrames/RInvisibleFrame.hh"
-#include "RestFrames/RSelfAssemblingFrame.hh"
-#include "RestFrames/InvisibleMassJigsaw.hh"
-#include "RestFrames/InvisibleRapidityJigsaw.hh"
-#include "RestFrames/ContraBoostInvariantJigsaw.hh"
-#include "RestFrames/MinimizeMassesCombinatoricJigsaw.hh"
-#include "RestFrames/InvisibleGroup.hh"
-#include "RestFrames/CombinatoricGroup.hh"
-
-//namespace RF = RestFrames;
+// RestFrames includes
+#include "RestFrames/RestFrames.hh"
 
 #include "xAODEventInfo/EventInfo.h"
 #include "xAODMissingET/MissingETContainer.h"
@@ -34,7 +20,7 @@ namespace TheAccountant
   {
   public:
     RazorVariableHists(std::string name);
-    virtual ~RazorVariableHists() ; 
+    virtual ~RazorVariableHists() ;
 
     StatusCode initialize();
     StatusCode execute( const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::JetContainer* jets_largeR, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight );
@@ -74,7 +60,7 @@ namespace TheAccountant
     TH2F* ss_mass_vs_2ndJetRapidity;
     TH2F* ss_mass_vs_HT;
     TH2F* ss_mass_vs_Meff;
-    
+
     TH2F* ss_invgamma_vs_MET;
     TH2F* ss_invgamma_vs_Meff;
 
@@ -121,7 +107,7 @@ namespace TheAccountant
     TH1F* s2_mass;
     TH1F* s2_costheta;
 
-    TH1F* i1_depth;    
+    TH1F* i1_depth;
     TH1F* i2_depth;
 
     TH1F* v1_nelements;

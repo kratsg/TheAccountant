@@ -8,19 +8,7 @@
 #include "xAODRootAccess/TStore.h"
 
 // RestFrames includes
-#include "RestFrames/RestFrame.hh"
-#include "RestFrames/RFrame.hh"
-#include "RestFrames/RLabFrame.hh"
-#include "RestFrames/RDecayFrame.hh"
-#include "RestFrames/RVisibleFrame.hh"
-#include "RestFrames/RInvisibleFrame.hh"
-#include "RestFrames/RSelfAssemblingFrame.hh"
-#include "RestFrames/InvisibleMassJigsaw.hh"
-#include "RestFrames/InvisibleRapidityJigsaw.hh"
-#include "RestFrames/ContraBoostInvariantJigsaw.hh"
-#include "RestFrames/MinimizeMassesCombinatoricJigsaw.hh"
-#include "RestFrames/InvisibleGroup.hh"
-#include "RestFrames/CombinatoricGroup.hh"
+#include "RestFrames/RestFrames.hh"
 
 // c++ includes
 #include <string>
@@ -39,22 +27,22 @@ public:
   bool m_passPreSel         = true;
 
 private:
-  RF::RLabFrame         LAB; //!
-  RF::RDecayFrame       SS;  //!
-  RF::RDecayFrame       S1;  //!
-  RF::RDecayFrame       S2;  //!
-  RF::RVisibleFrame     V1;  //!
-  RF::RVisibleFrame     V2;  //!
-  RF::RInvisibleFrame   I1;  //!
-  RF::RInvisibleFrame   I2;  //!
+  RF::LabRecoFrame         LAB; //!
+  RF::DecayRecoFrame       SS;  //!
+  RF::DecayRecoFrame       S1;  //!
+  RF::DecayRecoFrame       S2;  //!
+  RF::VisibleRecoFrame     V1;  //!
+  RF::VisibleRecoFrame     V2;  //!
+  RF::InvisibleRecoFrame   I1;  //!
+  RF::InvisibleRecoFrame   I2;  //!
 
   RF::CombinatoricGroup VIS;    //!
   RF::InvisibleGroup    INV;    //!
 
-  RF::InvisibleMassJigsaw MinMassJigsaw; //!
-  RF::InvisibleRapidityJigsaw RapidityJigsaw; //!
-  RF::ContraBoostInvariantJigsaw ContraBoostJigsaw; //!
-  RF::MinimizeMassesCombinatoricJigsaw HemiJigsaw; //!
+  RF::SetMassInvJigsaw MinMassJigsaw; //!
+  RF::SetRapidityInvJigsaw RapidityJigsaw; //!
+  RF::ContraBoostInvJigsaw ContraBoostJigsaw; //!
+  RF::MinMassesCombJigsaw HemiJigsaw; //!
 
 public:
   // this is a standard constructor

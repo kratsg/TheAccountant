@@ -3,9 +3,6 @@
 #include <EventLoop/Worker.h>
 #include <TheAccountant/Audit.h>
 
-// RestFrames includes
-#include "RestFrames/FramePlot.hh"
-
 // EDM includes
 #include "xAODEventInfo/EventInfo.h"
 #include "xAODJet/JetContainer.h"
@@ -104,15 +101,15 @@ EL::StatusCode Audit :: initialize () {
 
   if(m_rapidityJigsaw){
     INV.AddJigsaw(RapidityJigsaw);
-    RapidityJigsaw.AddVisibleFrame((LAB.GetListVisibleFrames()));
+    RapidityJigsaw.AddVisibleFrames((LAB.GetListVisibleFrames()));
   }
 
   if(m_contraBoostJigsaw){
     INV.AddJigsaw(ContraBoostJigsaw);
-    ContraBoostJigsaw.AddVisibleFrame((S1.GetListVisibleFrames()), 0);
-    ContraBoostJigsaw.AddVisibleFrame((S2.GetListVisibleFrames()), 1);
-    ContraBoostJigsaw.AddInvisibleFrame((S1.GetListInvisibleFrames()), 0);
-    ContraBoostJigsaw.AddInvisibleFrame((S2.GetListInvisibleFrames()), 1);
+    ContraBoostJigsaw.AddVisibleFrames((S1.GetListVisibleFrames()), 0);
+    ContraBoostJigsaw.AddVisibleFrames((S2.GetListVisibleFrames()), 1);
+    ContraBoostJigsaw.AddInvisibleFrames((S1.GetListInvisibleFrames()), 0);
+    ContraBoostJigsaw.AddInvisibleFrames((S2.GetListInvisibleFrames()), 1);
   }
 
   if(m_hemiJigsaw){
@@ -124,35 +121,34 @@ EL::StatusCode Audit :: initialize () {
   if(LAB.InitializeAnalysis()){ Info("initialize()", "Our tree is ok for analysis."); }
   else                        { Error("initialize()", "Our tree is not ok for analysis."); return EL::StatusCode::FAILURE; }
 
+  /* BROKEN NEED TO FIX
   // only output this thing once, perhaps only during direct
   if(m_drawDecayTreePlots){
-    RF::FramePlot* decayTree_plot = new RF::FramePlot("tree", "Decay Tree");
+    RF::TreePlot* decayTree_plot = new RF::TreePlot("tree", "Decay Tree");
     // start with the lab frame
-    decayTree_plot->AddFrameTree(LAB);
+    decayTree_plot->SetFrameTree(LAB);
     // add the jigsaws
     if(m_minMassJigsaw)     decayTree_plot->AddJigsaw(MinMassJigsaw);
     if(m_rapidityJigsaw)    decayTree_plot->AddJigsaw(RapidityJigsaw);
     if(m_contraBoostJigsaw) decayTree_plot->AddJigsaw(ContraBoostJigsaw);
     if(m_hemiJigsaw)        decayTree_plot->AddJigsaw(HemiJigsaw);
-    decayTree_plot->DrawFramePlot();
-    TCanvas* plotCanvas = decayTree_plot->GetCanvas();
-    plotCanvas->SetName("decayTree");
+    decayTree_plot->Draw();
+    TCanvas* plotCanvas = decayTree_plot->GetNewCanvas("decayTree", "decayTree");
     wk()->addOutput(plotCanvas);
 
-    RF::FramePlot* visGroup_plot = new RF::FramePlot("VIStree", "Visible Group");
-    visGroup_plot->AddGroupTree(VIS);
-    visGroup_plot->DrawFramePlot();
-    TCanvas* visPlotCanvas = visGroup_plot->GetCanvas();
-    visPlotCanvas->SetName("visTree");
+    RF::TreePlot* visGroup_plot = new RF::TreePlot("VIStree", "Visible Group");
+    visGroup_plot->SetGroupTree(VIS);
+    visGroup_plot->Draw();
+    TCanvas* visPlotCanvas = visGroup_plot->GetNewCanvas("visTree", "visTree");
     wk()->addOutput(visPlotCanvas);
 
-    RF::FramePlot* invGroup_plot = new RF::FramePlot("INVtree", "Invisible Group");
-    invGroup_plot->AddGroupTree(INV);
-    invGroup_plot->DrawFramePlot();
-    TCanvas* invPlotCanvas = invGroup_plot->GetCanvas();
-    invPlotCanvas->SetName("invTree");
+    RF::TreePlot* invGroup_plot = new RF::TreePlot("INVtree", "Invisible Group");
+    invGroup_plot->SetGroupTree(INV);
+    invGroup_plot->Draw();
+    TCanvas* invPlotCanvas = invGroup_plot->GetNewCanvas("invTree", "invTree");
     wk()->addOutput(invPlotCanvas);
   }
+  */
 
   return EL::StatusCode::SUCCESS;
 }
@@ -232,10 +228,10 @@ EL::StatusCode Audit :: execute ()
   LAB.ClearEvent();
 
   // create a vector to hold the group element ids for when adding jets
-  std::map<const RF::GroupElementID, const xAOD::Jet*> in_jets_IDs;
+  std::map<const int, const xAOD::Jet*> in_jets_IDs;
   if(!m_inputJets.empty()){
     for(const auto &jet: *in_jets)
-      in_jets_IDs[VIS.AddLabFrameFourVector( jet->p4() )] = jet;
+      in_jets_IDs[VIS.AddLabFrameFourVector( jet->p4() ).GetKey()] = jet;
   }
 
   if(!m_inputMET.empty()){
