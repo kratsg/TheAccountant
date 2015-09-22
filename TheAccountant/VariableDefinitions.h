@@ -15,27 +15,29 @@
 /* Caveats: input containers are assumed sorted */
 namespace VariableDefinitions {
 
-  // typedef it to make it easier to type: VD::decor_t<char>
+  // typedef it to make it easier to type: VD::accessor_t<char>
   // http://stackoverflow.com/a/19192151/1532974
   template <typename T>
-  using decor_t = typename SG::AuxElement::ConstAccessor<T>;
+  using decor_t = typename SG::AuxElement::Decorator<T>;
+  template <typename T>
+  using accessor_t = typename SG::AuxElement::ConstAccessor<T>;
 
   // global definitions for decorations
-  static decor_t<char> decor_baseline("baseline");
-  static decor_t<char> decor_passOverlap("passOR");
-  static decor_t<char> decor_signal("signal");
-  static decor_t<char> decor_cosmic("cosmic");
-  static decor_t<char> decor_bad("bad");
+  static accessor_t<char> decor_baseline("baseline");
+  static accessor_t<char> decor_passOverlap("passOR");
+  static accessor_t<char> decor_signal("signal");
+  static accessor_t<char> decor_cosmic("cosmic");
+  static accessor_t<char> decor_bad("bad");
 
   // define isXXXX functions
   //    - note that when using a <char> decoration, you often compare to an int
   template <typename T1, typename T2>
-  bool isDecor(const T1& obj, const decor_t<T2>& decor, const T2& val, const bool& requireDecor=true){
+  bool isDecor(const T1& obj, const accessor_t<T2>& decor, const T2& val, const bool& requireDecor=true){
     if(requireDecor && !decor.isAvailable(obj)) return false;
     return (decor(obj) == val);
   }
   template <typename T1>
-  bool isDecor(const T1& obj, const decor_t<char>& decor, const int& val, const bool& requireDecor=true){
+  bool isDecor(const T1& obj, const accessor_t<char>& decor, const int& val, const bool& requireDecor=true){
     if(requireDecor && !decor.isAvailable(obj)) return false;
     return (decor(obj) == val);
   }
@@ -137,7 +139,7 @@ namespace VariableDefinitions {
   // the most arbitrarily generic subset creator ever
   //    - for example, subset_using_decoration(jets, VD::signal, 1) returns a CDV of jets that pass the signal
   template <typename T1, typename T2, typename T3>
-  ConstDataVector<T1> subset_using_decor(const T1* cont, const decor_t<T2>& decor, const T3& val, const bool& requireDecor=true){
+  ConstDataVector<T1> subset_using_decor(const T1* cont, const accessor_t<T2>& decor, const T3& val, const bool& requireDecor=true){
     ConstDataVector<T1> subset(SG::VIEW_ELEMENTS);
     for(const auto &i: *cont){
       if(!isDecor(*i, decor, val, requireDecor)) continue;
