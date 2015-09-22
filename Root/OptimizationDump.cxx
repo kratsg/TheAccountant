@@ -300,20 +300,20 @@ EL::StatusCode OptimizationDump :: execute ()
   m_eventNumber = eventInfo->eventNumber();
 
   // do all of the razor variables
-  static SG::AuxElement::ConstAccessor<float> SS_mass_acc("SS_mass");
-  static SG::AuxElement::ConstAccessor<float> SS_invgamma_acc("SS_invgamma");
-  static SG::AuxElement::ConstAccessor<float> SS_dphivis_acc("SS_dphivis");
-  static SG::AuxElement::ConstAccessor<float> SS_costheta_acc("SS_costheta");
-  static SG::AuxElement::ConstAccessor<float> SS_dphidecayangle_acc("SS_dphidecayangle");
-  static SG::AuxElement::ConstAccessor<float> SS_mdeltaR_acc("SS_mdeltaR");
-  static SG::AuxElement::ConstAccessor<float> S1_mass_acc("S1_mass");
-  static SG::AuxElement::ConstAccessor<float> S2_mass_acc("S2_mass");
-  static SG::AuxElement::ConstAccessor<float> S1_costheta_acc("S1_costheta");
-  static SG::AuxElement::ConstAccessor<float> S2_costheta_acc("S2_costheta");
-  static SG::AuxElement::ConstAccessor<float> I1_depth_acc("I1_depth");
-  static SG::AuxElement::ConstAccessor<float> I2_depth_acc("I2_depth");
-  static SG::AuxElement::ConstAccessor<float> V1_nelements_acc("V1_nelements");
-  static SG::AuxElement::ConstAccessor<float> V2_nelements_acc("V2_nelements");
+  static VD::accessor_t<float> SS_mass_acc("SS_mass");
+  static VD::accessor_t<float> SS_invgamma_acc("SS_invgamma");
+  static VD::accessor_t<float> SS_dphivis_acc("SS_dphivis");
+  static VD::accessor_t<float> SS_costheta_acc("SS_costheta");
+  static VD::accessor_t<float> SS_dphidecayangle_acc("SS_dphidecayangle");
+  static VD::accessor_t<float> SS_mdeltaR_acc("SS_mdeltaR");
+  static VD::accessor_t<float> S1_mass_acc("S1_mass");
+  static VD::accessor_t<float> S2_mass_acc("S2_mass");
+  static VD::accessor_t<float> S1_costheta_acc("S1_costheta");
+  static VD::accessor_t<float> S2_costheta_acc("S2_costheta");
+  static VD::accessor_t<float> I1_depth_acc("I1_depth");
+  static VD::accessor_t<float> I2_depth_acc("I2_depth");
+  static VD::accessor_t<float> V1_nelements_acc("V1_nelements");
+  static VD::accessor_t<float> V2_nelements_acc("V2_nelements");
 
   m_ss_mass           = (SS_mass_acc.isAvailable(*eventInfo))?SS_mass_acc(*eventInfo)/1000.:-99;
   m_ss_invgamma       = (SS_invgamma_acc.isAvailable(*eventInfo))?SS_invgamma_acc(*eventInfo):-99;
@@ -358,7 +358,7 @@ EL::StatusCode OptimizationDump :: execute ()
     m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons)/1000.;
     m_dPhiMETMin = VD::dPhiMETMin(in_met, in_jets);
 
-    static SG::AuxElement::Decorator< int > isB("isB");
+    static VD::decor_t< int > isB("isB");
     ConstDataVector<xAOD::JetContainer> bjets(SG::VIEW_ELEMENTS);
     for(const auto &jet: *in_jets){
       if(isB(*jet) != 1) continue;
@@ -367,14 +367,14 @@ EL::StatusCode OptimizationDump :: execute ()
     m_mTb = VD::mTb(in_met, bjets.asDataVector())/1000.;
   }
 
-  static SG::AuxElement::ConstAccessor< int > pass_preSel("pass_preSel");
+  static VD::accessor_t< int > pass_preSel("pass_preSel");
 
   if(!m_inputJets.empty()){
     m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons)/1000.;
 
     // number of jets and bjets that pass preselection
-    static SG::AuxElement::ConstAccessor< int > pass_preSel_jets("pass_preSel_jets");
-    static SG::AuxElement::ConstAccessor< int > pass_preSel_bjets("pass_preSel_bjets");
+    static VD::accessor_t< int > pass_preSel_jets("pass_preSel_jets");
+    static VD::accessor_t< int > pass_preSel_bjets("pass_preSel_bjets");
     m_numJets = (pass_preSel_jets.isAvailable(*eventInfo))?pass_preSel_jets(*eventInfo):-99;
     m_numBJets = (pass_preSel_bjets.isAvailable(*eventInfo))?pass_preSel_bjets(*eventInfo):-99;
 
@@ -452,7 +452,7 @@ EL::StatusCode OptimizationDump :: execute ()
   }
 
   if(!m_inputLargeRJets.empty()){
-    static SG::AuxElement::ConstAccessor< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
+    static VD::accessor_t< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
     m_numJetsLargeR = (pass_preSel_jetsLargeR.isAvailable(*eventInfo))?pass_preSel_jetsLargeR(*eventInfo):-99;
 
     // initialize for leading 4 largeR jets that pass preselection

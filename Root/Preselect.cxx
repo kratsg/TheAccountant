@@ -122,7 +122,7 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["trigger"].second += eventWeight;
   }
 
-  static SG::AuxElement::Decorator< int > pass_preSel("pass_preSel");
+  static VD::decor_t< int > pass_preSel("pass_preSel");
 
   if(!m_inputLargeRJets.empty()){
     int num_passJetsLargeR = 0;
@@ -149,7 +149,7 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["jets_largeR"].first += 1;
     m_cutflow["jets_largeR"].second += eventWeight;
 
-    static SG::AuxElement::Decorator< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
+    static VD::decor_t< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
     pass_preSel_jetsLargeR(*eventInfo) = num_passJetsLargeR;
   }
 
@@ -157,7 +157,7 @@ EL::StatusCode Preselect :: execute ()
   if(!m_inputJets.empty()){
     // get the working point
     static VD::WP bTag_wp = VD::str2wp(m_bTag_wp);
-    static SG::AuxElement::Decorator< int > isB("isB");
+    static VD::decor_t< int > isB("isB");
 
     // for small-R jets, count number of jets that pass standard cuts
     int num_passJets = 0;
@@ -295,8 +295,8 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["bjets"].first += 1;
     m_cutflow["bjets"].second += eventWeight;
 
-    static SG::AuxElement::Decorator< int > pass_preSel_jets("pass_preSel_jets");
-    static SG::AuxElement::Decorator< int > pass_preSel_bjets("pass_preSel_bjets");
+    static VD::decor_t< int > pass_preSel_jets("pass_preSel_jets");
+    static VD::decor_t< int > pass_preSel_bjets("pass_preSel_bjets");
     pass_preSel_jets(*eventInfo) = num_passJets;
     pass_preSel_bjets(*eventInfo) = num_passBJets;
 

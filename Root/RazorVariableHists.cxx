@@ -112,20 +112,20 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
 
 StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::JetContainer* jets_largeR, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight){
 
-  static SG::AuxElement::ConstAccessor<float> SS_mass_acc("SS_mass");
-  static SG::AuxElement::ConstAccessor<float> SS_invgamma_acc("SS_invgamma");
-  static SG::AuxElement::ConstAccessor<float> SS_dphivis_acc("SS_dphivis");
-  static SG::AuxElement::ConstAccessor<float> SS_costheta_acc("SS_costheta");
-  static SG::AuxElement::ConstAccessor<float> SS_dphidecayangle_acc("SS_dphidecayangle");
-  static SG::AuxElement::ConstAccessor<float> SS_mdeltaR_acc("SS_mdeltaR");
-  static SG::AuxElement::ConstAccessor<float> S1_mass_acc("S1_mass");
-  static SG::AuxElement::ConstAccessor<float> S2_mass_acc("S2_mass");
-  static SG::AuxElement::ConstAccessor<float> S1_costheta_acc("S1_costheta");
-  static SG::AuxElement::ConstAccessor<float> S2_costheta_acc("S2_costheta");
-  static SG::AuxElement::ConstAccessor<float> I1_depth_acc("I1_depth");
-  static SG::AuxElement::ConstAccessor<float> I2_depth_acc("I2_depth");
-  static SG::AuxElement::ConstAccessor<float> V1_nelements_acc("V1_nelements");
-  static SG::AuxElement::ConstAccessor<float> V2_nelements_acc("V2_nelements");
+  static VD::accessor_t<float> SS_mass_acc("SS_mass");
+  static VD::accessor_t<float> SS_invgamma_acc("SS_invgamma");
+  static VD::accessor_t<float> SS_dphivis_acc("SS_dphivis");
+  static VD::accessor_t<float> SS_costheta_acc("SS_costheta");
+  static VD::accessor_t<float> SS_dphidecayangle_acc("SS_dphidecayangle");
+  static VD::accessor_t<float> SS_mdeltaR_acc("SS_mdeltaR");
+  static VD::accessor_t<float> S1_mass_acc("S1_mass");
+  static VD::accessor_t<float> S2_mass_acc("S2_mass");
+  static VD::accessor_t<float> S1_costheta_acc("S1_costheta");
+  static VD::accessor_t<float> S2_costheta_acc("S2_costheta");
+  static VD::accessor_t<float> I1_depth_acc("I1_depth");
+  static VD::accessor_t<float> I2_depth_acc("I2_depth");
+  static VD::accessor_t<float> V1_nelements_acc("V1_nelements");
+  static VD::accessor_t<float> V2_nelements_acc("V2_nelements");
 
   ss_mass->           Fill( SS_mass_acc(*eventInfo)/1000., eventWeight);
   ss_invgamma->       Fill( SS_invgamma_acc(*eventInfo),eventWeight);

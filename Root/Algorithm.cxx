@@ -50,7 +50,7 @@ int TA::Algorithm::isMC(){
     return -1;
   }
 
-  static SG::AuxElement::ConstAccessor<uint32_t> eventType("eventTypeBitmask");
+  static VD::accessor_t<uint32_t> eventType("eventTypeBitmask");
   if(!eventType.isAvailable(*ei)){
     if(m_debug) Warning("isMC()", "eventType is not available.");
     return -1;

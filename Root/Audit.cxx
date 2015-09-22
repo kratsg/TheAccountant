@@ -197,20 +197,20 @@ EL::StatusCode Audit :: execute ()
   }
 
   // define razor decorations
-  static SG::AuxElement::Decorator<float> SS_mass_decor             ("SS_mass");
-  static SG::AuxElement::Decorator<float> SS_invgamma_decor         ("SS_invgamma");
-  static SG::AuxElement::Decorator<float> SS_dphivis_decor          ("SS_dphivis");
-  static SG::AuxElement::Decorator<float> SS_costheta_decor         ("SS_costheta");
-  static SG::AuxElement::Decorator<float> SS_dphidecayangle_decor   ("SS_dphidecayangle");
-  static SG::AuxElement::Decorator<float> SS_mdeltaR_decor          ("SS_mdeltaR");
-  static SG::AuxElement::Decorator<float> S1_mass_decor             ("S1_mass");
-  static SG::AuxElement::Decorator<float> S2_mass_decor             ("S2_mass");
-  static SG::AuxElement::Decorator<float> S1_costheta_decor         ("S1_costheta");
-  static SG::AuxElement::Decorator<float> S2_costheta_decor         ("S2_costheta");
-  static SG::AuxElement::Decorator<float> I1_depth_decor            ("I1_depth");
-  static SG::AuxElement::Decorator<float> I2_depth_decor            ("I2_depth");
-  static SG::AuxElement::Decorator<float> V1_nelements_decor        ("V1_nelements");
-  static SG::AuxElement::Decorator<float> V2_nelements_decor        ("V2_nelements");
+  static VD::decor_t<float> SS_mass_decor             ("SS_mass");
+  static VD::decor_t<float> SS_invgamma_decor         ("SS_invgamma");
+  static VD::decor_t<float> SS_dphivis_decor          ("SS_dphivis");
+  static VD::decor_t<float> SS_costheta_decor         ("SS_costheta");
+  static VD::decor_t<float> SS_dphidecayangle_decor   ("SS_dphidecayangle");
+  static VD::decor_t<float> SS_mdeltaR_decor          ("SS_mdeltaR");
+  static VD::decor_t<float> S1_mass_decor             ("S1_mass");
+  static VD::decor_t<float> S2_mass_decor             ("S2_mass");
+  static VD::decor_t<float> S1_costheta_decor         ("S1_costheta");
+  static VD::decor_t<float> S2_costheta_decor         ("S2_costheta");
+  static VD::decor_t<float> I1_depth_decor            ("I1_depth");
+  static VD::decor_t<float> I2_depth_decor            ("I2_depth");
+  static VD::decor_t<float> V1_nelements_decor        ("V1_nelements");
+  static VD::decor_t<float> V2_nelements_decor        ("V2_nelements");
   // initialize to zero on event
   SS_mass_decor(*eventInfo)             = -99;
   SS_invgamma_decor(*eventInfo)         = -99;

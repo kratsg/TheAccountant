@@ -186,7 +186,7 @@ float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* 
 
 float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData){
   // for now, we will return 1.0 to make it consistent and scale in optimization and plotting (fuck)
-  static SG::AuxElement::ConstAccessor<uint32_t> eventType("eventTypeBitmask");
+  static VD::accessor_t<uint32_t> eventType("eventTypeBitmask");
   if(!eventType.isAvailable(*ei)){
     std::cout << "Warning: eventType is not available. Returning 1." << std::endl;
     return 1.0;
@@ -196,7 +196,7 @@ float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData)
   if( !(static_cast<uint32_t>(eventType(*ei)) & xAOD::EventInfo::IS_SIMULATION) )
     return 1.0;
 
-  static SG::AuxElement::ConstAccessor<float> weight_mc("weight_mc");
+  static VD::accessor_t<float> weight_mc("weight_mc");
   float weight(weight_mc.isAvailable(*ei)?weight_mc(*ei):1.0);
   //float weight(weight_mc.isAvailable(*ei)?weight_mc(*ei):ei->mcEventWeight());
 
@@ -223,7 +223,7 @@ float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData)
 
 int VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, VD::WP wp){
 
-  static SG::AuxElement::Decorator< int > nTops_wp("nTops_"+VD::wp2str(wp));
+  static VD::decor_t< int > nTops_wp("nTops_"+VD::wp2str(wp));
 
   // set or reset to 0 top tags
   nTops_wp(*eventInfo) = 0;
@@ -270,7 +270,7 @@ bool VD::topTag(const xAOD::Jet* jet, VD::WP wp){
     break;
   }
 
-  static SG::AuxElement::Decorator< int > isTop_wp("isTop_"+VD::wp2str(wp));
+  static VD::decor_t< int > isTop_wp("isTop_"+VD::wp2str(wp));
   // tag the jet
   isTop_wp(*jet) = static_cast<int>(isTop_tagged);
 
@@ -279,7 +279,7 @@ bool VD::topTag(const xAOD::Jet* jet, VD::WP wp){
 
 int VD::bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, VD::WP wp){
 
-  static SG::AuxElement::Decorator< int > nBJets_wp("nBJets_"+VD::wp2str(wp));
+  static VD::decor_t< int > nBJets_wp("nBJets_"+VD::wp2str(wp));
 
   // set or reset to 0 b tags
   nBJets_wp(*eventInfo) = 0;
@@ -329,7 +329,7 @@ bool VD::bTag(const xAOD::Jet* jet, VD::WP wp, float maxAbsEta){
     break;
   }
 
-  static SG::AuxElement::Decorator< int > isB_wp("isB_"+VD::wp2str(wp));
+  static VD::decor_t< int > isB_wp("isB_"+VD::wp2str(wp));
   // tag the jet
   isB_wp(*jet) = static_cast<int>(isB_tagged);
 
@@ -343,7 +343,7 @@ float VD::Tau21(const xAOD::Jet* jet){
   if(jet->getAttribute("Tau21_wta", tau21)){
     return tau21;
   } else if(jet->getAttribute("Tau1_wta", tau1) && jet->getAttribute("Tau2_wta", tau2)){
-    static SG::AuxElement::Decorator< float > Tau21("Tau21_wta");
+    static VD::decor_t< float > Tau21("Tau21_wta");
     Tau21(*jet) = tau2/tau1;
     return tau2/tau1;
   } else {
@@ -362,7 +362,7 @@ float VD::Tau32(const xAOD::Jet* jet){
   if(jet->getAttribute("Tau32_wta", tau32)){
     return tau32;
   } else if(jet->getAttribute("Tau2_wta", tau2) && jet->getAttribute("Tau3_wta", tau3)){
-    static SG::AuxElement::Decorator< float > Tau32("Tau32_wta");
+    static VD::decor_t< float > Tau32("Tau32_wta");
     Tau32(*jet) = tau3/tau2;
     return tau3/tau2;
   } else {
@@ -389,11 +389,11 @@ void VD::Nsubjettiness(const xAOD::Jet* jet, float alpha){
   float tau3 = tau3_cal.result(*jet);
 
   // set up decorators for setting the properties
-  static SG::AuxElement::Decorator< float > Tau1("Tau1");
-  static SG::AuxElement::Decorator< float > Tau2("Tau2");
-  static SG::AuxElement::Decorator< float > Tau3("Tau3");
-  static SG::AuxElement::Decorator< float > Tau21("Tau21");
-  static SG::AuxElement::Decorator< float > Tau32("Tau32");
+  static VD::decor_t< float > Tau1("Tau1");
+  static VD::decor_t< float > Tau2("Tau2");
+  static VD::decor_t< float > Tau3("Tau3");
+  static VD::decor_t< float > Tau21("Tau21");
+  static VD::decor_t< float > Tau32("Tau32");
 
   // start decorating our jets
   Tau1(*jet) = tau1;
@@ -443,9 +443,9 @@ float VD::Split34(const xAOD::Jet* jet){
 }
 
 void VD::KtSplittingScale(const xAOD::Jet* jet){
-  static SG::AuxElement::Decorator< float > Split12("Split12");
-  static SG::AuxElement::Decorator< float > Split23("Split23");
-  static SG::AuxElement::Decorator< float > Split34("Split34");
+  static VD::decor_t< float > Split12("Split12");
+  static VD::decor_t< float > Split23("Split23");
+  static VD::decor_t< float > Split34("Split34");
 
   JetSubStructureUtils::KtSplittingScale split12_cal(1);
   JetSubStructureUtils::KtSplittingScale split23_cal(2);

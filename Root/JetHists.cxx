@@ -92,7 +92,7 @@ StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eventWe
   m_jvt->Fill(jvt, eventWeight);
 
   if(m_doSubstructure){
-    static SG::AuxElement::ConstAccessor<float> Width("Width");
+    static VD::accessor_t<float> Width("Width");
 
     // subjettiness
     m_tau21->Fill( VD::Tau21(jet), eventWeight);
@@ -111,10 +111,10 @@ StatusCode TheAccountant::JetHists::execute( const xAOD::Jet* jet, float eventWe
     fastjet::JetAlgorithm subjet_clustering(fastjet::kt_algorithm);
     float subjet_radius(0.2);
     // if it is a transformed jet, deal with that
-    static SG::AuxElement::ConstAccessor<int> TransformType("TransformType");
+    static VD::accessor_t<int> TransformType("TransformType");
     if(TransformType.isAvailable(*jet)){
       switch(TransformType(*jet)){
-        static SG::AuxElement::ConstAccessor<float> RClus("RClus");
+        static VD::accessor_t<float> RClus("RClus");
         case xAOD::JetTransform::Trim:
           subjet_clustering = fastjet::kt_algorithm;
           subjet_radius     = (RClus.isAvailable(*jet))?RClus(*jet):0.2;
