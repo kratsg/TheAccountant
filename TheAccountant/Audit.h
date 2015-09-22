@@ -1,7 +1,7 @@
 #ifndef TheAccountant_Audit_H
 #define TheAccountant_Audit_H
 
-#include <EventLoop/Algorithm.h>
+#include <TheAccountant/Algorithm.h>
 
 // Infrastructure include(s):
 #include "xAODRootAccess/TEvent.h"
@@ -27,7 +27,7 @@
 
 namespace RF = RestFrames;
 
-class Audit : public EL::Algorithm
+class Audit : public TA::Algorithm
 {
 
 public:
@@ -38,25 +38,7 @@ public:
        m_drawDecayTreePlots = false;
   bool m_passPreSel         = true;
 
-  // standard across all algorithms for configuration
-  bool m_debug = false;
-  std::string m_eventInfo       = "EventInfo",
-              m_inputLargeRJets       = "",
-              m_inputJets      = "",
-              m_inputMET        = "MET_RefFinal",
-              m_inputMETName    = "Final",
-              m_inputElectrons  = "",
-              m_inputMuons      = "",
-              m_inputTauJets    = "",
-              m_inputPhotons    = "";
-  std::string m_decor_jetTags_b   = "", // isB,
-              m_decor_jetTags_top = "", // isTop,
-              m_decor_jetTags_w   = ""; // isW;
-
 private:
-  xAOD::TEvent *m_event; //!
-  xAOD::TStore *m_store; //!
-
   RF::RLabFrame         LAB; //!
   RF::RDecayFrame       SS;  //!
   RF::RDecayFrame       S1;  //!

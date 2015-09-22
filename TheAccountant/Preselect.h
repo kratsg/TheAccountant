@@ -1,7 +1,7 @@
 #ifndef TheAccountant_Preselect_H
 #define TheAccountant_Preselect_H
 
-#include <EventLoop/Algorithm.h>
+#include <TheAccountant/Algorithm.h>
 
 // Infrastructure include(s):
 #include "xAODRootAccess/TEvent.h"
@@ -11,7 +11,7 @@
 #include "TrigConfxAOD/xAODConfigTool.h"
 #include "TrigDecisionTool/TrigDecisionTool.h"
 
-class Preselect : public EL::Algorithm
+class Preselect : public TA::Algorithm
 {
 public:
   int m_jetLargeR_minNum      = 0,
@@ -47,24 +47,7 @@ public:
 
   std::string m_triggerSelection = ""; // empty is none
 
-  // standard across all algorithms for configuration
-  bool m_debug = false;
-  std::string m_eventInfo       = "EventInfo",
-              m_inputLargeRJets       = "",
-              m_inputJets      = "",
-              m_inputMET        = "MET_RefFinal",
-              m_inputMETName    = "Final",
-              m_inputElectrons  = "",
-              m_inputMuons      = "",
-              m_inputTauJets    = "",
-              m_inputPhotons    = "";
-  std::string m_decor_jetTags_b   = "", // isB,
-              m_decor_jetTags_top = "", // isTop,
-              m_decor_jetTags_w   = ""; // isW;
-
 private:
-  xAOD::TEvent *m_event; //!
-  xAOD::TStore *m_store; //!
   TrigConf::xAODConfigTool* m_trigConf; //!
   Trig::TrigDecisionTool* m_TDT; //!
 
