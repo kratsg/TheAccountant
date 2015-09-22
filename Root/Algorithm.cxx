@@ -13,7 +13,6 @@
 #include "xAODAnaHelpers/HelperFunctions.h"
 #include "xAODAnaHelpers/tools/ReturnCheck.h"
 #include <TheAccountant/VariableDefinitions.h>
-
 namespace HF = HelperFunctions;
 namespace VD = VariableDefinitions;
 
