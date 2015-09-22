@@ -2,8 +2,6 @@
 #include "xAODEventInfo/EventInfo.h"
 #include "TheAccountant/VariableDefinitions.h"
 
-using namespace std;
-
 namespace RF = RestFrames;
 namespace VD = VariableDefinitions;
 
