@@ -20,10 +20,10 @@ int main( int argc, char* argv[] ) {
   // Construct the samples to run on:
   SH::SampleHandler sh;
 
-  std::string filename = "DAOD_JETM8.05115801._000001.pool.root.1";
-  std::string dataPath = gSystem->ExpandPathName("/share/t3data3/kratsg/xAODs/");
+  std::string filename = "ttbar_xaod_nolarge_newst_systlink.root";
+  std::string dataPath = gSystem->ExpandPathName("/share/t3data2/");
   SH::DiskListLocal list (dataPath);
-  SH::scanDir (sh, list, filename, "mc14_13TeV.1103*"); // specifying one particular sample
+  SH::scanDir (sh, list, filename, "swiatlow"); // specifying one particular sample
 
   // Set the name of the input TTree. It's always "CollectionTree"
   // for xAOD files.
@@ -38,11 +38,11 @@ int main( int argc, char* argv[] ) {
 
 
   OptimizationDump* optDump = new OptimizationDump();
-  optDump->m_debug      = false;
+  optDump->m_debug      = true;
   optDump->m_eventInfo  = "EventInfo";
-  optDump->m_inputLargeRJets  = "AntiKt10LCTopoJets";
-  optDump->m_inputJets = "AntiKt4LCTopoJets";
-  optDump->m_inputMET   = "MET_RefFinal";
+  optDump->m_inputLargeRJets  = "";
+  optDump->m_inputJets = "STCalibAntiKt4EMTopoJets";
+  optDump->m_inputMET   = "";
 
   // Attach algorithms
   job.algsAdd( optDump );
