@@ -21,10 +21,6 @@
 // Infrastructure includes
 #include "xAODRootAccess/Init.h"
 
-// xAH includes
-#include "xAODAnaHelpers/HelperFunctions.h"
-#include "xAODAnaHelpers/tools/ReturnCheck.h"
-
 // root includes
 #include <TCanvas.h>
 #include <TVector3.h>
@@ -32,8 +28,14 @@
 // c++ includes
 #include <set>
 
-namespace HF = HelperFunctions;
 namespace RF = RestFrames;
+
+// xAH includes
+#include "xAODAnaHelpers/HelperFunctions.h"
+#include "xAODAnaHelpers/tools/ReturnCheck.h"
+#include <TheAccountant/VariableDefinitions.h>
+namespace HF = HelperFunctions;
+namespace VD = VariableDefinitions;
 
 // this is needed to distribute the algorithm to the workers
 ClassImp(Audit)
