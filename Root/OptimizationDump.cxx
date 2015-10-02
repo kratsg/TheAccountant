@@ -43,6 +43,8 @@ ClassImp(OptimizationDump)
 OptimizationDump :: OptimizationDump () :
   m_tree(new TTree("oTree", "optimization tree")),
   m_eventWeight(0.0),
+  m_ttbarHF(0),
+  m_ttbarHF_ext(0),
   m_eventNumber(-999.0),
   m_effectiveMass(-999.0),
   m_totalTransverseMomentum(-999.0),
@@ -110,6 +112,8 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->SetDirectory (file);
 
   m_tree->Branch ("event_weight",              &m_eventWeight, "event_weight/F");
+  m_tree->Branch ("ttbarHF",  		       &m_ttbarHF, "ttbarHF/I");
+  m_tree->Branch ("ttbarHF_ext",               &m_ttbarHF_ext, "ttbarHF_ext/I");
   m_tree->Branch ("event_number",              &m_eventNumber, "event_number/I");
   if(!m_inputMET.empty()){
     m_tree->Branch ("m_transverse",              &m_totalTransverseMass, "m_transverse/F");
@@ -297,6 +301,10 @@ EL::StatusCode OptimizationDump :: execute ()
 
   // compute variables for optimization
   m_eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
+  
+  m_ttbarHF = VD::ttbarHF(eventInfo);
+  m_ttbarHF_ext = VD::ttbarHF_ext(eventInfo);
+
   m_eventNumber = eventInfo->eventNumber();
 
   // do all of the razor variables
