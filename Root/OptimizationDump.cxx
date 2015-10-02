@@ -301,7 +301,7 @@ EL::StatusCode OptimizationDump :: execute ()
 
   // compute variables for optimization
   m_eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
-  
+
   m_ttbarHF = VD::ttbarHF(eventInfo);
   m_ttbarHF_ext = VD::ttbarHF_ext(eventInfo);
 
@@ -349,10 +349,10 @@ EL::StatusCode OptimizationDump :: execute ()
       return EL::StatusCode::FAILURE;
     }
 
-    m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons);
-    m_met     = in_met->met()/1000.;
-    m_met_mpx = in_met->mpx()/1000.;
-    m_met_mpy = in_met->mpy()/1000.;
+    m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons)/1.e3;
+    m_met     = in_met->met()/1.e3;
+    m_met_mpx = in_met->mpx()/1.e3.;
+    m_met_mpy = in_met->mpy()/1.e3;
   }
 
   // in_jets will always contain the signal jets
