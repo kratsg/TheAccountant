@@ -90,8 +90,8 @@ namespace VariableDefinitions {
   float eventWeight(const xAOD::EventInfo*, const SH::MetaObject* metaData = nullptr);
 
   // Get the event heavy flavour classification
-  int ttbarHF(const xAOD::EventInfo*, const SH::MetaObject* metaData = nullptr);
-  int ttbarHF_ext(const xAOD::EventInfo*, const SH::MetaObject* metaData = nullptr);
+  int ttbarHF(const xAOD::EventInfo*);
+  int ttbarHF_ext(const xAOD::EventInfo*);
 
   // top tagging on jets, set the eventInfo with "nTops_<WP>" int decoration
   //    - static SG::AuxElement::Accessor< int > nTops_wp("nTops_<WP>");

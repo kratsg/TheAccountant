@@ -302,8 +302,8 @@ EL::StatusCode OptimizationDump :: execute ()
   // compute variables for optimization
   m_eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
   
-  m_ttbarHF = VD::ttbarHF(eventInfo, wk()->metaData());
-  m_ttbarHF_ext = VD::ttbarHF_ext(eventInfo, wk()->metaData());
+  m_ttbarHF = VD::ttbarHF(eventInfo);
+  m_ttbarHF_ext = VD::ttbarHF_ext(eventInfo);
 
   m_eventNumber = eventInfo->eventNumber();
 
