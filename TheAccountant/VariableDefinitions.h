@@ -28,6 +28,7 @@ namespace VariableDefinitions {
   static accessor_t<char> decor_signal("signal");
   static accessor_t<char> decor_cosmic("cosmic");
   static accessor_t<char> decor_bad("bad");
+  static accessor_t<char> decor_leptonIso("signal_pt_dependent_iso");
 
   // define isXXXX functions
   //    - note that when using a <char> decoration, you often compare to an int
@@ -52,6 +53,8 @@ namespace VariableDefinitions {
   bool isCosmic(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_cosmic, 1, requireDecor); }
   template <typename T>
   bool isBad(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_bad, 1, requireDecor); }
+  template <typename T>
+  bool isLeptonIso(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_leptonIso, 1, requireDecor); }
 
   // for tagging primarily, but an enum for working points
   //  - an enum class enforces strong typing
@@ -131,6 +134,7 @@ namespace VariableDefinitions {
       if(!isBaseline(*l)) continue;
       if(requireSignal && !isSignal(*l)) continue;
       if(!isPassOverlap(*l)) continue;
+      if(!isLeptonIso(*l)) continue;
       if(additionalMuonCuts){
         if(isCosmic(*l)) continue;
         if(isBad(*l)) continue;

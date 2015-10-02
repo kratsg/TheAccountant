@@ -351,7 +351,7 @@ EL::StatusCode OptimizationDump :: execute ()
 
     m_totalTransverseMass = VD::mT(in_met, in_muons, in_electrons)/1.e3;
     m_met     = in_met->met()/1.e3;
-    m_met_mpx = in_met->mpx()/1.e3.;
+    m_met_mpx = in_met->mpx()/1.e3;
     m_met_mpy = in_met->mpy()/1.e3;
   }
 
