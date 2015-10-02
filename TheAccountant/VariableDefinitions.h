@@ -89,6 +89,10 @@ namespace VariableDefinitions {
   // Get the event weight consistently
   float eventWeight(const xAOD::EventInfo*, const SH::MetaObject* metaData = nullptr);
 
+  // Get the event heavy flavour classification
+  int ttbarHF(const xAOD::EventInfo*, const SH::MetaObject* metaData = nullptr);
+  int ttbarHF_ext(const xAOD::EventInfo*, const SH::MetaObject* metaData = nullptr);
+
   // top tagging on jets, set the eventInfo with "nTops_<WP>" int decoration
   //    - static SG::AuxElement::Accessor< int > nTops_wp("nTops_<WP>");
   //        * string of WP is equivalent to how you type it out in enum class
