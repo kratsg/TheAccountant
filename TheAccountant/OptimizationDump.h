@@ -28,6 +28,8 @@ private:
 
   // everything below here is filled in the ttree
   float m_eventWeight; //!
+  int	m_ttbarHF; //!
+  int	m_ttbarHF_ext; //!
   int   m_eventNumber; //!
   float m_effectiveMass; //!
   float m_totalTransverseMomentum; //!
