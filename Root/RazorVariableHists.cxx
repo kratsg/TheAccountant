@@ -101,7 +101,6 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
 
   //comparison plots for ss_dphidecayangle
   ss_dphidecayangle_vs_MET = book(m_name,"MET_vs_ss_dphidecayangle","#Delta #phi_{decay} (rads.)",50,0,3.2,"MET (GeV)",50,0,1000);
-  ss_dphidecayangle_vs_MET = book(m_name,"MET_vs_ss_dphidecayangle","#Delta #phi_{decay} (rads.)",50,0,3.2,"MET (GeV)",1300,0,13000);
   ss_dphivis_vs_METphi = book(m_name,"ss_dphivis_vs_METphi","MET #phi",50,0,3.2,"SS #Delta#phi_{vis} (radians)",50,0,3.2);
   ss_dphidecayangle_vs_METphi = book(m_name,"ss_dphidecayangle_vs_METphi","MET #phi",50,0,3.2,"SS #Delta#phi_{decay} (radians)",50,0,3.2);
 
