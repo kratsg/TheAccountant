@@ -25,8 +25,8 @@ namespace VariableDefinitions {
   // global definitions for decorations
   static accessor_t<char> decor_baseline("baseline");
   static accessor_t<char> decor_passOverlap("passOR");
-  //static accessor_t<char> decor_signal("signal"); // from SUSYTools, wrong isolation
-  static accessor_t<char> decor_signal("signal_pt_dependent_iso");
+  static accessor_t<char> decor_signal("signal"); // from SUSYTools, wrong isolation
+  static accessor_t<char> decor_signalIso("signal_pt_dependent_iso");
   static accessor_t<char> decor_cosmic("cosmic");
   static accessor_t<char> decor_bad("bad");
 
@@ -49,6 +49,8 @@ namespace VariableDefinitions {
   bool isPassOverlap(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_passOverlap, 1, requireDecor); }
   template <typename T>
   bool isSignal(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_signal, 1, requireDecor); }
+  template <typename T>
+  bool isSignalIso(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_signalIso, 1, requireDecor); }
   template <typename T>
   bool isCosmic(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_cosmic, 1, requireDecor); }
   template <typename T>
@@ -130,7 +132,7 @@ namespace VariableDefinitions {
     ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
     for(const auto &l: *leptons){
       if(!isBaseline(*l)) continue;
-      if(requireSignal && !isSignal(*l)) continue;
+      if(requireSignal && !isSignalIso(*l)) continue;
       if(!isPassOverlap(*l)) continue;
       if(additionalMuonCuts){
         if(isCosmic(*l)) continue;
