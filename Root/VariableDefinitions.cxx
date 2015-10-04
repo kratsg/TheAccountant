@@ -275,20 +275,20 @@ bool VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, VD::WP w
     }				     
     case VD::WP::Tight:
     {
-      if(eventInfo->isAvailable<char>("TightTopTag"))
-	isTop_tagged = (bool)jet->auxdata<char>("TightTopTag");
+      if(eventInfo->isAvailable<int>("TightTopTag"))
+	isTop_tagged = (bool)jet->auxdata<int>("TightTopTag");
     }
     break;
   case VD::WP::SmoothLoose:
     {
       if(eventInfo->isAvailable<char>("LooseSmoothTopTag"))
-	isTop_tagged = (bool)jet->auxdata<char>("LooseSmoothTopTag");
+	isTop_tagged = (bool)jet->auxdata<int>("LooseSmoothTopTag");
     }
     break;
   case VD::WP::SmoothTight:
     {
-      if(eventInfo->isAvailable<char>("TightSmoothTopTag"))
-	isTop_tagged = (bool)jet->auxdata<char>("TightSmoothTopTag");
+      if(eventInfo->isAvailable<int>("TightSmoothTopTag"))
+	isTop_tagged = (bool)jet->auxdata<int>("TightSmoothTopTag");
     }
     break;
   default:
