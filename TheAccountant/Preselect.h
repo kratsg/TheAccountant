@@ -15,7 +15,9 @@ class Preselect : public TA::Algorithm
 {
 public:
   int m_jetLargeR_minNum      = 0,
-      m_jetLargeR_maxNum      = 100;
+      m_jetLargeR_maxNum      = 100,
+      m_toptag_minNum 	      = 0,
+      m_toptag_maxNum 	      = 100;
   float m_jetLargeR_minPt     = 0.0,
         m_jetLargeR_maxPt     = 1.e6,
         m_jetLargeR_minMass   = 0.0,
@@ -24,6 +26,7 @@ public:
         m_jetLargeR_maxEta    = 10.0,
         m_jetLargeR_minPhi    = -4.0,
         m_jetLargeR_maxPhi    = 4.0;
+  std::string m_topTag_wp  = "VeryLoose";
 
   int m_jet_minNum      = 0,
       m_jet_maxNum      = 100,

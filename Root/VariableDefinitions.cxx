@@ -37,6 +37,12 @@ std::string VD::wp2str(VD::WP wp){
     case VD::WP::Tight:
       return "Tight";
     break;
+  case VD::WP::SmoothLoose:
+    return "SmoothTight";
+    break;
+  case VD::WP::SmoothTight:
+    return "SmoothTight";
+    break;
   }
 
   // should never reach here, we should be synced with the enum class
@@ -49,6 +55,8 @@ VD::WP VD::str2wp(std::string str){
   if(str == "loose")     return VD::WP::Loose;
   if(str == "medium")    return VD::WP::Medium;
   if(str == "tight")     return VD::WP::Tight;
+  if(str == "smoothloose") return VD::WP::SmoothLoose;
+  if(str == "smoothtight") return VD::WP::SmoothTight;
   return VD::WP::None;
 }
 
@@ -245,40 +253,45 @@ int VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets,
 
   // loop over jets, tag, and count top tags
   int nTops(0);
-  for(const auto &jet: *jets) nTops += static_cast<int>(VD::topTag(jet, wp));
+  for(const auto &jet: *jets) nTops += static_cast<int>(VD::topTag(eventInfo, jet, wp));
 
   // tag the event itself with # of jets tagged
   nTops_wp(*eventInfo) = nTops;
   return nTops;
 }
 
-bool VD::topTag(const xAOD::Jet* jet, VD::WP wp){
+bool VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, VD::WP wp){
   bool isTop_tagged = false;
   switch(wp){
+    case VD::WP::VeryLoose:
+    {
+      isTop_tagged = (jet->m()/1.e3 > 100.);
+    }
+    break;
     case VD::WP::Loose:
     {
-      isTop_tagged = (jet->m()/1.e3 > 100.) &&
-                     (VD::Split12(jet)/1.e3 > 40.);
-    }
-    break;
-    case VD::WP::Medium:
-    {
-      isTop_tagged = (jet->m()/1.e3 > 100.) &&
-                     (VD::Split12(jet)/1.e3 > 40.) &&
-                     (VD::Split23(jet)/1.e3 > 20.);
-    }
-    break;
+      if(eventInfo->isAvailable<char>("LooseTopTag"))
+	  isTop_tagged = (bool)jet->auxdata<char>("LooseTopTag");
+    }				     
     case VD::WP::Tight:
     {
-      float tau21 = VD::Tau21(jet);
-      float tau32 = VD::Tau32(jet);
-
-      isTop_tagged = (VD::Split12(jet)/1.e3 > 40.) &&
-                     (tau21 > 0.4 && tau21 < 0.9) &&
-                     (tau32 < 0.65);
+      if(eventInfo->isAvailable<char>("TightTopTag"))
+	isTop_tagged = (bool)jet->auxdata<char>("TightTopTag");
     }
     break;
-    default:
+  case VD::WP::SmoothLoose:
+    {
+      if(eventInfo->isAvailable<char>("LooseSmoothTopTag"))
+	isTop_tagged = (bool)jet->auxdata<char>("LooseSmoothTopTag");
+    }
+    break;
+  case VD::WP::SmoothTight:
+    {
+      if(eventInfo->isAvailable<char>("TightSmoothTopTag"))
+	isTop_tagged = (bool)jet->auxdata<char>("TightSmoothTopTag");
+    }
+    break;
+  default:
     {
       isTop_tagged = false;
     }
