@@ -270,25 +270,33 @@ bool VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, VD::WP w
     break;
     case VD::WP::Loose:
       {
-      if(eventInfo->isAvailable<int>("LooseTopTag"))
-        isTop_tagged = (bool)jet->auxdata<int>("LooseTopTag");
-    }     
+	//if(eventInfo->isAvailable<int>("LooseTopTag"))
+	//isTop_tagged = (bool)jet->auxdata<int>("LooseTopTag");
+	static VD::accessor_t<int> tTag("LooseTopTag");
+	return isDecor(*jet, tTag, 1);
+      }     
     case VD::WP::Tight:
     {
-      if(eventInfo->isAvailable<int>("TightTopTag"))
-	isTop_tagged = (bool)jet->auxdata<int>("TightTopTag");
+      //if(eventInfo->isAvailable<int>("TightTopTag"))
+      //isTop_tagged = (bool)jet->auxdata<int>("TightTopTag");
+      static VD::accessor_t<int> tTag("TightTopTag");
+      return isDecor(*jet, tTag, 1);
     }
     break;
   case VD::WP::SmoothLoose:
     {
-      if(eventInfo->isAvailable<int>("LooseSmoothTopTag"))
-	isTop_tagged = (bool)jet->auxdata<int>("LooseSmoothTopTag");
+      //if(eventInfo->isAvailable<int>("LooseSmoothTopTag"))
+      //isTop_tagged = (bool)jet->auxdata<int>("LooseSmoothTopTag");
+      static VD::accessor_t<int> tTag("LooseSmoothTopTag");
+      return isDecor(*jet, tTag, 1);
     }
     break;
   case VD::WP::SmoothTight:
     {
-      if(eventInfo->isAvailable<int>("TightSmoothTopTag"))
-	isTop_tagged = (bool)jet->auxdata<int>("TightSmoothTopTag");
+      //if(eventInfo->isAvailable<int>("TightSmoothTopTag"))
+      //isTop_tagged = (bool)jet->auxdata<int>("TightSmoothTopTag");
+      static VD::accessor_t<int> tTag("TightSmoothTopTag");
+      return isDecor(*jet, tTag, 1);
     }
     break;
   default:
