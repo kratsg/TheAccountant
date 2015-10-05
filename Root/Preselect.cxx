@@ -125,9 +125,15 @@ EL::StatusCode Preselect :: execute ()
   static VD::decor_t< int > pass_preSel("pass_preSel");
 
   if(!m_inputLargeRJets.empty()){
+    // get the top tagging working point
+    static VD::WP topTag_wp = VD::str2wp(m_topTag_wp);
+    static VD::decor_t<int> isTop("isTop");
+
     int num_passJetsLargeR = 0;
+    int num_passTopTags = 0;
     for(const auto &jet: *in_jetsLargeR){
       pass_preSel(*jet) = 0;
+      isTop(*jet) = 0;
       if(jet->pt()/1000.  < m_jetLargeR_minPt)  continue;
       if(jet->pt()/1000.  > m_jetLargeR_maxPt)  continue;
       if(jet->m()/1000.   < m_jetLargeR_minMass) continue;
@@ -138,6 +144,10 @@ EL::StatusCode Preselect :: execute ()
       if(jet->phi()       > m_jetLargeR_maxPhi)  continue;
       num_passJetsLargeR++;
       pass_preSel(*jet) = 1;
+      if(VD::topTag(eventInfo, jet, topTag_wp)){
+        num_passTopTags++;
+        isTop(*jet) = 1;
+      }
     }
 
     // only select event if:
@@ -149,8 +159,19 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["jets_largeR"].first += 1;
     m_cutflow["jets_largeR"].second += eventWeight;
 
+    // only select event if:
+    //	m_toptag_minNum <= num_passTopTags <= m_toptag_maxNum
+    if(!( (m_toptag_minNum <= num_passTopTags)&&(num_passTopTags <= m_toptag_maxNum) )){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+    m_cutflow["toptags"].first += 1;
+    m_cutflow["toptags"].second += eventWeight;
+
     static VD::decor_t< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
+    static VD::decor_t< int > pass_preSel_toptags("pass_preSel_toptags");
     pass_preSel_jetsLargeR(*eventInfo) = num_passJetsLargeR;
+    pass_preSel_toptags(*eventInfo) = num_passTopTags;
   }
 
 

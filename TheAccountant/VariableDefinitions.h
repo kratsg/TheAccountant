@@ -55,15 +55,17 @@ namespace VariableDefinitions {
   bool isCosmic(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_cosmic, 1, requireDecor); }
   template <typename T>
   bool isBad(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_bad, 1, requireDecor); }
-
+  
   // for tagging primarily, but an enum for working points
   //  - an enum class enforces strong typing
   enum class WP {
     VeryLoose,
-    Loose,
-    Medium,
-    Tight,
-    None
+      Loose,
+      Medium,
+      Tight,
+      None,
+      SmoothLoose, // For top tagging
+      SmoothTight  // For top tagging
   };
   // helper to convert to actual string for the tagging
   std::string wp2str(WP wp);
@@ -101,7 +103,7 @@ namespace VariableDefinitions {
   //        * string of WP is equivalent to how you type it out in enum class
   int topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, WP wp);
   // top tagging on jet, set "isTop_<WP>" int decoration
-  bool topTag(const xAOD::Jet* jet, WP wp);
+  bool topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, WP wp);
 
   // b-tagging on jets, set the eventInfo with "nBJets_<WP>" int decoration
   //    - static SG::AuxElement::Accessor< int > nBJets_wp("nBJets_<WP>");
