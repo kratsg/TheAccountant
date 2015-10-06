@@ -197,7 +197,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
       mass_largeR_jets += largeRjet->m()/1.e3;
 
   float multiplicity = jets->size();
-  float m_eff = VD::Meff(met, jets, jets->size(), in_muons, in_electrons);
+  float m_eff = VD::Meff_inclusive(met, jets, in_muons, in_electrons);
   float m_ht = VD::HT(jets, in_muons, in_electrons);
 
   jets_mass_largeR->                Fill(mass_largeR_jets);

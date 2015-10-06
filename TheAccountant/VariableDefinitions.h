@@ -75,6 +75,8 @@ namespace VariableDefinitions {
   //    Exclusive: Meff(met, jets, 4, 0, 0)
   //    Inclusive: Meff(met, jets, jets->size(), muons, els)
   float Meff(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int numJets, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els);
+  float Meff_exclusive(const xAOD::MissingET* met, const xAOD::JetContainer* jets);
+  float Meff_inclusive(const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els);
 
   // HT calculated using all jets, will include muons and/or electrons if specified
   float HT(const xAOD::JetContainer* jets, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els);

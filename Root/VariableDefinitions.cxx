@@ -80,6 +80,9 @@ float VD::Meff(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int n
   return meff;
 }
 
+float VD::Meff_exclusive(const xAOD::MissingET* met, const xAOD::JetContainer* jets){ return Meff(met, jets, 4, 0, 0); }
+float VD::Meff_inclusive(const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els){ return Meff(met, jets, jets->size(), muons, els); }
+
 float VD::HT(const xAOD::JetContainer* jets, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els){
   float ht(0.0);
 
@@ -232,12 +235,12 @@ float VD::eventWeight(const xAOD::EventInfo* ei, const SH::MetaObject* metaData)
 int VD::ttbarHF(const xAOD::EventInfo* ei){
     static VD::accessor_t<int> ttbar_class("ttbar_class");
   int ttbarHF(ttbar_class.isAvailable(*ei)?ttbar_class(*ei):-888);
-  
-  return ttbarHF;  
+
+  return ttbarHF;
 }
 
 int VD::ttbarHF_ext(const xAOD::EventInfo* ei){
- 
+
  static VD::accessor_t<int> ttbar_class_ext("ttbar_class_ext");
   int ttbarHF_ext(ttbar_class_ext.isAvailable(*ei)?ttbar_class_ext(*ei):-888);
 

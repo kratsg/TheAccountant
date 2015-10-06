@@ -41,7 +41,7 @@ StatusCode TheAccountant::JetTagHists::execute( const xAOD::JetContainer* jets, 
     numDecor += static_cast<int>(decorVal == 1);
   }
 
-  float meff(VD::Meff(met, jets, m_numLeadingJets, nullptr, nullptr));
+  float meff(VD::Meff_inclusive(met, jets, nullptr, nullptr));
   float metsig(VD::METSignificance(met, jets, m_numLeadingJets));
   float ht(VD::HT(jets, nullptr, nullptr));
 

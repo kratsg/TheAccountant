@@ -363,7 +363,7 @@ EL::StatusCode OptimizationDump :: execute ()
   }
 
   if(!m_inputMET.empty() && !m_inputJets.empty()){
-    m_effectiveMass = VD::Meff(in_met, in_jets, in_jets->size(), in_muons, in_electrons)/1000.;
+    m_effectiveMass = VD::Meff_inclusive(in_met, in_jets, in_muons, in_electrons)/1000.;
     m_dPhiMETMin = VD::dPhiMETMin(in_met, in_jets);
 
     static VD::decor_t< int > isB("isB");
