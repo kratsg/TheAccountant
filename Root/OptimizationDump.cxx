@@ -56,10 +56,12 @@ OptimizationDump :: OptimizationDump () :
   m_met_mpy(-999.0),
   m_numJets(-99),
   m_numJetsLargeR(-99),
+  m_passTopTags(-99),
   m_numJetsVarR_top(-99),
   m_numJetsVarR_W(-99),
   m_n_topTag_SmoothLoose(0),
   m_n_topTag_SmoothTight(0),
+  m_n_topTag_VeryLoose(0),
   m_n_topTag_Loose(0),
   m_n_topTag_Tight(0),
   m_jetReclusteringTools{{nullptr, nullptr, nullptr}},
@@ -80,6 +82,7 @@ OptimizationDump :: OptimizationDump () :
   m_largeR_split12{ARRAY_INIT},
   m_largeR_split23{ARRAY_INIT},
   m_largeR_nsj{ARRAY_INIT},
+  m_largeR_topTag_veryloose{ARRAY_INIT},
   m_largeR_topTag_loose{ARRAY_INIT},
   m_largeR_topTag_tight{ARRAY_INIT},
   m_largeR_topTag_smoothLoose{ARRAY_INIT},
@@ -130,6 +133,7 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch ("pt_total",                  &m_totalTransverseMomentum, "pt_total/F");
     m_tree->Branch ("multiplicity_jet",          &m_numJets, "multiplicity_jet/I");
     m_tree->Branch ("multiplicity_jet_b",        &m_numBJets, "multiplicity_jet_b/I");
+    //m_tree->Branch ("multiplicity_jet_top",        &m_numTopJets, "multiplicity_jet_top/I");
 
     // initialize branches for reclustered jets
     for(int i=0; i<4; i++){
@@ -210,8 +214,10 @@ EL::StatusCode OptimizationDump :: initialize () {
 
   if(!m_inputLargeRJets.empty()){
     m_tree->Branch ("multiplicity_jet_largeR",   &m_numJetsLargeR, "multiplicity_jet_largeR/I");
+    m_tree->Branch ("multiplicity_jet_toptags",   &m_passTopTags, "multiplicity_jet_toptags/I");
     m_tree->Branch ("multiplicity_topTag_smoothloose", &m_n_topTag_SmoothLoose, "multiplicity_topTag_smoothloose/I");
     m_tree->Branch ("multiplicity_topTag_smoothtight", &m_n_topTag_SmoothTight, "multiplicity_topTag_smoothtight/I");
+    m_tree->Branch ("multiplicity_topTag_veryloose", &m_n_topTag_VeryLoose, "multiplicity_topTag_veryloose/I");
     m_tree->Branch ("multiplicity_topTag_loose", &m_n_topTag_Loose, "multiplicity_topTag_loose/I");
     m_tree->Branch ("multiplicity_topTag_tight", &m_n_topTag_Tight, "multiplicity_topTag_tight/I");
 
@@ -235,9 +241,12 @@ EL::StatusCode OptimizationDump :: initialize () {
       branchName = "nsj_"+commonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_largeR_nsj[i]), (branchName+"/I").c_str());
 
+      branchName = "topTag_VeryLoose_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_topTag_veryloose[i]), (branchName+"/I").c_str());
+
       branchName = "topTag_Loose_"+commonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_largeR_topTag_loose[i]), (branchName+"/I").c_str());
-
+      
       branchName = "topTag_Tight_"+commonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_largeR_topTag_tight[i]), (branchName+"/I").c_str());
 
@@ -385,6 +394,7 @@ EL::StatusCode OptimizationDump :: execute ()
     static VD::accessor_t< int > pass_preSel_bjets("pass_preSel_bjets");
     m_numJets = (pass_preSel_jets.isAvailable(*eventInfo))?pass_preSel_jets(*eventInfo):-99;
     m_numBJets = (pass_preSel_bjets.isAvailable(*eventInfo))?pass_preSel_bjets(*eventInfo):-99;
+    
 
     // build the reclustered, trimmed jets
     for(const auto &tool: m_jetReclusteringTools)
@@ -461,7 +471,9 @@ EL::StatusCode OptimizationDump :: execute ()
 
   if(!m_inputLargeRJets.empty()){
     static VD::accessor_t< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
+    static VD::accessor_t< int > pass_preSel_toptags("pass_preSel_toptags");
     m_numJetsLargeR = (pass_preSel_jetsLargeR.isAvailable(*eventInfo))?pass_preSel_jetsLargeR(*eventInfo):-99;
+    m_passTopTags = (pass_preSel_toptags.isAvailable(*eventInfo))?pass_preSel_toptags(*eventInfo):-99;
 
     // initialize for leading 4 largeR jets that pass preselection
     for(unsigned int i=0; i<4; i++){
@@ -476,22 +488,25 @@ EL::StatusCode OptimizationDump :: execute ()
     // tagging variables
     m_n_topTag_SmoothLoose = 0;
     m_n_topTag_SmoothTight = 0;
+    m_n_topTag_VeryLoose = 0;
     m_n_topTag_Loose = 0;
     m_n_topTag_Tight = 0;
 
     int jetIndex = 0;
     for(const auto &jet: *in_jetsLargeR){
       int topTag_SmoothLoose(-1), topTag_SmoothTight(-1),
-          topTag_Loose(-1), topTag_Tight(-1);
+	topTag_VeryLoose(-1), topTag_Loose(-1), topTag_Tight(-1);
       // don't count it if it doesn't pass preselection
       if(pass_preSel(*jet) == 0) continue;
 
       jet->getAttribute("LooseSmoothTopTag", topTag_SmoothLoose);
       jet->getAttribute("TightSmoothTopTag", topTag_SmoothTight);
+      jet->getAttribute("VeryLooseTopTag", topTag_VeryLoose);
       jet->getAttribute("LooseTopTag", topTag_Loose);
       jet->getAttribute("TightTopTag", topTag_Tight);
       if(topTag_SmoothLoose == 1) m_n_topTag_SmoothLoose++;
       if(topTag_SmoothTight == 1) m_n_topTag_SmoothTight++;
+      if(topTag_VeryLoose == 1) m_n_topTag_VeryLoose++;
       if(topTag_Loose == 1) m_n_topTag_Loose++;
       if(topTag_Tight == 1) m_n_topTag_Tight++;
 
@@ -505,6 +520,7 @@ EL::StatusCode OptimizationDump :: execute ()
         std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
         if(jet->getAttribute("constituentLinks", constitLinks)) m_largeR_nsj[jetIndex] = constitLinks.size();
         // top tagging
+	m_largeR_topTag_veryloose[jetIndex] = topTag_VeryLoose;
         m_largeR_topTag_loose[jetIndex] = topTag_Loose;
         m_largeR_topTag_tight[jetIndex] = topTag_Tight;
         m_largeR_topTag_smoothLoose[jetIndex] = topTag_SmoothLoose;
