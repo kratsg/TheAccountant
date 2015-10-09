@@ -55,7 +55,7 @@ namespace VariableDefinitions {
   bool isCosmic(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_cosmic, 1, requireDecor); }
   template <typename T>
   bool isBad(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_bad, 1, requireDecor); }
-  
+
   // for tagging primarily, but an enum for working points
   //  - an enum class enforces strong typing
   enum class WP {
@@ -132,7 +132,7 @@ namespace VariableDefinitions {
 
   // build lepton veto using overlaps on baseline/signal leptons
   template <typename T>
-  ConstDataVector<T> leptonVeto(const T* leptons, const bool& requireSignal = false, const bool& additionalMuonCuts = false){
+  ConstDataVector<T> getSignalLeptons(const T* leptons, const bool& requireSignal = false, const bool& additionalMuonCuts = false){
     ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
     for(const auto &l: *leptons){
       if(!isBaseline(*l)) continue;

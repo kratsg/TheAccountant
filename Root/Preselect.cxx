@@ -219,12 +219,12 @@ EL::StatusCode Preselect :: execute ()
       unsigned int numLeptons(0);
       // lepton veto
       if(!m_inputElectrons.empty()){
-        ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(in_electrons));
+        ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::getSignalLeptons(in_electrons));
         in_electrons = VetoElectrons.asDataVector();
         numLeptons += in_electrons->size();
       }
       if(!m_inputMuons.empty()){
-        ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons, false, true));
+        ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::getSignalLeptons(in_muons, false, true));
         in_muons = VetoMuons.asDataVector();
         numLeptons += in_muons->size();
       }
@@ -259,12 +259,12 @@ EL::StatusCode Preselect :: execute ()
       unsigned int numLeptons(0);
       // lepton veto
       if(!m_inputElectrons.empty()){
-        ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::leptonVeto(in_electrons, true));
+        ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::getSignalLeptons(in_electrons, true));
         in_electrons = VetoElectrons.asDataVector();
         numLeptons += in_electrons->size();
       }
       if(!m_inputMuons.empty()){
-        ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::leptonVeto(in_muons, true, true));
+        ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::getSignalLeptons(in_muons, true, true));
         in_muons = VetoMuons.asDataVector();
         numLeptons += in_muons->size();
       }
