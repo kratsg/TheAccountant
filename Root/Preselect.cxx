@@ -396,7 +396,7 @@ EL::StatusCode Preselect :: execute ()
   }
 
   if(!m_inputMET.empty()){
-    if(in_met->met()/1.e3 > 250.){
+    if(in_met->met()/1.e3 >= 250.){
       m_cutflow["MET250"].first += 1;
       m_cutflow["MET250"].second += eventWeight;
     }
@@ -409,16 +409,16 @@ EL::StatusCode Preselect :: execute ()
       m_cutflow["DPhi04"].second += eventWeight;
     }
 
-    if(VD::Meff_inclusive(in_met, signalJets.asDataVector(), signalMuons.asDataVector(), signalElectrons.asDataVector())/1000. > 1000){
+    if(VD::Meff_inclusive(in_met, signalJets.asDataVector(), signalMuons.asDataVector(), signalElectrons.asDataVector())/1000. >= 1000){
       m_cutflow["Meff1000"].first += 1;
       m_cutflow["Meff1000"].second += eventWeight;
     }
 
     static VD::accessor_t< int > isB("isB");
     auto signalBJets = VD::subset_using_decor(signalJets.asDataVector(), isB, 1);
-    if(VD::mTb(in_met, signalBJets.asDataVector())/1000. > 140){
-      m_cutflow["mTb140"].first += 1;
-      m_cutflow["mTb140"].second += eventWeight;
+    if(VD::mTb(in_met, signalBJets.asDataVector())/1000. >= 160){
+      m_cutflow["mTb160"].first += 1;
+      m_cutflow["mTb160"].second += eventWeight;
     }
   }
 
