@@ -251,13 +251,11 @@ EL::StatusCode Preselect :: execute ()
       // lepton veto
       if(!m_inputElectrons.empty()){
         ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::getSignalLeptons(in_electrons));
-        const xAOD::ElectronContainer* in_electrons_temp = VetoElectrons.asDataVector();
-        numLeptons += in_electrons_temp->size();
+        numLeptons += VetoElectrons.size();
       }
       if(!m_inputMuons.empty()){
         ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::getSignalLeptons(in_muons, false, true));
-        const xAOD::MuonContainer* in_muons_temp = VetoMuons.asDataVector();
-        numLeptons += in_muons_temp->size();
+        numLeptons += VetoMuons.size();
       }
 
       std::string leptonSelection_str = m_baselineLeptonSelection.substr(0,2);
@@ -291,13 +289,11 @@ EL::StatusCode Preselect :: execute ()
       // lepton veto
       if(!m_inputElectrons.empty()){
         ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::getSignalLeptons(in_electrons, true));
-        const xAOD::ElectronContainer* in_electrons_temp = VetoElectrons.asDataVector();
-        numLeptons += in_electrons_temp->size();
+        numLeptons += VetoElectrons.size();
       }
       if(!m_inputMuons.empty()){
         ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::getSignalLeptons(in_muons, true, true));
-        const xAOD::MuonContainer* in_muons_temp = VetoMuons.asDataVector();
-        numLeptons += in_muons_temp->size();
+        numLeptons += VetoMuons.size();
       }
 
       std::string leptonSelection_str = m_signalLeptonSelection.substr(0,2);
@@ -325,9 +321,6 @@ EL::StatusCode Preselect :: execute ()
       m_cutflow["leptons_signal"].first += 1;
       m_cutflow["leptons_signal"].second += eventWeight;
     }
-
-
-
 
     // only select event if:
     //    m_jet_minNum <= num_passJets <= m_jet_maxNum
@@ -372,7 +365,7 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["missing_et"].second += eventWeight;
   }
 
-  // do cuts on top of pre-selection
+  // do cutflows on top of pre-selection
   int numSigElectrons = 0;
   if(!m_inputElectrons.empty()){
     ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::getSignalLeptons(in_electrons, true));
