@@ -380,12 +380,9 @@ EL::StatusCode OptimizationDump :: execute ()
     m_effectiveMass = VD::Meff_inclusive(in_met, in_jets, in_muons, in_electrons)/1000.;
     m_dPhiMETMin = VD::dPhiMETMin(in_met, in_jets);
 
-    static VD::decor_t< int > isB("isB");
-    ConstDataVector<xAOD::JetContainer> bjets(SG::VIEW_ELEMENTS);
-    for(const auto &jet: *in_jets){
-      if(isB(*jet) != 1) continue;
-      bjets.push_back(jet);
-    }
+
+    static VD::accessor_t< int > isB("isB");
+    ConstDataVector<xAOD::JetContainer> bjets = VD::subset_using_decor(in_jets, isB, 1);
     m_mTb = VD::mTb(in_met, bjets.asDataVector())/1000.;
   }
 
