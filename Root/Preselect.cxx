@@ -403,9 +403,22 @@ EL::StatusCode Preselect :: execute ()
   }
 
   if(!m_inputJets.empty() && !m_inputMET.empty()){
-    if(VD::dPhiMETMin(in_met, VD::subset_using_decor(in_jets, VD::decor_signal, 1).asDataVector()) >= 0.4){
+    auto signalJets = VD::subset_using_decor(in_jets, VD::decor_signal, 1);
+    if(VD::dPhiMETMin(in_met, signalJets.asDataVector()) >= 0.4){
       m_cutflow["DPhi04"].first += 1;
       m_cutflow["DPhi04"].second += eventWeight;
+    }
+
+    if(VD::Meff_inclusive(in_met, signalJets.asDataVector(), signalMuons.asDataVector(), signalElectrons.asDataVector())/1000. > 1000){
+      m_cutflow["Meff1000"].first += 1;
+      m_cutflow["Meff1000"].second += eventWeight;
+    }
+
+    static VD::accessor_t< int > isB("isB");
+    auto signalBJets = VD::subset_using_decor(signalJets.asDataVector(), isB, 1);
+    if(VD::mTb(in_met, signalBJets.asDataVector())/1000. > 140){
+      m_cutflow["mTb140"].first += 1;
+      m_cutflow["mTb140"].second += eventWeight;
     }
   }
 
