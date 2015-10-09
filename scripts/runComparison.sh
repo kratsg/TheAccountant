@@ -10,7 +10,7 @@ globalOpts=(-v -f -yyyyyy --optimizationDump --inputDQ2 --badJetVeto)
 run0L_a=(--baselineLeptonSelection="==0" --jet_minNum=4 --jet_minPt=30 --bjet_minNum=2 --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.4 --jet_maxEta=2.8 --jet_minEta=-2.8)
 run0L_b=(--signalLeptonSelection="==0" --jet_minNum=4 --jet_minPt=30 --bjet_minNum=2 --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.4 --jet_maxEta=2.8 --jet_minEta=-2.8)
 run1L=(--signalLeptonSelection="==1" --jet_minNum=4 --jet_minPt=30 --bjet_minNum=2 --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.0 --jet_maxEta=2.8 --jet_minEta=-2.8)
-outputDir="TA07_MBJ10V4"
+outputDir="TA07_MBJ10V5"
 
 mkdir -p "${outputDir}"
 
