@@ -250,12 +250,12 @@ EL::StatusCode Preselect :: execute ()
       unsigned int numLeptons(0);
       // lepton veto
       if(!m_inputElectrons.empty()){
-        ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::getSignalLeptons(in_electrons));
-        numLeptons += VetoElectrons.size();
+        ConstDataVector<xAOD::ElectronContainer> BaselineElectrons(VD::filterLeptons(in_electrons));
+        numLeptons += BaselineElectrons.size();
       }
       if(!m_inputMuons.empty()){
-        ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::getSignalLeptons(in_muons, false, true));
-        numLeptons += VetoMuons.size();
+        ConstDataVector<xAOD::MuonContainer> BaselineMuons(VD::filterLeptons(in_muons, false, true));
+        numLeptons += BaselineMuons.size();
       }
 
       std::string leptonSelection_str = m_baselineLeptonSelection.substr(0,2);
@@ -288,12 +288,12 @@ EL::StatusCode Preselect :: execute ()
       unsigned int numLeptons(0);
       // lepton veto
       if(!m_inputElectrons.empty()){
-        ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::getSignalLeptons(in_electrons, true));
-        numLeptons += VetoElectrons.size();
+        ConstDataVector<xAOD::ElectronContainer> SignalElectrons(VD::filterLeptons(in_electrons, true));
+        numLeptons += SignalElectrons.size();
       }
       if(!m_inputMuons.empty()){
-        ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::getSignalLeptons(in_muons, true, true));
-        numLeptons += VetoMuons.size();
+        ConstDataVector<xAOD::MuonContainer> SignalMuons(VD::filterLeptons(in_muons, true, true));
+        numLeptons += SignalMuons.size();
       }
 
       std::string leptonSelection_str = m_signalLeptonSelection.substr(0,2);
@@ -369,15 +369,15 @@ EL::StatusCode Preselect :: execute ()
   ConstDataVector<xAOD::ElectronContainer> signalElectrons;
   ConstDataVector<xAOD::ElectronContainer> baselineElectrons;
   if(!m_inputElectrons.empty()){
-    signalElectrons = VD::getSignalLeptons(in_electrons, true);
-    baselineElectrons = VD::getLeptons(in_electrons, false);
+    signalElectrons = VD::filterLeptons(in_electrons, true);
+    baselineElectrons = VD::filterLeptons(in_electrons, false);
   }
 
   ConstDataVector<xAOD::MuonContainer> signalMuons;
   ConstDataVector<xAOD::MuonContainer> baselineMuons;
   if(!m_inputMuons.empty()){
-    signalMuons = VD::getSignalLeptons(in_muons, true, true);
-    baselineMuons = VD::getSignalLeptons(in_muons, false, true);
+    signalMuons = VD::filterLeptons(in_muons, true, true);
+    baselineMuons = VD::filterLeptons(in_muons, false, true);
   }
 
   if(signalElectrons.size() >= 1){
