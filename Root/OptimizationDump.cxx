@@ -341,6 +341,20 @@ EL::StatusCode OptimizationDump :: execute ()
   m_s1_abs_costheta   = (S1_costheta_acc.isAvailable(*eventInfo))?std::fabs(S1_costheta_acc(*eventInfo)):-99;
   m_s2_abs_costheta   = (S2_costheta_acc.isAvailable(*eventInfo))?std::fabs(S2_costheta_acc(*eventInfo)):-99;
 
+  // build signal electrons
+  ConstDataVector<xAOD::ElectronContainer> signalElectrons;
+  if(!m_inputElectrons.empty()){
+    signalElectrons = VD::getSignalLeptons(in_electrons, true);
+    in_electrons = signalElectrons.asDataVector();
+  }
+
+  // build signal muons
+  ConstDataVector<xAOD::MuonContainer> signalMuons;
+  if(!m_inputMuons.empty()){
+    signalMuons = VD::getSignalLeptons(in_muons, true, true);
+    in_muons = signalMuons.asDataVector();
+  }
+
   const xAOD::MissingET* in_met(nullptr);
   if(!m_inputMET.empty()){
     in_met = (*in_missinget)[m_inputMETName.c_str()];
