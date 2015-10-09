@@ -344,14 +344,14 @@ EL::StatusCode OptimizationDump :: execute ()
   // build signal electrons
   ConstDataVector<xAOD::ElectronContainer> signalElectrons;
   if(!m_inputElectrons.empty()){
-    signalElectrons = VD::getSignalLeptons(in_electrons, true);
+    signalElectrons = VD::filterLeptons(in_electrons, true);
     in_electrons = signalElectrons.asDataVector();
   }
 
   // build signal muons
   ConstDataVector<xAOD::MuonContainer> signalMuons;
   if(!m_inputMuons.empty()){
-    signalMuons = VD::getSignalLeptons(in_muons, true, true);
+    signalMuons = VD::filterLeptons(in_muons, true, true);
     in_muons = signalMuons.asDataVector();
   }
 
