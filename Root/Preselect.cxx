@@ -366,40 +366,31 @@ EL::StatusCode Preselect :: execute ()
   }
 
   // do cutflows on top of pre-selection
-  int numSigElectrons = 0;
+  ConstDataVector<xAOD::ElectronContainer> signalElectrons;
+  ConstDataVector<xAOD::ElectronContainer> baselineElectrons;
   if(!m_inputElectrons.empty()){
-    ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::getSignalLeptons(in_electrons, true));
-    const xAOD::ElectronContainer* in_electrons_temp = VetoElectrons.asDataVector();
-    numSigElectrons += in_electrons_temp->size();
-  }
-  int numSigMuons = 0;
-  if(!m_inputMuons.empty()){
-    ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::getSignalLeptons(in_muons, true, true));
-    const xAOD::MuonContainer* in_muons_temp = VetoMuons.asDataVector();
-    numSigMuons += in_muons_temp->size();
+    signalElectrons = VD::getSignalLeptons(in_electrons, true);
+    baselineElectrons = VD::getLeptons(in_electrons, false);
   }
 
-  if(numSigElectrons >= 1){
+  ConstDataVector<xAOD::MuonContainer> signalMuons;
+  ConstDataVector<xAOD::MuonContainer> baselineMuons;
+  if(!m_inputMuons.empty()){
+    signalMuons = VD::getSignalLeptons(in_muons, true, true);
+    baselineMuons = VD::getSignalLeptons(in_muons, false, true);
+  }
+
+  if(signalElectrons.size() >= 1){
     m_cutflow["geq1SigElectron"].first += 1;
     m_cutflow["geq1SigElectron"].second += eventWeight;
   }
-  if(numSigMuons >= 1){
+
+  if(signalMuons.size() >= 1){
     m_cutflow["geq1SigMuon"].first += 1;
     m_cutflow["geq1SigMuon"].second += eventWeight;
   }
 
-  int numBaselineLeptons = 0;
-  if(!m_inputElectrons.empty()){
-    ConstDataVector<xAOD::ElectronContainer> VetoElectrons(VD::getSignalLeptons(in_electrons));
-    const xAOD::ElectronContainer* in_electrons_temp = VetoElectrons.asDataVector();
-    numBaselineLeptons += in_electrons_temp->size();
-  }
-  if(!m_inputMuons.empty()){
-    ConstDataVector<xAOD::MuonContainer> VetoMuons(VD::getSignalLeptons(in_muons, false, true));
-    const xAOD::MuonContainer* in_muons_temp = VetoMuons.asDataVector();
-    numBaselineLeptons += in_muons_temp->size();
-  }
-  if(numBaselineLeptons == 0){
+  if((baselineMuons.size() + baselineElectrons.size()) == 0){
     m_cutflow["exactly0BaselineLeptons"].first += 1;
     m_cutflow["exactly0BaselineLeptons"].second += eventWeight;
   }
@@ -412,7 +403,7 @@ EL::StatusCode Preselect :: execute ()
   }
 
   if(!m_inputJets.empty() && !m_inputMET.empty()){
-    if(VD::dPhiMETMin(in_met, VD::subset_using_decor(in_jets, VD::decor_signal, 1).asDataVector()) > 0.4){
+    if(VD::dPhiMETMin(in_met, VD::subset_using_decor(in_jets, VD::decor_signal, 1).asDataVector()) >= 0.4){
       m_cutflow["DPhi04"].first += 1;
       m_cutflow["DPhi04"].second += eventWeight;
     }
