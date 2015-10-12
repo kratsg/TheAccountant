@@ -30,21 +30,18 @@ Run-2 analysis for SUSY search in gluino to stops.
 
 
 ## Installing
-The last stable analysis base used is **2.3.19**. To install,
+The last stable analysis base used is **2.3.31**. To install,
 ```bash
 mkdir myRootCore && cd $_
-rcSetup Base,2.3.19
+rcSetup Base,2.3.31
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
 cd Ext_RestFrames && git checkout v1.5 && cd -
 git clone https://github.com/kratsg/xAODJetReclustering
 
 git clone https://github.com/UCATLAS/xAODAnaHelpers
-cd xAODAnaHelpers && git checkout 00-03-12 && cd ../
-python xAODAnaHelpers/scripts/checkoutASGtags.py 2.3.19
-
-# if you want to use a non-shared condor
-#   - read http://twiki.mwt2.org/bin/view/UCTier3/CondorUCT3
+cd xAODAnaHelpers && git checkout 00-03-20 && cd ../
+python xAODAnaHelpers/scripts/checkoutASGtags.py 2.3.31
 
 rc find_packages
 rc compile
@@ -56,8 +53,8 @@ Most of the time, if you want to run the `GetWeights.py`, it helps to be able to
 
 ```bash
 cd TheAccountant/data/metadata
-svn export svn+ssh://gstark@svn.cern.ch/reps/atlasoff/PhysicsAnalysis/SUSYPhys/SUSYTools/trunk/data/susy_crosssections_13TeV.txt
-svn export svn+ssh://gstark@svn.cern.ch/reps/atlasoff/PhysicsAnalysis/SUSYPhys/SUSYTools/trunk/data/mc15_13TeV/
+svn export --force svn+ssh://gstark@svn.cern.ch/reps/atlasoff/PhysicsAnalysis/SUSYPhys/SUSYTools/trunk/data/susy_crosssections_13TeV.txt
+svn export --force svn+ssh://gstark@svn.cern.ch/reps/atlasoff/PhysicsAnalysis/SUSYPhys/SUSYTools/trunk/data/mc15_13TeV/
 cd -
 ```
 
