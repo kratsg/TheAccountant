@@ -1,0 +1,7 @@
+# author : alaettin.serhan.mete@cern.ch (please report any problems)
+# date   : 16/9/2015
+# update :
+# brief  : Based on https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVx1x1wino
+# format : datasetID   finalState   XS   BF   filterEff   relUncertainty
+392522    157     0.0221265     1.0    0.56328    0.0880862    # 500 GeV
+392523    157     0.00949913    1.0    0.57598    0.0960429    # 600 GeV
