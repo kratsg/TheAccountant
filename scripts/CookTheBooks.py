@@ -108,7 +108,7 @@ if __name__ == "__main__":
   group_algorithms.add_argument('--muons', dest='inputMuons', metavar='', type=str, help='Muons container name.', default='STCalibMuons')
   group_algorithms.add_argument('--met', dest='inputMET', metavar='', type=str, help='Missing Et container name.', default='Mettst')
   group_algorithms.add_argument('--metid', dest='inputMETName', metavar='', type=str, help='Missing Et container element to access.', default='Final')
-  group_algorithms.add_argument('--jetsLargeR', dest='inputLargeRJets', metavar='', type=str, help='Large-R jet container name.', default='')
+  group_algorithms.add_argument('--jetsLargeR', dest='inputLargeRJets', metavar='', type=str, help='Large-R jet container name.', default='FinalFatJets')
   group_algorithms.add_argument('--taujets', dest='inputTauJets', metavar='', type=str, help='TauJets container name.', default='')
   group_algorithms.add_argument('--photons', dest='inputPhotons', metavar='', type=str, help='Photons container name.', default='')
   group_algorithms.add_argument('--decorJetTagsB', dest='decor_jetTags_b', metavar='', type=str, help='Decoration name for b-tags.', default='')
