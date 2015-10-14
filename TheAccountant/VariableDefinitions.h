@@ -39,7 +39,7 @@ namespace VariableDefinitions {
   }
   template <typename T1>
   bool isDecor(const T1& obj, const accessor_t<char>& decor, const int& val, const bool& requireDecor=true){
-    if(requireDecor && !decor.isAvailable(obj)) return false;
+    //if(requireDecor && !decor.isAvailable(obj)){ std::cout << "DECORATION IS BAD" << std::endl; return false;}
     return (decor(obj) == val);
   }
 
@@ -132,9 +132,19 @@ namespace VariableDefinitions {
 
   // build lepton veto using overlaps on baseline/signal leptons
   template <typename T>
-  ConstDataVector<T> filterLeptons(const T* leptons, const bool& requireSignal = false, const bool& additionalMuonCuts = false){
+  ConstDataVector<T> filterLeptons(const T* leptons, const bool& requireSignal = false, const bool& additionalMuonCuts = false, bool debug = false){
     ConstDataVector<T> VetoLeptons(SG::VIEW_ELEMENTS);
     for(const auto &l: *leptons){
+      if(debug){
+        if(additionalMuonCuts) std::cout << "m" << std::endl;
+        std::cout << l->pt() << std::endl;
+        std::cout << isSignalIso(*l) << std::endl;
+        std::cout << isPassOverlap(*l) << std::endl;
+        if(additionalMuonCuts){
+          std::cout << isCosmic(*l) << std::endl;
+          std::cout << isBad(*l) << std::endl;
+        }
+      }
       if(!isBaseline(*l)) continue;
       if(requireSignal && !isSignalIso(*l)) continue;
       if(!isPassOverlap(*l)) continue;

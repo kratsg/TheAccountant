@@ -369,14 +369,14 @@ EL::StatusCode Preselect :: execute ()
   ConstDataVector<xAOD::ElectronContainer> signalElectrons;
   ConstDataVector<xAOD::ElectronContainer> baselineElectrons;
   if(!m_inputElectrons.empty()){
-    signalElectrons = VD::filterLeptons(in_electrons, true);
+    signalElectrons = VD::filterLeptons(in_electrons, true, false, eventInfo->eventNumber()==10108);
     baselineElectrons = VD::filterLeptons(in_electrons, false);
   }
 
   ConstDataVector<xAOD::MuonContainer> signalMuons;
   ConstDataVector<xAOD::MuonContainer> baselineMuons;
   if(!m_inputMuons.empty()){
-    signalMuons = VD::filterLeptons(in_muons, true, true);
+    signalMuons = VD::filterLeptons(in_muons, true, true, eventInfo->eventNumber()==10108);
     baselineMuons = VD::filterLeptons(in_muons, false, true);
   }
 
@@ -426,6 +426,18 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["geq3Bjets"].first += 1;
     m_cutflow["geq3Bjets"].second += eventWeight;
   }
+
+  
+  if(eventInfo->eventNumber()==10108){
+    m_store->print();
+  
+    std::cout << signalMuons.size() << " " << baselineMuons.size() << std::endl;
+    std::cout << signalElectrons.size() << " " << baselineElectrons.size() << std::endl;
+
+
+  }
+
+  std::cout << eventInfo->eventNumber() << std::endl;
 
   return EL::StatusCode::SUCCESS;
 }
