@@ -135,7 +135,7 @@ float VD::mTb(const xAOD::MissingET* met, const xAOD::JetContainer* bjets){
   if(numParticles == 0) return -99;
   std::vector<const xAOD::Jet*> subset_bjets(numParticles);
   // copy and sort
-  std::partial_sort_copy(bjets->begin(), bjets->begin()+numParticles,
+  std::partial_sort_copy(bjets->begin(), bjets->end(),
                          subset_bjets.begin(), subset_bjets.end(),
                          [](const xAOD::IParticle* lhs, const xAOD::IParticle* rhs)
                          -> bool {
@@ -143,7 +143,7 @@ float VD::mTb(const xAOD::MissingET* met, const xAOD::JetContainer* bjets){
                          });
 
   std::vector<float> result(numParticles);
-  std::transform(subset_bjets.begin(), subset_bjets.end(),
+  std::transform(subset_bjets.begin(), subset_bjets.begin()+numParticles,
                  result.begin(),
                  [met](const xAOD::Jet* bjet)
                  -> float {
@@ -164,7 +164,7 @@ float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer*
   if(numParticles == 0) return -99;
   std::vector<const xAOD::IParticle*> subset_particles(numParticles);
   // copy and sort
-  std::partial_sort_copy(particles->begin(), particles->begin()+numParticles,
+  std::partial_sort_copy(particles->begin(), particles->end(),
                          subset_particles.begin(), subset_particles.end(),
                          [](const xAOD::IParticle* lhs, const xAOD::IParticle* rhs)
                          -> bool {
@@ -172,7 +172,7 @@ float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer*
                          });
   // compute it
   std::vector<float> result(numParticles);
-  std::transform(subset_particles.begin(), subset_particles.end(),
+  std::transform(subset_particles.begin(), subset_particles.begin()+numParticles,
                  result.begin(),
                  [met](const xAOD::IParticle* particle)
                  -> float {
@@ -275,7 +275,7 @@ bool VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, VD::WP w
       {
 	static VD::accessor_t<int> tTag("LooseTopTag");
 	return isDecor(*jet, tTag, 1);
-      }     
+      }
     case VD::WP::Tight:
     {
       static VD::accessor_t<int> tTag("TightTopTag");
