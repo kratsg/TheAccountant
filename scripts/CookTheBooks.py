@@ -114,6 +114,7 @@ if __name__ == "__main__":
   group_algorithms.add_argument('--decorJetTagsB', dest='decor_jetTags_b', metavar='', type=str, help='Decoration name for b-tags.', default='')
   group_algorithms.add_argument('--decorJetTagsTop', dest='decor_jetTags_top', metavar='', type=str, help='Decoration name for top-tags.', default='')
   group_algorithms.add_argument('--decorJetTagsW', dest='decor_jetTags_w', metavar='', type=str, help='Decoration name for w-tags.', default='')
+  group_algorithms.add_argument('--rc_enable', action='store_true', help='Enable to use RC for large-R jets instead of standard large-R jets. Input will be the small-R jets that pass preselection. This ignores the jetsLargeR option for container name. See Preselect for configuration details.')
 
   group_preselect = parser.add_argument_group('preselect', description='all selections are inclusive: x >= min, x =< max')
   group_preselect.add_argument('--jet_minNum',  type=int,   metavar='', help='min num of small-R jets passing cuts',  default = 4)
@@ -158,7 +159,6 @@ if __name__ == "__main__":
   group_preselect.add_argument('--toptag_minPhi',   type=float, metavar='', help='top-tagged large-R jet min phi',  default = -4.0)
   group_preselect.add_argument('--toptag_maxPhi',   type=float, metavar='', help='top-tagged large-R jet max phi',  default = 4.0)
 
-  group_preselect.add_argument('--rc_enable', action='store_true', help='Enable to use RC for large-R jets instead of standard large-R jets. Input will be the small-R jets that pass preselection. This ignores the jetsLargeR option for container name.')
   group_preselect.add_argument('--rc_radius', type=float, metavar='', help='Radius of reclustered jet', default = 1.0)
   group_preselect.add_argument('--rc_inputPt', type=float, metavar='', help='Filter input jet pT', default = 0.0)
   group_preselect.add_argument('--rc_trimPtFrac', type=float, metavar='', help='pT fraction trimming to apply to RC jet', default = 0.0)
