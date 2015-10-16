@@ -17,8 +17,11 @@
 #include "xAODMissingET/MissingETContainer.h"
 //#include "xAODBTaggingEfficiency/BTaggingEfficiencyTool.h"
 
-// root include
+// root include for cutflow
 #include <TH1F.h>
+
+// reclustering
+#include <xAODJetReclustering/JetReclusteringTool.h>
 
 // xAH includes
 #include "xAODAnaHelpers/HelperFunctions.h"
@@ -48,6 +51,12 @@ EL::StatusCode Preselect :: initialize ()
   m_event = wk()->xaodEvent();
   m_store = wk()->xaodStore();
 
+  // only do this check in preselect
+  if(m_rc_enable && m_inputJets.empty()){
+    Error("initialize()", "Cannot do reclustering if the input jet container is empty");
+    return EL::StatusCode::FAILURE;
+  }
+
   // if doing rc jets, use rc jets container instead
   if(m_rc_enable) m_inputLargeRJets = m_RCJetsContainerName;
 
@@ -63,6 +72,17 @@ EL::StatusCode Preselect :: initialize ()
     RETURN_CHECK("initialize()", m_TDT->setProperty("ConfigTool", configHandle), "Could not set ConfigTool property");
     RETURN_CHECK("initialize()", m_TDT->setProperty("TrigDecisionKey", "xTrigDecision"), "Could not set TrigDecisionKey property");
     RETURN_CHECK("initialize()", m_TDT->initialize(), "Could not initialize Trig::TrigDecisionTool");
+  }
+
+  if(m_rc_enable){
+    // reclustering jets
+    m_reclusteringTool = new JetReclusteringTool("TheAccountant_JetReclusteringTool");
+    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("InputJetContainer",  "InputJetsPassPresel"), "Could not set input jet container");
+    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("OutputJetContainer", m_RCJetsContainerName), "Coult not set output jet container");
+    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("ReclusterRadius",    m_rc_radius), "Could not set radius for RC jet");
+    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("InputJetPtMin",      m_rc_inputPt), "Could not set input pt filter");
+    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("RCJetPtFrac",        m_rc_trimPtFrac), "Could not set output pt trim");
+    RETURN_CHECK("initialize()", m_reclusteringTool->initialize(), "Could not initialize reclustering tool");
   }
 
   return EL::StatusCode::SUCCESS;
@@ -85,8 +105,9 @@ EL::StatusCode Preselect :: execute ()
   RETURN_CHECK("Preselect::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
   if(!m_inputJets.empty())
     RETURN_CHECK("Preselect::execute()", HF::retrieve(in_jets,     m_inputJets,       m_event, m_store, m_debug), "Could not get the inputJets container.");
-  if(!m_inputLargeRJets.empty())
-    RETURN_CHECK("Preselect::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
+  // special: only retrieve large-R jets after doing reclustering (if we have to)
+  //if(!m_inputLargeRJets.empty())
+  //  RETURN_CHECK("Preselect::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
   if(!m_inputMET.empty())
     RETURN_CHECK("Preselect::execute()", HF::retrieve(in_missinget, m_inputMET,         m_event, m_store, m_debug), "Could not get the inputMET container.");
   if(!m_inputElectrons.empty())
@@ -155,8 +176,92 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["truthMET"].second += eventWeight;
   }
 
+  // keep these outside of the if() because we need scope for the cutflow-after-preselection further beloe
+  int num_passJets = 0;
+  int num_passBJets = 0;
+  if(!m_inputJets.empty()){
+    // for small-R jets, count number of jets that pass standard cuts
+    //int num_passJets = 0;
+    for(const auto &jet: *in_jets){
+      VD::dec_pass_preSel(*jet) = 0;
+      if(m_badJetVeto && VD::isBad(*jet)){ // veto on bad jet if enabled
+        wk()->skipEvent();
+        return EL::StatusCode::SUCCESS;
+      }
+      if(VD::bTag(jet, m_bTag_wp, 2.5)) VD::decor_tag_b(*jet) = 1;
 
-  static VD::decor_t< int > pass_preSel("pass_preSel");
+      if(jet->pt()/1000. < m_jet_minPt)   continue;
+      if(jet->pt()/1000. > m_jet_maxPt)   continue;
+      if(jet->eta()      < m_jet_minEta)  continue;
+      if(jet->eta()      > m_jet_maxEta)  continue;
+      if(jet->phi()      < m_jet_minPhi)  continue;
+      if(jet->phi()      > m_jet_maxPhi)  continue;
+      if(!VD::isSignal(*jet))             continue;
+      num_passJets++;
+      VD::dec_pass_preSel(*jet) = 1;
+    }
+
+    // increment cutflow for passing bad jet requirements
+    m_cutflow["bad_jets"].first += 1;
+    m_cutflow["bad_jets"].second += eventWeight;
+
+    // only select event if:
+    //    m_jet_minNum <= num_passJets <= m_jet_maxNum
+    if(!( (m_jet_minNum <= num_passJets)&&(num_passJets <= m_jet_maxNum) )){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+    m_cutflow["jets"].first += 1;
+    m_cutflow["jets"].second += eventWeight;
+
+    //int num_passBJets = 0;
+    for(const auto &jet: *in_jets){
+      VD::dec_pass_preSel_b(*jet) = 0;
+      VD::decor_tag_b(*jet) = 0;
+      if(m_badJetVeto && VD::isBad(*jet)){ // veto on bad jet if enabled
+        wk()->skipEvent();
+        return EL::StatusCode::SUCCESS;
+      }
+      if(jet->pt()/1000. < m_bjet_minPt)   continue;
+      if(jet->pt()/1000. > m_bjet_maxPt)   continue;
+      if(jet->eta()      < m_bjet_minEta)  continue;
+      if(jet->eta()      > m_bjet_maxEta)  continue;
+      if(jet->phi()      < m_bjet_minPhi)  continue;
+      if(jet->phi()      > m_bjet_maxPhi)  continue;
+      if(!VD::isSignal(*jet))             continue;
+
+      if(VD::bTag(jet, m_bTag_wp, 2.5)) VD::decor_tag_b(*jet) = 1;
+      num_passBJets++;
+      VD::dec_pass_preSel_b(*jet) = 1;
+    }
+
+    m_cutflow["bad_bjets"].first += 1;
+    m_cutflow["bad_bjets"].second += eventWeight;
+
+    // only select event if:
+    //    m_bjet_minNum <= num_passBJets <= m_bjet_maxNum
+    if(!( (m_bjet_minNum <= num_passBJets)&&(num_passBJets <= m_bjet_maxNum) )){
+      wk()->skipEvent();
+      return EL::StatusCode::SUCCESS;
+    }
+    m_cutflow["bjets"].first += 1;
+    m_cutflow["bjets"].second += eventWeight;
+
+    static VD::decor_t< int > pass_preSel_jets("pass_preSel_jets");
+    static VD::decor_t< int > pass_preSel_bjets("pass_preSel_bjets");
+    pass_preSel_jets(*eventInfo) = num_passJets;
+    pass_preSel_bjets(*eventInfo) = num_passBJets;
+  }
+
+  if(m_rc_enable){
+    auto preselJets = VD::subset_using_decor(in_jets, VD::acc_pass_preSel, 1);
+    RETURN_CHECK("Preselect::execute()", m_store->record(&preselJets, "InputJetsPassPresel"), "Could not record presel jets into Store for reclustering");
+    m_reclusteringTool->execute();
+  }
+
+  // special: only retrieve large-R jets after we get here, because if we do reclustering, they won't exist until after we process small-R jets)
+  if(!m_inputLargeRJets.empty())
+    RETURN_CHECK("Preselect::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
 
   if(!m_inputLargeRJets.empty()){
     // get the top tagging working point
@@ -166,7 +271,7 @@ EL::StatusCode Preselect :: execute ()
     int num_passJetsLargeR = 0;
     int num_passTopTags = 0;
     for(const auto &jet: *in_jetsLargeR){
-      pass_preSel(*jet) = 0;
+      VD::dec_pass_preSel(*jet) = 0;
       isTop(*jet) = 0;
       if(jet->pt()/1000.  < m_jetLargeR_minPt)  continue;
       if(jet->pt()/1000.  > m_jetLargeR_maxPt)  continue;
@@ -177,7 +282,7 @@ EL::StatusCode Preselect :: execute ()
       if(jet->phi()       < m_jetLargeR_minPhi)  continue;
       if(jet->phi()       > m_jetLargeR_maxPhi)  continue;
       num_passJetsLargeR++;
-      pass_preSel(*jet) = 1;
+      VD::dec_pass_preSel(*jet) = 1;
       if(VD::topTag(eventInfo, jet, topTag_wp)){
         num_passTopTags++;
         isTop(*jet) = 1;
@@ -208,140 +313,81 @@ EL::StatusCode Preselect :: execute ()
     pass_preSel_toptags(*eventInfo) = num_passTopTags;
   }
 
-  int num_passJets = 0;
-  int num_passBJets = 0;
-
-  if(!m_inputJets.empty()){
-    // for small-R jets, count number of jets that pass standard cuts
-    for(const auto &jet: *in_jets){
-      pass_preSel(*jet) = 0;
-      VD::decor_tag_b(*jet) = 0;
-      if(m_badJetVeto && VD::isBad(*jet)){ // veto on bad jet if enabled
-        wk()->skipEvent();
-        return EL::StatusCode::SUCCESS;
-      }
-      if(jet->pt()/1000. < m_jet_minPt)   continue;
-      if(jet->pt()/1000. > m_jet_maxPt)   continue;
-      if(jet->eta()      < m_jet_minEta)  continue;
-      if(jet->eta()      > m_jet_maxEta)  continue;
-      if(jet->phi()      < m_jet_minPhi)  continue;
-      if(jet->phi()      > m_jet_maxPhi)  continue;
-      if(!VD::isSignal(*jet))              continue;
-
-      num_passJets++;
-      pass_preSel(*jet) = 1;
-      if(VD::bTag(jet, m_bTag_wp, 2.5)){
-        num_passBJets++;
-        VD::decor_tag_b(*jet) = 1;
-      }
+  // the following is copied twice, need to DRY it
+  if(!m_baselineLeptonSelection.empty()){
+    unsigned int numLeptons(0);
+    // lepton veto
+    if(!m_inputElectrons.empty()){
+      ConstDataVector<xAOD::ElectronContainer> BaselineElectrons(VD::filterLeptons(in_electrons));
+      numLeptons += BaselineElectrons.size();
+    }
+    if(!m_inputMuons.empty()){
+      ConstDataVector<xAOD::MuonContainer> BaselineMuons(VD::filterLeptons(in_muons, false, true));
+      numLeptons += BaselineMuons.size();
     }
 
-    // increment cutflow for passing bad jet requirements
-    m_cutflow["bad_jets"].first += 1;
-    m_cutflow["bad_jets"].second += eventWeight;
+    std::string leptonSelection_str = m_baselineLeptonSelection.substr(0,2);
+    unsigned int leptonSelection_cut = std::stoul(m_baselineLeptonSelection.substr(2));
+    bool pass_leptonSelection = false;
+    if(leptonSelection_str == "==")
+      pass_leptonSelection = (numLeptons == leptonSelection_cut);
+    else if(leptonSelection_str == ">=")
+      pass_leptonSelection = (numLeptons >= leptonSelection_cut);
+    else if(leptonSelection_str == "<=")
+      pass_leptonSelection = (numLeptons <= leptonSelection_cut);
+    else if(leptonSelection_str == " >")
+      pass_leptonSelection = (numLeptons > leptonSelection_cut);
+    else if(leptonSelection_str == " <")
+      pass_leptonSelection = (numLeptons < leptonSelection_cut);
+    else if(leptonSelection_str == "!=")
+      pass_leptonSelection = (numLeptons != leptonSelection_cut);
+    else
+      pass_leptonSelection = false;
 
-
-
-    // the following is copied twice, need to DRY it
-    if(!m_baselineLeptonSelection.empty()){
-      unsigned int numLeptons(0);
-      // lepton veto
-      if(!m_inputElectrons.empty()){
-        ConstDataVector<xAOD::ElectronContainer> BaselineElectrons(VD::filterLeptons(in_electrons));
-        numLeptons += BaselineElectrons.size();
-      }
-      if(!m_inputMuons.empty()){
-        ConstDataVector<xAOD::MuonContainer> BaselineMuons(VD::filterLeptons(in_muons, false, true));
-        numLeptons += BaselineMuons.size();
-      }
-
-      std::string leptonSelection_str = m_baselineLeptonSelection.substr(0,2);
-      unsigned int leptonSelection_cut = std::stoul(m_baselineLeptonSelection.substr(2));
-      bool pass_leptonSelection = false;
-      if(leptonSelection_str == "==")
-        pass_leptonSelection = (numLeptons == leptonSelection_cut);
-      else if(leptonSelection_str == ">=")
-        pass_leptonSelection = (numLeptons >= leptonSelection_cut);
-      else if(leptonSelection_str == "<=")
-        pass_leptonSelection = (numLeptons <= leptonSelection_cut);
-      else if(leptonSelection_str == " >")
-        pass_leptonSelection = (numLeptons > leptonSelection_cut);
-      else if(leptonSelection_str == " <")
-        pass_leptonSelection = (numLeptons < leptonSelection_cut);
-      else if(leptonSelection_str == "!=")
-        pass_leptonSelection = (numLeptons != leptonSelection_cut);
-      else
-        pass_leptonSelection = false;
-
-      if(!pass_leptonSelection){
-        wk()->skipEvent();
-        return EL::StatusCode::SUCCESS;
-      }
-      m_cutflow["leptons_baseline"].first += 1;
-      m_cutflow["leptons_baseline"].second += eventWeight;
-    }
-
-    if(!m_signalLeptonSelection.empty()){
-      unsigned int numLeptons(0);
-      // lepton veto
-      if(!m_inputElectrons.empty()){
-        ConstDataVector<xAOD::ElectronContainer> SignalElectrons(VD::filterLeptons(in_electrons, true));
-        numLeptons += SignalElectrons.size();
-      }
-      if(!m_inputMuons.empty()){
-        ConstDataVector<xAOD::MuonContainer> SignalMuons(VD::filterLeptons(in_muons, true, true));
-        numLeptons += SignalMuons.size();
-      }
-
-      std::string leptonSelection_str = m_signalLeptonSelection.substr(0,2);
-      unsigned int leptonSelection_cut = std::stoul(m_signalLeptonSelection.substr(2));
-      bool pass_leptonSelection = false;
-      if(leptonSelection_str == "==")
-        pass_leptonSelection = (numLeptons == leptonSelection_cut);
-      else if(leptonSelection_str == ">=")
-        pass_leptonSelection = (numLeptons >= leptonSelection_cut);
-      else if(leptonSelection_str == "<=")
-        pass_leptonSelection = (numLeptons <= leptonSelection_cut);
-      else if(leptonSelection_str == " >")
-        pass_leptonSelection = (numLeptons > leptonSelection_cut);
-      else if(leptonSelection_str == " <")
-        pass_leptonSelection = (numLeptons < leptonSelection_cut);
-      else if(leptonSelection_str == "!=")
-        pass_leptonSelection = (numLeptons != leptonSelection_cut);
-      else
-        pass_leptonSelection = false;
-
-      if(!pass_leptonSelection){
-        wk()->skipEvent();
-        return EL::StatusCode::SUCCESS;
-      }
-      m_cutflow["leptons_signal"].first += 1;
-      m_cutflow["leptons_signal"].second += eventWeight;
-    }
-
-    // only select event if:
-    //    m_jet_minNum <= num_passJets <= m_jet_maxNum
-    if(!( (m_jet_minNum <= num_passJets)&&(num_passJets <= m_jet_maxNum) )){
+    if(!pass_leptonSelection){
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
-    m_cutflow["jets"].first += 1;
-    m_cutflow["jets"].second += eventWeight;
+    m_cutflow["leptons_baseline"].first += 1;
+    m_cutflow["leptons_baseline"].second += eventWeight;
+  }
 
-    // only select event if:
-    //    m_bjet_minNum <= num_passBJets <= m_bjet_maxNum
-    if(!( (m_bjet_minNum <= num_passBJets)&&(num_passBJets <= m_bjet_maxNum) )){
+  if(!m_signalLeptonSelection.empty()){
+    unsigned int numLeptons(0);
+    // lepton veto
+    if(!m_inputElectrons.empty()){
+      ConstDataVector<xAOD::ElectronContainer> SignalElectrons(VD::filterLeptons(in_electrons, true));
+      numLeptons += SignalElectrons.size();
+    }
+    if(!m_inputMuons.empty()){
+      ConstDataVector<xAOD::MuonContainer> SignalMuons(VD::filterLeptons(in_muons, true, true));
+      numLeptons += SignalMuons.size();
+    }
+
+    std::string leptonSelection_str = m_signalLeptonSelection.substr(0,2);
+    unsigned int leptonSelection_cut = std::stoul(m_signalLeptonSelection.substr(2));
+    bool pass_leptonSelection = false;
+    if(leptonSelection_str == "==")
+      pass_leptonSelection = (numLeptons == leptonSelection_cut);
+    else if(leptonSelection_str == ">=")
+      pass_leptonSelection = (numLeptons >= leptonSelection_cut);
+    else if(leptonSelection_str == "<=")
+      pass_leptonSelection = (numLeptons <= leptonSelection_cut);
+    else if(leptonSelection_str == " >")
+      pass_leptonSelection = (numLeptons > leptonSelection_cut);
+    else if(leptonSelection_str == " <")
+      pass_leptonSelection = (numLeptons < leptonSelection_cut);
+    else if(leptonSelection_str == "!=")
+      pass_leptonSelection = (numLeptons != leptonSelection_cut);
+    else
+      pass_leptonSelection = false;
+
+    if(!pass_leptonSelection){
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
-    m_cutflow["bjets"].first += 1;
-    m_cutflow["bjets"].second += eventWeight;
-
-    static VD::decor_t< int > pass_preSel_jets("pass_preSel_jets");
-    static VD::decor_t< int > pass_preSel_bjets("pass_preSel_bjets");
-    pass_preSel_jets(*eventInfo) = num_passJets;
-    pass_preSel_bjets(*eventInfo) = num_passBJets;
-
+    m_cutflow["leptons_signal"].first += 1;
+    m_cutflow["leptons_signal"].second += eventWeight;
   }
 
   if(!m_inputJets.empty() && !m_inputMET.empty()){
@@ -362,6 +408,7 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["missing_et"].second += eventWeight;
   }
 
+  // below here, we do not skip events, this is for merely counting after the fact
   // do cutflows on top of pre-selection
   ConstDataVector<xAOD::ElectronContainer> signalElectrons;
   ConstDataVector<xAOD::ElectronContainer> baselineElectrons;
@@ -432,6 +479,9 @@ EL::StatusCode Preselect :: finalize () {
     if(m_trigConf) delete m_trigConf;
     if(m_TDT) delete m_TDT;
   }
+
+  if(m_rc_enable)
+      if(m_reclusteringTool) delete m_reclusteringTool;
 
   for(const auto &cutflow: m_cutflow){
     TH1F* hist = new TH1F(("cutflow/"+cutflow.first).c_str(), cutflow.first.c_str(), 2, 1, 3);

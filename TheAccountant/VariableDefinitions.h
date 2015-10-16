@@ -38,6 +38,16 @@ namespace VariableDefinitions {
   static accessor_t<char> acc_tag_w("isW");
   static accessor_t<char> acc_tag_top("isTop");
 
+  // for preselections to make it consistent and uniform
+  static decor_t< int > dec_pass_preSel("pass_preSel");
+  static decor_t< int > dec_pass_preSel_b("pass_preSel_b");
+  static decor_t< int > dec_pass_preSel_w("pass_preSel_w");
+  static decor_t< int > dec_pass_preSel_top("pass_preSel_top");
+  static accessor_t< int > acc_pass_preSel("pass_preSel");
+  static accessor_t< int > acc_pass_preSel_b("pass_preSel_b");
+  static accessor_t< int > acc_pass_preSel_w("pass_preSel_w");
+  static accessor_t< int > acc_pass_preSel_top("pass_preSel_top");
+
   // define isXXXX functions
   //    - note that when using a <char> decoration, you often compare to an int
   template <typename T1, typename T2>

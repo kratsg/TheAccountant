@@ -14,6 +14,9 @@
 // for limits
 #include <limits>
 
+// reclustering forward declaration
+class JetReclusteringTool;
+
 class Preselect : public TA::Algorithm
 {
 public:
@@ -62,7 +65,7 @@ public:
   // reclustering jet definitions -- used only if m_rc_enable is true
   float m_rc_radius = 1.0,
         m_rc_inputPt = 50.0,
-        m_trimPtFrac = 0.05;
+        m_rc_trimPtFrac = 0.05;
 
   // various other preselections of more complicated objects
   float m_dPhiMin      = 0.0;
@@ -74,8 +77,9 @@ public:
   std::string m_triggerSelection = ""; // empty is none
 
 private:
-  TrigConf::xAODConfigTool* m_trigConf; //!
-  Trig::TrigDecisionTool* m_TDT; //!
+  TrigConf::xAODConfigTool* m_trigConf = nullptr; //!
+  Trig::TrigDecisionTool* m_TDT = nullptr; //!
+  JetReclusteringTool* m_reclusteringTool = nullptr; //!
 
   // a map holding (cutflow, (unweighted, weighted))
   std::map<std::string, std::pair<float, float>> m_cutflow; //!
