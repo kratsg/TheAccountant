@@ -212,14 +212,10 @@ EL::StatusCode Preselect :: execute ()
   int num_passBJets = 0;
 
   if(!m_inputJets.empty()){
-    // get the working point
-    static VD::WP bTag_wp = VD::str2wp(m_bTag_wp);
-    static VD::decor_t< int > isB("isB");
-
     // for small-R jets, count number of jets that pass standard cuts
     for(const auto &jet: *in_jets){
       pass_preSel(*jet) = 0;
-      isB(*jet) = 0;
+      VD::decor_tag_b(*jet) = 0;
       if(m_badJetVeto && VD::isBad(*jet)){ // veto on bad jet if enabled
         wk()->skipEvent();
         return EL::StatusCode::SUCCESS;
@@ -234,9 +230,9 @@ EL::StatusCode Preselect :: execute ()
 
       num_passJets++;
       pass_preSel(*jet) = 1;
-      if(VD::bTag(jet, bTag_wp, 2.5)){
+      if(VD::bTag(jet, m_bTag_wp, 2.5)){
         num_passBJets++;
-        isB(*jet) = 1;
+        VD::decor_tag_b(*jet) = 1;
       }
     }
 
@@ -415,8 +411,7 @@ EL::StatusCode Preselect :: execute ()
       m_cutflow["Meff1000"].second += eventWeight;
     }
 
-    static VD::accessor_t< int > isB("isB");
-    auto signalBJets = VD::subset_using_decor(signalJets.asDataVector(), isB, 1);
+    auto signalBJets = VD::subset_using_decor(signalJets.asDataVector(), VD::acc_tag_b, 1);
     if(VD::mTb(in_met, signalBJets.asDataVector())/1000. >= 160){
       m_cutflow["mTb160"].first += 1;
       m_cutflow["mTb160"].second += eventWeight;

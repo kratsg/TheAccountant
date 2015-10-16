@@ -384,8 +384,7 @@ EL::StatusCode OptimizationDump :: execute ()
     m_dPhiMETMin = VD::dPhiMETMin(in_met, in_jets);
 
 
-    static VD::accessor_t< int > isB("isB");
-    ConstDataVector<xAOD::JetContainer> bjets = VD::subset_using_decor(in_jets, isB, 1);
+    ConstDataVector<xAOD::JetContainer> bjets = VD::subset_using_decor(in_jets, VD::acc_tag_b, 1);
     m_mTb = VD::mTb(in_met, bjets.asDataVector())/1000.;
   }
 

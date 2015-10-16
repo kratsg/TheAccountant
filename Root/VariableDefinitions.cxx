@@ -308,24 +308,7 @@ bool VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, VD::WP w
   return isTop_tagged;
 }
 
-int VD::bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, VD::WP wp){
-
-  static VD::decor_t< int > nBJets_wp("nBJets_"+VD::wp2str(wp));
-
-  // set or reset to 0 b tags
-  nBJets_wp(*eventInfo) = 0;
-
-  // loop over jets, tag, and count top tags
-  int nBJets(0);
-  for(const auto &jet: *jets) nBJets += static_cast<int>(VD::bTag(jet, wp));
-
-  // tag the event itself with # of jets tagged
-  nBJets_wp(*eventInfo) = nBJets;
-  return nBJets;
-}
-
-bool VD::bTag(const xAOD::Jet* jet, VD::WP wp, float maxAbsEta){
-
+bool VD::bTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta){
   if(std::fabs(jet->eta()) > maxAbsEta) return false;
 
   // stupid btagging doesn't overload the fucking MVx_discriminant()
@@ -337,7 +320,7 @@ bool VD::bTag(const xAOD::Jet* jet, VD::WP wp, float maxAbsEta){
 
   // https://twiki.cern.ch/twiki/bin/view/AtlasProtected/BTaggingBenchmarks#MV2c20_tagger_AntiKt4EMTopoJets
   bool isB_tagged = false;
-  switch(wp){
+  switch(str2wp(wp)){
     case VD::WP::Loose: // 85%
     {
       isB_tagged = btag_weight > -0.7887;
@@ -359,10 +342,6 @@ bool VD::bTag(const xAOD::Jet* jet, VD::WP wp, float maxAbsEta){
     }
     break;
   }
-
-  static VD::decor_t< int > isB_wp("isB_"+VD::wp2str(wp));
-  // tag the jet
-  isB_wp(*jet) = static_cast<int>(isB_tagged);
 
   return isB_tagged;
 }

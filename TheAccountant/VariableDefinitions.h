@@ -30,6 +30,14 @@ namespace VariableDefinitions {
   static accessor_t<char> decor_cosmic("cosmic");
   static accessor_t<char> decor_bad("bad");
 
+  // for tagging, preselect decorates and everyone else accesses
+  static decor_t<char> decor_tag_b("isB");
+  static decor_t<char> decor_tag_w("isW");
+  static decor_t<char> decor_tag_top("isTop");
+  static accessor_t<char> acc_tag_b("isB");
+  static accessor_t<char> acc_tag_w("isW");
+  static accessor_t<char> acc_tag_top("isTop");
+
   // define isXXXX functions
   //    - note that when using a <char> decoration, you often compare to an int
   template <typename T1, typename T2>
@@ -107,12 +115,8 @@ namespace VariableDefinitions {
   // top tagging on jet, set "isTop_<WP>" int decoration
   bool topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, WP wp);
 
-  // b-tagging on jets, set the eventInfo with "nBJets_<WP>" int decoration
-  //    - static SG::AuxElement::Accessor< int > nBJets_wp("nBJets_<WP>");
-  //        * string of WP is equivalent to how you type it out in enum class
-  int bTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, WP wp);
-  // b-tagging on jet, set "isB_<WP>" int decoration, for extra sanity -- make sure we cut at 2.5
-  bool bTag(const xAOD::Jet* jet, WP wp, float maxAbsEta=2.5);
+  // b-tagging on jet, for extra sanity -- make sure we cut at 2.5
+  bool bTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta=2.5);
 
   // returning subjettiness ratios for a given jet
   //    - use Tau21 if set
