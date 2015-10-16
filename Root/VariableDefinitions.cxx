@@ -25,26 +25,26 @@ namespace VD = VariableDefinitions;
 
 std::string VD::wp2str(VD::WP wp){
   switch(wp){
-    case VD::WP::VeryLoose:
+  case VD::WP::VeryLoose:
       return "VeryLoose";
+      break;
+  case VD::WP::Loose:
+    return "Loose";
     break;
-    case VD::WP::Loose:
-      return "Loose";
-    break;
-    case VD::WP::Medium:
+  case VD::WP::Medium:
       return "Medium";
-    break;
-    case VD::WP::Tight:
-      return "Tight";
+      break;
+  case VD::WP::Tight:
+    return "Tight";
     break;
   case VD::WP::SmoothLoose:
-    return "SmoothTight";
+    return "SmoothLoose";
     break;
   case VD::WP::SmoothTight:
     return "SmoothTight";
     break;
   }
-
+  
   // should never reach here, we should be synced with the enum class
   return "BadWorkingPoint";
 }
@@ -267,10 +267,11 @@ bool VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, VD::WP w
   bool isTop_tagged = false;
   switch(wp){
     case VD::WP::VeryLoose:
-    {
-      isTop_tagged = (jet->m()/1.e3 > 100.);
-    }
-    break;
+      {
+	isTop_tagged = (jet->m()/1.e3 > 100.);
+	//return isTop_tagged;
+      }
+      break;
     case VD::WP::Loose:
       {
 	static VD::accessor_t<int> tTag("LooseTopTag");
@@ -297,6 +298,7 @@ bool VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, VD::WP w
   default:
     {
       isTop_tagged = false;
+      return isTop_tagged;
     }
     break;
   }
