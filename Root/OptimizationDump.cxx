@@ -377,13 +377,17 @@ EL::StatusCode OptimizationDump :: execute ()
   }
 
   if(!m_inputMET.empty() && !m_inputJets.empty()){
-    m_effectiveMass = VD::Meff_inclusive(in_met, in_jets, in_muons, in_electrons)/1000.;
+    
+    ConstDataVector<xAOD::JetContainer> presel_jets = VD::subset_using_decor(in_jets, VD::decor_vd_pass_Presel, 1);
+    //std::cout << in_jets->size() << " " << presel_jets.size() << std::endl;
+    m_effectiveMass = VD::Meff_inclusive(in_met, presel_jets.asDataVector(), in_muons, in_electrons)/1000.;
     m_dPhiMETMin = VD::dPhiMETMin(in_met, in_jets);
 
 
     static VD::accessor_t< int > isB("isB");
     ConstDataVector<xAOD::JetContainer> bjets = VD::subset_using_decor(in_jets, isB, 1);
-    m_mTb = VD::mTb(in_met, bjets.asDataVector())/1000.;
+    auto sortedBJets = HF::sort_container_pt(bjets.asDataVector());
+    m_mTb = VD::mTb(in_met, &sortedBJets)/1000.;
   }
 
   static VD::accessor_t< int > pass_preSel("pass_preSel");
