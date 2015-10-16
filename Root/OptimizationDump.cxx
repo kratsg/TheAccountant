@@ -108,6 +108,9 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_event = wk()->xaodEvent();
   m_store = wk()->xaodStore();
 
+  // if doing rc jets, use rc jets container instead
+  if(m_rc_enable) m_inputLargeRJets = m_RCJetsContainerName;
+
   TFile *file = wk()->getOutputFile ("optimizationTree");
   m_tree->SetDirectory (file);
 

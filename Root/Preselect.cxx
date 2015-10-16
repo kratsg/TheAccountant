@@ -48,6 +48,9 @@ EL::StatusCode Preselect :: initialize ()
   m_event = wk()->xaodEvent();
   m_store = wk()->xaodStore();
 
+  // if doing rc jets, use rc jets container instead
+  if(m_rc_enable) m_inputLargeRJets = m_RCJetsContainerName;
+
   if(!m_triggerSelection.empty()){
     Info("initialize()", "Initializing for trigger selections: %s", m_triggerSelection.c_str());
     // trigger configuration, needed for TDT

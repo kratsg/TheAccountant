@@ -41,6 +41,9 @@ EL::StatusCode Report :: setupJob (EL::Job& job)
 }
 
 EL::StatusCode Report :: histInitialize () {
+  // if doing rc jets, use rc jets container instead
+  if(m_rc_enable) m_inputLargeRJets = m_RCJetsContainerName;
+
   // initialize all histograms here
 
   if(!m_inputMET.empty() && !m_inputJets.empty() && !m_inputLargeRJets.empty() && !m_inputMuons.empty() && !m_inputElectrons.empty())

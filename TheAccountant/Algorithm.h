@@ -35,6 +35,8 @@ namespace TA {
         std::string m_decor_jetTags_b,
                     m_decor_jetTags_top,
                     m_decor_jetTags_w;
+        // use RC jets or not
+        bool m_rc_enable;
 
         // enable verbosity, debugging or not
         bool m_debug;
@@ -48,6 +50,8 @@ namespace TA {
       protected:
         xAOD::TEvent* m_event; //!
         xAOD::TStore* m_store; //!
+
+        std::string m_RCJetsContainerName = "TheAccountantRCJets"; //!
 
         // will try to determine if data or if MC
         // returns: -1=unknown (could not determine), 0=data, 1=mc
