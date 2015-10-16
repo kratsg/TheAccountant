@@ -194,8 +194,8 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["jets_largeR"].second += eventWeight;
 
     // only select event if:
-    //	m_toptag_minNum <= num_passTopTags <= m_toptag_maxNum
-    if(!( (m_toptag_minNum <= num_passTopTags)&&(num_passTopTags <= m_toptag_maxNum) )){
+    //	m_topTag_minNum <= num_passTopTags <= m_topTag_maxNum
+    if(!( (m_topTag_minNum <= num_passTopTags)&&(num_passTopTags <= m_topTag_maxNum) )){
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
@@ -226,8 +226,6 @@ EL::StatusCode Preselect :: execute ()
       }
       if(jet->pt()/1000. < m_jet_minPt)   continue;
       if(jet->pt()/1000. > m_jet_maxPt)   continue;
-      if(jet->m()/1000.  < m_jet_minMass) continue;
-      if(jet->m()/1000.  > m_jet_maxMass) continue;
       if(jet->eta()      < m_jet_minEta)  continue;
       if(jet->eta()      > m_jet_maxEta)  continue;
       if(jet->phi()      < m_jet_minPhi)  continue;

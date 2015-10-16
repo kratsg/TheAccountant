@@ -11,43 +11,66 @@
 #include "TrigConfxAOD/xAODConfigTool.h"
 #include "TrigDecisionTool/TrigDecisionTool.h"
 
+// for limits
+#include <limits>
+
 class Preselect : public TA::Algorithm
 {
 public:
-  int m_jetLargeR_minNum      = 0,
-      m_jetLargeR_maxNum      = 100,
-      m_toptag_minNum 	      = 0,
-      m_toptag_maxNum 	      = 100;
-  float m_jetLargeR_minPt     = 0.0,
-        m_jetLargeR_maxPt     = 1.e6,
-        m_jetLargeR_minMass   = 0.0,
-        m_jetLargeR_maxMass   = 1.e6,
-        m_jetLargeR_minEta    = -10.0,
-        m_jetLargeR_maxEta    = 10.0,
-        m_jetLargeR_minPhi    = -4.0,
-        m_jetLargeR_maxPhi    = 4.0;
-  std::string m_topTag_wp  = "VeryLoose";
-
-  int m_jet_minNum      = 0,
-      m_jet_maxNum      = 100,
-      m_bjet_minNum     = 0,
-      m_bjet_maxNum     = 100;
-  float m_jet_minPt    = 0.0,
-        m_jet_maxPt    = 1.e6,
-        m_jet_minMass  = 0.0,
-        m_jet_maxMass  = 1.e6,
-        m_jet_minEta   = -10.0,
-        m_jet_maxEta   = 10.0,
-        m_jet_minPhi   = -4.0,
-        m_jet_maxPhi   = 4.0;
+  // small-R jets
+  int   m_jet_minNum    = 0,
+        m_jet_maxNum    = 100;
+  float m_jet_minPt     = -std::numeric_limits<float>::max(),
+        m_jet_maxPt     = std::numeric_limits<float>::max(),
+        m_jet_minEta    = -std::numeric_limits<float>::max(),
+        m_jet_maxEta    = std::numeric_limits<float>::max(),
+        m_jet_minPhi    = -std::numeric_limits<float>::max(),
+        m_jet_maxPhi    = std::numeric_limits<float>::max();
+  // small-R b-jets
   std::string m_bTag_wp  = "Loose";
-  float m_dPhiMin      = 0.4;
+  int   m_bjet_minNum    = 0,
+        m_bjet_maxNum    = 100;
+  float m_bjet_minPt     = -std::numeric_limits<float>::max(),
+        m_bjet_maxPt     = std::numeric_limits<float>::max(),
+        m_bjet_minEta    = -std::numeric_limits<float>::max(),
+        m_bjet_maxEta    = std::numeric_limits<float>::max(),
+        m_bjet_minPhi    = -std::numeric_limits<float>::max(),
+        m_bjet_maxPhi    = std::numeric_limits<float>::max();
+  // large-R jets
+  int   m_jetLargeR_minNum    = 0,
+        m_jetLargeR_maxNum    = 100;
+  float m_jetLargeR_minPt     = -std::numeric_limits<float>::max(),
+        m_jetLargeR_maxPt     = std::numeric_limits<float>::max(),
+        m_jetLargeR_minMass   = -std::numeric_limits<float>::max(),
+        m_jetLargeR_maxMass   = std::numeric_limits<float>::max(),
+        m_jetLargeR_minEta    = -std::numeric_limits<float>::max(),
+        m_jetLargeR_maxEta    = std::numeric_limits<float>::max(),
+        m_jetLargeR_minPhi    = -std::numeric_limits<float>::max(),
+        m_jetLargeR_maxPhi    = std::numeric_limits<float>::max();
+  // top-tagged large-R jets
+  std::string m_topTag_wp  = "VeryLoose";
+  int   m_topTag_minNum    = 0,
+        m_topTag_maxNum    = 100;
+  float m_topTag_minPt     = -std::numeric_limits<float>::max(),
+        m_topTag_maxPt     = std::numeric_limits<float>::max(),
+        m_topTag_minMass   = -std::numeric_limits<float>::max(),
+        m_topTag_maxMass   = std::numeric_limits<float>::max(),
+        m_topTag_minEta    = -std::numeric_limits<float>::max(),
+        m_topTag_maxEta    = std::numeric_limits<float>::max(),
+        m_topTag_minPhi    = -std::numeric_limits<float>::max(),
+        m_topTag_maxPhi    = std::numeric_limits<float>::max();
+  // reclustering jet definitions -- used only if m_rc_enable is true
+  float m_rc_radius = 1.0,
+        m_rc_inputPt = 50.0,
+        m_trimPtFrac = 0.05;
+
+  // various other preselections of more complicated objects
+  float m_dPhiMin      = 0.0;
   float m_minMET       = 0.0;
   std::string m_baselineLeptonSelection = "",
               m_signalLeptonSelection = "";
   bool m_badJetVeto = false;
   std::string m_truthMETFilter = "";
-
   std::string m_triggerSelection = ""; // empty is none
 
 private:
