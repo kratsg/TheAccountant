@@ -29,6 +29,8 @@ namespace VariableDefinitions {
   static accessor_t<char> decor_signalIso("signal_pt_dependent_iso");
   static accessor_t<char> decor_cosmic("cosmic");
   static accessor_t<char> decor_bad("bad");
+  static accessor_t<int> decor_vd_pass_Presel("pass_preSel");
+  //static accessor_t<int> decor_pass_preSel("pass_preSel"); 
 
   // define isXXXX functions
   //    - note that when using a <char> decoration, you often compare to an int

@@ -221,16 +221,24 @@ EL::StatusCode Preselect :: execute ()
         wk()->skipEvent();
         return EL::StatusCode::SUCCESS;
       }
+      
+      //if(eventInfo->eventNumber()==22223){
+      //  std::cout << jet->pt() / 1000. << " " << jet->eta() << " " << jet->phi() << " " << jet->m() << " " <<  VD::isSignal(*jet) << std::endl;
+      //}
+    
       if(jet->pt()/1000. < m_jet_minPt)   continue;
       if(jet->pt()/1000. > m_jet_maxPt)   continue;
-      if(jet->m()/1000.  < m_jet_minMass) continue;
-      if(jet->m()/1000.  > m_jet_maxMass) continue;
+      //if(jet->m()/1000.  < m_jet_minMass) continue;
+      //if(jet->m()/1000.  > m_jet_maxMass) continue;
       if(jet->eta()      < m_jet_minEta)  continue;
       if(jet->eta()      > m_jet_maxEta)  continue;
       if(jet->phi()      < m_jet_minPhi)  continue;
       if(jet->phi()      > m_jet_maxPhi)  continue;
       if(!VD::isSignal(*jet))              continue;
-
+      
+      //if(eventInfo->eventNumber()==22223){
+      //  std::cout << " jet pased! " << std::endl;
+      //}
       num_passJets++;
       pass_preSel(*jet) = 1;
       if(VD::bTag(jet, bTag_wp, 2.5)){
@@ -238,6 +246,9 @@ EL::StatusCode Preselect :: execute ()
         isB(*jet) = 1;
       }
     }
+    //if(eventInfo->eventNumber()==22223){
+    //  std::cout << "njet = " << num_passJets << std::endl;
+    //}
 
     // increment cutflow for passing bad jet requirements
     m_cutflow["bad_jets"].first += 1;
@@ -348,7 +359,9 @@ EL::StatusCode Preselect :: execute ()
   }
 
   if(!m_inputJets.empty() && !m_inputMET.empty()){
-    if(VD::dPhiMETMin(in_met, VD::subset_using_decor(in_jets, VD::decor_signal, 1).asDataVector()) < m_dPhiMin){
+    auto sortedJets = HF::sort_container_pt(in_jets);
+    if(VD::dPhiMETMin(in_met, VD::subset_using_decor(&sortedJets, VD::decor_signal, 1).asDataVector()) < m_dPhiMin){
+    //if(VD::dPhiMETMin(in_met, VD::subset_using_decor(in_jets, VD::decor_signal, 1).asDataVector()) < m_dPhiMin){
       wk()->skipEvent();
       return EL::StatusCode::SUCCESS;
     }
@@ -369,14 +382,14 @@ EL::StatusCode Preselect :: execute ()
   ConstDataVector<xAOD::ElectronContainer> signalElectrons;
   ConstDataVector<xAOD::ElectronContainer> baselineElectrons;
   if(!m_inputElectrons.empty()){
-    signalElectrons = VD::filterLeptons(in_electrons, true, false, eventInfo->eventNumber()==10108);
+    signalElectrons = VD::filterLeptons(in_electrons, true, false, false);
     baselineElectrons = VD::filterLeptons(in_electrons, false);
   }
 
   ConstDataVector<xAOD::MuonContainer> signalMuons;
   ConstDataVector<xAOD::MuonContainer> baselineMuons;
   if(!m_inputMuons.empty()){
-    signalMuons = VD::filterLeptons(in_muons, true, true, eventInfo->eventNumber()==10108);
+    signalMuons = VD::filterLeptons(in_muons, true, true, false);
     baselineMuons = VD::filterLeptons(in_muons, false, true);
   }
 
@@ -402,8 +415,12 @@ EL::StatusCode Preselect :: execute ()
     }
   }
 
+
   if(!m_inputJets.empty() && !m_inputMET.empty()){
     auto signalJets = VD::subset_using_decor(in_jets, VD::decor_signal, 1);
+   // if(eventInfo->eventNumber()==10808){
+   //   std::cout << "dPhi = " << VD::dPhiMETMin(in_met, signalJets.asDataVector()) << std::endl;
+   // }
     if(VD::dPhiMETMin(in_met, signalJets.asDataVector()) >= 0.4){
       m_cutflow["DPhi04"].first += 1;
       m_cutflow["DPhi04"].second += eventWeight;
@@ -428,16 +445,16 @@ EL::StatusCode Preselect :: execute ()
   }
 
   
-  if(eventInfo->eventNumber()==10108){
-    m_store->print();
+  //if(eventInfo->eventNumber()==11780){
+   // m_store->print();
   
-    std::cout << signalMuons.size() << " " << baselineMuons.size() << std::endl;
-    std::cout << signalElectrons.size() << " " << baselineElectrons.size() << std::endl;
+   // std::cout << signalMuons.size() << " " << baselineMuons.size() << std::endl;
+   // std::cout << signalElectrons.size() << " " << baselineElectrons.size() << std::endl;
 
 
-  }
+  //}
 
-  std::cout << eventInfo->eventNumber() << std::endl;
+//  std::cout << eventInfo->eventNumber() << std::endl;
 
   return EL::StatusCode::SUCCESS;
 }
