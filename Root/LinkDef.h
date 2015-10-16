@@ -1,4 +1,5 @@
 #include <TheAccountant/Algorithm.h>
+#include <TheAccountant/DefineObjects.h>
 #include <TheAccountant/Preselect.h>
 #include <TheAccountant/Audit.h>
 #include <TheAccountant/OptimizationDump.h>
@@ -11,6 +12,7 @@
 #pragma link C++ nestedclass;
 
 #pragma link C++ class TA::Algorithm+;
+#pragma link C++ class DefineObjects+;
 #pragma link C++ class Preselect+;
 #pragma link C++ class Audit+;
 #pragma link C++ class OptimizationDump+;
