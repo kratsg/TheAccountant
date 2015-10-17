@@ -214,8 +214,7 @@ EL::StatusCode Preselect :: execute ()
 
     //int num_passBJets = 0;
     for(const auto &jet: *in_jets){
-      // bTag the jet
-      VD::decor_tag_b(*jet) = VD::bTag(jet, m_bTag_wp);
+      VD::decor_tag_b(*jet) = 0;
       // assume it does not pass presel
       VD::dec_pass_preSel_b(*jet) = 0;
       if(m_badJetVeto && VD::isBad(*jet)){ // veto on bad jet if enabled
@@ -229,6 +228,10 @@ EL::StatusCode Preselect :: execute ()
       if(jet->phi()      < m_bjet_minPhi)  continue;
       if(jet->phi()      > m_bjet_maxPhi)  continue;
       if(!VD::isSignal(*jet))              continue;
+      // bTag the jet -- bjets are only btagged if passing preselection
+      if(!VD::bTag(jet, m_bTag_wp)) continue;
+      VD::decor_tag_b(*jet) = 1;
+      // guess it passed!
       num_passBJets++;
       VD::dec_pass_preSel_b(*jet) = 1;
     }
@@ -291,7 +294,7 @@ EL::StatusCode Preselect :: execute ()
     m_cutflow["jets_largeR"].second += eventWeight;
 
     for(const auto &jet: *in_jetsLargeR){
-      VD::decor_tag_top(*jet) = VD::topTag(jet, m_topTag_wp);
+      VD::decor_tag_top(*jet) = 0;
       VD::dec_pass_preSel_top(*jet) = 0;
       if(jet->pt()/1000.  < m_topTag_minPt)   continue;
       if(jet->pt()/1000.  > m_topTag_maxPt)   continue;
@@ -301,6 +304,9 @@ EL::StatusCode Preselect :: execute ()
       if(jet->eta()       > m_topTag_maxEta)  continue;
       if(jet->phi()       < m_topTag_minPhi)  continue;
       if(jet->phi()       > m_topTag_maxPhi)  continue;
+      // top tag the jet -- only largeR jets passing top tag preselection are considered for top tags
+      if(!VD::topTag(jet, m_topTag_wp)) continue;
+      VD::decor_tag_top(*jet) = 1;
       VD::dec_pass_preSel_top(*jet) = 1;
       num_passTopTags++;
     }
