@@ -21,6 +21,8 @@
 // for event re-weighting
 #include <SampleHandler/MetaFields.h>
 
+#include "xAODAnaHelpers/HelperFunctions.h"
+namespace HF = HelperFunctions;
 namespace VD = VariableDefinitions;
 
 std::string VD::wp2str(VD::WP wp){
@@ -80,7 +82,11 @@ float VD::Meff(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int n
   return meff;
 }
 
-float VD::Meff_exclusive(const xAOD::MissingET* met, const xAOD::JetContainer* jets){ return Meff(met, jets, 4, 0, 0); }
+float VD::Meff_exclusive(const xAOD::MissingET* met, const xAOD::JetContainer* jets){
+  // sort before doing a subset
+  auto sorted_jets = HF::sort_container_pt(jets);
+  return Meff(met, &sorted_jets, 4, 0, 0);
+}
 float VD::Meff_inclusive(const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els){ return Meff(met, jets, jets->size(), muons, els); }
 
 float VD::HT(const xAOD::JetContainer* jets, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els){
@@ -130,20 +136,16 @@ float VD::mT(const xAOD::MissingET* met, const xAOD::MuonContainer* muons, const
 }
 
 float VD::mTb(const xAOD::MissingET* met, const xAOD::JetContainer* bjets){
-  // hold the sorted subset
+  // sort the bjets first
+  auto sorted_bjets = HF::sort_container_pt(bjets);
+
+  // figure out how many we need
   unsigned int numParticles(std::min<unsigned int>(bjets->size(), 3));
   if(numParticles == 0) return -99;
-  std::vector<const xAOD::Jet*> subset_bjets(numParticles);
-  // copy and sort
-  std::partial_sort_copy(bjets->begin(), bjets->end(),
-                         subset_bjets.begin(), subset_bjets.end(),
-                         [](const xAOD::IParticle* lhs, const xAOD::IParticle* rhs)
-                         -> bool {
-                           return (lhs->pt() > rhs->pt());
-                         });
 
+  // compute it
   std::vector<float> result(numParticles);
-  std::transform(subset_bjets.begin(), subset_bjets.begin()+numParticles,
+  std::transform(sorted_bjets.begin(), sorted_bjets.begin()+numParticles,
                  result.begin(),
                  [met](const xAOD::Jet* bjet)
                  -> float {
@@ -159,20 +161,16 @@ float VD::mTb(const xAOD::MissingET* met, const xAOD::JetContainer* bjets){
 
 float VD::dPhiMETMin(const xAOD::MissingET* met, const xAOD::IParticleContainer* particles,
                      unsigned int numLeadingParticles){
-  // hold the sorted subset
+  // sort the particles first
+  auto sorted_particles = HF::sort_container_pt(particles);
+
+  // figure out how many we need
   unsigned int numParticles(std::min<unsigned int>(particles->size(), numLeadingParticles));
   if(numParticles == 0) return -99;
-  std::vector<const xAOD::IParticle*> subset_particles(numParticles);
-  // copy and sort
-  std::partial_sort_copy(particles->begin(), particles->end(),
-                         subset_particles.begin(), subset_particles.end(),
-                         [](const xAOD::IParticle* lhs, const xAOD::IParticle* rhs)
-                         -> bool {
-                           return (lhs->pt() > rhs->pt());
-                         });
+
   // compute it
   std::vector<float> result(numParticles);
-  std::transform(subset_particles.begin(), subset_particles.begin()+numParticles,
+  std::transform(sorted_particles.begin(), sorted_particles.begin()+numParticles,
                  result.begin(),
                  [met](const xAOD::IParticle* particle)
                  -> float {
@@ -186,8 +184,11 @@ float VD::METSignificance(const xAOD::MissingET* met, const xAOD::JetContainer* 
   float met_significance(0.0);
   float ht(0.0);
 
+  // sort the jets first
+  auto sorted_jets = HF::sort_container_pt(jets);
+
   for(int i=0; i < std::min<int>(njets, jets->size()); i++){
-    const auto jet = jets->at(i);
+    const auto jet = sorted_jets.at(i);
     if(jet->pt()/1.e3 < 30.) continue;
     ht += jet->pt();
   }
