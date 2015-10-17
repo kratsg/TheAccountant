@@ -12,7 +12,7 @@
 // we want to use the metadata if we can
 #include "SampleHandler/MetaObject.h"
 
-/* Caveats: input containers are assumed sorted */
+/* Caveats: input containers are assumed unsorted */
 namespace VariableDefinitions {
 
   // typedef it to make it easier to type: VD::accessor_t<char>
