@@ -510,7 +510,7 @@ EL::StatusCode OptimizationDump :: execute ()
         std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
         if(jet->getAttribute("constituentLinks", constitLinks)) m_largeR_nsj[jetIndex] = constitLinks.size();
         // top tagging
-        m_largeR_topTag_veryloose[jetindex] = VD::topTag(jet, "VeryLoose")
+        m_largeR_topTag_veryloose[jetIndex] = VD::topTag(jet, "VeryLoose");
         m_largeR_topTag_loose[jetIndex] = VD::topTag(jet, "Loose");
         m_largeR_topTag_tight[jetIndex] = VD::topTag(jet, "Tight");
         m_largeR_topTag_smoothLoose[jetIndex] = VD::topTag(jet, "SmoothLoose");
