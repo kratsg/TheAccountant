@@ -215,6 +215,7 @@ EL::StatusCode OptimizationDump :: initialize () {
 
   if(!m_inputLargeRJets.empty()){
     m_tree->Branch ("multiplicity_jet_largeR",   &m_numJetsLargeR, "multiplicity_jet_largeR/I");
+    m_tree->Branch ("multiplicity_topTag_veryloose", &m_n_topTag_VeryLoose, "multiplicity_topTag_veryloose/I");
     m_tree->Branch ("multiplicity_topTag_smoothloose", &m_n_topTag_SmoothLoose, "multiplicity_topTag_smoothloose/I");
     m_tree->Branch ("multiplicity_topTag_smoothtight", &m_n_topTag_SmoothTight, "multiplicity_topTag_smoothtight/I");
     m_tree->Branch ("multiplicity_topTag_loose", &m_n_topTag_Loose, "multiplicity_topTag_loose/I");
@@ -239,6 +240,9 @@ EL::StatusCode OptimizationDump :: initialize () {
 
       branchName = "nsj_"+commonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_largeR_nsj[i]), (branchName+"/I").c_str());
+
+      branchName = "topTag_VeryLoose_"+commonDenominator;
+      m_tree->Branch(branchName.c_str(), &(m_largeR_topTag_veryloose[i]), (branchName+"/I").c_str());
 
       branchName = "topTag_Loose_"+commonDenominator;
       m_tree->Branch(branchName.c_str(), &(m_largeR_topTag_loose[i]), (branchName+"/I").c_str());
