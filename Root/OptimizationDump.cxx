@@ -58,6 +58,7 @@ OptimizationDump :: OptimizationDump () :
   m_numJetsLargeR(-99),
   m_numJetsVarR_top(-99),
   m_numJetsVarR_W(-99),
+  m_n_topTag_VeryLoose(0),
   m_n_topTag_SmoothLoose(0),
   m_n_topTag_SmoothTight(0),
   m_n_topTag_Loose(0),
@@ -80,6 +81,7 @@ OptimizationDump :: OptimizationDump () :
   m_largeR_split12{ARRAY_INIT},
   m_largeR_split23{ARRAY_INIT},
   m_largeR_nsj{ARRAY_INIT},
+  m_largeR_topTag_veryloose{ARRAY_INIT},
   m_largeR_topTag_loose{ARRAY_INIT},
   m_largeR_topTag_tight{ARRAY_INIT},
   m_largeR_topTag_smoothLoose{ARRAY_INIT},
@@ -372,32 +374,27 @@ EL::StatusCode OptimizationDump :: execute ()
     m_met_mpy = in_met->mpy()/1.e3;
   }
 
-  // in_jets will always contain the signal jets
-  ConstDataVector<xAOD::JetContainer> signalJets;
+  // in_jets will always contain the presel jets
+  ConstDataVector<xAOD::JetContainer> presel_jets;
+  ConstDataVector<xAOD::JetContainer> presel_bjets;
   if(!m_inputJets.empty()){
-    signalJets = VD::subset_using_decor(in_jets, VD::decor_signal, 1);
-    in_jets = signalJets.asDataVector();
+    presel_jets = VD::subset_using_decor(in_jets, VD::acc_pass_preSel, 1);
+    presel_bjets = VD::subset_using_decor(in_jets, VD::acc_pass_preSel_b, 1);
   }
 
   if(!m_inputMET.empty() && !m_inputJets.empty()){
-    m_effectiveMass = VD::Meff_inclusive(in_met, in_jets, in_muons, in_electrons)/1000.;
-    m_dPhiMETMin = VD::dPhiMETMin(in_met, in_jets);
+    m_effectiveMass = VD::Meff_inclusive(in_met, presel_jets.asDataVector(), in_muons, in_electrons)/1000.;
+    m_dPhiMETMin = VD::dPhiMETMin(in_met, presel_jets.asDataVector());
 
-
-    ConstDataVector<xAOD::JetContainer> bjets = VD::subset_using_decor(in_jets, VD::acc_tag_b, 1);
-    m_mTb = VD::mTb(in_met, bjets.asDataVector())/1000.;
+    m_mTb = VD::mTb(in_met, presel_bjets.asDataVector())/1000.;
   }
 
-  static VD::accessor_t< int > pass_preSel("pass_preSel");
-
   if(!m_inputJets.empty()){
-    m_totalTransverseMomentum = VD::HT(in_jets, in_muons, in_electrons)/1000.;
+    m_totalTransverseMomentum = VD::HT(presel_jets.asDataVector(), in_muons, in_electrons)/1000.;
 
     // number of jets and bjets that pass preselection
-    static VD::accessor_t< int > pass_preSel_jets("pass_preSel_jets");
-    static VD::accessor_t< int > pass_preSel_bjets("pass_preSel_bjets");
-    m_numJets = (pass_preSel_jets.isAvailable(*eventInfo))?pass_preSel_jets(*eventInfo):-99;
-    m_numBJets = (pass_preSel_bjets.isAvailable(*eventInfo))?pass_preSel_bjets(*eventInfo):-99;
+    m_numJets = presel_jets.size();
+    m_numBJets = presel_bjets.size();
 
     // build the reclustered, trimmed jets
     for(const auto &tool: m_jetReclusteringTools)
@@ -472,9 +469,12 @@ EL::StatusCode OptimizationDump :: execute ()
     }
   }
 
+  ConstDataVector<xAOD::JetContainer> presel_jetsLargeR;
+  ConstDataVector<xAOD::JetContainer> presel_topTags;
   if(!m_inputLargeRJets.empty()){
-    static VD::accessor_t< int > pass_preSel_jetsLargeR("pass_preSel_jetsLargeR");
-    m_numJetsLargeR = (pass_preSel_jetsLargeR.isAvailable(*eventInfo))?pass_preSel_jetsLargeR(*eventInfo):-99;
+    presel_jetsLargeR = VD::subset_using_decor(in_jetsLargeR, VD::acc_pass_preSel, 1);
+    presel_topTags = VD::subset_using_decor(in_jetsLargeR, VD::acc_pass_preSel_top, 1);
+    m_numJetsLargeR = presel_jetsLargeR.size();
 
     // initialize for leading 4 largeR jets that pass preselection
     for(unsigned int i=0; i<4; i++){
@@ -493,20 +493,12 @@ EL::StatusCode OptimizationDump :: execute ()
     m_n_topTag_Tight = 0;
 
     int jetIndex = 0;
-    for(const auto &jet: *in_jetsLargeR){
-      int topTag_SmoothLoose(-1), topTag_SmoothTight(-1),
-          topTag_Loose(-1), topTag_Tight(-1);
-      // don't count it if it doesn't pass preselection
-      if(pass_preSel(*jet) == 0) continue;
-
-      jet->getAttribute("LooseSmoothTopTag", topTag_SmoothLoose);
-      jet->getAttribute("TightSmoothTopTag", topTag_SmoothTight);
-      jet->getAttribute("LooseTopTag", topTag_Loose);
-      jet->getAttribute("TightTopTag", topTag_Tight);
-      if(topTag_SmoothLoose == 1) m_n_topTag_SmoothLoose++;
-      if(topTag_SmoothTight == 1) m_n_topTag_SmoothTight++;
-      if(topTag_Loose == 1) m_n_topTag_Loose++;
-      if(topTag_Tight == 1) m_n_topTag_Tight++;
+    for(const auto &jet: presel_jetsLargeR){
+      m_n_topTag_VeryLoose += VD::topTag(jet, "VeryLoose");
+      m_n_topTag_Loose += VD::topTag(jet, "Loose");
+      m_n_topTag_SmoothLoose += VD::topTag(jet, "SmoothLoose");
+      m_n_topTag_Tight += VD::topTag(jet, "Tight");
+      m_n_topTag_SmoothTight += VD::topTag(jet, "SmoothTight");
 
       if(jetIndex < 4){
         m_largeR_pt[jetIndex] = jet->pt()/1000.;
@@ -518,19 +510,14 @@ EL::StatusCode OptimizationDump :: execute ()
         std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
         if(jet->getAttribute("constituentLinks", constitLinks)) m_largeR_nsj[jetIndex] = constitLinks.size();
         // top tagging
-        m_largeR_topTag_loose[jetIndex] = topTag_Loose;
-        m_largeR_topTag_tight[jetIndex] = topTag_Tight;
-        m_largeR_topTag_smoothLoose[jetIndex] = topTag_SmoothLoose;
-        m_largeR_topTag_smoothTight[jetIndex] = topTag_SmoothTight;
+        m_largeR_topTag_veryloose[jetindex] = VD::topTag(jet, "VeryLoose")
+        m_largeR_topTag_loose[jetIndex] = VD::topTag(jet, "Loose");
+        m_largeR_topTag_tight[jetIndex] = VD::topTag(jet, "Tight");
+        m_largeR_topTag_smoothLoose[jetIndex] = VD::topTag(jet, "SmoothLoose");
+        m_largeR_topTag_smoothTight[jetIndex] = VD::topTag(jet, "SmoothTight");
       }
       jetIndex++;
     }
-
-      /*
-      if(topTag_SmoothLoose == 1 || topTag_SmoothTight == 1 || topTag_Loose == 1 || topTag_Tight == 1){
-        std::cout << topTag_SmoothLoose << topTag_SmoothTight << topTag_Loose << topTag_Tight << "|run#" <<eventInfo->auxdata<uint>("runNumber") << "|event#"  << eventInfo->auxdata<unsigned long long>("eventNumber") << "|lumi#" << eventInfo->auxdata<uint>("lumiBlock") << std::endl;
-      }
-      */
   }
 
   // fill in all variables

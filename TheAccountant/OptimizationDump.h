@@ -49,6 +49,7 @@ private:
   int m_numJetsVarR_W; //!
 
   /* tagging */
+  int m_n_topTag_VeryLoose; //!
   int m_n_topTag_SmoothLoose; //!
   int m_n_topTag_SmoothTight; //!
   int m_n_topTag_Loose; //!
@@ -80,6 +81,7 @@ private:
   std::array<float, 4> m_largeR_split12; //!
   std::array<float, 4> m_largeR_split23; //!
   std::array<int  , 4> m_largeR_nsj; //!
+  std::array<int  , 4> m_largeR_topTag_veryloose; //!
   std::array<int  , 4> m_largeR_topTag_loose; //!
   std::array<int  , 4> m_largeR_topTag_tight; //!
   std::array<int  , 4> m_largeR_topTag_smoothLoose; //!
