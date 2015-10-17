@@ -177,8 +177,8 @@ EL::StatusCode Preselect :: execute ()
   }
 
   // keep these outside of the if() because we need scope for the cutflow-after-preselection further beloe
-  int num_passJets = 0;
-  int num_passBJets = 0;
+  int num_passJets(0);
+  int num_passBJets(0);
   if(!m_inputJets.empty()){
     // for small-R jets, count number of jets that pass standard cuts
     //int num_passJets = 0;
@@ -188,8 +188,6 @@ EL::StatusCode Preselect :: execute ()
         wk()->skipEvent();
         return EL::StatusCode::SUCCESS;
       }
-      if(VD::bTag(jet, m_bTag_wp, 2.5)) VD::decor_tag_b(*jet) = 1;
-
       if(jet->pt()/1000. < m_jet_minPt)   continue;
       if(jet->pt()/1000. > m_jet_maxPt)   continue;
       if(jet->eta()      < m_jet_minEta)  continue;
@@ -216,8 +214,10 @@ EL::StatusCode Preselect :: execute ()
 
     //int num_passBJets = 0;
     for(const auto &jet: *in_jets){
+      // bTag the jet
+      VD::decor_tag_b(*jet) = VD::bTag(jet, m_bTag_wp);
+      // assume it does not pass presel
       VD::dec_pass_preSel_b(*jet) = 0;
-      VD::decor_tag_b(*jet) = 0;
       if(m_badJetVeto && VD::isBad(*jet)){ // veto on bad jet if enabled
         wk()->skipEvent();
         return EL::StatusCode::SUCCESS;
@@ -228,9 +228,7 @@ EL::StatusCode Preselect :: execute ()
       if(jet->eta()      > m_bjet_maxEta)  continue;
       if(jet->phi()      < m_bjet_minPhi)  continue;
       if(jet->phi()      > m_bjet_maxPhi)  continue;
-      if(!VD::isSignal(*jet))             continue;
-
-      if(VD::bTag(jet, m_bTag_wp, 2.5)) VD::decor_tag_b(*jet) = 1;
+      if(!VD::isSignal(*jet))              continue;
       num_passBJets++;
       VD::dec_pass_preSel_b(*jet) = 1;
     }
@@ -253,6 +251,8 @@ EL::StatusCode Preselect :: execute ()
     pass_preSel_bjets(*eventInfo) = num_passBJets;
   }
 
+  // if rc_enable is true, then we will use the input jets that pass preselection to make reclustered jets
+  //    if there are no input jets, the code will crash (eg: because the user didn't specify an input jet container)
   if(m_rc_enable){
     auto preselJets = VD::subset_using_decor(in_jets, VD::acc_pass_preSel, 1);
     RETURN_CHECK("Preselect::execute()", m_store->record(&preselJets, "InputJetsPassPresel"), "Could not record presel jets into Store for reclustering");
@@ -263,18 +263,14 @@ EL::StatusCode Preselect :: execute ()
   if(!m_inputLargeRJets.empty())
     RETURN_CHECK("Preselect::execute()", HF::retrieve(in_jetsLargeR,      m_inputLargeRJets,        m_event, m_store, m_debug), "Could not get the inputLargeRJets container.");
 
+  // keep it outside scope for cut-flow selections
+  int num_passJetsLargeR(0);
+  int num_passTopTags(0);
   if(!m_inputLargeRJets.empty()){
-    // get the top tagging working point
-    static VD::WP topTag_wp = VD::str2wp(m_topTag_wp);
-    static VD::decor_t<int> isTop("isTop");
-
-    int num_passJetsLargeR = 0;
-    int num_passTopTags = 0;
     for(const auto &jet: *in_jetsLargeR){
       VD::dec_pass_preSel(*jet) = 0;
-      isTop(*jet) = 0;
-      if(jet->pt()/1000.  < m_jetLargeR_minPt)  continue;
-      if(jet->pt()/1000.  > m_jetLargeR_maxPt)  continue;
+      if(jet->pt()/1000.  < m_jetLargeR_minPt)   continue;
+      if(jet->pt()/1000.  > m_jetLargeR_maxPt)   continue;
       if(jet->m()/1000.   < m_jetLargeR_minMass) continue;
       if(jet->m()/1000.   > m_jetLargeR_maxMass) continue;
       if(jet->eta()       < m_jetLargeR_minEta)  continue;
@@ -283,10 +279,6 @@ EL::StatusCode Preselect :: execute ()
       if(jet->phi()       > m_jetLargeR_maxPhi)  continue;
       num_passJetsLargeR++;
       VD::dec_pass_preSel(*jet) = 1;
-      if(VD::topTag(eventInfo, jet, topTag_wp)){
-        num_passTopTags++;
-        isTop(*jet) = 1;
-      }
     }
 
     // only select event if:
@@ -297,6 +289,21 @@ EL::StatusCode Preselect :: execute ()
     }
     m_cutflow["jets_largeR"].first += 1;
     m_cutflow["jets_largeR"].second += eventWeight;
+
+    for(const auto &jet: *in_jetsLargeR){
+      VD::decor_tag_top(*jet) = VD::topTag(jet, m_topTag_wp);
+      VD::dec_pass_preSel_top(*jet) = 0;
+      if(jet->pt()/1000.  < m_topTag_minPt)   continue;
+      if(jet->pt()/1000.  > m_topTag_maxPt)   continue;
+      if(jet->m()/1000.   < m_topTag_minMass) continue;
+      if(jet->m()/1000.   > m_topTag_maxMass) continue;
+      if(jet->eta()       < m_topTag_minEta)  continue;
+      if(jet->eta()       > m_topTag_maxEta)  continue;
+      if(jet->phi()       < m_topTag_minPhi)  continue;
+      if(jet->phi()       > m_topTag_maxPhi)  continue;
+      VD::dec_pass_preSel_top(*jet) = 1;
+      num_passTopTags++;
+    }
 
     // only select event if:
     //	m_topTag_minNum <= num_passTopTags <= m_topTag_maxNum

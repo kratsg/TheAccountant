@@ -118,12 +118,8 @@ namespace VariableDefinitions {
   int ttbarHF(const xAOD::EventInfo*);
   int ttbarHF_ext(const xAOD::EventInfo*);
 
-  // top tagging on jets, set the eventInfo with "nTops_<WP>" int decoration
-  //    - static SG::AuxElement::Accessor< int > nTops_wp("nTops_<WP>");
-  //        * string of WP is equivalent to how you type it out in enum class
-  int topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, WP wp);
-  // top tagging on jet, set "isTop_<WP>" int decoration
-  bool topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, WP wp);
+  // top tagging on jet, for extra sanity -- make sure we have pT > 100 GeV and |eta| < 2.0
+  bool topTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta=2.0, float minPt=100.0);
 
   // b-tagging on jet, for extra sanity -- make sure we cut at 2.5
   bool bTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta=2.5);

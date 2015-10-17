@@ -247,63 +247,46 @@ int VD::ttbarHF_ext(const xAOD::EventInfo* ei){
   return ttbarHF_ext;
 }
 
-int VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::JetContainer* jets, VD::WP wp){
+bool VD::topTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta, float minPt){
+  if(std::fabs(jet->eta()) > maxAbsEta) return false;
+  if(jet->pt()/1.e3 < minPt) return false;
 
-  static VD::decor_t< int > nTops_wp("nTops_"+VD::wp2str(wp));
-
-  // set or reset to 0 top tags
-  nTops_wp(*eventInfo) = 0;
-
-  // loop over jets, tag, and count top tags
-  int nTops(0);
-  for(const auto &jet: *jets) nTops += static_cast<int>(VD::topTag(eventInfo, jet, wp));
-
-  // tag the event itself with # of jets tagged
-  nTops_wp(*eventInfo) = nTops;
-  return nTops;
-}
-
-bool VD::topTag(const xAOD::EventInfo* eventInfo, const xAOD::Jet* jet, VD::WP wp){
   bool isTop_tagged = false;
-  switch(wp){
+  switch(str2wp(wp)){
     case VD::WP::VeryLoose:
     {
       isTop_tagged = (jet->m()/1.e3 > 100.);
     }
     break;
     case VD::WP::Loose:
-      {
-	static VD::accessor_t<int> tTag("LooseTopTag");
-	return isDecor(*jet, tTag, 1);
-      }
+    {
+      static VD::accessor_t<int> tTag("LooseTopTag");
+      isTop_tagged = isDecor(*jet, tTag, 1);
+    }
     case VD::WP::Tight:
     {
       static VD::accessor_t<int> tTag("TightTopTag");
-      return isDecor(*jet, tTag, 1);
+      isTop_tagged = isDecor(*jet, tTag, 1);
     }
     break;
-  case VD::WP::SmoothLoose:
+    case VD::WP::SmoothLoose:
     {
       static VD::accessor_t<int> tTag("LooseSmoothTopTag");
-      return isDecor(*jet, tTag, 1);
+      isTop_tagged = isDecor(*jet, tTag, 1);
     }
     break;
-  case VD::WP::SmoothTight:
+    case VD::WP::SmoothTight:
     {
       static VD::accessor_t<int> tTag("TightSmoothTopTag");
-      return isDecor(*jet, tTag, 1);
+      isTop_tagged = isDecor(*jet, tTag, 1);
     }
     break;
-  default:
+    default:
     {
       isTop_tagged = false;
     }
     break;
   }
-
-  static VD::decor_t< int > isTop_wp("isTop_"+VD::wp2str(wp));
-  // tag the jet
-  isTop_wp(*jet) = static_cast<int>(isTop_tagged);
 
   return isTop_tagged;
 }
