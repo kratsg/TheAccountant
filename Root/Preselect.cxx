@@ -257,8 +257,10 @@ EL::StatusCode Preselect :: execute ()
   // if rc_enable is true, then we will use the input jets that pass preselection to make reclustered jets
   //    if there are no input jets, the code will crash (eg: because the user didn't specify an input jet container)
   if(m_rc_enable){
-    auto preselJets = VD::subset_using_decor(in_jets, VD::acc_pass_preSel, 1);
-    RETURN_CHECK("Preselect::execute()", m_store->record(&preselJets, "InputJetsPassPresel"), "Could not record presel jets into Store for reclustering");
+    //auto preselJets = VD::subset_using_decor(in_jets, VD::acc_pass_preSel, 1);
+    ConstDataVector<xAOD::JetContainer>* preselJets(new ConstDataVector<xAOD::JetContainer>(VD::subset_using_decor(in_jets, VD::acc_pass_preSel, 1)));
+
+    RETURN_CHECK("Preselect::execute()", m_store->record(preselJets, "InputJetsPassPresel"), "Could not record presel jets into Store for reclustering");
     m_reclusteringTool->execute();
   }
 
