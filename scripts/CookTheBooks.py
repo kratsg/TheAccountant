@@ -198,8 +198,9 @@ if __name__ == "__main__":
   prun = drivers_parser.add_parser('prun', help='Run your jobs on the grid using prun. Use prun --help for descriptions of the options.', usage=driverUsageStr.format('prun'), formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
   condor = drivers_parser.add_parser('condor', help='Flock your jobs to condor', usage=driverUsageStr.format('condor'), formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
   lsf = drivers_parser.add_parser('lsf', help='Flock your jobs to lsf', usage=driverUsageStr.format('lsf'), formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
+  local = drivers_parser.add_parser('local', help='Run your jobs locally.', usage=driverUsageStr.format('local'), formatter_class=lambda prog: CustomFormatter(prog, max_help_position=30))
 
-  # standard options for other drivers
+ # standard options for other drivers
   #.add_argument('--optCacheLearnEntries', type=str, required=False, default=None)
   #.add_argument('--optCacheSize', type=str, required=False, default=None)
   #.add_argument('--optD3PDCacheMinByte', type=str, required=False, default=None)
@@ -523,11 +524,13 @@ if __name__ == "__main__":
     elif (args.driver == "lsf"):
       driver = ROOT.EL.LSFDriver()
       driver.options().setString(ROOT.EL.Job.optSubmitFlags, args.optLSFConf)
+    elif (args.driver == "local"):
+      driver = ROOT.EL.LocalDriver()
 
     user_confirm(args, 4+args.optimization_dump)
 
     cookBooks_logger.info("\tsubmit job")
-    if args.driver in ["prun", "condor","lsf"]:
+    if args.driver in ["prun", "condor","lsf","local"]:
       driver.submitOnly(job, args.submit_dir)
     else:
       driver.submit(job, args.submit_dir)
