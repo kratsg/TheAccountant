@@ -66,8 +66,20 @@ VD::WP VD::str2wp(std::string str){
 float VD::Meff(const xAOD::MissingET* met, const xAOD::JetContainer* jets, int numJets, const xAOD::MuonContainer* muons, const xAOD::ElectronContainer* els){
   float meff(0.0);
 
-  for(int i=0; i< std::min<int>(jets->size(), numJets); i++)
-    meff += jets->at(i)->pt();
+  // figure out the max number to loop over (for exclusive, for example)
+  int max_numJets = std::min<int>(jets->size(), numJets);
+  int addedJets(0);
+
+  // calculate Meff using jets with |eta| < 2.8, pT > 30 GeV
+  for(const auto& jet: *jets){
+    if(jet->pt()/1.e3 < 30.0) continue;
+    if(std::fabs(jet->eta()) > 2.8) continue;
+    // pass through, so add it to meff
+    meff += jet->pt();
+    addedJets++;
+    // if we've added all the jets up to a limit, let's stop (eg: for exclusive)
+    if(addedJets >= max_numJets) break;
+  }
 
   if(muons)
     for(const auto &muon: *muons)
