@@ -1,21 +1,21 @@
 #!/bin/bash
 
-dataFiles="user.mswiatlo.*.data.*_tag_13_xAOD_5_output_xAOD.root/"
-gttFiles="user.mswiatlo.*.Gtt.*_tag_13_xAOD_5_output_xAOD.root/"
-dijetFiles="user.mswiatlo.*.dijet.*_tag_13_xAOD_5_output_xAOD.root/"
-topEWFiles="user.mswiatlo.*.topEW.*_tag_13_xAOD_5_output_xAOD.root/"
-#dibosonFiles="user.mswiatlo.*.diboson.*_tag_13_xAOD_5_output_xAOD.root/"
-singletopFiles="user.mswiatlo.*.singletop.*_tag_13_xAOD_5_output_xAOD.root/"
-WsherpaFiles="user.mswiatlo.*.W_sherpa.*_tag_13_xAOD_5_output_xAOD.root/"
-ZsherpaFiles="user.mswiatlo.*.Z_sherpa.*_tag_13_xAOD_5_output_xAOD.root/"
-ttbarIncFiles="user.mswiatlo.410000.ttbar.*_tag_13_xAOD_5_output_xAOD.root/"
-ttbarExcFiles="user.mswiatlo.407012.ttbar.*_tag_13_xAOD_5_output_xAOD.root/"
+dataFiles="user.mswiatlo.*.data.*_tag_13_xAOD_4_output_xAOD.root/"
+gttFiles="user.mswiatlo.*.Gtt.*_tag_13_xAOD_4_output_xAOD.root/"
+dijetFiles="user.mswiatlo.*.dijet.*_tag_13_xAOD_4_output_xAOD.root/"
+topEWFiles="user.mswiatlo.*.topEW.*_tag_13_xAOD_4_output_xAOD.root/"
+#dibosonFiles="user.mswiatlo.*.diboson.*_tag_13_xAOD_4_output_xAOD.root/"
+singletopFiles="user.mswiatlo.*.singletop.*_tag_13_xAOD_4_output_xAOD.root/"
+WsherpaFiles="user.mswiatlo.*.W_sherpa.*_tag_13_xAOD_4_output_xAOD.root/"
+ZsherpaFiles="user.mswiatlo.*.Z_sherpa.*_tag_13_xAOD_4_output_xAOD.root/"
+ttbarIncFiles="user.mswiatlo.410000.ttbar.*_tag_13_xAOD_4_output_xAOD.root/"
+ttbarExcFiles="user.mswiatlo.407012.ttbar.*_tag_13_xAOD_4_output_xAOD.root/"
 
-globalOpts=(-v -f -yyyyyy --optimizationDump --inputDQ2 --badJetVeto)
+globalOpts=(-v -f -yyyyyy --optimizationDump --inputDQ2 --badJetVeto --rc_enable)
 
-run0L=(--signalLeptonSelection="==0" --jet_minNum=4 --jet_minPt=30 --bjet_minNum=2 --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.4 --jet_maxEta=2.8 --jet_minEta=-2.8)
-run1L=(--signalLeptonSelection="==1" --jet_minNum=4 --jet_minPt=30 --bjet_minNum=2 --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.0 --jet_maxEta=2.8 --jet_minEta=-2.8)
-outputDir="TA01_MBJ13V5"
+run0L=(--signalLeptonSelection="==0" --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.4)
+run1L=(--signalLeptonSelection="==1" --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.0)
+outputDir="TA02_MBJ13V4"
 
 mkdir -p "${outputDir}"
 
