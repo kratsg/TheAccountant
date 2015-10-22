@@ -35,7 +35,11 @@
 namespace HF = HelperFunctions;
 namespace VD = VariableDefinitions;
 
-#define ARRAY_INIT {-99, -99, -99, -99}
+
+#define N_LARGE_R 8
+
+#define ARRAY_INIT {-99, -99, -99, -99, -99, -99, -99, -99}
+#define ARRAY_INIT_2 {0, 0, 0, 0, 0, 0, 0, 0}
 #define MULTI_ARRAY_INIT {ARRAY_INIT, ARRAY_INIT, ARRAY_INIT}
 
 // this is needed to distribute the algorithm to the workers
@@ -81,7 +85,7 @@ OptimizationDump :: OptimizationDump () :
   m_largeR_split12{ARRAY_INIT},
   m_largeR_split23{ARRAY_INIT},
   m_largeR_nsj{ARRAY_INIT},
-  m_largeR_topTag_veryloose{ARRAY_INIT},
+  m_largeR_topTag_veryloose{ARRAY_INIT_2},
   m_largeR_topTag_loose{ARRAY_INIT},
   m_largeR_topTag_tight{ARRAY_INIT},
   m_largeR_topTag_smoothLoose{ARRAY_INIT},
@@ -137,7 +141,7 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch ("multiplicity_jet_b",        &m_numBJets, "multiplicity_jet_b/I");
 
     // initialize branches for reclustered jets
-    for(int i=0; i<4; i++){
+    for(int i=0; i<N_LARGE_R; i++){
       for(int r=0; r<3; r++){
         int radius = r*2 + 8;
         std::string commonDenominator = "jet_rc"+std::to_string(radius)+"_"+std::to_string(i);
@@ -175,7 +179,7 @@ EL::StatusCode OptimizationDump :: initialize () {
 
     m_tree->Branch ("multiplicity_jet_varR_top", &m_numJetsVarR_top, "multiplicity_jet_varR_top/I");
     m_tree->Branch ("multiplicity_jet_varR_W", &m_numJetsVarR_W, "multiplicity_jet_varR_W/I");
-    for(int i=0; i<4; i++){
+    for(int i=0; i<N_LARGE_R; i++){
       std::string topcommonDenominator = "variableR_top_jet_"+std::to_string(i);
       std::string WcommonDenominator = "variableR_W_jet_"+std::to_string(i);
       std::string branchName;
@@ -222,7 +226,7 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch ("multiplicity_topTag_tight", &m_n_topTag_Tight, "multiplicity_topTag_tight/I");
 
     // initialize branches for reclustered jets
-    for(int i=0; i<4; i++){
+    for(int i=0; i<N_LARGE_R; i++){
       std::string commonDenominator = "jet_largeR_"+std::to_string(i);
       std::string branchName;
 
@@ -410,13 +414,13 @@ EL::StatusCode OptimizationDump :: execute ()
       sprintf(rcJetContainer, "RC%02.0fJets", radius*10);
       const xAOD::JetContainer* rcJets(nullptr);
       RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(rcJets, rcJetContainer, m_event, m_store, m_debug), ("Could not retrieve the reclustered jet container "+std::string(rcJetContainer)).c_str());
-      for(unsigned int i=0; i<4; i++){
+      for(unsigned int i=0; i<N_LARGE_R; i++){
         m_rc_pt[r][i] = -99.0;
         m_rc_m[r][i]  = -99.0;
         m_rc_split12[r][i] = -99.0;
         m_rc_split23[r][i] = -99.0;
         m_rc_nsj[r][i] = -99;
-        // if there are fewer than 4 jets, then...
+        // if there are fewer than N_LARGE_R jets, then...
         if(i < rcJets->size()){
           auto rcJet = rcJets->at(i);
           m_rc_pt[r][i] = rcJet->pt()/1000.;
@@ -442,7 +446,7 @@ EL::StatusCode OptimizationDump :: execute ()
       RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(varRJets, varRJetContainer, m_event, m_store, m_debug), ("Could not retrieve the variable R jet container "+std::string(varRJetContainer)).c_str());
       if(i==0) m_numJetsVarR_top = varRJets->size();
       else m_numJetsVarR_W = varRJets->size();
-      for(unsigned int j=0; j<4; j++){
+      for(unsigned int j=0; j<N_LARGE_R; j++){
         if(i==0){
           m_varR_top_m[j]  = -99.0;
           m_varR_top_pt[j]  = -99.0;
@@ -453,7 +457,7 @@ EL::StatusCode OptimizationDump :: execute ()
           m_varR_W_pt[j]  = -99.0;
           m_varR_W_nsj[j]  = -99.0;
         }
-        // if there are fewer than 4 jets, then...
+        // if there are fewer than N_LARGE_R jets, then...
         if(j < varRJets->size()){
           auto varRJet = varRJets->at(j);
           if(i==0){
@@ -480,13 +484,18 @@ EL::StatusCode OptimizationDump :: execute ()
     presel_topTags = VD::subset_using_decor(in_jetsLargeR, VD::acc_pass_preSel_top, 1);
     m_numJetsLargeR = presel_jetsLargeR.size();
 
-    // initialize for leading 4 largeR jets that pass preselection
-    for(unsigned int i=0; i<4; i++){
+    // initialize for leading N_LARGE_R largeR jets that pass preselection
+    for(unsigned int i=0; i<N_LARGE_R; i++){
       m_largeR_pt[i] = -99.0;
       m_largeR_m[i]  = -99.0;
       m_largeR_split12[i] = -99.0;
       m_largeR_split23[i] = -99.0;
       m_largeR_nsj[i] = -99;
+      m_largeR_topTag_veryloose[i] = 0;
+      m_largeR_topTag_loose[i] = 0;
+      m_largeR_topTag_tight[i] = 0;
+      m_largeR_topTag_smoothLoose[i] = 0;
+      m_largeR_topTag_smoothTight[i] = 0;
     }
 
     // THERE MUST BE A BETTER WAY
@@ -504,7 +513,7 @@ EL::StatusCode OptimizationDump :: execute ()
       m_n_topTag_Tight += VD::topTag(jet, "Tight");
       m_n_topTag_SmoothTight += VD::topTag(jet, "SmoothTight");
 
-      if(jetIndex < 4){
+      if(jetIndex < N_LARGE_R){
         m_largeR_pt[jetIndex] = jet->pt()/1000.;
         m_largeR_m[jetIndex] = jet->m()/1000.;
         // retrieve attributes from jet -- if it fails, it'll be set to -99
@@ -514,7 +523,7 @@ EL::StatusCode OptimizationDump :: execute ()
         std::vector< ElementLink< xAOD::IParticleContainer > > constitLinks;
         if(jet->getAttribute("constituentLinks", constitLinks)) m_largeR_nsj[jetIndex] = constitLinks.size();
         // top tagging
-        m_largeR_topTag_veryloose[jetIndex] = VD::topTag(jet, "VeryLoose");
+        m_largeR_topTag_veryloose[jetIndex] = VD::topTag(jet, "VeryLoose", 2.0, 300.);
         m_largeR_topTag_loose[jetIndex] = VD::topTag(jet, "Loose");
         m_largeR_topTag_tight[jetIndex] = VD::topTag(jet, "Tight");
         m_largeR_topTag_smoothLoose[jetIndex] = VD::topTag(jet, "SmoothLoose");
