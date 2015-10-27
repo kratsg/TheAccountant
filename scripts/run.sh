@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dataFiles="user.mswiatlo.*.data.*_tag_13_xAOD_4_output_xAOD.root/"
+dataFiles="user.mswiatlo.*.data.*_tag_13_xAOD_6_output_xAOD.root/"
 gttFiles="user.mswiatlo.*.Gtt.*_tag_13_xAOD_4_output_xAOD.root/"
 dijetFiles="user.mswiatlo.*.dijet.*_tag_13_xAOD_4_output_xAOD.root/"
 topEWFiles="user.mswiatlo.*.topEW.*_tag_13_xAOD_4_output_xAOD.root/"
@@ -15,7 +15,7 @@ globalOpts=(-v -f -yyyyyy --optimizationDump --inputDQ2 --badJetVeto --rc_enable
 
 run0L=(--signalLeptonSelection="==0" --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.4)
 run1L=(--signalLeptonSelection="==1" --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.0)
-outputDir="TA02_MBJ13V4"
+outputDir="TA02_MBJ13V4-6"
 
 mkdir -p "${outputDir}"
 
