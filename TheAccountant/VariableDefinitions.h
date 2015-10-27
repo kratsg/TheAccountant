@@ -119,7 +119,7 @@ namespace VariableDefinitions {
   int ttbarHF_ext(const xAOD::EventInfo*);
 
   // top tagging on jet, for extra sanity -- make sure we have pT > 100 GeV and |eta| < 2.0
-  bool topTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta=2.0, float minPt=100.0);
+  bool topTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta=2.0, float minPt=300.0);
 
   // b-tagging on jet, for extra sanity -- make sure we cut at 2.5
   bool bTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta=2.5);
