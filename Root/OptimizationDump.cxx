@@ -36,7 +36,9 @@ namespace HF = HelperFunctions;
 namespace VD = VariableDefinitions;
 
 #define ARRAY_INIT {-99, -99, -99, -99}
+#define ARRAY_INIT0 {0, 0, 0, 0}
 #define MULTI_ARRAY_INIT {ARRAY_INIT, ARRAY_INIT, ARRAY_INIT}
+#define MULTI_ARRAY_INIT0 {ARRAY_INIT0, ARRAY_INIT0, ARRAY_INIT0}
 
 // this is needed to distribute the algorithm to the workers
 ClassImp(OptimizationDump)
@@ -54,10 +56,11 @@ OptimizationDump :: OptimizationDump () :
   m_met(-999.0),
   m_met_mpx(-999.0),
   m_met_mpy(-999.0),
-  m_numJets(-99),
-  m_numJetsLargeR(-99),
-  m_numJetsVarR_top(-99),
-  m_numJetsVarR_W(-99),
+  m_numJets(0),
+  m_numBJets(0),
+  m_numJetsLargeR(0),
+  m_numJetsVarR_top(0),
+  m_numJetsVarR_W(0),
   m_n_topTag_VeryLoose(0),
   m_n_topTag_SmoothLoose(0),
   m_n_topTag_SmoothTight(0),
@@ -69,23 +72,23 @@ OptimizationDump :: OptimizationDump () :
   m_rc_m{MULTI_ARRAY_INIT},
   m_rc_split12{MULTI_ARRAY_INIT},
   m_rc_split23{MULTI_ARRAY_INIT},
-  m_rc_nsj{MULTI_ARRAY_INIT},
+  m_rc_nsj{MULTI_ARRAY_INIT0},
   m_varR_top_m{ARRAY_INIT},
   m_varR_top_pt{ARRAY_INIT},
-  m_varR_top_nsj{ARRAY_INIT},
+  m_varR_top_nsj{ARRAY_INIT0},
   m_varR_W_m{ARRAY_INIT},
   m_varR_W_pt{ARRAY_INIT},
-  m_varR_W_nsj{ARRAY_INIT},
+  m_varR_W_nsj{ARRAY_INIT0},
   m_largeR_pt{ARRAY_INIT},
   m_largeR_m{ARRAY_INIT},
   m_largeR_split12{ARRAY_INIT},
   m_largeR_split23{ARRAY_INIT},
-  m_largeR_nsj{ARRAY_INIT},
-  m_largeR_topTag_veryloose{ARRAY_INIT},
-  m_largeR_topTag_loose{ARRAY_INIT},
-  m_largeR_topTag_tight{ARRAY_INIT},
-  m_largeR_topTag_smoothLoose{ARRAY_INIT},
-  m_largeR_topTag_smoothTight{ARRAY_INIT}
+  m_largeR_nsj{ARRAY_INIT0},
+  m_largeR_topTag_veryloose{ARRAY_INIT0},
+  m_largeR_topTag_loose{ARRAY_INIT0},
+  m_largeR_topTag_tight{ARRAY_INIT0},
+  m_largeR_topTag_smoothLoose{ARRAY_INIT0},
+  m_largeR_topTag_smoothTight{ARRAY_INIT0}
 {}
 
 EL::StatusCode OptimizationDump :: setupJob (EL::Job& job)
@@ -415,7 +418,7 @@ EL::StatusCode OptimizationDump :: execute ()
         m_rc_m[r][i]  = -99.0;
         m_rc_split12[r][i] = -99.0;
         m_rc_split23[r][i] = -99.0;
-        m_rc_nsj[r][i] = -99;
+        m_rc_nsj[r][i] = 0;
         // if there are fewer than 4 jets, then...
         if(i < rcJets->size()){
           auto rcJet = rcJets->at(i);
@@ -446,12 +449,12 @@ EL::StatusCode OptimizationDump :: execute ()
         if(i==0){
           m_varR_top_m[j]  = -99.0;
           m_varR_top_pt[j]  = -99.0;
-          m_varR_top_nsj[j]  = -99.0;
+          m_varR_top_nsj[j]  = 0;
         }
         else{
           m_varR_W_m[j]  = -99.0;
           m_varR_W_pt[j]  = -99.0;
-          m_varR_W_nsj[j]  = -99.0;
+          m_varR_W_nsj[j]  = 0;
         }
         // if there are fewer than 4 jets, then...
         if(j < varRJets->size()){
@@ -486,11 +489,12 @@ EL::StatusCode OptimizationDump :: execute ()
       m_largeR_m[i]  = -99.0;
       m_largeR_split12[i] = -99.0;
       m_largeR_split23[i] = -99.0;
-      m_largeR_nsj[i] = -99;
+      m_largeR_nsj[i] = 0;
     }
 
     // THERE MUST BE A BETTER WAY
     // tagging variables
+    m_n_topTag_VeryLoose = 0;
     m_n_topTag_SmoothLoose = 0;
     m_n_topTag_SmoothTight = 0;
     m_n_topTag_Loose = 0;
