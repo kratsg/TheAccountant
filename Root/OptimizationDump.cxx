@@ -45,6 +45,8 @@ ClassImp(OptimizationDump)
 OptimizationDump :: OptimizationDump () :
   m_tree(new TTree("oTree", "optimization tree")),
   m_eventWeight(0.0),
+  m_SF_pu(0.0),
+  m_SF_btag(0.0),
   m_ttbarHF(0),
   m_ttbarHF_ext(0),
   m_eventNumber(-999.0),
@@ -120,7 +122,10 @@ EL::StatusCode OptimizationDump :: initialize () {
   m_tree->SetDirectory (file);
 
   m_tree->Branch ("event_weight",              &m_eventWeight, "event_weight/F");
-  m_tree->Branch ("ttbarHF",  		       &m_ttbarHF, "ttbarHF/I");
+  m_tree->Branch ("sf_pu",                     &m_SF_pu, "sf_pu/F");
+  m_tree->Branch ("sf_btag",                   &m_SF_btag, "sf_btag/F");
+
+  m_tree->Branch ("ttbarHF",  		           &m_ttbarHF, "ttbarHF/I");
   m_tree->Branch ("ttbarHF_ext",               &m_ttbarHF_ext, "ttbarHF_ext/I");
   m_tree->Branch ("event_number",              &m_eventNumber, "event_number/I");
   if(!m_inputMET.empty()){
@@ -313,10 +318,17 @@ EL::StatusCode OptimizationDump :: execute ()
 
   // compute variables for optimization
   m_eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
+  // scale factors
+  static VD::accessor_t<float> sf_pu("weight_pu");
+  static VD::accessor_t<float> sf_btag("weight_btag");
+  m_SF_pu = sf_pu.isAvailable(*eventInfo)?sf_pu(*eventInfo):1.0;
+  m_SF_btag = sf_btag.isAvailable(*eventInfo)?sf_btag(*eventInfo):1.0;
 
+  // ttbar classification
   m_ttbarHF = VD::ttbarHF(eventInfo);
   m_ttbarHF_ext = VD::ttbarHF_ext(eventInfo);
 
+  // event number
   m_eventNumber = eventInfo->eventNumber();
 
   // do all of the razor variables
