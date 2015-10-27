@@ -61,31 +61,31 @@ private:
   std::array<JetReclusteringTool*, 2> m_varRjetReclusteringTools; //!
 
   /* reclustered jet details */
-  std::array<std::array<float, 4>, 3 > m_rc_pt; //!
-  std::array<std::array<float, 4>, 3 > m_rc_m; //!
-  std::array<std::array<float, 4>, 3 > m_rc_split12; //!
-  std::array<std::array<float, 4>, 3 > m_rc_split23; //!
-  std::array<std::array<int, 4>  , 3 > m_rc_nsj; //!
+  std::array<std::array<float, 8>, 3 > m_rc_pt; //!
+  std::array<std::array<float, 8>, 3 > m_rc_m; //!
+  std::array<std::array<float, 8>, 3 > m_rc_split12; //!
+  std::array<std::array<float, 8>, 3 > m_rc_split23; //!
+  std::array<std::array<int, 8>  , 3 > m_rc_nsj; //!
 
   /* varR jet properties */
-  std::array<float, 4> m_varR_top_m; //!
-  std::array<float, 4> m_varR_top_pt; //!
-  std::array<int, 4> m_varR_top_nsj; //!
-  std::array<float, 4> m_varR_W_m; //!
-  std::array<float, 4> m_varR_W_pt; //!
-  std::array<int, 4> m_varR_W_nsj; //!
+  std::array<float, 8> m_varR_top_m; //!
+  std::array<float, 8> m_varR_top_pt; //!
+  std::array<int, 8> m_varR_top_nsj; //!
+  std::array<float, 8> m_varR_W_m; //!
+  std::array<float, 8> m_varR_W_pt; //!
+  std::array<int, 8> m_varR_W_nsj; //!
 
   /* large-R jet details */
-  std::array<float, 4> m_largeR_pt; //!
-  std::array<float, 4> m_largeR_m; //!
-  std::array<float, 4> m_largeR_split12; //!
-  std::array<float, 4> m_largeR_split23; //!
-  std::array<int  , 4> m_largeR_nsj; //!
-  std::array<int  , 4> m_largeR_topTag_veryloose; //!
-  std::array<int  , 4> m_largeR_topTag_loose; //!
-  std::array<int  , 4> m_largeR_topTag_tight; //!
-  std::array<int  , 4> m_largeR_topTag_smoothLoose; //!
-  std::array<int  , 4> m_largeR_topTag_smoothTight; //!
+  std::array<float, 8> m_largeR_pt; //!
+  std::array<float, 8> m_largeR_m; //!
+  std::array<float, 8> m_largeR_split12; //!
+  std::array<float, 8> m_largeR_split23; //!
+  std::array<int  , 8> m_largeR_nsj; //!
+  std::array<int  , 8> m_largeR_topTag_veryloose; //!
+  std::array<int  , 8> m_largeR_topTag_loose; //!
+  std::array<int  , 8> m_largeR_topTag_tight; //!
+  std::array<int  , 8> m_largeR_topTag_smoothLoose; //!
+  std::array<int  , 8> m_largeR_topTag_smoothTight; //!
 
   /* razor information */
   float m_ss_mass; //!

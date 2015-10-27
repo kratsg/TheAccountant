@@ -261,14 +261,14 @@ int VD::ttbarHF_ext(const xAOD::EventInfo* ei){
 }
 
 bool VD::topTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta, float minPt){
-  if(std::fabs(jet->eta()) > maxAbsEta) return false;
+  if(std::fabs(jet->eta()) >= maxAbsEta) return false;
   if(jet->pt()/1.e3 < minPt) return false;
 
   bool isTop_tagged = false;
   switch(str2wp(wp)){
     case VD::WP::VeryLoose:
     {
-      isTop_tagged = (jet->m()/1.e3 > 100.);
+      isTop_tagged = (jet->m()/1.e3 >= 100.);
     }
     break;
     case VD::WP::Loose:
