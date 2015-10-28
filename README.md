@@ -17,7 +17,6 @@ Run-2 analysis for SUSY search in gluino to stops.
     - [Report.cxx](#reportcxx)
     - [CookTheBooks.py](#cookthebookspy)
     - [GetWeights.py](#getweightspy)
-  - [Patching JetRec for Variable-R](#patching-jetrec-for-variable-r)
   - [Samples and Drivers and Bash, oh my](#samples-and-drivers-and-bash-oh-my)
     - [Direct](#direct)
     - [Prun](#prun)
@@ -118,22 +117,6 @@ GetWeights.py mc15_13TeV:mc15_13TeV.foo.bar.baz/ "mc15_13TeV:mc15_13TeV.someOthe
 ```
 
 which will use all information possible to make the most appropriate `weights.json` file we have.
-
-### Patching JetRec for Variable-R
-
-My package, [kratsg/xAODJetReclustering](https://kratsg.github.io/xAODJetReclustering), has variable-R reclustering functionality. In order to get it to work, you need to checkout `JetRec`
-
-```bash
-rc checkout_pkg atlasoff/Reconstruction/Jet/JetRec/tags/JetRec-03-00-50
-```
-
-and then patch it
-
-```bash
-cd JetRec && patch -p0 < ../TheAccountant/data/JetRec.patch && cd -
-```
-
-and you should be good to do. Primarily, we need to remove the `NOVARIABLER` header definition and link the VariableR plugin via `lVariableR` which is what the patch will do. Hopefully, the next version of JetRec will be patched for us.
 
 ### Samples and Drivers and Bash, oh my
 
