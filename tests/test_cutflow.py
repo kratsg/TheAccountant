@@ -20,7 +20,7 @@ SR4 = [{'name': 'preselection', 'sel': '1', 'count': 26270},
        {'name': 'nbjet', 'sel': 'multiplicity_jet_b>=3', 'count': 13086},
        {'name': 'mTb', 'sel': 'mTb>=80.', 'count': 11836},
        {'name': 'meff', 'sel': 'm_effective>=1700.', 'count': 10470},
-       {'name': 'ntop', 'sel': 'multiplicity_topTag_veryloose>=2', 'count': 6990}]
+       {'name': 'ntop', 'sel': 'multiplicity_topTag_veryloose>=2', 'count': 7349}]
 
 cutflows = {'SR1': SR1, 'SR4': SR4}
 
