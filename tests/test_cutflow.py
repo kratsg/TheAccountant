@@ -22,7 +22,15 @@ SR4 = [{'name': 'preselection', 'sel': '1', 'count': 26270},
        {'name': 'meff', 'sel': 'm_effective>=1700.', 'count': 10470},
        {'name': 'ntop', 'sel': 'multiplicity_topTag_veryloose>=2', 'count': 7349}]
 
-cutflows = {'SR1': SR1, 'SR4': SR4}
+SR4old = [{'name': 'preselection', 'sel': '1', 'count': 26270},
+          {'name': 'met', 'sel': 'met>=350.', 'count': 20969},
+          {'name': 'njet', 'sel': 'multiplicity_jet>=6', 'count': 20559},
+          {'name': 'nbjet', 'sel': 'multiplicity_jet_b>=3', 'count': 17027},
+          {'name': 'mTb', 'sel': 'mTb>=160.', 'count': 13407},
+          {'name': 'meff', 'sel': 'm_effective>=1300.', 'count': 13186},
+          {'name': 'ntop', 'sel': 'multiplicity_topTag_veryloose>=2', 'count': 7973}]
+
+cutflows = {'SR1': SR1, 'SR4': SR4, 'SR4-old': SR4old}
 
 def main():
   if len(sys.argv) != 2:
@@ -32,20 +40,23 @@ def main():
   t = f.Get('oTree')
 
   for name, cutflow in cutflows.iteritems():
-    print("Looking at cutflow for {0:s}".format(name))
-    for i in range(len(cutflow)):
-      selection = ')&&('.join(map(itemgetter('sel'), cutflow[:i+1]))
-      assString = " {0:>15s} should have {1:6d} raw events."
-      if i == 0:
-        assString = "\tAssert"+assString
-      if i > 0:
-        assString = "\t    &&"+assString
-      count = cutflow[i]['count']
-      print(assString.format(cutflow[i]['name'], count), end="")
-      actualCount = t.GetEntries('({0:s})'.format(selection))
-      print(" It has {0:6d} raw events.".format(actualCount))
-      assert count == actualCount
+    try:
+      print("Looking at cutflow for {0:s}".format(name))
+      for i in range(len(cutflow)):
+        selection = ')&&('.join(map(itemgetter('sel'), cutflow[:i+1]))
+        assString = " {0:>15s} should have {1:6d} raw events."
+        if i == 0:
+          assString = "\tAssert"+assString
+        if i > 0:
+          assString = "\t    &&"+assString
+        count = cutflow[i]['count']
+        print(assString.format(cutflow[i]['name'], count), end="")
+        actualCount = t.GetEntries('({0:s})'.format(selection))
+        print(" It has {0:6d} raw events.".format(actualCount))
+        assert count == actualCount
+      print("\t{0:s} has been validated".format(name))
+    except AssertionError:
+      print("\t{0:s} cannot be validated on the {1:s} selection".format(name, cutflow[i]['name']))
 
 if __name__ == '__main__':
   main()
-  print("All validated!")
