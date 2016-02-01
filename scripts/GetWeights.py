@@ -85,7 +85,7 @@ if __name__ == "__main__":
   parser.add_argument('--version', action='version', version='%(prog)s {version}'.format(version=__version__))
 
   parser.add_argument('--inputList', dest='use_inputFileList', action='store_true', help='If enabled, will read in a text file containing a list of files.')
-  parser.add_argument('--inputDQ2', dest='use_scanDQ2', action='store_true', help='If enabled, will search using DQ2. Can be combined with `--inputList`.')
+  parser.add_argument('--inputGrid', dest='use_addGrid', action='store_true', help='If enabled, will search using DQ2. Can be combined with `--inputList`.')
   parser.add_argument('-v', '--verbose', dest='verbose', action='count', default=0, help='Enable verbose output of various levels. Default: no verbosity')
   parser.add_argument('-y', '--yes', dest='skip_confirm', action='count', default=0, help='Skip the configuration confirmations. Useful for when running in the background.')
 
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         raise OSError('Output file {0:s} already exists. Either re-run with -f/--force, choose a different --output, or rm it yourself. Just deal with it, dang it.'.format(args.output_filename))
 
     # they will need it to get it working
-    if args.use_scanDQ2:
+    if args.use_addGrid:
       if os.getenv('XRDSYS') is None:
         raise EnvironmentError('xrootd client is not setup. Run localSetupFAX or equivalent.')
 
@@ -135,28 +135,28 @@ if __name__ == "__main__":
     # this portion is just to output for verbosity
     if args.use_inputFileList:
       getWeights_logger.info("\t\tReading in file(s) containing list of files")
-      if args.use_scanDQ2:
-        getWeights_logger.info("\t\tAdding samples using scanDQ2")
+      if args.use_addGrid:
+        getWeights_logger.info("\t\tAdding samples using addGrid")
       else:
         getWeights_logger.info("\t\tAdding using readFileList")
     else:
-      if args.use_scanDQ2:
-        getWeights_logger.info("\t\tAdding samples using scanDQ2")
+      if args.use_addGrid:
+        getWeights_logger.info("\t\tAdding samples using addGrid")
       else:
         getWeights_logger.info("\t\tAdding samples using scanDir")
 
     for fname in args.files:
       if args.use_inputFileList:
-        if args.use_scanDQ2:
+        if args.use_addGrid:
           with open(fname, 'r') as f:
             for line in f:
               if line.startswith('#'): continue
-              ROOT.SH.scanDQ2(sh_all, line.rstrip())
+              ROOT.SH.addGrid(sh_all, line.rstrip())
         else:
           ROOT.SH.readFileList(sh_all, "sample", fname)
       else:
-        if args.use_scanDQ2:
-          ROOT.SH.scanDQ2(sh_all, fname)
+        if args.use_addGrid:
+          ROOT.SH.addGrid(sh_all, fname)
         else:
           # need to parse and split it up
           fname_base = os.path.basename(fname)
@@ -167,7 +167,7 @@ if __name__ == "__main__":
 
     # print out the samples we found
     getWeights_logger.info("\t%d different dataset(s) found", len(sh_all))
-    if not args.use_scanDQ2:
+    if not args.use_addGrid:
       for dataset in sh_all:
         getWeights_logger.info("\t\t%d files in %s", dataset.numFiles(), dataset.name())
     sh_all.printContent()

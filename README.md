@@ -113,7 +113,7 @@ See the help options `CookTheBooks.py -h` for more information about what you ca
 This is the macro that will generate an appropriate `weights.json` for the given samples that you pass in. I use a standard run like
 
 ```bash
-GetWeights.py mc15_13TeV:mc15_13TeV.foo.bar.baz/ "mc15_13TeV:mc15_13TeV.someOtherSample*" --inputDQ2
+GetWeights.py mc15_13TeV:mc15_13TeV.foo.bar.baz/ "mc15_13TeV:mc15_13TeV.someOtherSample*" --inputGrid
 ```
 
 which will use all information possible to make the most appropriate `weights.json` file we have.
@@ -192,10 +192,10 @@ and then after compiling - run `rc make_par` to make sure everything is up-to-da
 
 #### Input DQ2 Samples
 
-One can specify that the input files are actually samples located on the grid or in one of the storage sites that are accessible via xrd. The best part is that you can specify sample name patterns rather than direct names -- each one will be added for you automatically. These can be run on any driver you choose, so long as you specify the `--inputDQ2` option next to your `--files` option. As an example:
+One can specify that the input files are actually samples located on the grid or in one of the storage sites that are accessible via xrd. The best part is that you can specify sample name patterns rather than direct names -- each one will be added for you automatically. These can be run on any driver you choose, so long as you specify the `--inputGrid` option next to your `--files` option. As an example:
 
 ```bash
-CookTheBooks.py --inputDQ2 --files "user.amarzin.*.ttbar.*_tag_05_output_xAOD.root/" ... {driver}
+CookTheBooks.py --inputGrid --files "user.amarzin.*.ttbar.*_tag_05_output_xAOD.root/" ... {driver}
 ```
 
 This will automatically grab the gLFNs for the files in each of the samples you specify and read them in over `xrootd` automatically.

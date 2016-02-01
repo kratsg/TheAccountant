@@ -96,7 +96,7 @@ if __name__ == "__main__":
   parser.add_argument('--mode', dest='access_mode', type=str, metavar='{class, branch}', choices=['class', 'branch'], default='class', help='Run using branch access mode or class access mode. See TheAccountant/wiki/Access-Mode for more information')
 
   parser.add_argument('--inputList', dest='use_inputFileList', action='store_true', help='If enabled, will read in a text file containing a list of files.')
-  parser.add_argument('--inputDQ2', dest='use_scanDQ2', action='store_true', help='If enabled, will search using DQ2. Can be combined with `--inputList`.')
+  parser.add_argument('--inputGrid', dest='use_addGrid', action='store_true', help='If enabled, will search using DQ2. Can be combined with `--inputList`.')
   parser.add_argument('-v', '--verbose', dest='verbose', action='count', default=0, help='Enable verbose output of various levels. Default: no verbosity')
   parser.add_argument('-y', '--yes', dest='skip_confirm', action='count', default=0, help='Skip the configuration confirmations. Useful for when running in the background.')
 
@@ -284,8 +284,8 @@ if __name__ == "__main__":
         raise OSError('Output directory {0:s} already exists. Either re-run with -f/--force, choose a different --submitDir, or rm -rf it yourself. Just deal with it, dang it.'.format(args.submit_dir))
 
     # they will need it to get it working
-    use_scanDQ2 = (args.use_scanDQ2)|(args.driver in ['prun', 'condor','lsf'])
-    if use_scanDQ2:
+    use_addGrid = (args.use_addGrid)|(args.driver in ['prun', 'condor','lsf'])
+    if use_addGrid:
       if os.getenv('XRDSYS') is None:
         raise EnvironmentError('xrootd client is not setup. Run localSetupFAX or equivalent.')
 
@@ -317,28 +317,28 @@ if __name__ == "__main__":
     # this portion is just to output for verbosity
     if args.use_inputFileList:
       cookBooks_logger.info("\t\tReading in file(s) containing list of files")
-      if use_scanDQ2:
-        cookBooks_logger.info("\t\tAdding samples using scanDQ2")
+      if use_addGrid:
+        cookBooks_logger.info("\t\tAdding samples using addGrid")
       else:
         cookBooks_logger.info("\t\tAdding using readFileList")
     else:
-      if use_scanDQ2:
-        cookBooks_logger.info("\t\tAdding samples using scanDQ2")
+      if use_addGrid:
+        cookBooks_logger.info("\t\tAdding samples using addGrid")
       else:
         cookBooks_logger.info("\t\tAdding samples using scanDir")
 
     for fname in args.input_filename:
       if args.use_inputFileList:
-        if use_scanDQ2:
+        if use_addGrid:
           with open(fname, 'r') as f:
             for line in f:
               if line.startswith('#'): continue
-              ROOT.SH.scanDQ2(sh_all, line.rstrip())
+              ROOT.SH.addGrid(sh_all, line.rstrip())
         else:
           ROOT.SH.readFileList(sh_all, "sample", fname)
       else:
-        if use_scanDQ2:
-          ROOT.SH.scanDQ2(sh_all, fname)
+        if use_addGrid:
+          ROOT.SH.addGrid(sh_all, fname)
         else:
           '''
           if fname.startswith("root://"):
@@ -357,7 +357,7 @@ if __name__ == "__main__":
 
     # print out the samples we found
     cookBooks_logger.info("\t%d different dataset(s) found", len(sh_all))
-    if not use_scanDQ2:
+    if not use_addGrid:
       for dataset in sh_all:
         cookBooks_logger.info("\t\t%d files in %s", dataset.numFiles(), dataset.name())
     sh_all.printContent()
@@ -543,7 +543,7 @@ if __name__ == "__main__":
       f.write('Code:  https://github.com/kratsg/TheAccountant/tree/{0}\n'.format(__short_hash__))
       f.write('Start: {0}\nStop:  {1}\nDelta: {2}\n\n'.format(SCRIPT_START_TIME.strftime("%b %d %Y %H:%M:%S"), SCRIPT_END_TIME.strftime("%b %d %Y %H:%M:%S"), SCRIPT_END_TIME - SCRIPT_START_TIME))
       f.write('job runner options\n')
-      for opt in ['input_filename', 'submit_dir', 'num_events', 'skip_events', 'force_overwrite', 'use_inputFileList', 'use_scanDQ2', 'verbose', 'driver']:
+      for opt in ['input_filename', 'submit_dir', 'num_events', 'skip_events', 'force_overwrite', 'use_inputFileList', 'use_addGrid', 'verbose', 'driver']:
         f.write('\t{0: <51} = {1}\n'.format(opt, getattr(args, opt)))
       for algConfig_str in algorithmConfiguration_string:
         f.write('{0}\n'.format(algConfig_str))

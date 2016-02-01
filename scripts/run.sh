@@ -11,7 +11,7 @@ ZsherpaFiles="user.mswiatlo.*.Z_sherpa.*_tag_13_xAOD_4_output_xAOD.root/"
 ttbarIncFiles="user.mswiatlo.410000.ttbar.*_tag_13_xAOD_4_output_xAOD.root/"
 ttbarExcFiles="user.mswiatlo.407012.ttbar.*_tag_13_xAOD_4_output_xAOD.root/"
 
-globalOpts=(-v -f -yyyyyy --optimizationDump --inputDQ2 --badJetVeto --rc_enable)
+globalOpts=(-v -f -yyyyyy --optimizationDump --inputGrid --badJetVeto --rc_enable)
 
 run0L=(--signalLeptonSelection="==0" --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.4)
 run1L=(--signalLeptonSelection="==1" --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.0)
@@ -43,4 +43,4 @@ CookTheBooks.py --files="${ZsherpaFiles}" "${globalOpts[@]}" "${run1L[@]}" --sub
 CookTheBooks.py --files="${ttbarIncFiles}" "${globalOpts[@]}" "${run1L[@]}" --truthMETFilter=" <200" --submitDir="${outputDir}/ttbarInc_1L" condor > "${outputDir}/ttbarInc_1L.log" 2>&1 &
 CookTheBooks.py --files="${ttbarExcFiles}" "${globalOpts[@]}" "${run1L[@]}" --truthMETFilter=" >200" --submitDir="${outputDir}/ttbarExc_1L" condor > "${outputDir}/ttbarExc_1L.log" 2>&1 &
 
-#GetWeights.py "${gttFiles}" "${dijetFiles}" "${topEWFiles}" "${dibosonFiles}" "${singletopFiles}" "${WsherpaFiles}" "${ZsherpaFiles}" "${ttbarIncFiles}" "${ttbarExcFiles}" --inputDQ2 -o "${outputDir}/weights.json" > "${outputDir}/weights.log" 2>&1 &
+#GetWeights.py "${gttFiles}" "${dijetFiles}" "${topEWFiles}" "${dibosonFiles}" "${singletopFiles}" "${WsherpaFiles}" "${ZsherpaFiles}" "${ttbarIncFiles}" "${ttbarExcFiles}" --inputGrid -o "${outputDir}/weights.json" > "${outputDir}/weights.log" 2>&1 &
