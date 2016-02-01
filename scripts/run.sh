@@ -1,17 +1,17 @@
 #!/bin/bash
 
-dataFiles="user.mswiatlo.*.data.*_tag_13_xAOD_6_output_xAOD.root/"
-gttFiles="user.mswiatlo.*.Gtt.*_tag_13_xAOD_4_output_xAOD.root/"
-dijetFiles="user.mswiatlo.*.dijet.*_tag_13_xAOD_4_output_xAOD.root/"
-topEWFiles="user.mswiatlo.*.topEW.*_tag_13_xAOD_4_output_xAOD.root/"
-dibosonFiles="user.mswiatlo.36108*.diboson.*_tag_13_xAOD_6_output_xAOD.root/"
-singletopFiles="user.mswiatlo.*.singletop.*_tag_13_xAOD_4_output_xAOD.root/"
-WsherpaFiles="user.mswiatlo.*.W_sherpa.*_tag_13_xAOD_4_output_xAOD.root/"
-ZsherpaFiles="user.mswiatlo.*.Z_sherpa.*_tag_13_xAOD_4_output_xAOD.root/"
-ttbarIncFiles="user.mswiatlo.410000.ttbar.*_tag_13_xAOD_4_output_xAOD.root/"
-ttbarExcFiles="user.mswiatlo.407012.ttbar.*_tag_13_xAOD_4_output_xAOD.root/"
+dataFiles="TheAccountant/scripts/data.list"
+gttFiles="TheAccountant/scripts/Gtt.list"
+dijetFiles="TheAccountant/scripts/dijet.list"
+topEWFiles="TheAccountant/scripts/topEW.list"
+dibosonFiles="TheAccountant/scripts/diboson.list"
+singletopFiles="TheAccountant/scripts/singletop.list"
+WsherpaFiles="TheAccountant/scripts/Wsherpa.list"
+ZsherpaFiles="TheAccountant/scripts/Zsherpa.list"
+ttbarIncFiles="TheAccountant/scripts/ttbarInc.list"
+ttbarExcFiles="TheAccountant/scripts/ttbarExc.list"
 
-globalOpts=(-v -f -yyyyyy --optimizationDump --inputGrid --badJetVeto --rc_enable)
+globalOpts=(-v -f -yyyyyy --optimizationDump --inputGrid --inputList --badJetVeto --rc_enable)
 
 run0L=(--signalLeptonSelection="==0" --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.4)
 run1L=(--signalLeptonSelection="==1" --numLeadingJets=4 --jetLargeR_minPtView=300 --minMET=200 --dPhiMin=0.0)
