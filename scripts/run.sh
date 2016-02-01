@@ -1,15 +1,15 @@
 #!/bin/bash
 
-dataFiles="TheAccountant/scripts/data.list"
-gttFiles="TheAccountant/scripts/Gtt.list"
-dijetFiles="TheAccountant/scripts/dijet.list"
-topEWFiles="TheAccountant/scripts/topEW.list"
-dibosonFiles="TheAccountant/scripts/diboson.list"
-singletopFiles="TheAccountant/scripts/singletop.list"
-WsherpaFiles="TheAccountant/scripts/Wsherpa.list"
-ZsherpaFiles="TheAccountant/scripts/Zsherpa.list"
-ttbarIncFiles="TheAccountant/scripts/ttbarInc.list"
-ttbarExcFiles="TheAccountant/scripts/ttbarExc.list"
+dataFiles="TheAccountant/data/data.list"
+gttFiles="TheAccountant/data/Gtt.list"
+dijetFiles="TheAccountant/data/dijet.list"
+topEWFiles="TheAccountant/data/topEW.list"
+dibosonFiles="TheAccountant/data/diboson.list"
+singletopFiles="TheAccountant/data/singletop.list"
+WsherpaFiles="TheAccountant/data/Wsherpa.list"
+ZsherpaFiles="TheAccountant/data/Zsherpa.list"
+ttbarIncFiles="TheAccountant/data/ttbarInc.list"
+ttbarExcFiles="TheAccountant/data/ttbarExc.list"
 
 globalOpts=(-v -f -yyyyyy --optimizationDump --inputGrid --inputList --badJetVeto --rc_enable)
 
