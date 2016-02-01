@@ -29,18 +29,18 @@ Run-2 analysis for SUSY search in gluino to stops.
 
 
 ## Installing
-The last stable analysis base used is **2.3.31**. To install,
+The last stable analysis base used is **2.3.41**. To install,
 ```bash
 mkdir myRootCore && cd $_
-rcSetup Base,2.3.31
+rcSetup Base,2.3.41
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
 cd Ext_RestFrames && git checkout v1.5 && cd -
 git clone https://github.com/kratsg/xAODJetReclustering
 
 git clone https://github.com/UCATLAS/xAODAnaHelpers
-cd xAODAnaHelpers && git checkout 00-03-20 && cd ../
-python xAODAnaHelpers/scripts/checkoutASGtags.py 2.3.31
+cd xAODAnaHelpers && git checkout 00-03-30 && cd ../
+python xAODAnaHelpers/scripts/checkoutASGtags.py 2.3.41
 
 rc find_packages
 rc compile
