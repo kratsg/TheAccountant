@@ -1,15 +1,15 @@
 #!/bin/bash
 
-dataFiles="TheAccountant/data/data.list"
-gttFiles="TheAccountant/data/Gtt.list"
-dijetFiles="TheAccountant/data/dijet.list"
-topEWFiles="TheAccountant/data/topEW.list"
-dibosonFiles="TheAccountant/data/diboson.list"
-singletopFiles="TheAccountant/data/singletop.list"
-WsherpaFiles="TheAccountant/data/Wsherpa.list"
-ZsherpaFiles="TheAccountant/data/Zsherpa.list"
-ttbarIncFiles="TheAccountant/data/ttbarInc.list"
-ttbarExcFiles="TheAccountant/data/ttbarExc.list"
+dataFiles="${ROOTCOREBIN}/data/TheAccountant/data.list"
+gttFiles="${ROOTCOREBIN}/data/TheAccountant/Gtt.list"
+dijetFiles="${ROOTCOREBIN}/data/TheAccountant/dijet.list"
+topEWFiles="${ROOTCOREBIN}/data/TheAccountant/topEW.list"
+dibosonFiles="${ROOTCOREBIN}/data/TheAccountant/diboson.list"
+singletopFiles="${ROOTCOREBIN}/data/TheAccountant/singletop.list"
+WsherpaFiles="${ROOTCOREBIN}/data/TheAccountant/Wsherpa.list"
+ZsherpaFiles="${ROOTCOREBIN}/data/TheAccountant/Zsherpa.list"
+ttbarIncFiles="${ROOTCOREBIN}/data/TheAccountant/ttbarInc.list"
+ttbarExcFiles="${ROOTCOREBIN}/data/TheAccountant/ttbarExc.list"
 
 globalOpts=(-v -f -yyyyyy --optimizationDump --inputGrid --inputList --badJetVeto --rc_enable)
 
