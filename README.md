@@ -35,7 +35,7 @@ mkdir myRootCore && cd $_
 rcSetup Base,2.3.41
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
-cd Ext_RestFrames && git checkout v1.5 && cd -
+cd Ext_RestFrames && git checkout v1.6 && cd -
 git clone https://github.com/kratsg/xAODJetReclustering
 
 git clone https://github.com/UCATLAS/xAODAnaHelpers
