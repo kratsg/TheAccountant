@@ -260,6 +260,25 @@ EL::StatusCode Audit :: execute ()
   if(LAB.AnalyzeEvent()){ if(m_debug) Info("execute()", "Analyzed the event successfully."); }
   else                  { Error("execute()", "Run #%u, Event #%llu: Analyzed the event unsuccessfully.", eventInfo->runNumber(), eventInfo->eventNumber()); return EL::StatusCode::SUCCESS; }
 
+  // Signal Variables
+  // https://github.com/lawrenceleejr/ZeroLeptonRun2/blob/67042394b0bca205081175f002ef3fb44fd46b98/Root/PhysObjProxyUtils.cxx#L471
+  // PP = SS
+  // Pa = S1, Pb = S2
+  // V1a = V1, V1b = V2
+  // Ia = I1, Ib = I2
+  typedef TLorentzVector TLV;
+  std::map<std::string, TLV> vP;
+  vP["S1"] = S1.GetVisibleFourVector(S1);
+  vP["S2"] = S2.GetVisibleFourVector(S2);
+  vP["V1_SS"] = V1.GetFourVector(SS);
+  vP["V2_SS"] = V2.GetFourVector(SS);
+  vP["I1_SS"] = I1.GetFourVector(SS);
+  vP["I2_SS"] = I2.GetFourVector(SS);
+  vP["V1_S1"] = V1.GetFourVector(S1);
+  vP["I1_S1"] = I1.GetFourVector(S1);
+  vP["V2_S2"] = V2.GetFourVector(S2);
+  vP["I2_S2"] = I2.GetFourVector(S2);
+
   if(m_debug){
     Info("execute()", "Details about RestFrames analysis...");
     Info("execute()", "\tSS...");
