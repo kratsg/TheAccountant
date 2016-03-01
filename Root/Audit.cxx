@@ -267,6 +267,8 @@ EL::StatusCode Audit :: execute ()
   // V1a = V1, V1b = V2
   // Ia = I1, Ib = I2
   typedef TLorentzVector TLV;
+
+  // momentum (P) vectors
   std::map<std::string, TLV> vP;
   vP["S1"] = S1.GetVisibleFourVector(S1);
   vP["S2"] = S2.GetVisibleFourVector(S2);
@@ -278,6 +280,26 @@ EL::StatusCode Audit :: execute ()
   vP["I1_S1"] = I1.GetFourVector(S1);
   vP["V2_S2"] = V2.GetFourVector(S2);
   vP["I2_S2"] = I2.GetFourVector(S2);
+
+  // H-variables (H_{n,m}^{F} )
+  /*
+    H2PP = H1,1PP
+    H3PP = H2,1PP
+    H4PP = H2,2PP
+    H5PP = H4,1PP
+    H6PP = H4,2PP
+  */
+  std::map<std::string, double> Hvar; // format is "n,m;F"
+  Hvar["1,1;SS"] = (vP["V1_SS"] + vP["V2_SS"]).P()   + (vP["I1_SS"] + vP["I2_SS"]).P();
+  Hvar["2,1;SS"] = vP["V1_SS"].P() + vP["V2_SS"].P() + (vP["I1_SS"] + vP["I2_SS"]).P();
+  Hvar["2,2;SS"] = vP["V1_SS"].P() + vP["V2_SS"].P() + vP["I1_SS"].P() + vP["I2_SS"].P();
+  //Hvar["4,1;SS"] = Hvar["2,1;SS"];
+  //Hvar["4,2;SS"] = Hvar["2,2;SS"];
+
+  Hvar["1,1;S1"] = vP["V1_S1"].P() + vP["I1_S1"].P();
+  Hvar["1,1;S2"] = vP["V2_S2"].P() + vP["I2_S2"].P();
+  //Hvar["2,1;S1"] = Hvar["1,1;S1"];
+  //Hvar["2,1;S2"] = Hvar["1,1;S2"];
 
   if(m_debug){
     Info("execute()", "Details about RestFrames analysis...");
