@@ -301,30 +301,52 @@ EL::StatusCode Audit :: execute ()
   //Hvar["2,1;S1"] = Hvar["1,1;S1"];
   //Hvar["2,1;S2"] = Hvar["1,1;S2"];
 
+  // Other variables
+  std::map<std::string, float> RJRVars;
+  RJRVars["SS_mass"]        = SS.GetMass();
+  RJRVars["SS_invGamma"]    = 1./SS.GetGammaInParentFrame();
+  RJRVars["SS_dphiVis"]     = SS.GetDeltaPhiBoostVisible();
+  RJRVars["SS_cosTheta"]    = SS.GetCosDecayAngle();
+  RJRVars["SS_VisShape"]    = SS.GetVisibleShape();
+  RJRVars["SS_MDR"]         = SS.GetVisibleShape() * SS.GetMass();
+
+  RJRVars["S1_mass"]        = S1.GetMass();
+  RJRVars["S1_cosTheta"]    = S1.GetCosDecayAngle();
+  RJRVars["S2_mass"]        = S2.GetMass();
+  RJRVars["S2_cosTheta"]    = S2.GetCosDecayAngle();
+  RJRVars["I1_depth"]       = S1.GetFrameDepth(I1);
+  RJRVars["I2_depth"]       = S2.GetFrameDepth(I2);
+  RJRVars["V1_n"]           = VIS.GetNElementsInFrame(V1);
+  RJRVars["V2_n"]           = VIS.GetNElementsInFrame(V2);
+
+  RJRVars["cosP"]           = S1.GetCosDecayAngle(I1);
+  RJRVars["dPhiVP"]         = (SS.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
+  RJRVars["s_angle"]        = std::fabs(SS.GetDeltaPhiDecayVisible() + 2.*RJRVars["cosP"])/3.;
+  RJRVars["d_angle"]        = (2.*SS.GetDeltaPhiDecayVisible() - RJRVars["cosP"])/3.;
+
+  RJRVars["pT_V1_SS"]       = V1.GetTransverseMomentum(SS);
+  RJRVars["pT_V2_SS"]       = V2.GetTransverseMomentum(SS);
+  RJRVars["pT_I1_SS"]       = I1.GetTransverseMomentum(SS);
+  RJRVars["pT_I2_SS"]       = I2.GetTransverseMomentum(SS);
+
+  RJRVars["p_V1_SS"]        = V1.GetMomentum(SS);
+  RJRVars["p_V2_SS"]        = V2.GetMomentum(SS);
+  RJRVars["p_I1_SS"]        = I1.GetMomentum(SS);
+  RJRVars["p_I2_SS"]        = I2.GetMomentum(SS);
+
   if(m_debug){
     Info("execute()", "Details about RestFrames analysis...");
-    Info("execute()", "\tSS...");
-    Info("execute()", "\t\tMass:          %0.2f GeV", SS.GetMass()/1000.);
-    Info("execute()", "\t\tInvGamma:      %0.2f", 1./SS.GetGammaInParentFrame());
-    Info("execute()", "\t\tdPhiVis:       %0.2f", SS.GetDeltaPhiBoostVisible());
-    Info("execute()", "\t\tCosTheta:      %0.2f", SS.GetCosDecayAngle());
-    Info("execute()", "\t\tdPhiDecayAngle:%0.2f", SS.GetDeltaPhiDecayAngle());
-    Info("execute()", "\t\tVisShape:      %0.2f", SS.GetVisibleShape());
-    Info("execute()", "\t\tMDeltaR:       %0.2f", SS.GetVisibleShape()*SS.GetMass());
-    Info("execute()", "\tS1...");
-    Info("execute()", "\t\tMass:          %0.2f GeV", S1.GetMass()/1000.);
-    Info("execute()", "\t\tCosTheta:      %0.2f", S1.GetCosDecayAngle());
-    Info("execute()", "\tS2...");
-    Info("execute()", "\t\tMass:          %0.2f GeV", S2.GetMass()/1000.);
-    Info("execute()", "\t\tCosTheta:      %0.2f", S2.GetCosDecayAngle());
-    Info("execute()", "\tI1...");
-    Info("execute()", "\t\tDepth:         %d",    S1.GetFrameDepth(I1));
-    Info("execute()", "\tI2...");
-    Info("execute()", "\t\tDepth:         %d",    S2.GetFrameDepth(I2));
-    Info("execute()", "\tV1...");
-    Info("execute()", "\t\tNElements:     %d",    VIS.GetNElementsInFrame(V1));
-    Info("execute()", "\tV2...");
-    Info("execute()", "\t\tNElements:     %d",    VIS.GetNElementsInFrame(V2));
+    Info("execute()", "\tRJRVars");
+    for(const auto& item: RJRVars)
+      Info("execute()", "\t\t%10s: %0.4f", item.first.c_str(), item.second);
+
+    Info("execute()", "\tMomentum Vectors");
+    for(const auto& item: vP)
+      Info("execute()", "\t\t%10s: (pT, eta, phi, m) = (%0.4f, %0.4f, %0.4f, %0.4f)", item.first.c_str(), item.second.Pt(), item.second.Eta(), item.second.Phi(), item.second.M());
+
+    Info("execute()", "\tH-variables");
+    for(const auto& item: Hvar)
+      Info("execute()", "\t\t%10s: %0.4f", item.first.c_str(), item.second);
   }
 
   SS_mass_decor(*eventInfo)             = SS.GetMass();
