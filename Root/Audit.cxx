@@ -38,19 +38,25 @@ namespace VD = VariableDefinitions;
 ClassImp(Audit)
 Audit :: Audit () :
   LAB("LAB", "lab"),
-  SS("SS", "SS"),
-  S1("S1", "#tilde{S}_{a}"),
-  S2("S2", "#tilde{S}_{b}"),
-  V1("V1", "V_{a}"),
-  V2("V2", "V_{b}"),
-  I1("I1", "I_{a}"),
-  I2("I2", "I_{b}"),
+  GG("GG", "GG"),
+  Ga("Ga", "#tilde{G}^{a}"),
+  Gb("Gb", "#tilde{G}^{b}"),
+  Ca1("Ca1", "C^{a}_{1}"),
+  Cb1("Cb1", "C^{b}_{1}"),
+  Va1("Va1", "V^{a}_{1}"),
+  Va2("Va2", "V^{a}_{2}"),
+  Vb1("Vb1", "V^{b}_{1}"),
+  Vb2("Vb2", "V^{b}_{2}"),
+  Ia1("Ia1", "I^{a}_{1}"),
+  Ib1("Ib1", "I^{b}_{1}"),
   VIS("VIS", "Visible Object Jigsaws"),
   INV("INV", "Invisible Frame Jigsaws"),
-  MinMassJigsaw("MINMASS_JIGSAW", "Invisible system mass Jigsaw"),
+  MinMassJigsaw("MINMAGG_JIGSAW", "Invisible system mass Jigsaw"),
   RapidityJigsaw("RAPIDITY_JIGSAW", "Invisible system rapidity Jigsaw"),
   ContraBoostJigsaw("CB_JIGSAW", "Contraboost invariant Jigsaw"),
-  HemiJigsaw("HEM_JIGSAW", "Minimize m _{V_{a,b}} Jigsaw")
+  HemiJigsaw("HEM_JIGSAW", "Minimize m _{V_{a,b}} Jigsaw"),
+  HemiJigsaw_Ca("HEM_JIGSAW_Ca", "Minimize m _{C_{a}} Jigsaw"),
+  HemiJigsaw_Cb("HEM_JIGSAW_Cb", "Minimize m _{C_{b}} Jigsaw")
 {}
 
 EL::StatusCode Audit :: setupJob (EL::Job& job)
@@ -73,25 +79,34 @@ EL::StatusCode Audit :: initialize () {
   if(m_rc_enable) m_inputLargeRJets = m_RCJetsContainerName;
 
   // create the decay structure
-  LAB.SetChildFrame(SS);
-  SS.AddChildFrame(S1);
-  SS.AddChildFrame(S2);
-  S1.AddChildFrame(V1);
-  S1.AddChildFrame(I1);
-  S2.AddChildFrame(V2);
-  S2.AddChildFrame(I2);
+  LAB.SetChildFrame(GG);
+    GG.AddChildFrame(Ga);
+      Ga.AddChildFrame(Va1);
+      Ga.AddChildFrame(Ca1);
+      Ca1.AddChildFrame(Va2);
+      Ca1.AddChildFrame(Ia1);
+    GG.AddChildFrame(Gb);
+      Gb.AddChildFrame(Vb1);
+      Gb.AddChildFrame(Cb1);
+      Cb1.AddChildFrame(Vb2);
+      Cb1.AddChildFrame(Ib1);
 
   // The invisible group is all of the weakly interacting particles
-  INV.AddFrame(I1);
-  INV.AddFrame(I2);
+  INV.AddFrame(Ia1);
+  INV.AddFrame(Ib1);
 
   // the combinatoric group is the list of visible objects
   // that go into our hemispheres
-  VIS.AddFrame(V1);
-  VIS.AddFrame(V2);
-  // require at least one element in each hemisphere
-  VIS.SetNElementsForFrame(V1,1,false);
-  VIS.SetNElementsForFrame(V2,1,false);
+  VIS.AddFrame(Va1);
+  VIS.AddFrame(Va2);
+  VIS.AddFrame(Vb1);
+  VIS.AddFrame(Vb2);
+
+  // require at least two elements in each hemisphere
+  VIS.SetNElementsForFrame(Va1,1,false);
+  VIS.SetNElementsForFrame(Va2,1,false);
+  VIS.SetNElementsForFrame(Vb1,1,false);
+  VIS.SetNElementsForFrame(Vb2,1,false);
 
   if(LAB.InitializeTree()){ Info("initialize()", "We do have consistent tree topology."); }
   else                    { Error("initialize()", "We do not have consistent tree topology."); return EL::StatusCode::FAILURE; }
@@ -109,16 +124,28 @@ EL::StatusCode Audit :: initialize () {
 
   if(m_contraBoostJigsaw){
     INV.AddJigsaw(ContraBoostJigsaw);
-    ContraBoostJigsaw.AddVisibleFrames((S1.GetListVisibleFrames()), 0);
-    ContraBoostJigsaw.AddVisibleFrames((S2.GetListVisibleFrames()), 1);
-    ContraBoostJigsaw.AddInvisibleFrames((S1.GetListInvisibleFrames()), 0);
-    ContraBoostJigsaw.AddInvisibleFrames((S2.GetListInvisibleFrames()), 1);
+    ContraBoostJigsaw.AddVisibleFrames((Ga.GetListVisibleFrames()), 0);
+    ContraBoostJigsaw.AddVisibleFrames((Gb.GetListVisibleFrames()), 1);
+    ContraBoostJigsaw.AddInvisibleFrames((Ga.GetListInvisibleFrames()), 0);
+    ContraBoostJigsaw.AddInvisibleFrames((Gb.GetListInvisibleFrames()), 1);
   }
 
   if(m_hemiJigsaw){
     VIS.AddJigsaw(HemiJigsaw);
-    HemiJigsaw.AddFrame(V1,0);
-    HemiJigsaw.AddFrame(V2,1);
+    HemiJigsaw.AddFrame(Va1,0);
+    HemiJigsaw.AddFrame(Va2,0);
+    HemiJigsaw.AddFrame(Vb1,1);
+    HemiJigsaw.AddFrame(Vb2,1);
+
+    VIS.AddJigsaw(HemiJigsaw_Ca);
+    HemiJigsaw_Ca.AddFrame(Va1,0);
+    HemiJigsaw_Ca.AddFrame(Va2,1);
+    HemiJigsaw_Ca.AddFrame(Ia1,1);
+
+    VIS.AddJigsaw(HemiJigsaw_Cb);
+    HemiJigsaw_Cb.AddFrame(Vb1,0);
+    HemiJigsaw_Cb.AddFrame(Vb2,1);
+    HemiJigsaw_Cb.AddFrame(Ib1,1);
   }
 
   if(LAB.InitializeAnalysis()){ Info("initialize()", "Our tree is ok for analysis."); }
@@ -196,35 +223,39 @@ EL::StatusCode Audit :: execute ()
   }
 
   // define razor decorations
-  static VD::decor_t<float> SS_mass_decor             ("SS_mass");
-  static VD::decor_t<float> SS_invgamma_decor         ("SS_invgamma");
-  static VD::decor_t<float> SS_dphivis_decor          ("SS_dphivis");
-  static VD::decor_t<float> SS_costheta_decor         ("SS_costheta");
-  static VD::decor_t<float> SS_dphidecayangle_decor   ("SS_dphidecayangle");
-  static VD::decor_t<float> SS_mdeltaR_decor          ("SS_mdeltaR");
-  static VD::decor_t<float> S1_mass_decor             ("S1_mass");
-  static VD::decor_t<float> S2_mass_decor             ("S2_mass");
-  static VD::decor_t<float> S1_costheta_decor         ("S1_costheta");
-  static VD::decor_t<float> S2_costheta_decor         ("S2_costheta");
-  static VD::decor_t<float> I1_depth_decor            ("I1_depth");
-  static VD::decor_t<float> I2_depth_decor            ("I2_depth");
-  static VD::decor_t<float> V1_nelements_decor        ("V1_nelements");
-  static VD::decor_t<float> V2_nelements_decor        ("V2_nelements");
+  static VD::decor_t<float> GG_mass_decor             ("GG_mass");
+  static VD::decor_t<float> GG_invgamma_decor         ("GG_invgamma");
+  static VD::decor_t<float> GG_dphivis_decor          ("GG_dphivis");
+  static VD::decor_t<float> GG_costheta_decor         ("GG_costheta");
+  static VD::decor_t<float> GG_dphidecayangle_decor   ("GG_dphidecayangle");
+  static VD::decor_t<float> GG_mdeltaR_decor          ("GG_mdeltaR");
+  static VD::decor_t<float> Ga_mass_decor             ("Ga_mass");
+  static VD::decor_t<float> Gb_mass_decor             ("Gb_mass");
+  static VD::decor_t<float> Ga_costheta_decor         ("Ga_costheta");
+  static VD::decor_t<float> Gb_costheta_decor         ("Gb_costheta");
+  static VD::decor_t<float> Ia1_depth_decor            ("Ia1_depth");
+  static VD::decor_t<float> Ib1_depth_decor            ("Ib1_depth");
+  static VD::decor_t<float> Va1_nelements_decor        ("Va1_nelements");
+  static VD::decor_t<float> Va2_nelements_decor        ("Va2_nelements");
+  static VD::decor_t<float> Vb1_nelements_decor        ("Vb1_nelements");
+  static VD::decor_t<float> Vb2_nelements_decor        ("Vb2_nelements");
   // initialize to zero on event
-  SS_mass_decor(*eventInfo)             = -99;
-  SS_invgamma_decor(*eventInfo)         = -99;
-  SS_dphivis_decor(*eventInfo)          = -99;
-  SS_costheta_decor(*eventInfo)         = -99;
-  SS_dphidecayangle_decor(*eventInfo)   = -99;
-  SS_mdeltaR_decor(*eventInfo)          = -99;
-  S1_mass_decor(*eventInfo)             = -99;
-  S2_mass_decor(*eventInfo)             = -99;
-  S1_costheta_decor(*eventInfo)         = -99;
-  S2_costheta_decor(*eventInfo)         = -99;
-  I1_depth_decor(*eventInfo)            = -99;
-  I2_depth_decor(*eventInfo)            = -99;
-  V1_nelements_decor(*eventInfo)        = -99;
-  V2_nelements_decor(*eventInfo)        = -99;
+  GG_mass_decor(*eventInfo)             = -99;
+  GG_invgamma_decor(*eventInfo)         = -99;
+  GG_dphivis_decor(*eventInfo)          = -99;
+  GG_costheta_decor(*eventInfo)         = -99;
+  GG_dphidecayangle_decor(*eventInfo)   = -99;
+  GG_mdeltaR_decor(*eventInfo)          = -99;
+  Ga_mass_decor(*eventInfo)             = -99;
+  Gb_mass_decor(*eventInfo)             = -99;
+  Ga_costheta_decor(*eventInfo)         = -99;
+  Gb_costheta_decor(*eventInfo)         = -99;
+  Ia1_depth_decor(*eventInfo)            = -99;
+  Ib1_depth_decor(*eventInfo)            = -99;
+  Va1_nelements_decor(*eventInfo)        = -99;
+  Va2_nelements_decor(*eventInfo)        = -99;
+  Vb1_nelements_decor(*eventInfo)        = -99;
+  Vb2_nelements_decor(*eventInfo)        = -99;
 
 
   // clear the event
@@ -262,24 +293,24 @@ EL::StatusCode Audit :: execute ()
 
   // Signal Variables
   // https://github.com/lawrenceleejr/ZeroLeptonRun2/blob/67042394b0bca205081175f002ef3fb44fd46b98/Root/PhysObjProxyUtils.cxx#L471
-  // PP = SS
-  // Pa = S1, Pb = S2
-  // V1a = V1, V1b = V2
-  // Ia = I1, Ib = I2
   typedef TLorentzVector TLV;
 
   // momentum (P) vectors
   std::map<std::string, TLV> vP;
-  vP["S1"] = S1.GetVisibleFourVector(S1);
-  vP["S2"] = S2.GetVisibleFourVector(S2);
-  vP["V1_SS"] = V1.GetFourVector(SS);
-  vP["V2_SS"] = V2.GetFourVector(SS);
-  vP["I1_SS"] = I1.GetFourVector(SS);
-  vP["I2_SS"] = I2.GetFourVector(SS);
-  vP["V1_S1"] = V1.GetFourVector(S1);
-  vP["I1_S1"] = I1.GetFourVector(S1);
-  vP["V2_S2"] = V2.GetFourVector(S2);
-  vP["I2_S2"] = I2.GetFourVector(S2);
+  vP["Ga"] = Ga.GetVisibleFourVector(Ga);
+  vP["Gb"] = Gb.GetVisibleFourVector(Gb);
+  vP["Va1_GG"] = Va1.GetFourVector(GG);
+  vP["Va2_GG"] = Va2.GetFourVector(GG);
+  vP["Vb1_GG"] = Vb1.GetFourVector(GG);
+  vP["Vb2_GG"] = Vb2.GetFourVector(GG);
+  vP["Ia1_GG"] = Ia1.GetFourVector(GG);
+  vP["Ib1_GG"] = Ib1.GetFourVector(GG);
+  vP["Va1_Ga"] = Va1.GetFourVector(Ga);
+  vP["Va2_Ga"] = Va2.GetFourVector(Ga);
+  vP["Ia1_Ga"] = Ia1.GetFourVector(Ga);
+  vP["Vb1_Gb"] = Vb1.GetFourVector(Gb);
+  vP["Vb2_Gb"] = Vb2.GetFourVector(Gb);
+  vP["Ib1_Gb"] = Ib1.GetFourVector(Gb);
 
   // H-variables (H_{n,m}^{F} )
   /*
@@ -290,49 +321,55 @@ EL::StatusCode Audit :: execute ()
     H6PP = H4,2PP
   */
   std::map<std::string, double> Hvar; // format is "n,m;F"
-  Hvar["1,1;SS"] = (vP["V1_SS"] + vP["V2_SS"]).P()   + (vP["I1_SS"] + vP["I2_SS"]).P();
-  Hvar["2,1;SS"] = vP["V1_SS"].P() + vP["V2_SS"].P() + (vP["I1_SS"] + vP["I2_SS"]).P();
-  Hvar["2,2;SS"] = vP["V1_SS"].P() + vP["V2_SS"].P() + vP["I1_SS"].P() + vP["I2_SS"].P();
-  //Hvar["4,1;SS"] = Hvar["2,1;SS"];
-  //Hvar["4,2;SS"] = Hvar["2,2;SS"];
+  Hvar["1,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P();
+  Hvar["2,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P() + (vP["Vb1_GG"] + vP["Vb2_GG"]).P() + (vP["Ia1_GG"] + vP["Ib1_GG"]).P();
+  Hvar["2,2;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P() + (vP["Vb1_GG"] + vP["Vb2_GG"]).P() + vP["Ia1_GG"].P() + vP["Ib1_GG"].P();
+  Hvar["4,1;GG"] = vP["Va1_GG"].P() + vP["Va2_GG"].P() + vP["Vb1_GG"].P() + vP["Vb2_GG"].P() + (vP["Ia1_GG"] + vP["Ib1_GG"]).P();
+  Hvar["4,2;GG"] = vP["Va1_GG"].P() + vP["Va2_GG"].P() + vP["Vb1_GG"].P() + vP["Vb2_GG"].P() + vP["Ia1_GG"].P() + vP["Ib1_GG"].P();
 
-  Hvar["1,1;S1"] = vP["V1_S1"].P() + vP["I1_S1"].P();
-  Hvar["1,1;S2"] = vP["V2_S2"].P() + vP["I2_S2"].P();
-  //Hvar["2,1;S1"] = Hvar["1,1;S1"];
-  //Hvar["2,1;S2"] = Hvar["1,1;S2"];
+  Hvar["1,1;Ga"] = (vP["Va1_Ga"] + vP["Va2_Ga"]).P() + vP["Ia1_Ga"].P();
+  Hvar["1,1;Gb"] = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P() + vP["Ib1_Gb"].P();
+  Hvar["2,1;Ga"] = vP["Va1_Ga"].P() + vP["Va2_Ga"].P() + vP["Ia1_Ga"].P();
+  Hvar["2,1;Gb"] = vP["Vb1_Gb"].P() + vP["Vb2_Gb"].P() + vP["Ib1_Gb"].P();
 
   // Other variables
   std::map<std::string, float> RJRVars;
-  RJRVars["SS_mass"]        = SS.GetMass();
-  RJRVars["SS_invGamma"]    = 1./SS.GetGammaInParentFrame();
-  RJRVars["SS_dphiVis"]     = SS.GetDeltaPhiBoostVisible();
-  RJRVars["SS_cosTheta"]    = SS.GetCosDecayAngle();
-  RJRVars["SS_VisShape"]    = SS.GetVisibleShape();
-  RJRVars["SS_MDR"]         = SS.GetVisibleShape() * SS.GetMass();
+  RJRVars["GG_mass"]        = GG.GetMass();
+  RJRVars["GG_invGamma"]    = 1./GG.GetGammaInParentFrame();
+  RJRVars["GG_dphiVis"]     = GG.GetDeltaPhiBoostVisible();
+  RJRVars["GG_cosTheta"]    = GG.GetCosDecayAngle();
+  RJRVars["GG_VisShape"]    = GG.GetVisibleShape();
+  RJRVars["GG_MDR"]         = GG.GetVisibleShape() * GG.GetMass();
 
-  RJRVars["S1_mass"]        = S1.GetMass();
-  RJRVars["S1_cosTheta"]    = S1.GetCosDecayAngle();
-  RJRVars["S2_mass"]        = S2.GetMass();
-  RJRVars["S2_cosTheta"]    = S2.GetCosDecayAngle();
-  RJRVars["I1_depth"]       = S1.GetFrameDepth(I1);
-  RJRVars["I2_depth"]       = S2.GetFrameDepth(I2);
-  RJRVars["V1_n"]           = VIS.GetNElementsInFrame(V1);
-  RJRVars["V2_n"]           = VIS.GetNElementsInFrame(V2);
+  RJRVars["Ga_mass"]        = Ga.GetMass();
+  RJRVars["Ga_cosTheta"]    = Ga.GetCosDecayAngle();
+  RJRVars["Gb_mass"]        = Gb.GetMass();
+  RJRVars["Gb_cosTheta"]    = Gb.GetCosDecayAngle();
+  RJRVars["Ia1_depth"]       = Ga.GetFrameDepth(Ia1);
+  RJRVars["Ib1_depth"]       = Gb.GetFrameDepth(Ib1);
+  RJRVars["Va1_n"]           = VIS.GetNElementsInFrame(Va1);
+  RJRVars["Va2_n"]           = VIS.GetNElementsInFrame(Va2);
+  RJRVars["Vb1_n"]           = VIS.GetNElementsInFrame(Vb1);
+  RJRVars["Vb2_n"]           = VIS.GetNElementsInFrame(Vb2);
 
-  RJRVars["cosP"]           = S1.GetCosDecayAngle(I1);
-  RJRVars["dPhiVP"]         = (SS.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
-  RJRVars["s_angle"]        = std::fabs(SS.GetDeltaPhiDecayVisible() + 2.*RJRVars["cosP"])/3.;
-  RJRVars["d_angle"]        = (2.*SS.GetDeltaPhiDecayVisible() - RJRVars["cosP"])/3.;
+  RJRVars["cosP"]           = Ga.GetCosDecayAngle(Ia1);
+  RJRVars["dPhiVP"]         = (GG.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
+  RJRVars["s_angle"]        = std::fabs(GG.GetDeltaPhiDecayVisible() + 2.*RJRVars["cosP"])/3.;
+  RJRVars["d_angle"]        = (2.*GG.GetDeltaPhiDecayVisible() - RJRVars["cosP"])/3.;
 
-  RJRVars["pT_V1_SS"]       = V1.GetTransverseMomentum(SS);
-  RJRVars["pT_V2_SS"]       = V2.GetTransverseMomentum(SS);
-  RJRVars["pT_I1_SS"]       = I1.GetTransverseMomentum(SS);
-  RJRVars["pT_I2_SS"]       = I2.GetTransverseMomentum(SS);
+  RJRVars["pT_Va1_GG"]      = Va1.GetTransverseMomentum(GG);
+  RJRVars["pT_Va2_GG"]      = Va2.GetTransverseMomentum(GG);
+  RJRVars["pT_Vb1_GG"]      = Vb1.GetTransverseMomentum(GG);
+  RJRVars["pT_Vb2_GG"]      = Vb2.GetTransverseMomentum(GG);
+  RJRVars["pT_Ia1_GG"]      = Ia1.GetTransverseMomentum(GG);
+  RJRVars["pT_Ib1_GG"]      = Ib1.GetTransverseMomentum(GG);
 
-  RJRVars["p_V1_SS"]        = V1.GetMomentum(SS);
-  RJRVars["p_V2_SS"]        = V2.GetMomentum(SS);
-  RJRVars["p_I1_SS"]        = I1.GetMomentum(SS);
-  RJRVars["p_I2_SS"]        = I2.GetMomentum(SS);
+  RJRVars["p_Va1_GG"]       = Va1.GetMomentum(GG);
+  RJRVars["p_Va2_GG"]       = Va2.GetMomentum(GG);
+  RJRVars["p_Vb1_GG"]       = Vb1.GetMomentum(GG);
+  RJRVars["p_Vb2_GG"]       = Vb2.GetMomentum(GG);
+  RJRVars["p_Ia1_GG"]       = Ia1.GetMomentum(GG);
+  RJRVars["p_Ib1_GG"]       = Ib1.GetMomentum(GG);
 
   if(m_debug){
     Info("execute()", "Details about RestFrames analysis...");
@@ -349,20 +386,22 @@ EL::StatusCode Audit :: execute ()
       Info("execute()", "\t\t%10s: %0.4f", item.first.c_str(), item.second);
   }
 
-  SS_mass_decor(*eventInfo)             = SS.GetMass();
-  SS_invgamma_decor(*eventInfo)         = 1/SS.GetGammaInParentFrame();
-  SS_dphivis_decor(*eventInfo)          = SS.GetDeltaPhiBoostVisible();
-  SS_costheta_decor(*eventInfo)         = SS.GetCosDecayAngle();
-  SS_dphidecayangle_decor(*eventInfo)   = SS.GetDeltaPhiDecayAngle();
-  SS_mdeltaR_decor(*eventInfo)          = SS.GetVisibleShape()*SS.GetMass();
-  S1_mass_decor(*eventInfo)             = S1.GetMass();
-  S2_mass_decor(*eventInfo)             = S2.GetMass();
-  S1_costheta_decor(*eventInfo)         = S1.GetCosDecayAngle();
-  S2_costheta_decor(*eventInfo)         = S2.GetCosDecayAngle();
-  I1_depth_decor(*eventInfo)            = S1.GetFrameDepth(I1);
-  I2_depth_decor(*eventInfo)            = S2.GetFrameDepth(I2);
-  V1_nelements_decor(*eventInfo)        = VIS.GetNElementsInFrame(V1);
-  V2_nelements_decor(*eventInfo)        = VIS.GetNElementsInFrame(V2);
+  GG_mass_decor(*eventInfo)             = GG.GetMass();
+  GG_invgamma_decor(*eventInfo)         = 1/GG.GetGammaInParentFrame();
+  GG_dphivis_decor(*eventInfo)          = GG.GetDeltaPhiBoostVisible();
+  GG_costheta_decor(*eventInfo)         = GG.GetCosDecayAngle();
+  GG_dphidecayangle_decor(*eventInfo)   = GG.GetDeltaPhiDecayAngle();
+  GG_mdeltaR_decor(*eventInfo)          = GG.GetVisibleShape()*GG.GetMass();
+  Ga_mass_decor(*eventInfo)             = Ga.GetMass();
+  Gb_mass_decor(*eventInfo)             = Gb.GetMass();
+  Ga_costheta_decor(*eventInfo)         = Ga.GetCosDecayAngle();
+  Gb_costheta_decor(*eventInfo)         = Gb.GetCosDecayAngle();
+  Ia1_depth_decor(*eventInfo)           = Ga.GetFrameDepth(Ia1);
+  Ib1_depth_decor(*eventInfo)           = Gb.GetFrameDepth(Ib1);
+  Va1_nelements_decor(*eventInfo)       = VIS.GetNElementsInFrame(Va1);
+  Va2_nelements_decor(*eventInfo)       = VIS.GetNElementsInFrame(Va2);
+  Vb1_nelements_decor(*eventInfo)       = VIS.GetNElementsInFrame(Vb1);
+  Vb2_nelements_decor(*eventInfo)       = VIS.GetNElementsInFrame(Vb2);
 
   /* TODO
      QCD rejection stuff
