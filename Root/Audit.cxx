@@ -317,8 +317,10 @@ EL::StatusCode Audit :: execute ()
   inclVar["pT_Ib1_GG"]      = Ib1.GetTransverseMomentum(GG)/1.e3;
 
   // used for gluino ratios
+  inclVar["p_Ga_GG"]        = (Va1.GetFourVector(GG) + Va2.GetFourVector(GG)).P()/1.e3;
   inclVar["p_Va1_GG"]       = Va1.GetMomentum(GG)/1.e3;
   inclVar["p_Va2_GG"]       = Va2.GetMomentum(GG)/1.e3;
+  inclVar["p_Gb_GG"]        = (Vb1.GetFourVector(GG) + Vb2.GetFourVector(GG)).P()/1.e3;
   inclVar["p_Vb1_GG"]       = Vb1.GetMomentum(GG)/1.e3;
   inclVar["p_Vb2_GG"]       = Vb2.GetMomentum(GG)/1.e3;
   inclVar["p_Ia1_GG"]       = Ia1.GetMomentum(GG)/1.e3;
@@ -358,44 +360,44 @@ EL::StatusCode Audit :: execute ()
 
   // momentum (P) vectors
   std::map<std::string, TLorentzVector> vP;
-  vP["Ga"] = Ga.GetVisibleFourVector(Ga);
-  vP["Gb"] = Gb.GetVisibleFourVector(Gb);
-  vP["Va1_GG"] = Va1.GetFourVector(GG);
-  vP["Va2_GG"] = Va2.GetFourVector(GG);
-  vP["Vb1_GG"] = Vb1.GetFourVector(GG);
-  vP["Vb2_GG"] = Vb2.GetFourVector(GG);
-  vP["Ia1_GG"] = Ia1.GetFourVector(GG);
-  vP["Ib1_GG"] = Ib1.GetFourVector(GG);
-  vP["Va1_Ga"] = Va1.GetFourVector(Ga);
-  vP["Va2_Ga"] = Va2.GetFourVector(Ga);
-  vP["Ia1_Ga"] = Ia1.GetFourVector(Ga);
-  vP["Vb1_Gb"] = Vb1.GetFourVector(Gb);
-  vP["Vb2_Gb"] = Vb2.GetFourVector(Gb);
-  vP["Ib1_Gb"] = Ib1.GetFourVector(Gb);
-  vP["Va2_Ca1"] = Va2.GetFourVector(Ca1);
-  vP["Ia1_Ca1"] = Ia1.GetFourVector(Ca1);
-  vP["Vb2_Cb1"] = Vb2.GetFourVector(Cb1);
-  vP["Ib1_Cb1"] = Ib1.GetFourVector(Cb1);
+  vP["Ga"]                  = Ga.GetVisibleFourVector(Ga);
+  vP["Gb"]                  = Gb.GetVisibleFourVector(Gb);
+  vP["Va1_GG"]              = Va1.GetFourVector(GG);
+  vP["Va2_GG"]              = Va2.GetFourVector(GG);
+  vP["Vb1_GG"]              = Vb1.GetFourVector(GG);
+  vP["Vb2_GG"]              = Vb2.GetFourVector(GG);
+  vP["Ia1_GG"]              = Ia1.GetFourVector(GG);
+  vP["Ib1_GG"]              = Ib1.GetFourVector(GG);
+  vP["Va1_Ga"]              = Va1.GetFourVector(Ga);
+  vP["Va2_Ga"]              = Va2.GetFourVector(Ga);
+  vP["Ia1_Ga"]              = Ia1.GetFourVector(Ga);
+  vP["Vb1_Gb"]              = Vb1.GetFourVector(Gb);
+  vP["Vb2_Gb"]              = Vb2.GetFourVector(Gb);
+  vP["Ib1_Gb"]              = Ib1.GetFourVector(Gb);
+  vP["Va2_Ca1"]             = Va2.GetFourVector(Ca1);
+  vP["Ia1_Ca1"]             = Ia1.GetFourVector(Ca1);
+  vP["Vb2_Cb1"]             = Vb2.GetFourVector(Cb1);
+  vP["Ib1_Cb1"]             = Ib1.GetFourVector(Cb1);
 
   // H-variables (H_{n,m}^{F} )
-  inclVar["H;1,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["H;2,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["H;2,2;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
-  inclVar["H;4,1;GG"] = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["H;4,2;GG"] = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
+  inclVar["H;1,1;GG"]       = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H;2,1;GG"]       = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H;2,2;GG"]       = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
+  inclVar["H;4,1;GG"]       = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H;4,2;GG"]       = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
 
-  inclVar["H;1,1;Ga"] = (vP["Va1_Ga"] + vP["Va2_Ga"]).P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
-  inclVar["H;1,1;Gb"] = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
-  inclVar["H;2,1;Ga"] = vP["Va1_Ga"].P()/1.e3 + vP["Va2_Ga"].P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
-  inclVar["H;2,1;Gb"] = vP["Vb1_Gb"].P()/1.e3 + vP["Vb2_Gb"].P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
+  inclVar["H;1,1;Ga"]       = (vP["Va1_Ga"] + vP["Va2_Ga"]).P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
+  inclVar["H;1,1;Gb"]       = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
+  inclVar["H;2,1;Ga"]       = vP["Va1_Ga"].P()/1.e3 + vP["Va2_Ga"].P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
+  inclVar["H;2,1;Gb"]       = vP["Vb1_Gb"].P()/1.e3 + vP["Vb2_Gb"].P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
 
-  inclVar["H;1,1;Ca1"] = vP["Va2_Ca1"].P()/1.e3 + vP["Ia1_Ca1"].P();
-  inclVar["H;1,1;Cb1"] = vP["Vb2_Cb1"].P()/1.e3 + vP["Ib1_Cb1"].P();
+  inclVar["H;1,1;Ca1"]      = vP["Va2_Ca1"].P()/1.e3 + vP["Ia1_Ca1"].P();
+  inclVar["H;1,1;Cb1"]      = vP["Vb2_Cb1"].P()/1.e3 + vP["Ib1_Cb1"].P();
 
-  inclVar["HT;2,1;GG"] = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["H;1,1;GG"]/2.;
-  inclVar["HT;2,2;GG"] = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
-  inclVar["HT;4,1;GG"] = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["H;1,1;GG"]/2.;
-  inclVar["HT;4,2;GG"] = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
+  inclVar["HT;2,1;GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["H;1,1;GG"]/2.;
+  inclVar["HT;2,2;GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
+  inclVar["HT;4,1;GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["H;1,1;GG"]/2.;
+  inclVar["HT;4,2;GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
 
   // sangle and dangle
   inclVar["s_angle"]        = std::fabs(inclVar["GG_dPhiDecay"] + 2.*inclVar["Ga_cos(Ia1)"])/3.;
@@ -404,15 +406,29 @@ EL::StatusCode Audit :: execute ()
   // Other variables -- what do we do with them???
   //inclVar["dPhiVP"]         = (GG.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
 
+  // gluino ratios
+  inclVar["ratio_H;1,1;GG_H;2,1;GG"]    = inclVar["H;1,1;GG"]/inclVar["H;2,1;GG"];
+  inclVar["ratio_HT;4,1;GG_H;4,1;GG"]   = inclVar["HT;4,1;GG"]/inclVar["H;4,1;GG"];
+  inclVar["ratio_H;1,1;GG_H;4,1;GG"]    = inclVar["H;1,1;GG"]/inclVar["H;4,1;GG"];
+  inclVar["maxRatio_H;1,0;PP_H;1,1;PP"] = std::max(
+                                            inclVar["p_Ga_GG"]/(inclVar["p_Va1_GG"] + inclVar["p_Va2_GG"]),
+                                            inclVar["p_Gb_GG"]/(inclVar["p_Vb1_GG"] + inclVar["p_Vb2_GG"])
+                                          );
+  // TODO: ratios not included
+  //inclVar["R_pTj2_HT3PP"]
+  //inclVar["minR_pTj2i_HT3PPi"]
+  //inclVar["R_HT9PP_H9PP"]
+  //inclVar["R_H2PP_H9PP"]
+
   if(m_debug){
     Info("execute()", "Details about RestFrames analysis...");
     Info("execute()", "\tinclVar");
     for(const auto& item: inclVar)
-      Info("execute()", "\t\t%15s: %0.4f", item.first.c_str(), item.second);
+      Info("execute()", "\t\t%20s: %0.4f", item.first.c_str(), item.second);
 
     Info("execute()", "\tMomentum Vectors");
     for(const auto& item: vP)
-      Info("execute()", "\t\t%15s: (pT, eta, phi, m) = (%0.4f, %0.4f, %0.4f, %0.4f)", item.first.c_str(), item.second.Pt()/1.e3, item.second.Eta(), item.second.Phi(), item.second.M()/1.e3);
+      Info("execute()", "\t\t%20s: (pT, eta, phi, m) = (%0.4f, %0.4f, %0.4f, %0.4f)", item.first.c_str(), item.second.Pt()/1.e3, item.second.Eta(), item.second.Phi(), item.second.M()/1.e3);
   }
 
   GG_mass_decor(*eventInfo)             = GG.GetMass();
