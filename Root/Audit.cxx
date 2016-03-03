@@ -383,8 +383,8 @@ EL::StatusCode Audit :: execute ()
   vP["Ib1_Cb1"]             = Ib1.GetFourVector(Cb1);
 
   // CM variables
-  inclVar["pT_CM"] = vP["GG"].Pt();
-  inclVar["pZ_CM"] = std::fabs(vP["GG"].Pz());
+  inclVar["pT_GG"] = vP["GG"].Pt()/1.e3;
+  inclVar["pZ_GG"] = std::fabs(vP["GG"].Pz())/1.e3;
 
   // H-variables (H_{n,m}^{F} )
   inclVar["H;1,1;GG"]       = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
@@ -446,11 +446,11 @@ EL::StatusCode Audit :: execute ()
     Info("execute()", "Details about RestFrames analysis...");
     Info("execute()", "\tinclVar");
     for(const auto& item: inclVar)
-      Info("execute()", "\t\t%20s: %0.4f", item.first.c_str(), item.second);
+      Info("execute()", "\t\t%30s: %0.4f", item.first.c_str(), item.second);
 
     Info("execute()", "\tMomentum Vectors");
     for(const auto& item: vP)
-      Info("execute()", "\t\t%20s: (pT, eta, phi, m) = (%0.4f, %0.4f, %0.4f, %0.4f)", item.first.c_str(), item.second.Pt()/1.e3, item.second.Eta(), item.second.Phi(), item.second.M()/1.e3);
+      Info("execute()", "\t\t%30s: (pT, eta, phi, m) = (%0.4f, %0.4f, %0.4f, %0.4f)", item.first.c_str(), item.second.Pt()/1.e3, item.second.Eta(), item.second.Phi(), item.second.M()/1.e3);
   }
 
   GG_mass_decor(*eventInfo)             = GG.GetMass();
