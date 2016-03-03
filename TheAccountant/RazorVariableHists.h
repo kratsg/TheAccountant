@@ -30,90 +30,90 @@ namespace TheAccountant
 
   private:
     TH1F* jet_multiplicity;
-    TH1F* ss_mass;
-    TH1F* ss_invgamma;
-    TH1F* ss_dphivis;
-    TH1F* ss_costheta;
-    TH1F* ss_dphidecayangle;
-    TH1F* ss_visshape;
-    TH1F* ss_mdeltaR;
+    TH1F* gg_mass;
+    TH1F* gg_invgamma;
+    TH1F* gg_dphivis;
+    TH1F* gg_costheta;
+    TH1F* gg_dphidecayangle;
+    TH1F* gg_visshape;
+    TH1F* gg_mdeltaR;
 
-    TH1F* ss_mdeltaR_ptless250;
-    TH1F* ss_mdeltaR_pt250to350;
-    TH1F* ss_mdeltaR_ptgreat350;
+    TH1F* gg_mdeltaR_ptless250;
+    TH1F* gg_mdeltaR_pt250to350;
+    TH1F* gg_mdeltaR_ptgreat350;
 
-    TH1F* mass_jets;
-    TH1F* jets_mass_largeR;
+    TH1F* magg_jets;
+    TH1F* jets_magg_largeR;
 
-    TH2F* ss_mass_vs_leadJetPt;
-    TH2F* ss_mass_vs_leadJetEta;
-    TH2F* ss_mass_vs_leadJetPhi;
-    TH2F* ss_mass_vs_leadJetMass;
-    TH2F* ss_mass_vs_leadJetEnergy;
-    TH2F* ss_mass_vs_leadJetRapidity;
-    TH2F* ss_mass_vs_jetMultiplicity;
-    TH2F* ss_mass_vs_2ndJetPt;
-    TH2F* ss_mass_vs_2ndJetEta;
-    TH2F* ss_mass_vs_2ndJetPhi;
-    TH2F* ss_mass_vs_2ndJetMass;
-    TH2F* ss_mass_vs_2ndJetEnergy;
-    TH2F* ss_mass_vs_2ndJetRapidity;
-    TH2F* ss_mass_vs_HT;
-    TH2F* ss_mass_vs_Meff;
+    TH2F* gg_magg_vs_leadJetPt;
+    TH2F* gg_magg_vs_leadJetEta;
+    TH2F* gg_magg_vs_leadJetPhi;
+    TH2F* gg_magg_vs_leadJetMass;
+    TH2F* gg_magg_vs_leadJetEnergy;
+    TH2F* gg_magg_vs_leadJetRapidity;
+    TH2F* gg_magg_vs_jetMultiplicity;
+    TH2F* gg_magg_vs_2ndJetPt;
+    TH2F* gg_magg_vs_2ndJetEta;
+    TH2F* gg_magg_vs_2ndJetPhi;
+    TH2F* gg_magg_vs_2ndJetMass;
+    TH2F* gg_magg_vs_2ndJetEnergy;
+    TH2F* gg_magg_vs_2ndJetRapidity;
+    TH2F* gg_magg_vs_HT;
+    TH2F* gg_magg_vs_Meff;
 
-    TH2F* ss_invgamma_vs_MET;
-    TH2F* ss_invgamma_vs_Meff;
+    TH2F* gg_invgamma_vs_MET;
+    TH2F* gg_invgamma_vs_Meff;
 
-    TH2F* ss_gamma_vs_Meff;
-    TH2F* ss_gamma_vs_MET;
+    TH2F* gg_gamma_vs_Meff;
+    TH2F* gg_gamma_vs_MET;
 
-    TH2F* ss_mdeltaR_vs_leadJetPt;
-    TH2F* ss_mdeltaR_vs_leadJetEta;
-    TH2F* ss_mdeltaR_vs_leadJetPhi;
-    TH2F* ss_mdeltaR_vs_leadJetMass;
-    TH2F* ss_mdeltaR_vs_leadJetEnergy;
-    TH2F* ss_mdeltaR_vs_leadJetRapidity;
-    TH2F* ss_mdeltaR_vs_jetMultiplicity;
-    TH2F* ss_mdeltaR_vs_2ndJetPt;
-    TH2F* ss_mdeltaR_vs_2ndJetEta;
-    TH2F* ss_mdeltaR_vs_2ndJetPhi;
-    TH2F* ss_mdeltaR_vs_2ndJetMass;
-    TH2F* ss_mdeltaR_vs_2ndJetEnergy;
-    TH2F* ss_mdeltaR_vs_2ndJetRapidity;
-    TH2F* ss_mdeltaR_vs_HT;
-    TH2F* ss_mdeltaR_vs_Meff;
+    TH2F* gg_mdeltaR_vs_leadJetPt;
+    TH2F* gg_mdeltaR_vs_leadJetEta;
+    TH2F* gg_mdeltaR_vs_leadJetPhi;
+    TH2F* gg_mdeltaR_vs_leadJetMass;
+    TH2F* gg_mdeltaR_vs_leadJetEnergy;
+    TH2F* gg_mdeltaR_vs_leadJetRapidity;
+    TH2F* gg_mdeltaR_vs_jetMultiplicity;
+    TH2F* gg_mdeltaR_vs_2ndJetPt;
+    TH2F* gg_mdeltaR_vs_2ndJetEta;
+    TH2F* gg_mdeltaR_vs_2ndJetPhi;
+    TH2F* gg_mdeltaR_vs_2ndJetMass;
+    TH2F* gg_mdeltaR_vs_2ndJetEnergy;
+    TH2F* gg_mdeltaR_vs_2ndJetRapidity;
+    TH2F* gg_mdeltaR_vs_HT;
+    TH2F* gg_mdeltaR_vs_Meff;
 
-    TH2F* ss_costheta_vs_leadJetEta;
-    TH2F* ss_costheta_vs_leadJetPhi;
-    TH2F* ss_costheta_vs_leadJetRapidity;
-    TH2F* ss_costheta_vs_2ndJetEta;
-    TH2F* ss_costheta_vs_2ndJetPhi;
-    TH2F* ss_costheta_vs_2ndJetRapidity;
+    TH2F* gg_costheta_vs_leadJetEta;
+    TH2F* gg_costheta_vs_leadJetPhi;
+    TH2F* gg_costheta_vs_leadJetRapidity;
+    TH2F* gg_costheta_vs_2ndJetEta;
+    TH2F* gg_costheta_vs_2ndJetPhi;
+    TH2F* gg_costheta_vs_2ndJetRapidity;
 
-    TH1F* ss_abs_costheta;
-    TH1F* s1_abs_costheta;
-    TH1F* s2_abs_costheta;
+    TH1F* gg_abs_costheta;
+    TH1F* ga_abs_costheta;
+    TH1F* gb_abs_costheta;
 
-    TH2F* ss_dphivis_vs_MET;
+    TH2F* gg_dphivis_vs_MET;
 
-    TH2F* ss_dphidecayangle_vs_MET;
+    TH2F* gg_dphidecayangle_vs_MET;
 
-    TH2F* ss_dphidecayangle_vs_METphi;
-    TH2F* ss_dphivis_vs_METphi;
+    TH2F* gg_dphidecayangle_vs_METphi;
+    TH2F* gg_dphivis_vs_METphi;
 
-    TH1F* s1_mass;
-    TH1F* s1_costheta;
+    TH1F* ga_mass;
+    TH1F* ga_costheta;
 
-    TH1F* s2_mass;
-    TH1F* s2_costheta;
+    TH1F* gb_mass;
+    TH1F* gb_costheta;
 
-    TH1F* i1_depth;
-    TH1F* i2_depth;
+    TH1F* ia1_depth;
+    TH1F* ib1_depth;
 
-    TH1F* v1_nelements;
-    TH1F* v2_nelements;
+    TH1F* va1_n;
+    TH1F* vb1_n;
 
-    TH2F* ss_mdeltaR_vs_METsig;
+    TH2F* gg_mdeltaR_vs_METsig;
 
   };
 }
