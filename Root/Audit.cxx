@@ -293,8 +293,6 @@ EL::StatusCode Audit :: execute ()
 
   // Signal Variables
   // https://github.com/lawrenceleejr/ZeroLeptonRun2/blob/67042394b0bca205081175f002ef3fb44fd46b98/Root/PhysObjProxyUtils.cxx#L471
-  typedef TLorentzVector TLV;
-
   // inclusive variable definitions
   std::map<std::string, double> inclVar;
 
@@ -308,13 +306,17 @@ EL::StatusCode Audit :: execute ()
   inclVar["Va2_mass"]       = Va2.GetMass()/1.e3;
   inclVar["Vb2_mass"]       = Vb2.GetMass()/1.e3;
 
+  // used for HT
+  inclVar["pT_GG_Ga"]       = GG.GetTransverseMomentum(Va1.GetFourVector() + Va2.GetFourVector())/1.e3;
   inclVar["pT_Va1_GG"]      = Va1.GetTransverseMomentum(GG)/1.e3;
   inclVar["pT_Va2_GG"]      = Va2.GetTransverseMomentum(GG)/1.e3;
+  inclVar["pT_GG_Gb"]       = GG.GetTransverseMomentum(Vb1.GetFourVector() + Vb2.GetFourVector())/1.e3;
   inclVar["pT_Vb1_GG"]      = Vb1.GetTransverseMomentum(GG)/1.e3;
   inclVar["pT_Vb2_GG"]      = Vb2.GetTransverseMomentum(GG)/1.e3;
   inclVar["pT_Ia1_GG"]      = Ia1.GetTransverseMomentum(GG)/1.e3;
   inclVar["pT_Ib1_GG"]      = Ib1.GetTransverseMomentum(GG)/1.e3;
 
+  // used for gluino ratios
   inclVar["p_Va1_GG"]       = Va1.GetMomentum(GG)/1.e3;
   inclVar["p_Va2_GG"]       = Va2.GetMomentum(GG)/1.e3;
   inclVar["p_Vb1_GG"]       = Vb1.GetMomentum(GG)/1.e3;
@@ -328,12 +330,12 @@ EL::StatusCode Audit :: execute ()
   inclVar["GG_mDeltaR"]     = GG.GetVisibleShape() * GG.GetMass()/1.e3;
 
   // counting
-  inclVar["Ga_n"]           = VIS.GetNElementsInFrame(Va1) + VIS.GetNElementsInFrame(Va2);
-  inclVar["Gb_n"]           = VIS.GetNElementsInFrame(Vb1) + VIS.GetNElementsInFrame(Vb2);
   inclVar["Va1_n"]          = VIS.GetNElementsInFrame(Va1);
   inclVar["Vb1_n"]          = VIS.GetNElementsInFrame(Vb1);
+  inclVar["Ga_n"]           = inclVar["Va1_n"] + inclVar["Va2_n"];
   inclVar["Va2_n"]          = VIS.GetNElementsInFrame(Va2);
   inclVar["Vb2_n"]          = VIS.GetNElementsInFrame(Vb2);
+  inclVar["Gb_n"]           = inclVar["Vb1_n"] + inclVar["Vb2_n"];
   inclVar["Ia1_depth"]      = Ga.GetFrameDepth(Ia1);
   inclVar["Ib1_depth"]      = Gb.GetFrameDepth(Ib1);
 
@@ -355,7 +357,7 @@ EL::StatusCode Audit :: execute ()
   inclVar["Vb2_dPhi"]       = Cb1.GetDeltaPhiDecayPlanes(Vb2);
 
   // momentum (P) vectors
-  std::map<std::string, TLV> vP;
+  std::map<std::string, TLorentzVector> vP;
   vP["Ga"] = Ga.GetVisibleFourVector(Ga);
   vP["Gb"] = Gb.GetVisibleFourVector(Gb);
   vP["Va1_GG"] = Va1.GetFourVector(GG);
@@ -370,31 +372,37 @@ EL::StatusCode Audit :: execute ()
   vP["Vb1_Gb"] = Vb1.GetFourVector(Gb);
   vP["Vb2_Gb"] = Vb2.GetFourVector(Gb);
   vP["Ib1_Gb"] = Ib1.GetFourVector(Gb);
+  vP["Va2_Ca1"] = Va2.GetFourVector(Ca1);
+  vP["Ia1_Ca1"] = Ia1.GetFourVector(Ca1);
+  vP["Vb2_Cb1"] = Vb2.GetFourVector(Cb1);
+  vP["Ib1_Cb1"] = Ib1.GetFourVector(Cb1);
 
   // H-variables (H_{n,m}^{F} )
-  /*
-    H2PP = H1,1PP
-    H3PP = H2,1PP
-    H4PP = H2,2PP
-    H5PP = H4,1PP
-    H6PP = H4,2PP
-  */
-  inclVar["1,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["2,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["2,2;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
-  inclVar["4,1;GG"] = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["4,2;GG"] = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
+  inclVar["H;1,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H;2,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H;2,2;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
+  inclVar["H;4,1;GG"] = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H;4,2;GG"] = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
 
-  inclVar["1,1;Ga"] = (vP["Va1_Ga"] + vP["Va2_Ga"]).P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
-  inclVar["1,1;Gb"] = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
-  inclVar["2,1;Ga"] = vP["Va1_Ga"].P()/1.e3 + vP["Va2_Ga"].P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
-  inclVar["2,1;Gb"] = vP["Vb1_Gb"].P()/1.e3 + vP["Vb2_Gb"].P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
+  inclVar["H;1,1;Ga"] = (vP["Va1_Ga"] + vP["Va2_Ga"]).P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
+  inclVar["H;1,1;Gb"] = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
+  inclVar["H;2,1;Ga"] = vP["Va1_Ga"].P()/1.e3 + vP["Va2_Ga"].P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
+  inclVar["H;2,1;Gb"] = vP["Vb1_Gb"].P()/1.e3 + vP["Vb2_Gb"].P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
+
+  inclVar["H;1,1;Ca1"] = vP["Va2_Ca1"].P()/1.e3 + vP["Ia1_Ca1"].P();
+  inclVar["H;1,1;Cb1"] = vP["Vb2_Cb1"].P()/1.e3 + vP["Ib1_Cb1"].P();
+
+  inclVar["HT;2,1;GG"] = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["H;1,1;GG"]/2.;
+  inclVar["HT;2,2;GG"] = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
+  inclVar["HT;4,1;GG"] = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["H;1,1;GG"]/2.;
+  inclVar["HT;4,2;GG"] = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
+
+  // sangle and dangle
+  inclVar["s_angle"]        = std::fabs(inclVar["GG_dPhiDecay"] + 2.*inclVar["Ga_cos(Ia1)"])/3.;
+  inclVar["d_angle"]        = (2.*inclVar["GG_dPhiDecay"] - inclVar["Ga_cos(Ia1)"])/3.;
 
   // Other variables -- what do we do with them???
-  std::map<std::string, float> RJRVars;
-  RJRVars["dPhiVP"]         = (GG.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
-  RJRVars["s_angle"]        = std::fabs(GG.GetDeltaPhiDecayVisible() + 2.*RJRVars["cosP"])/3.;
-  RJRVars["d_angle"]        = (2.*GG.GetDeltaPhiDecayVisible() - RJRVars["cosP"])/3.;
+  //inclVar["dPhiVP"]         = (GG.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
 
   if(m_debug){
     Info("execute()", "Details about RestFrames analysis...");
