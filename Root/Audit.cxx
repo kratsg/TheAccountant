@@ -353,13 +353,16 @@ EL::StatusCode Audit :: execute ()
   inclVar["GG_dPhiVis"]     = GG.GetDeltaPhiVisible();
   inclVar["GG_dPhiBetaR"]   = GG.GetDeltaPhiBoostVisible();
   inclVar["GG_dPhiDecay"]   = GG.GetDeltaPhiDecayVisible();
-  inclVar["Va1_dPhi"]       = Ga.GetDeltaPhiDecayPlanes(Va1);
-  inclVar["Vb1_dPhi"]       = Gb.GetDeltaPhiDecayPlanes(Vb1);
-  inclVar["Va2_dPhi"]       = Ca1.GetDeltaPhiDecayPlanes(Va2);
-  inclVar["Vb2_dPhi"]       = Cb1.GetDeltaPhiDecayPlanes(Vb2);
+  inclVar["dPhi_Ga_Va1"]    = Ga.GetDeltaPhiDecayPlanes(Va1);
+  inclVar["dPhi_Ga_Ca1"]    = Ga.GetDeltaPhiDecayPlanes(Ca1);
+  inclVar["dPhi_Gb_Vb1"]    = Gb.GetDeltaPhiDecayPlanes(Vb1);
+  inclVar["dPhi_Gb_Cb1"]    = Gb.GetDeltaPhiDecayPlanes(Cb1);
+  inclVar["dPhi_Ca1_Va2"]   = Ca1.GetDeltaPhiDecayPlanes(Va2);
+  inclVar["dPhi_Cb1_Vb2"]   = Cb1.GetDeltaPhiDecayPlanes(Vb2);
 
   // momentum (P) vectors
   std::map<std::string, TLorentzVector> vP;
+  vP["GG"]                  = GG.GetFourVector(LAB);
   vP["Ga"]                  = Ga.GetVisibleFourVector(Ga);
   vP["Gb"]                  = Gb.GetVisibleFourVector(Gb);
   vP["Va1_GG"]              = Va1.GetFourVector(GG);
@@ -378,6 +381,10 @@ EL::StatusCode Audit :: execute ()
   vP["Ia1_Ca1"]             = Ia1.GetFourVector(Ca1);
   vP["Vb2_Cb1"]             = Vb2.GetFourVector(Cb1);
   vP["Ib1_Cb1"]             = Ib1.GetFourVector(Cb1);
+
+  // CM variables
+  inclVar["pT_CM"] = vP["GG"].Pt();
+  inclVar["pZ_CM"] = std::fabs(vP["GG"].Pz());
 
   // H-variables (H_{n,m}^{F} )
   inclVar["H;1,1;GG"]       = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
@@ -399,6 +406,14 @@ EL::StatusCode Audit :: execute ()
   inclVar["HT;4,1;GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["H;1,1;GG"]/2.;
   inclVar["HT;4,2;GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
 
+  // gluino hemishpere variables
+  double ddphiGa = inclVar["dPhi_Ga_Ca1"];
+  double ddphiGb = inclVar["dPhi_Gb_Cb1"];
+  if(ddphiGa > std::acos(-1.)) ddphiGa = 2.*std::acos(-1.) - ddphiGa;
+  if(ddphiGb > std::acos(-1.)) ddphiGb = 2.*std::acos(-1.) - ddphiGb;
+  inclVar["d_dPhiG"] = (ddphiGa - ddphiGb)/std::acos(-1.);
+  inclVar["s_dPhiG"] = std::fabs(ddphiGa + ddphiGb)/2./std::acos(-1.);
+
   // sangle and dangle
   inclVar["s_angle"]        = std::fabs(inclVar["GG_dPhiDecay"] + 2.*inclVar["Ga_cos(Ia1)"])/3.;
   inclVar["d_angle"]        = (2.*inclVar["GG_dPhiDecay"] - inclVar["Ga_cos(Ia1)"])/3.;
@@ -406,7 +421,12 @@ EL::StatusCode Audit :: execute ()
   // Other variables -- what do we do with them???
   //inclVar["dPhiVP"]         = (GG.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
 
-  // gluino ratios
+  // ratios
+  inclVar["ratio_pZ;GG_HT;2,1;GG"] = inclVar["pZ_GG"]/(inclVar["pZ_GG"] + inclVar["HT;2,1;GG"]);
+  inclVar["ratio_pZ;GG_HT;4,1;GG"] = inclVar["pZ_GG"]/(inclVar["pZ_GG"] + inclVar["HT;4,1;GG"]);
+  inclVar["ratio_pT;GG_HT;2,1;GG"] = inclVar["pT_GG"]/(inclVar["pT_GG"] + inclVar["HT;2,1;GG"]);
+  inclVar["ratio_pT;GG_HT;4,1;GG"] = inclVar["pT_GG"]/(inclVar["pT_GG"] + inclVar["HT;4,1;GG"]);
+
   inclVar["ratio_H;1,1;GG_H;2,1;GG"]    = inclVar["H;1,1;GG"]/inclVar["H;2,1;GG"];
   inclVar["ratio_HT;4,1;GG_H;4,1;GG"]   = inclVar["HT;4,1;GG"]/inclVar["H;4,1;GG"];
   inclVar["ratio_H;1,1;GG_H;4,1;GG"]    = inclVar["H;1,1;GG"]/inclVar["H;4,1;GG"];
@@ -415,6 +435,8 @@ EL::StatusCode Audit :: execute ()
                                             inclVar["p_Gb_GG"]/(inclVar["p_Vb1_GG"] + inclVar["p_Vb2_GG"])
                                           );
   // TODO: ratios not included
+  //inclVar["m_RPZ_HT9PP"]
+  //inclVar["m_RPT_HT9PP"]
   //inclVar["R_pTj2_HT3PP"]
   //inclVar["minR_pTj2i_HT3PPi"]
   //inclVar["R_HT9PP_H9PP"]
