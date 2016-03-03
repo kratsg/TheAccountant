@@ -235,10 +235,10 @@ EL::StatusCode Audit :: execute ()
   static VD::decor_t<float> Gb_costheta_decor         ("Gb_costheta");
   static VD::decor_t<float> Ia1_depth_decor            ("Ia1_depth");
   static VD::decor_t<float> Ib1_depth_decor            ("Ib1_depth");
-  static VD::decor_t<float> Va1_nelements_decor        ("Va1_nelements");
-  static VD::decor_t<float> Va2_nelements_decor        ("Va2_nelements");
-  static VD::decor_t<float> Vb1_nelements_decor        ("Vb1_nelements");
-  static VD::decor_t<float> Vb2_nelements_decor        ("Vb2_nelements");
+  static VD::decor_t<float> Va1_n_decor        ("Va1_n");
+  static VD::decor_t<float> Va2_n_decor        ("Va2_n");
+  static VD::decor_t<float> Vb1_n_decor        ("Vb1_n");
+  static VD::decor_t<float> Vb2_n_decor        ("Vb2_n");
   // initialize to zero on event
   GG_mass_decor(*eventInfo)             = -99;
   GG_invgamma_decor(*eventInfo)         = -99;
@@ -252,10 +252,10 @@ EL::StatusCode Audit :: execute ()
   Gb_costheta_decor(*eventInfo)         = -99;
   Ia1_depth_decor(*eventInfo)            = -99;
   Ib1_depth_decor(*eventInfo)            = -99;
-  Va1_nelements_decor(*eventInfo)        = -99;
-  Va2_nelements_decor(*eventInfo)        = -99;
-  Vb1_nelements_decor(*eventInfo)        = -99;
-  Vb2_nelements_decor(*eventInfo)        = -99;
+  Va1_n_decor(*eventInfo)        = -99;
+  Va2_n_decor(*eventInfo)        = -99;
+  Vb1_n_decor(*eventInfo)        = -99;
+  Vb2_n_decor(*eventInfo)        = -99;
 
 
   // clear the event
@@ -295,6 +295,65 @@ EL::StatusCode Audit :: execute ()
   // https://github.com/lawrenceleejr/ZeroLeptonRun2/blob/67042394b0bca205081175f002ef3fb44fd46b98/Root/PhysObjProxyUtils.cxx#L471
   typedef TLorentzVector TLV;
 
+  // inclusive variable definitions
+  std::map<std::string, double> inclVar;
+
+  inclVar["GG_mass"]        = GG.GetMass()/1.e3;
+  inclVar["Ga_mass"]        = Ga.GetMass()/1.e3;
+  inclVar["Gb_mass"]        = Gb.GetMass()/1.e3;
+  inclVar["Ca1_mass"]       = Ca1.GetMass()/1.e3;
+  inclVar["Cb1_mass"]       = Cb1.GetMass()/1.e3;
+  inclVar["Va1_mass"]       = Va1.GetMass()/1.e3;
+  inclVar["Vb1_mass"]       = Vb1.GetMass()/1.e3;
+  inclVar["Va2_mass"]       = Va2.GetMass()/1.e3;
+  inclVar["Vb2_mass"]       = Vb2.GetMass()/1.e3;
+
+  inclVar["pT_Va1_GG"]      = Va1.GetTransverseMomentum(GG)/1.e3;
+  inclVar["pT_Va2_GG"]      = Va2.GetTransverseMomentum(GG)/1.e3;
+  inclVar["pT_Vb1_GG"]      = Vb1.GetTransverseMomentum(GG)/1.e3;
+  inclVar["pT_Vb2_GG"]      = Vb2.GetTransverseMomentum(GG)/1.e3;
+  inclVar["pT_Ia1_GG"]      = Ia1.GetTransverseMomentum(GG)/1.e3;
+  inclVar["pT_Ib1_GG"]      = Ib1.GetTransverseMomentum(GG)/1.e3;
+
+  inclVar["p_Va1_GG"]       = Va1.GetMomentum(GG)/1.e3;
+  inclVar["p_Va2_GG"]       = Va2.GetMomentum(GG)/1.e3;
+  inclVar["p_Vb1_GG"]       = Vb1.GetMomentum(GG)/1.e3;
+  inclVar["p_Vb2_GG"]       = Vb2.GetMomentum(GG)/1.e3;
+  inclVar["p_Ia1_GG"]       = Ia1.GetMomentum(GG)/1.e3;
+  inclVar["p_Ib1_GG"]       = Ib1.GetMomentum(GG)/1.e3;
+
+  //inclVar["GG_invGamma"]    = 1./GG.GetGammaInParentFrame();
+  inclVar["GG_invGamma"]    = GG.GetVisibleShape();
+  inclVar["GG_visShape"]    = GG.GetVisibleShape();
+  inclVar["GG_mDeltaR"]     = GG.GetVisibleShape() * GG.GetMass()/1.e3;
+
+  // counting
+  inclVar["Ga_n"]           = VIS.GetNElementsInFrame(Va1) + VIS.GetNElementsInFrame(Va2);
+  inclVar["Gb_n"]           = VIS.GetNElementsInFrame(Vb1) + VIS.GetNElementsInFrame(Vb2);
+  inclVar["Va1_n"]          = VIS.GetNElementsInFrame(Va1);
+  inclVar["Vb1_n"]          = VIS.GetNElementsInFrame(Vb1);
+  inclVar["Va2_n"]          = VIS.GetNElementsInFrame(Va2);
+  inclVar["Vb2_n"]          = VIS.GetNElementsInFrame(Vb2);
+  inclVar["Ia1_depth"]      = Ga.GetFrameDepth(Ia1);
+  inclVar["Ib1_depth"]      = Gb.GetFrameDepth(Ib1);
+
+  inclVar["GG_cosTheta"]    = GG.GetCosDecayAngle();
+  inclVar["Ga_cos(Ia1)"]    = Ga.GetCosDecayAngle(Ia1);
+  inclVar["Gb_cos(Ib1)"]    = Gb.GetCosDecayAngle(Ib1);
+  inclVar["Va1_cosTheta"]   = Ga.GetCosDecayAngle();
+  inclVar["Vb1_cosTheta"]   = Gb.GetCosDecayAngle();
+  inclVar["Va2_cosTheta"]   = Ca1.GetCosDecayAngle();
+  inclVar["Vb2_cosTheta"]   = Cb1.GetCosDecayAngle();
+
+  // delta phi
+  inclVar["GG_dPhiVis"]     = GG.GetDeltaPhiVisible();
+  inclVar["GG_dPhiBetaR"]   = GG.GetDeltaPhiBoostVisible();
+  inclVar["GG_dPhiDecay"]   = GG.GetDeltaPhiDecayVisible();
+  inclVar["Va1_dPhi"]       = Ga.GetDeltaPhiDecayPlanes(Va1);
+  inclVar["Vb1_dPhi"]       = Gb.GetDeltaPhiDecayPlanes(Vb1);
+  inclVar["Va2_dPhi"]       = Ca1.GetDeltaPhiDecayPlanes(Va2);
+  inclVar["Vb2_dPhi"]       = Cb1.GetDeltaPhiDecayPlanes(Vb2);
+
   // momentum (P) vectors
   std::map<std::string, TLV> vP;
   vP["Ga"] = Ga.GetVisibleFourVector(Ga);
@@ -320,70 +379,32 @@ EL::StatusCode Audit :: execute ()
     H5PP = H4,1PP
     H6PP = H4,2PP
   */
-  std::map<std::string, double> Hvar; // format is "n,m;F"
-  Hvar["1,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P();
-  Hvar["2,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P() + (vP["Vb1_GG"] + vP["Vb2_GG"]).P() + (vP["Ia1_GG"] + vP["Ib1_GG"]).P();
-  Hvar["2,2;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P() + (vP["Vb1_GG"] + vP["Vb2_GG"]).P() + vP["Ia1_GG"].P() + vP["Ib1_GG"].P();
-  Hvar["4,1;GG"] = vP["Va1_GG"].P() + vP["Va2_GG"].P() + vP["Vb1_GG"].P() + vP["Vb2_GG"].P() + (vP["Ia1_GG"] + vP["Ib1_GG"]).P();
-  Hvar["4,2;GG"] = vP["Va1_GG"].P() + vP["Va2_GG"].P() + vP["Vb1_GG"].P() + vP["Vb2_GG"].P() + vP["Ia1_GG"].P() + vP["Ib1_GG"].P();
+  inclVar["1,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["2,1;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["2,2;GG"] = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
+  inclVar["4,1;GG"] = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["4,2;GG"] = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
 
-  Hvar["1,1;Ga"] = (vP["Va1_Ga"] + vP["Va2_Ga"]).P() + vP["Ia1_Ga"].P();
-  Hvar["1,1;Gb"] = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P() + vP["Ib1_Gb"].P();
-  Hvar["2,1;Ga"] = vP["Va1_Ga"].P() + vP["Va2_Ga"].P() + vP["Ia1_Ga"].P();
-  Hvar["2,1;Gb"] = vP["Vb1_Gb"].P() + vP["Vb2_Gb"].P() + vP["Ib1_Gb"].P();
+  inclVar["1,1;Ga"] = (vP["Va1_Ga"] + vP["Va2_Ga"]).P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
+  inclVar["1,1;Gb"] = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
+  inclVar["2,1;Ga"] = vP["Va1_Ga"].P()/1.e3 + vP["Va2_Ga"].P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
+  inclVar["2,1;Gb"] = vP["Vb1_Gb"].P()/1.e3 + vP["Vb2_Gb"].P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
 
-  // Other variables
+  // Other variables -- what do we do with them???
   std::map<std::string, float> RJRVars;
-  RJRVars["GG_mass"]        = GG.GetMass();
-  RJRVars["GG_invGamma"]    = 1./GG.GetGammaInParentFrame();
-  RJRVars["GG_dphiVis"]     = GG.GetDeltaPhiBoostVisible();
-  RJRVars["GG_cosTheta"]    = GG.GetCosDecayAngle();
-  RJRVars["GG_VisShape"]    = GG.GetVisibleShape();
-  RJRVars["GG_MDR"]         = GG.GetVisibleShape() * GG.GetMass();
-
-  RJRVars["Ga_mass"]        = Ga.GetMass();
-  RJRVars["Ga_cosTheta"]    = Ga.GetCosDecayAngle();
-  RJRVars["Gb_mass"]        = Gb.GetMass();
-  RJRVars["Gb_cosTheta"]    = Gb.GetCosDecayAngle();
-  RJRVars["Ia1_depth"]       = Ga.GetFrameDepth(Ia1);
-  RJRVars["Ib1_depth"]       = Gb.GetFrameDepth(Ib1);
-  RJRVars["Va1_n"]           = VIS.GetNElementsInFrame(Va1);
-  RJRVars["Va2_n"]           = VIS.GetNElementsInFrame(Va2);
-  RJRVars["Vb1_n"]           = VIS.GetNElementsInFrame(Vb1);
-  RJRVars["Vb2_n"]           = VIS.GetNElementsInFrame(Vb2);
-
-  RJRVars["cosP"]           = Ga.GetCosDecayAngle(Ia1);
   RJRVars["dPhiVP"]         = (GG.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
   RJRVars["s_angle"]        = std::fabs(GG.GetDeltaPhiDecayVisible() + 2.*RJRVars["cosP"])/3.;
   RJRVars["d_angle"]        = (2.*GG.GetDeltaPhiDecayVisible() - RJRVars["cosP"])/3.;
 
-  RJRVars["pT_Va1_GG"]      = Va1.GetTransverseMomentum(GG);
-  RJRVars["pT_Va2_GG"]      = Va2.GetTransverseMomentum(GG);
-  RJRVars["pT_Vb1_GG"]      = Vb1.GetTransverseMomentum(GG);
-  RJRVars["pT_Vb2_GG"]      = Vb2.GetTransverseMomentum(GG);
-  RJRVars["pT_Ia1_GG"]      = Ia1.GetTransverseMomentum(GG);
-  RJRVars["pT_Ib1_GG"]      = Ib1.GetTransverseMomentum(GG);
-
-  RJRVars["p_Va1_GG"]       = Va1.GetMomentum(GG);
-  RJRVars["p_Va2_GG"]       = Va2.GetMomentum(GG);
-  RJRVars["p_Vb1_GG"]       = Vb1.GetMomentum(GG);
-  RJRVars["p_Vb2_GG"]       = Vb2.GetMomentum(GG);
-  RJRVars["p_Ia1_GG"]       = Ia1.GetMomentum(GG);
-  RJRVars["p_Ib1_GG"]       = Ib1.GetMomentum(GG);
-
   if(m_debug){
     Info("execute()", "Details about RestFrames analysis...");
-    Info("execute()", "\tRJRVars");
-    for(const auto& item: RJRVars)
-      Info("execute()", "\t\t%10s: %0.4f", item.first.c_str(), item.second);
+    Info("execute()", "\tinclVar");
+    for(const auto& item: inclVar)
+      Info("execute()", "\t\t%15s: %0.4f", item.first.c_str(), item.second);
 
     Info("execute()", "\tMomentum Vectors");
     for(const auto& item: vP)
-      Info("execute()", "\t\t%10s: (pT, eta, phi, m) = (%0.4f, %0.4f, %0.4f, %0.4f)", item.first.c_str(), item.second.Pt(), item.second.Eta(), item.second.Phi(), item.second.M());
-
-    Info("execute()", "\tH-variables");
-    for(const auto& item: Hvar)
-      Info("execute()", "\t\t%10s: %0.4f", item.first.c_str(), item.second);
+      Info("execute()", "\t\t%15s: (pT, eta, phi, m) = (%0.4f, %0.4f, %0.4f, %0.4f)", item.first.c_str(), item.second.Pt()/1.e3, item.second.Eta(), item.second.Phi(), item.second.M()/1.e3);
   }
 
   GG_mass_decor(*eventInfo)             = GG.GetMass();
@@ -398,10 +419,10 @@ EL::StatusCode Audit :: execute ()
   Gb_costheta_decor(*eventInfo)         = Gb.GetCosDecayAngle();
   Ia1_depth_decor(*eventInfo)           = Ga.GetFrameDepth(Ia1);
   Ib1_depth_decor(*eventInfo)           = Gb.GetFrameDepth(Ib1);
-  Va1_nelements_decor(*eventInfo)       = VIS.GetNElementsInFrame(Va1);
-  Va2_nelements_decor(*eventInfo)       = VIS.GetNElementsInFrame(Va2);
-  Vb1_nelements_decor(*eventInfo)       = VIS.GetNElementsInFrame(Vb1);
-  Vb2_nelements_decor(*eventInfo)       = VIS.GetNElementsInFrame(Vb2);
+  Va1_n_decor(*eventInfo)               = VIS.GetNElementsInFrame(Va1);
+  Va2_n_decor(*eventInfo)               = VIS.GetNElementsInFrame(Va2);
+  Vb1_n_decor(*eventInfo)               = VIS.GetNElementsInFrame(Vb1);
+  Vb2_n_decor(*eventInfo)               = VIS.GetNElementsInFrame(Vb2);
 
   /* TODO
      QCD rejection stuff
