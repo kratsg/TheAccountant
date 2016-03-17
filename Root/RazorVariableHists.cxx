@@ -126,33 +126,51 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   static VD::accessor_t<float> Va1_n_acc("Va1_n");
   static VD::accessor_t<float> Vb1_n_acc("Vb1_n");
 
-  gg_mass->           Fill( GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_invgamma->       Fill( GG_invgamma_acc(*eventInfo),eventWeight);
-  gg_dphivis->        Fill( GG_dphivis_acc(*eventInfo), eventWeight);
-  gg_costheta->       Fill( GG_costheta_acc(*eventInfo), eventWeight);
-  gg_dphidecayangle-> Fill( GG_dphidecayangle_acc(*eventInfo), eventWeight);
-  //gg_visshape->       Fill( GG_decor(*eventInfo).GetVisibleShape(), eventWeight);
-  gg_mdeltaR->        Fill( GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  ga_mass->           Fill( Ga_magg_acc(*eventInfo)/1000., eventWeight);
-  ga_costheta->       Fill( Ga_costheta_acc(*eventInfo), eventWeight);
-  gb_mass->           Fill( Gb_magg_acc(*eventInfo)/1000., eventWeight);
-  gb_costheta->       Fill( Gb_costheta_acc(*eventInfo), eventWeight);
-  ia1_depth->          Fill( Ia1_depth_acc(*eventInfo), eventWeight);
-  ib1_depth->          Fill( Ib1_depth_acc(*eventInfo), eventWeight);
-  va1_n->      Fill( Va1_n_acc(*eventInfo), eventWeight);
-  vb1_n->      Fill( Vb1_n_acc(*eventInfo), eventWeight);
+  if(GG_magg_acc.isAvailable(*eventInfo))
+    gg_mass->           Fill( GG_magg_acc(*eventInfo)/1000., eventWeight);
+  if(GG_invgamma_acc.isAvailable(*eventInfo))
+    gg_invgamma->       Fill( GG_invgamma_acc(*eventInfo),eventWeight);
+  if(GG_dphivis_acc.isAvailable(*eventInfo))
+    gg_dphivis->        Fill( GG_dphivis_acc(*eventInfo), eventWeight);
+  if(GG_costheta_acc.isAvailable(*eventInfo))
+    gg_costheta->       Fill( GG_costheta_acc(*eventInfo), eventWeight);
+  if(GG_dphidecayangle_acc.isAvailable(*eventInfo))
+    gg_dphidecayangle-> Fill( GG_dphidecayangle_acc(*eventInfo), eventWeight);
+  if(GG_mdeltaR_acc.isAvailable(*eventInfo))
+    gg_mdeltaR->        Fill( GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+  if(Ga_magg_acc.isAvailable(*eventInfo))
+    ga_mass->           Fill( Ga_magg_acc(*eventInfo)/1000., eventWeight);
+  if(Ga_costheta_acc.isAvailable(*eventInfo))
+    ga_costheta->       Fill( Ga_costheta_acc(*eventInfo), eventWeight);
+  if(Gb_magg_acc.isAvailable(*eventInfo))
+    gb_mass->           Fill( Gb_magg_acc(*eventInfo)/1000., eventWeight);
+  if(Gb_costheta_acc.isAvailable(*eventInfo))
+    gb_costheta->       Fill( Gb_costheta_acc(*eventInfo), eventWeight);
+  if(Ia1_depth_acc.isAvailable(*eventInfo))
+    ia1_depth->          Fill( Ia1_depth_acc(*eventInfo), eventWeight);
+  if(Ib1_depth_acc.isAvailable(*eventInfo))
+    ib1_depth->          Fill( Ib1_depth_acc(*eventInfo), eventWeight);
+  if(Va1_n_acc.isAvailable(*eventInfo))
+    va1_n->      Fill( Va1_n_acc(*eventInfo), eventWeight);
+  if(Vb1_n_acc.isAvailable(*eventInfo))
+    vb1_n->      Fill( Vb1_n_acc(*eventInfo), eventWeight);
 
-  gg_abs_costheta->   Fill( std::fabs(GG_costheta_acc(*eventInfo)), eventWeight);
-  ga_abs_costheta->   Fill( std::fabs(Ga_costheta_acc(*eventInfo)), eventWeight);
-  gb_abs_costheta->   Fill( std::fabs(Gb_costheta_acc(*eventInfo)), eventWeight);
+  if(GG_costheta_acc.isAvailable(*eventInfo))
+    gg_abs_costheta->   Fill( std::fabs(GG_costheta_acc(*eventInfo)), eventWeight);
+  if(Ga_costheta_acc.isAvailable(*eventInfo))
+    ga_abs_costheta->   Fill( std::fabs(Ga_costheta_acc(*eventInfo)), eventWeight);
+  if(Gb_costheta_acc.isAvailable(*eventInfo))
+    gb_abs_costheta->   Fill( std::fabs(Gb_costheta_acc(*eventInfo)), eventWeight);
 
 
-  if((GG_mdeltaR_acc(*eventInfo)/1000.)<250)
-    gg_mdeltaR_ptless250->Fill(GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  else if ((GG_mdeltaR_acc(*eventInfo)/1000.)<350)
-    gg_mdeltaR_pt250to350->Fill(GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  else
-    gg_mdeltaR_ptgreat350->Fill(GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+  if(GG_mdeltaR_acc.isAvailable(*eventInfo)){
+    if((GG_mdeltaR_acc(*eventInfo)/1000.)<250)
+      gg_mdeltaR_ptless250->Fill(GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    else if ((GG_mdeltaR_acc(*eventInfo)/1000.)<350)
+      gg_mdeltaR_pt250to350->Fill(GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    else
+      gg_mdeltaR_ptgreat350->Fill(GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+  }
 
   float leadingJetPt(0),
         leadingJetEta(0),
@@ -204,29 +222,35 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   jet_multiplicity->                Fill(multiplicity, eventWeight);
 
   //GG_mass 2D plots
-  gg_magg_vs_leadJetPt->            Fill(leadingJetPt,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_leadJetEta->           Fill(leadingJetPhi,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_leadJetPhi->           Fill(leadingJetEta,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_leadJetMass->          Fill(leadingJetMass,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_leadJetEnergy->        Fill(leadingJetE,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_leadJetRapidity->      Fill(leadingJetRapidity,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_2ndJetPt->             Fill(subleadingJetPt,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_2ndJetEta->            Fill(subleadingJetPhi,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_2ndJetPhi->            Fill(subleadingJetEta,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_2ndJetMass->           Fill(subleadingJetMass,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_2ndJetEnergy->         Fill(subleadingJetE,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_2ndJetRapidity->       Fill(subleadingJetRapidity,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_jetMultiplicity->      Fill(multiplicity,GG_magg_acc(*eventInfo)/1000.,eventWeight);
-  gg_magg_vs_HT->                   Fill(m_ht/1000.,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  gg_magg_vs_Meff->                 Fill(m_eff/1000.,GG_magg_acc(*eventInfo)/1000., eventWeight);
+  if(GG_magg_acc.isAvailable(*eventInfo)){
+    gg_magg_vs_leadJetPt->            Fill(leadingJetPt,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_leadJetEta->           Fill(leadingJetPhi,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_leadJetPhi->           Fill(leadingJetEta,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_leadJetMass->          Fill(leadingJetMass,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_leadJetEnergy->        Fill(leadingJetE,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_leadJetRapidity->      Fill(leadingJetRapidity,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_2ndJetPt->             Fill(subleadingJetPt,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_2ndJetEta->            Fill(subleadingJetPhi,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_2ndJetPhi->            Fill(subleadingJetEta,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_2ndJetMass->           Fill(subleadingJetMass,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_2ndJetEnergy->         Fill(subleadingJetE,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_2ndJetRapidity->       Fill(subleadingJetRapidity,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_jetMultiplicity->      Fill(multiplicity,GG_magg_acc(*eventInfo)/1000.,eventWeight);
+    gg_magg_vs_HT->                   Fill(m_ht/1000.,GG_magg_acc(*eventInfo)/1000., eventWeight);
+    gg_magg_vs_Meff->                 Fill(m_eff/1000.,GG_magg_acc(*eventInfo)/1000., eventWeight);
+  }
 
   //GG_invgamma 2D plots
-  gg_invgamma_vs_MET->              Fill(met->met()/1.e3, GG_invgamma_acc(*eventInfo), eventWeight);
-  gg_invgamma_vs_Meff->             Fill(m_eff/1.e3,GG_invgamma_acc(*eventInfo),eventWeight);
+  if(GG_invgamma_acc.isAvailable(*eventInfo)){
+    gg_invgamma_vs_MET->              Fill(met->met()/1.e3, GG_invgamma_acc(*eventInfo), eventWeight);
+    gg_invgamma_vs_Meff->             Fill(m_eff/1.e3,GG_invgamma_acc(*eventInfo),eventWeight);
+  }
 
   //GG_gamma 2D plots
-  gg_gamma_vs_MET->                 Fill(met->met()/1.e3,1./GG_invgamma_acc(*eventInfo), eventWeight);
-  gg_gamma_vs_Meff->                Fill(m_eff/1.e3,1./GG_invgamma_acc(*eventInfo),eventWeight);
+  if(GG_invgamma_acc.isAvailable(*eventInfo)){
+    gg_gamma_vs_MET->                 Fill(met->met()/1.e3,1./GG_invgamma_acc(*eventInfo), eventWeight);
+    gg_gamma_vs_Meff->                Fill(m_eff/1.e3,1./GG_invgamma_acc(*eventInfo),eventWeight);
+  }
 
   float met_significance(0.0);
   float ht(0.0);
@@ -238,41 +262,49 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   }
   if(ht > 0) met_significance = (met->met()/1.e3)/sqrt(ht/1.e3);
 
-  gg_mdeltaR_vs_METsig->Fill(GG_mdeltaR_acc(*eventInfo)/1000., met_significance, eventWeight);
+  if(GG_mdeltaR_acc.isAvailable(*eventInfo))
+    gg_mdeltaR_vs_METsig->Fill(GG_mdeltaR_acc(*eventInfo)/1000., met_significance, eventWeight);
 
   //GG_mdeltaR 2D plots
-  gg_mdeltaR_vs_leadJetPt->         Fill(leadingJetPt,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_leadJetEta->        Fill(leadingJetPhi,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_leadJetPhi->        Fill(leadingJetEta,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_leadJetMass->       Fill(leadingJetMass,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_leadJetEnergy->     Fill(leadingJetE,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_leadJetRapidity->   Fill(leadingJetRapidity,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_2ndJetPt->          Fill(subleadingJetPt,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_2ndJetEta->         Fill(subleadingJetPhi,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_2ndJetPhi->         Fill(subleadingJetEta,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_2ndJetMass->        Fill(subleadingJetMass,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_2ndJetEnergy->      Fill(subleadingJetE,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_2ndJetRapidity->    Fill(subleadingJetRapidity,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_jetMultiplicity->   Fill(multiplicity,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  gg_mdeltaR_vs_HT->                Fill(m_ht/1000.,GG_mdeltaR_acc(*eventInfo)/1000.,eventWeight);
-  gg_mdeltaR_vs_Meff->              Fill(m_eff/1.e3,GG_mdeltaR_acc(*eventInfo)/1000.,eventWeight);
+  if(GG_mdeltaR_acc.isAvailable(*eventInfo)){
+    gg_mdeltaR_vs_leadJetPt->         Fill(leadingJetPt,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_leadJetEta->        Fill(leadingJetPhi,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_leadJetPhi->        Fill(leadingJetEta,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_leadJetMass->       Fill(leadingJetMass,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_leadJetEnergy->     Fill(leadingJetE,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_leadJetRapidity->   Fill(leadingJetRapidity,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_2ndJetPt->          Fill(subleadingJetPt,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_2ndJetEta->         Fill(subleadingJetPhi,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_2ndJetPhi->         Fill(subleadingJetEta,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_2ndJetMass->        Fill(subleadingJetMass,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_2ndJetEnergy->      Fill(subleadingJetE,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_2ndJetRapidity->    Fill(subleadingJetRapidity,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_jetMultiplicity->   Fill(multiplicity,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
+    gg_mdeltaR_vs_HT->                Fill(m_ht/1000.,GG_mdeltaR_acc(*eventInfo)/1000.,eventWeight);
+    gg_mdeltaR_vs_Meff->              Fill(m_eff/1.e3,GG_mdeltaR_acc(*eventInfo)/1000.,eventWeight);
+  }
 
   //GG_Costheta 2D plots
-  gg_costheta_vs_leadJetEta->       Fill(leadingJetEta,GG_costheta_acc(*eventInfo),eventWeight);
-  gg_costheta_vs_leadJetPhi->       Fill(leadingJetPhi,GG_costheta_acc(*eventInfo),eventWeight);
-  gg_costheta_vs_leadJetRapidity->  Fill(leadingJetRapidity,GG_costheta_acc(*eventInfo),eventWeight);
-  gg_costheta_vs_2ndJetEta->        Fill(subleadingJetEta,GG_costheta_acc(*eventInfo),eventWeight);
-  gg_costheta_vs_2ndJetPhi->        Fill(subleadingJetPhi,GG_costheta_acc(*eventInfo),eventWeight);
-  gg_costheta_vs_2ndJetRapidity->   Fill(subleadingJetRapidity,GG_costheta_acc(*eventInfo),eventWeight);
+  if(GG_costheta_acc.isAvailable(*eventInfo)){
+    gg_costheta_vs_leadJetEta->       Fill(leadingJetEta,GG_costheta_acc(*eventInfo),eventWeight);
+    gg_costheta_vs_leadJetPhi->       Fill(leadingJetPhi,GG_costheta_acc(*eventInfo),eventWeight);
+    gg_costheta_vs_leadJetRapidity->  Fill(leadingJetRapidity,GG_costheta_acc(*eventInfo),eventWeight);
+    gg_costheta_vs_2ndJetEta->        Fill(subleadingJetEta,GG_costheta_acc(*eventInfo),eventWeight);
+    gg_costheta_vs_2ndJetPhi->        Fill(subleadingJetPhi,GG_costheta_acc(*eventInfo),eventWeight);
+    gg_costheta_vs_2ndJetRapidity->   Fill(subleadingJetRapidity,GG_costheta_acc(*eventInfo),eventWeight);
+  }
 
   //GG_dphivis 2D plots
-  gg_dphivis_vs_MET->               Fill(GG_dphivis_acc(*eventInfo),met->met()/1.e3, eventWeight);
-  gg_dphivis_vs_METphi->            Fill(met->phi(),GG_dphivis_acc(*eventInfo),eventWeight);
+  if(GG_dphivis_acc.isAvailable(*eventInfo)){
+    gg_dphivis_vs_MET->               Fill(GG_dphivis_acc(*eventInfo),met->met()/1.e3, eventWeight);
+    gg_dphivis_vs_METphi->            Fill(met->phi(),GG_dphivis_acc(*eventInfo),eventWeight);
+  }
 
   //GG_dphidecayangle 2D plots
-  gg_dphidecayangle_vs_MET->        Fill(GG_dphidecayangle_acc(*eventInfo),met->met()/1.e3, eventWeight);
-  gg_dphidecayangle_vs_METphi->     Fill(met->phi(),GG_dphidecayangle_acc(*eventInfo),eventWeight);
-
+  if(GG_dphidecayangle_acc.isAvailable(*eventInfo)){
+    gg_dphidecayangle_vs_MET->        Fill(GG_dphidecayangle_acc(*eventInfo),met->met()/1.e3, eventWeight);
+    gg_dphidecayangle_vs_METphi->     Fill(met->phi(),GG_dphidecayangle_acc(*eventInfo),eventWeight);
+  }
 
   return StatusCode::SUCCESS;
 }
