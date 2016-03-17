@@ -90,23 +90,8 @@ private:
   std::array<int  , 4> m_largeR_topTag_smoothTight; //!
 
   /* razor information */
-  float m_ss_mass; //!
-  float m_ss_invgamma; //!
-  float m_ss_dphivis; //!
-  float m_ss_costheta; //!
-  float m_ss_dphidecayangle; //!
-  float m_ss_mdeltaR; //!
-  float m_s1_mass; //!
-  float m_s1_costheta; //!
-  float m_s2_mass; //!
-  float m_s2_costheta; //!
-  int m_i1_depth; //!
-  int m_i2_depth; //!
-  int m_v1_nelements; //!
-  int m_v2_nelements; //!
-  float m_ss_abs_costheta; //!
-  float m_s1_abs_costheta; //!
-  float m_s2_abs_costheta; //!
+  std::map<std::string, double>* m_inclVar; //!
+  std::map<std::string, TLorentzVector>* m_vP; //!
 
 public:
   // this is a standard constructor
