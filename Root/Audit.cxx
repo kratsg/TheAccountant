@@ -225,10 +225,16 @@ EL::StatusCode Audit :: execute ()
   // clear the event
   LAB.ClearEvent();
 
+  // only look at signal jets
+  ConstDataVector<xAOD::JetContainer> signal_jets(SG::VIEW_ELEMENTS);
+  if(!m_inputJets.empty()){
+    signal_jets = VD::subset_using_decor(in_jets, VD::decor_signal, 1);
+  }
+
   // create a vector to hold the group element ids for when adding jets
   std::map<const int, const xAOD::Jet*> in_jets_IDs;
   if(!m_inputJets.empty()){
-    for(const auto &jet: *in_jets)
+    for(const auto &jet: signal_jets)
       in_jets_IDs[VIS.AddLabFrameFourVector( jet->p4() ).GetKey()] = jet;
   }
 
@@ -240,8 +246,8 @@ EL::StatusCode Audit :: execute ()
   // dump information about the jets and met at least
   if(m_debug){
     if(!m_inputJets.empty()){
-      Info("execute()", "Details about input jets...");
-      for(const auto &jet: *in_jets)
+      Info("execute()", "Details about signal jets...");
+      for(const auto &jet: signal_jets)
           Info("execute()", "\tpT: %0.2f GeV\tm: %0.2f GeV\teta: %0.2f\tphi: %0.2f", jet->pt()/1000., jet->m()/1000., jet->eta(), jet->phi());
     }
 
@@ -252,7 +258,7 @@ EL::StatusCode Audit :: execute ()
   }
 
   // analyze the event
-  if(LAB.AnalyzeEvent()){ if(m_debug) Info("execute()", "Analyzed the event successfully."); }
+  if(LAB.AnalyzeEvent()){ if(m_debug) Info("execute()", "Run #%u, Event #%llu: Analyzed the event successfully.", eventInfo->runNumber(), eventInfo->eventNumber()); }
   else                  { Error("execute()", "Run #%u, Event #%llu: Analyzed the event unsuccessfully.", eventInfo->runNumber(), eventInfo->eventNumber()); return EL::StatusCode::SUCCESS; }
 
   // Signal Variables
