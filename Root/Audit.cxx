@@ -258,7 +258,9 @@ EL::StatusCode Audit :: execute ()
   // Signal Variables
   // https://github.com/lawrenceleejr/ZeroLeptonRun2/blob/67042394b0bca205081175f002ef3fb44fd46b98/Root/PhysObjProxyUtils.cxx#L471
   // inclusive variable definitions
-  std::map<std::string, double> inclVar;
+  std::map<std::string, double>* inclVar_ptr(new std::map<std::string, double>);
+  RETURN_CHECK("Audit::execute()", m_store->record(inclVar_ptr, "RJigsawInclusiveVariables"), "Could not record RJR Inclusive Variables.");
+  auto& inclVar = *inclVar_ptr;
 
   inclVar["GG_mass"]        = GG.GetMass()/1.e3;
   inclVar["Ga_mass"]        = Ga.GetMass()/1.e3;
@@ -325,7 +327,10 @@ EL::StatusCode Audit :: execute ()
   inclVar["dPhi_Cb1_Vb2"]   = Cb1.GetDeltaPhiDecayPlanes(Vb2);
 
   // momentum (P) vectors
-  std::map<std::string, TLorentzVector> vP;
+  std::map<std::string, TLorentzVector>* vP_ptr(new std::map<std::string, TLorentzVector>);
+  RETURN_CHECK("Audit::execute()", m_store->record(vP_ptr, "RJigsawFourVectors"), "Could not record RJR 4-Vectors.");
+  auto& vP = *vP_ptr;
+
   vP["GG"]                  = GG.GetFourVector(LAB);
   vP["Ga"]                  = Ga.GetVisibleFourVector(Ga);
   vP["Gb"]                  = Gb.GetVisibleFourVector(Gb);
