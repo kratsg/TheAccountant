@@ -23,7 +23,7 @@ namespace TheAccountant
     virtual ~RazorVariableHists() ;
 
     StatusCode initialize();
-    StatusCode execute( const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::JetContainer* jets_largeR, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight );
+    StatusCode execute(const std::map<std::string, double> inclVar, const std::map<std::string, TLorentzVector> vP, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::JetContainer* jets_largeR, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight);
 
     using HistogramManager::book;
     using HistogramManager::execute;

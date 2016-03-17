@@ -109,68 +109,33 @@ StatusCode TheAccountant::RazorVariableHists::initialize() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eventInfo, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::JetContainer* jets_largeR, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight){
+StatusCode TheAccountant::RazorVariableHists::execute(const std::map<std::string, double> inclVar, const std::map<std::string, TLorentzVector> vP, const xAOD::MissingET* met, const xAOD::JetContainer* jets, const xAOD::JetContainer* jets_largeR, const xAOD::MuonContainer* in_muons, const xAOD::ElectronContainer* in_electrons, float eventWeight){
 
-  static VD::accessor_t<float> GG_magg_acc("GG_mass");
-  static VD::accessor_t<float> GG_invgamma_acc("GG_invgamma");
-  static VD::accessor_t<float> GG_dphivis_acc("GG_dphivis");
-  static VD::accessor_t<float> GG_costheta_acc("GG_costheta");
-  static VD::accessor_t<float> GG_dphidecayangle_acc("GG_dphidecayangle");
-  static VD::accessor_t<float> GG_mdeltaR_acc("GG_mdeltaR");
-  static VD::accessor_t<float> Ga_magg_acc("Ga_mass");
-  static VD::accessor_t<float> Gb_magg_acc("Gb_mass");
-  static VD::accessor_t<float> Ga_costheta_acc("Ga_costheta");
-  static VD::accessor_t<float> Gb_costheta_acc("Gb_costheta");
-  static VD::accessor_t<float> Ia1_depth_acc("Ia1_depth");
-  static VD::accessor_t<float> Ib1_depth_acc("Ib1_depth");
-  static VD::accessor_t<float> Va1_n_acc("Va1_n");
-  static VD::accessor_t<float> Vb1_n_acc("Vb1_n");
+  gg_mass->                         Fill( inclVar.at("GG_mass"), eventWeight);
+  gg_invgamma->                     Fill( inclVar.at("GG_invGamma"),eventWeight);
+  gg_dphivis->                      Fill( inclVar.at("GG_dPhiVis"), eventWeight);
+  gg_costheta->                     Fill( inclVar.at("GG_cosTheta"), eventWeight);
+  gg_dphidecayangle->               Fill( inclVar.at("GG_dPhiDecay"), eventWeight);
+  gg_mdeltaR->                      Fill( inclVar.at("GG_mDeltaR"), eventWeight);
+  ga_mass->                         Fill( inclVar.at("Ga_mass"), eventWeight);
+  ga_costheta->                     Fill( inclVar.at("Va1_cosTheta"), eventWeight);
+  gb_mass->                         Fill( inclVar.at("Gb_mass"), eventWeight);
+  gb_costheta->                     Fill( inclVar.at("Vb1_cosTheta"), eventWeight);
+  ia1_depth->                       Fill( inclVar.at("Ia1_depth"), eventWeight);
+  ib1_depth->                       Fill( inclVar.at("Ib1_depth"), eventWeight);
+  va1_n->                           Fill( inclVar.at("Ga_n"), eventWeight);
+  vb1_n->                           Fill( inclVar.at("Gb_n"), eventWeight);
 
-  if(GG_magg_acc.isAvailable(*eventInfo))
-    gg_mass->           Fill( GG_magg_acc(*eventInfo)/1000., eventWeight);
-  if(GG_invgamma_acc.isAvailable(*eventInfo))
-    gg_invgamma->       Fill( GG_invgamma_acc(*eventInfo),eventWeight);
-  if(GG_dphivis_acc.isAvailable(*eventInfo))
-    gg_dphivis->        Fill( GG_dphivis_acc(*eventInfo), eventWeight);
-  if(GG_costheta_acc.isAvailable(*eventInfo))
-    gg_costheta->       Fill( GG_costheta_acc(*eventInfo), eventWeight);
-  if(GG_dphidecayangle_acc.isAvailable(*eventInfo))
-    gg_dphidecayangle-> Fill( GG_dphidecayangle_acc(*eventInfo), eventWeight);
-  if(GG_mdeltaR_acc.isAvailable(*eventInfo))
-    gg_mdeltaR->        Fill( GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  if(Ga_magg_acc.isAvailable(*eventInfo))
-    ga_mass->           Fill( Ga_magg_acc(*eventInfo)/1000., eventWeight);
-  if(Ga_costheta_acc.isAvailable(*eventInfo))
-    ga_costheta->       Fill( Ga_costheta_acc(*eventInfo), eventWeight);
-  if(Gb_magg_acc.isAvailable(*eventInfo))
-    gb_mass->           Fill( Gb_magg_acc(*eventInfo)/1000., eventWeight);
-  if(Gb_costheta_acc.isAvailable(*eventInfo))
-    gb_costheta->       Fill( Gb_costheta_acc(*eventInfo), eventWeight);
-  if(Ia1_depth_acc.isAvailable(*eventInfo))
-    ia1_depth->          Fill( Ia1_depth_acc(*eventInfo), eventWeight);
-  if(Ib1_depth_acc.isAvailable(*eventInfo))
-    ib1_depth->          Fill( Ib1_depth_acc(*eventInfo), eventWeight);
-  if(Va1_n_acc.isAvailable(*eventInfo))
-    va1_n->      Fill( Va1_n_acc(*eventInfo), eventWeight);
-  if(Vb1_n_acc.isAvailable(*eventInfo))
-    vb1_n->      Fill( Vb1_n_acc(*eventInfo), eventWeight);
+  gg_abs_costheta->                 Fill( std::fabs(inclVar.at("GG_cosTheta")), eventWeight);
+  ga_abs_costheta->                 Fill( std::fabs(inclVar.at("Va1_cosTheta")), eventWeight);
+  gb_abs_costheta->                 Fill( std::fabs(inclVar.at("Vb1_cosTheta")), eventWeight);
 
-  if(GG_costheta_acc.isAvailable(*eventInfo))
-    gg_abs_costheta->   Fill( std::fabs(GG_costheta_acc(*eventInfo)), eventWeight);
-  if(Ga_costheta_acc.isAvailable(*eventInfo))
-    ga_abs_costheta->   Fill( std::fabs(Ga_costheta_acc(*eventInfo)), eventWeight);
-  if(Gb_costheta_acc.isAvailable(*eventInfo))
-    gb_abs_costheta->   Fill( std::fabs(Gb_costheta_acc(*eventInfo)), eventWeight);
-
-
-  if(GG_mdeltaR_acc.isAvailable(*eventInfo)){
-    if((GG_mdeltaR_acc(*eventInfo)/1000.)<250)
-      gg_mdeltaR_ptless250->Fill(GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    else if ((GG_mdeltaR_acc(*eventInfo)/1000.)<350)
-      gg_mdeltaR_pt250to350->Fill(GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    else
-      gg_mdeltaR_ptgreat350->Fill(GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-  }
+  if((inclVar.at("GG_mDeltaR"))<250)
+    gg_mdeltaR_ptless250->          Fill(inclVar.at("GG_mDeltaR"), eventWeight);
+  else if ((inclVar.at("GG_mDeltaR"))<350)
+    gg_mdeltaR_pt250to350->         Fill(inclVar.at("GG_mDeltaR"), eventWeight);
+  else
+    gg_mdeltaR_ptgreat350->         Fill(inclVar.at("GG_mDeltaR"), eventWeight);
 
   float leadingJetPt(0),
         leadingJetEta(0),
@@ -207,7 +172,7 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
       subleadingJetRapidity = jet->rapidity();
     }
   }
-  magg_jets->Fill(jets_mass);
+  magg_jets->                       Fill(jets_mass);
 
   float magg_largeR_jets =0;
   //jets_magg_largeR
@@ -222,35 +187,29 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   jet_multiplicity->                Fill(multiplicity, eventWeight);
 
   //GG_mass 2D plots
-  if(GG_magg_acc.isAvailable(*eventInfo)){
-    gg_magg_vs_leadJetPt->            Fill(leadingJetPt,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_leadJetEta->           Fill(leadingJetPhi,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_leadJetPhi->           Fill(leadingJetEta,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_leadJetMass->          Fill(leadingJetMass,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_leadJetEnergy->        Fill(leadingJetE,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_leadJetRapidity->      Fill(leadingJetRapidity,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_2ndJetPt->             Fill(subleadingJetPt,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_2ndJetEta->            Fill(subleadingJetPhi,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_2ndJetPhi->            Fill(subleadingJetEta,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_2ndJetMass->           Fill(subleadingJetMass,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_2ndJetEnergy->         Fill(subleadingJetE,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_2ndJetRapidity->       Fill(subleadingJetRapidity,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_jetMultiplicity->      Fill(multiplicity,GG_magg_acc(*eventInfo)/1000.,eventWeight);
-    gg_magg_vs_HT->                   Fill(m_ht/1000.,GG_magg_acc(*eventInfo)/1000., eventWeight);
-    gg_magg_vs_Meff->                 Fill(m_eff/1000.,GG_magg_acc(*eventInfo)/1000., eventWeight);
-  }
+  gg_magg_vs_leadJetPt->            Fill(leadingJetPt,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_leadJetEta->           Fill(leadingJetPhi,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_leadJetPhi->           Fill(leadingJetEta,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_leadJetMass->          Fill(leadingJetMass,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_leadJetEnergy->        Fill(leadingJetE,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_leadJetRapidity->      Fill(leadingJetRapidity,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_2ndJetPt->             Fill(subleadingJetPt,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_2ndJetEta->            Fill(subleadingJetPhi,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_2ndJetPhi->            Fill(subleadingJetEta,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_2ndJetMass->           Fill(subleadingJetMass,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_2ndJetEnergy->         Fill(subleadingJetE,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_2ndJetRapidity->       Fill(subleadingJetRapidity,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_jetMultiplicity->      Fill(multiplicity,inclVar.at("GG_mass"),eventWeight);
+  gg_magg_vs_HT->                   Fill(m_ht/1000.,inclVar.at("GG_mass"), eventWeight);
+  gg_magg_vs_Meff->                 Fill(m_eff/1000.,inclVar.at("GG_mass"), eventWeight);
 
   //GG_invgamma 2D plots
-  if(GG_invgamma_acc.isAvailable(*eventInfo)){
-    gg_invgamma_vs_MET->              Fill(met->met()/1.e3, GG_invgamma_acc(*eventInfo), eventWeight);
-    gg_invgamma_vs_Meff->             Fill(m_eff/1.e3,GG_invgamma_acc(*eventInfo),eventWeight);
-  }
+  gg_invgamma_vs_MET->              Fill(met->met()/1.e3, inclVar.at("GG_invGamma"), eventWeight);
+  gg_invgamma_vs_Meff->             Fill(m_eff/1.e3,inclVar.at("GG_invGamma"),eventWeight);
 
   //GG_gamma 2D plots
-  if(GG_invgamma_acc.isAvailable(*eventInfo)){
-    gg_gamma_vs_MET->                 Fill(met->met()/1.e3,1./GG_invgamma_acc(*eventInfo), eventWeight);
-    gg_gamma_vs_Meff->                Fill(m_eff/1.e3,1./GG_invgamma_acc(*eventInfo),eventWeight);
-  }
+  gg_gamma_vs_MET->                 Fill(met->met()/1.e3,1./inclVar.at("GG_invGamma"), eventWeight);
+  gg_gamma_vs_Meff->                Fill(m_eff/1.e3,1./inclVar.at("GG_invGamma"),eventWeight);
 
   float met_significance(0.0);
   float ht(0.0);
@@ -262,49 +221,40 @@ StatusCode TheAccountant::RazorVariableHists::execute(const xAOD::EventInfo* eve
   }
   if(ht > 0) met_significance = (met->met()/1.e3)/sqrt(ht/1.e3);
 
-  if(GG_mdeltaR_acc.isAvailable(*eventInfo))
-    gg_mdeltaR_vs_METsig->Fill(GG_mdeltaR_acc(*eventInfo)/1000., met_significance, eventWeight);
+  gg_mdeltaR_vs_METsig->            Fill(inclVar.at("GG_mDeltaR"), met_significance, eventWeight);
 
   //GG_mdeltaR 2D plots
-  if(GG_mdeltaR_acc.isAvailable(*eventInfo)){
-    gg_mdeltaR_vs_leadJetPt->         Fill(leadingJetPt,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_leadJetEta->        Fill(leadingJetPhi,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_leadJetPhi->        Fill(leadingJetEta,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_leadJetMass->       Fill(leadingJetMass,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_leadJetEnergy->     Fill(leadingJetE,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_leadJetRapidity->   Fill(leadingJetRapidity,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_2ndJetPt->          Fill(subleadingJetPt,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_2ndJetEta->         Fill(subleadingJetPhi,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_2ndJetPhi->         Fill(subleadingJetEta,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_2ndJetMass->        Fill(subleadingJetMass,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_2ndJetEnergy->      Fill(subleadingJetE,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_2ndJetRapidity->    Fill(subleadingJetRapidity,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_jetMultiplicity->   Fill(multiplicity,GG_mdeltaR_acc(*eventInfo)/1000., eventWeight);
-    gg_mdeltaR_vs_HT->                Fill(m_ht/1000.,GG_mdeltaR_acc(*eventInfo)/1000.,eventWeight);
-    gg_mdeltaR_vs_Meff->              Fill(m_eff/1.e3,GG_mdeltaR_acc(*eventInfo)/1000.,eventWeight);
-  }
+  gg_mdeltaR_vs_leadJetPt->         Fill(leadingJetPt,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_leadJetEta->        Fill(leadingJetPhi,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_leadJetPhi->        Fill(leadingJetEta,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_leadJetMass->       Fill(leadingJetMass,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_leadJetEnergy->     Fill(leadingJetE,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_leadJetRapidity->   Fill(leadingJetRapidity,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_2ndJetPt->          Fill(subleadingJetPt,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_2ndJetEta->         Fill(subleadingJetPhi,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_2ndJetPhi->         Fill(subleadingJetEta,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_2ndJetMass->        Fill(subleadingJetMass,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_2ndJetEnergy->      Fill(subleadingJetE,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_2ndJetRapidity->    Fill(subleadingJetRapidity,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_jetMultiplicity->   Fill(multiplicity,inclVar.at("GG_mDeltaR"), eventWeight);
+  gg_mdeltaR_vs_HT->                Fill(m_ht/1000.,inclVar.at("GG_mDeltaR"),eventWeight);
+  gg_mdeltaR_vs_Meff->              Fill(m_eff/1.e3,inclVar.at("GG_mDeltaR"),eventWeight);
 
   //GG_Costheta 2D plots
-  if(GG_costheta_acc.isAvailable(*eventInfo)){
-    gg_costheta_vs_leadJetEta->       Fill(leadingJetEta,GG_costheta_acc(*eventInfo),eventWeight);
-    gg_costheta_vs_leadJetPhi->       Fill(leadingJetPhi,GG_costheta_acc(*eventInfo),eventWeight);
-    gg_costheta_vs_leadJetRapidity->  Fill(leadingJetRapidity,GG_costheta_acc(*eventInfo),eventWeight);
-    gg_costheta_vs_2ndJetEta->        Fill(subleadingJetEta,GG_costheta_acc(*eventInfo),eventWeight);
-    gg_costheta_vs_2ndJetPhi->        Fill(subleadingJetPhi,GG_costheta_acc(*eventInfo),eventWeight);
-    gg_costheta_vs_2ndJetRapidity->   Fill(subleadingJetRapidity,GG_costheta_acc(*eventInfo),eventWeight);
-  }
+  gg_costheta_vs_leadJetEta->       Fill(leadingJetEta,inclVar.at("GG_cosTheta"),eventWeight);
+  gg_costheta_vs_leadJetPhi->       Fill(leadingJetPhi,inclVar.at("GG_cosTheta"),eventWeight);
+  gg_costheta_vs_leadJetRapidity->  Fill(leadingJetRapidity,inclVar.at("GG_cosTheta"),eventWeight);
+  gg_costheta_vs_2ndJetEta->        Fill(subleadingJetEta,inclVar.at("GG_cosTheta"),eventWeight);
+  gg_costheta_vs_2ndJetPhi->        Fill(subleadingJetPhi,inclVar.at("GG_cosTheta"),eventWeight);
+  gg_costheta_vs_2ndJetRapidity->   Fill(subleadingJetRapidity,inclVar.at("GG_cosTheta"),eventWeight);
 
   //GG_dphivis 2D plots
-  if(GG_dphivis_acc.isAvailable(*eventInfo)){
-    gg_dphivis_vs_MET->               Fill(GG_dphivis_acc(*eventInfo),met->met()/1.e3, eventWeight);
-    gg_dphivis_vs_METphi->            Fill(met->phi(),GG_dphivis_acc(*eventInfo),eventWeight);
-  }
+  gg_dphivis_vs_MET->               Fill(inclVar.at("GG_dPhiVis"),met->met()/1.e3, eventWeight);
+  gg_dphivis_vs_METphi->            Fill(met->phi(),inclVar.at("GG_dPhiVis"),eventWeight);
 
   //GG_dphidecayangle 2D plots
-  if(GG_dphidecayangle_acc.isAvailable(*eventInfo)){
-    gg_dphidecayangle_vs_MET->        Fill(GG_dphidecayangle_acc(*eventInfo),met->met()/1.e3, eventWeight);
-    gg_dphidecayangle_vs_METphi->     Fill(met->phi(),GG_dphidecayangle_acc(*eventInfo),eventWeight);
-  }
+  gg_dphidecayangle_vs_MET->        Fill(inclVar.at("GG_dPhiDecay"),met->met()/1.e3, eventWeight);
+  gg_dphidecayangle_vs_METphi->     Fill(met->phi(),inclVar.at("GG_dPhiDecay"), eventWeight);
 
   return StatusCode::SUCCESS;
 }
