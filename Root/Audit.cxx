@@ -222,42 +222,6 @@ EL::StatusCode Audit :: execute ()
     }
   }
 
-  // define razor decorations
-  static VD::decor_t<float> GG_mass_decor             ("GG_mass");
-  static VD::decor_t<float> GG_invgamma_decor         ("GG_invgamma");
-  static VD::decor_t<float> GG_dphivis_decor          ("GG_dphivis");
-  static VD::decor_t<float> GG_costheta_decor         ("GG_costheta");
-  static VD::decor_t<float> GG_dphidecayangle_decor   ("GG_dphidecayangle");
-  static VD::decor_t<float> GG_mdeltaR_decor          ("GG_mdeltaR");
-  static VD::decor_t<float> Ga_mass_decor             ("Ga_mass");
-  static VD::decor_t<float> Gb_mass_decor             ("Gb_mass");
-  static VD::decor_t<float> Ga_costheta_decor         ("Ga_costheta");
-  static VD::decor_t<float> Gb_costheta_decor         ("Gb_costheta");
-  static VD::decor_t<float> Ia1_depth_decor            ("Ia1_depth");
-  static VD::decor_t<float> Ib1_depth_decor            ("Ib1_depth");
-  static VD::decor_t<float> Va1_n_decor        ("Va1_n");
-  static VD::decor_t<float> Va2_n_decor        ("Va2_n");
-  static VD::decor_t<float> Vb1_n_decor        ("Vb1_n");
-  static VD::decor_t<float> Vb2_n_decor        ("Vb2_n");
-  // initialize to zero on event
-  GG_mass_decor(*eventInfo)             = -99;
-  GG_invgamma_decor(*eventInfo)         = -99;
-  GG_dphivis_decor(*eventInfo)          = -99;
-  GG_costheta_decor(*eventInfo)         = -99;
-  GG_dphidecayangle_decor(*eventInfo)   = -99;
-  GG_mdeltaR_decor(*eventInfo)          = -99;
-  Ga_mass_decor(*eventInfo)             = -99;
-  Gb_mass_decor(*eventInfo)             = -99;
-  Ga_costheta_decor(*eventInfo)         = -99;
-  Gb_costheta_decor(*eventInfo)         = -99;
-  Ia1_depth_decor(*eventInfo)            = -99;
-  Ib1_depth_decor(*eventInfo)            = -99;
-  Va1_n_decor(*eventInfo)        = -99;
-  Va2_n_decor(*eventInfo)        = -99;
-  Vb1_n_decor(*eventInfo)        = -99;
-  Vb2_n_decor(*eventInfo)        = -99;
-
-
   // clear the event
   LAB.ClearEvent();
 
@@ -452,23 +416,6 @@ EL::StatusCode Audit :: execute ()
     for(const auto& item: vP)
       Info("execute()", "\t\t%30s: (pT, eta, phi, m) = (%0.4f, %0.4f, %0.4f, %0.4f)", item.first.c_str(), item.second.Pt()/1.e3, item.second.Eta(), item.second.Phi(), item.second.M()/1.e3);
   }
-
-  GG_mass_decor(*eventInfo)             = GG.GetMass();
-  GG_invgamma_decor(*eventInfo)         = 1/GG.GetGammaInParentFrame();
-  GG_dphivis_decor(*eventInfo)          = GG.GetDeltaPhiBoostVisible();
-  GG_costheta_decor(*eventInfo)         = GG.GetCosDecayAngle();
-  GG_dphidecayangle_decor(*eventInfo)   = GG.GetDeltaPhiDecayAngle();
-  GG_mdeltaR_decor(*eventInfo)          = GG.GetVisibleShape()*GG.GetMass();
-  Ga_mass_decor(*eventInfo)             = Ga.GetMass();
-  Gb_mass_decor(*eventInfo)             = Gb.GetMass();
-  Ga_costheta_decor(*eventInfo)         = Ga.GetCosDecayAngle();
-  Gb_costheta_decor(*eventInfo)         = Gb.GetCosDecayAngle();
-  Ia1_depth_decor(*eventInfo)           = Ga.GetFrameDepth(Ia1);
-  Ib1_depth_decor(*eventInfo)           = Gb.GetFrameDepth(Ib1);
-  Va1_n_decor(*eventInfo)               = VIS.GetNElementsInFrame(Va1);
-  Va2_n_decor(*eventInfo)               = VIS.GetNElementsInFrame(Va2);
-  Vb1_n_decor(*eventInfo)               = VIS.GetNElementsInFrame(Vb1);
-  Vb2_n_decor(*eventInfo)               = VIS.GetNElementsInFrame(Vb2);
 
   /* TODO
      QCD rejection stuff
