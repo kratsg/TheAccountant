@@ -39,7 +39,7 @@ for path in paths:
         cmd = "hadd {0:s}.merged {1:s}".format(os.path.join(outdir, outfile), " ".join(infiles))
         print(cmd)
         subprocess.call([cmd], shell=True)
-        outfiles.append(outfile)
+        outfiles.append("{0:s}.merged".format(outfile))
 
 import pprint
 pprint.pprint(outfiles)
