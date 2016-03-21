@@ -314,8 +314,8 @@ EL::StatusCode Audit :: execute ()
   inclVar["Ib1_depth"]      = Gb.GetFrameDepth(Ib1);
 
   inclVar["GG_cosTheta"]    = GG.GetCosDecayAngle();
-  inclVar["Ga_cosIa1"]      = Ga.GetCosDecayAngle(Ia1);
-  inclVar["Gb_cosIb1"]      = Gb.GetCosDecayAngle(Ib1);
+  inclVar["Ga_cos(Ia1)"]    = Ga.GetCosDecayAngle(Ia1);
+  inclVar["Gb_cos(Ib1)"]    = Gb.GetCosDecayAngle(Ib1);
   inclVar["Va1_cosTheta"]   = Ga.GetCosDecayAngle();
   inclVar["Vb1_cosTheta"]   = Gb.GetCosDecayAngle();
   inclVar["Va2_cosTheta"]   = Ca1.GetCosDecayAngle();
@@ -390,8 +390,8 @@ EL::StatusCode Audit :: execute ()
   inclVar["s_dPhiG"] = std::fabs(ddphiGa + ddphiGb)/2./std::acos(-1.);
 
   // sangle and dangle
-  inclVar["s_angle"]        = std::fabs(inclVar["GG_dPhiDecay"] + 2.*inclVar["Ga_cosIa1"])/3.;
-  inclVar["d_angle"]        = (2.*inclVar["GG_dPhiDecay"] - inclVar["Ga_cosIa1"])/3.;
+  inclVar["s_angle"]        = std::fabs(inclVar["GG_dPhiDecay"] + 2.*inclVar["Ga_cos(Ia1)"])/3.;
+  inclVar["d_angle"]        = (2.*inclVar["GG_dPhiDecay"] - inclVar["Ga_cos(Ia1)"])/3.;
 
   // Other variables -- what do we do with them???
   //inclVar["dPhiVP"]         = (GG.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
