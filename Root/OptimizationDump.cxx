@@ -504,7 +504,6 @@ EL::StatusCode OptimizationDump :: execute ()
   // do all of the razor variables
   std::map<std::string, double>* in_inclVar(nullptr);
   RETURN_CHECK("Report::execute()", HF::retrieve(in_inclVar, "RJigsawInclusiveVariables", nullptr, m_store, m_debug), "Could not get the RJRVars");
-  //RETURN_CHECK("Report::execute()", HF::retrieve(m_vP, "RJigsawFourVectors", nullptr, m_store, m_debug), "Could not get the RJR 4-Vectors");
   // fill in the original map with the values
   for(const auto& item: *in_inclVar) m_inclVar[item.first] = item.second;
 
