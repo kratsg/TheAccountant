@@ -362,24 +362,24 @@ EL::StatusCode Audit :: execute ()
   inclVar["pZ_GG"] = std::fabs(vP["GG"].Pz())/1.e3;
 
   // H-variables (H_{n,m}^{F} )
-  inclVar["H;1,1;GG"]       = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["H;2,1;GG"]       = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["H;2,2;GG"]       = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
-  inclVar["H;4,1;GG"]       = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["H;4,2;GG"]       = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
+  inclVar["H.1,1.GG"]       = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H.2,1.GG"]       = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H.2,2.GG"]       = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
+  inclVar["H.4,1.GG"]       = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H.4,2.GG"]       = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
 
-  inclVar["H;1,1;Ga"]       = (vP["Va1_Ga"] + vP["Va2_Ga"]).P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
-  inclVar["H;1,1;Gb"]       = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
-  inclVar["H;2,1;Ga"]       = vP["Va1_Ga"].P()/1.e3 + vP["Va2_Ga"].P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
-  inclVar["H;2,1;Gb"]       = vP["Vb1_Gb"].P()/1.e3 + vP["Vb2_Gb"].P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
+  inclVar["H.1,1.Ga"]       = (vP["Va1_Ga"] + vP["Va2_Ga"]).P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
+  inclVar["H.1,1.Gb"]       = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
+  inclVar["H.2,1.Ga"]       = vP["Va1_Ga"].P()/1.e3 + vP["Va2_Ga"].P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
+  inclVar["H.2,1.Gb"]       = vP["Vb1_Gb"].P()/1.e3 + vP["Vb2_Gb"].P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
 
-  inclVar["H;1,1;Ca1"]      = vP["Va2_Ca1"].P()/1.e3 + vP["Ia1_Ca1"].P();
-  inclVar["H;1,1;Cb1"]      = vP["Vb2_Cb1"].P()/1.e3 + vP["Ib1_Cb1"].P();
+  inclVar["H.1,1.Ca1"]      = vP["Va2_Ca1"].P()/1.e3 + vP["Ia1_Ca1"].P();
+  inclVar["H.1,1.Cb1"]      = vP["Vb2_Cb1"].P()/1.e3 + vP["Ib1_Cb1"].P();
 
-  inclVar["HT;2,1;GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["H;1,1;GG"]/2.;
-  inclVar["HT;2,2;GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
-  inclVar["HT;4,1;GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["H;1,1;GG"]/2.;
-  inclVar["HT;4,2;GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
+  inclVar["HT.2,1.GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["H.1,1.GG"]/2.;
+  inclVar["HT.2,2.GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
+  inclVar["HT.4,1.GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["H.1,1.GG"]/2.;
+  inclVar["HT.4,2.GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
 
   // gluino hemishpere variables
   double ddphiGa = inclVar["dPhi_Ga_Ca1"];
@@ -397,15 +397,15 @@ EL::StatusCode Audit :: execute ()
   //inclVar["dPhiVP"]         = (GG.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
 
   // ratios
-  inclVar["ratio_pZ;GG_HT;2,1;GG"] = inclVar["pZ_GG"]/(inclVar["pZ_GG"] + inclVar["HT;2,1;GG"]);
-  inclVar["ratio_pZ;GG_HT;4,1;GG"] = inclVar["pZ_GG"]/(inclVar["pZ_GG"] + inclVar["HT;4,1;GG"]);
-  inclVar["ratio_pT;GG_HT;2,1;GG"] = inclVar["pT_GG"]/(inclVar["pT_GG"] + inclVar["HT;2,1;GG"]);
-  inclVar["ratio_pT;GG_HT;4,1;GG"] = inclVar["pT_GG"]/(inclVar["pT_GG"] + inclVar["HT;4,1;GG"]);
+  inclVar["ratio_pZ.GG_HT.2,1.GG"] = inclVar["pZ_GG"]/(inclVar["pZ_GG"] + inclVar["HT.2,1.GG"]);
+  inclVar["ratio_pZ.GG_HT.4,1.GG"] = inclVar["pZ_GG"]/(inclVar["pZ_GG"] + inclVar["HT.4,1.GG"]);
+  inclVar["ratio_pT.GG_HT.2,1.GG"] = inclVar["pT_GG"]/(inclVar["pT_GG"] + inclVar["HT.2,1.GG"]);
+  inclVar["ratio_pT.GG_HT.4,1.GG"] = inclVar["pT_GG"]/(inclVar["pT_GG"] + inclVar["HT.4,1.GG"]);
 
-  inclVar["ratio_H;1,1;GG_H;2,1;GG"]    = inclVar["H;1,1;GG"]/inclVar["H;2,1;GG"];
-  inclVar["ratio_HT;4,1;GG_H;4,1;GG"]   = inclVar["HT;4,1;GG"]/inclVar["H;4,1;GG"];
-  inclVar["ratio_H;1,1;GG_H;4,1;GG"]    = inclVar["H;1,1;GG"]/inclVar["H;4,1;GG"];
-  inclVar["maxRatio_H;1,0;PP_H;1,1;PP"] = std::max(
+  inclVar["ratio_H.1,1.GG_H.2,1.GG"]    = inclVar["H.1,1.GG"]/inclVar["H.2,1.GG"];
+  inclVar["ratio_HT.4,1.GG_H.4,1.GG"]   = inclVar["HT.4,1.GG"]/inclVar["H.4,1.GG"];
+  inclVar["ratio_H.1,1.GG_H.4,1.GG"]    = inclVar["H.1,1.GG"]/inclVar["H.4,1.GG"];
+  inclVar["maxRatio_H.1,0;PP_H.1,1;PP"] = std::max(
                                             inclVar["p_Ga_GG"]/(inclVar["p_Va1_GG"] + inclVar["p_Va2_GG"]),
                                             inclVar["p_Gb_GG"]/(inclVar["p_Vb1_GG"] + inclVar["p_Vb2_GG"])
                                           );

@@ -90,8 +90,7 @@ private:
   std::array<int  , 4> m_largeR_topTag_smoothTight; //!
 
   /* razor information */
-  std::map<std::string, double>* m_inclVar; //!
-  std::map<std::string, TLorentzVector>* m_vP; //!
+  std::map<std::string, double> m_inclVar; //!
 
 public:
   // this is a standard constructor
