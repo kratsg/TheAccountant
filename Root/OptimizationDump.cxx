@@ -470,9 +470,6 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch("razor_ratio_HT;4,1;GG_H;4,1;GG",    &(m_inclVar->at("ratio_HT;4,1;GG_H;4,1;GG")), "razor_ratio_HT;4,1;GG_H;4,1;GG/F");
     m_tree->Branch("razor_ratio_H;1,1;GG_H;4,1;GG",     &(m_inclVar->at("ratio_H;1,1;GG_H;4,1;GG")), "razor_ratio_H;1,1;GG_H;4,1;GG/F");
     m_tree->Branch("razor_maxRatio_H;1,0;PP_H;1,1;PP",  &(m_inclVar->at("maxRatio_H;1,0;PP_H;1,1;PP")), "razor_maxRatio_H;1,0;PP_H;1,1;PP/F");
-
-    delete m_inclVar;
-    m_inclVar = nullptr;
   }
 
   return EL::StatusCode::SUCCESS;
@@ -507,8 +504,11 @@ EL::StatusCode OptimizationDump :: execute ()
   if(!m_inputPhotons.empty())
     RETURN_CHECK("OptimizationDump::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
   // do all of the razor variables
-  RETURN_CHECK("Report::execute()", HF::retrieve(m_inclVar, "RJigsawInclusiveVariables", nullptr, m_store, m_debug), "Could not get the RJRVars");
+  std::map<std::string, double>* in_inclVar(nullptr);
+  RETURN_CHECK("Report::execute()", HF::retrieve(in_inclVar, "RJigsawInclusiveVariables", nullptr, m_store, m_debug), "Could not get the RJRVars");
   RETURN_CHECK("Report::execute()", HF::retrieve(m_vP, "RJigsawFourVectors", nullptr, m_store, m_debug), "Could not get the RJR 4-Vectors");
+  // fill in the original map with the values
+  for(const auto& item: *in_inclVar) (*m_inclVar)[item.first] = item.second;
 
   // compute variables for optimization
   m_eventWeight = VD::eventWeight(eventInfo, wk()->metaData());
@@ -715,6 +715,9 @@ EL::StatusCode OptimizationDump :: finalize () {
     for(const auto& tool: m_varRjetReclusteringTools)
       if(tool) delete tool;
   }
+  if(!m_inputJets.empty() && !m_inputMET.empty())
+    if(m_inclVar) delete m_inclVar;
+
   return EL::StatusCode::SUCCESS;
 }
 
