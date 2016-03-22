@@ -10,14 +10,14 @@
             "max": 2000,
             "min": 200,
             "name": "met",
-            "nbins": 40
+            "nbins": 36
         },
         {
             "draw": "m_effective",
             "max": 5000,
             "min": 0,
             "name": "meff",
-            "nbins": 20
+            "nbins": 100
         },
         {
             "draw": "dPhiMETMin",
@@ -59,7 +59,7 @@
             "max": 14000,
             "min": 0,
             "name": "razor_GG_mass",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_Ga_mass",
@@ -80,14 +80,14 @@
             "max": 3500,
             "min": 0,
             "name": "razor_Ca1_mass",
-            "nbins": 350
+            "nbins": 70
         },
         {
             "draw": "razor_Cb1_mass",
             "max": 3500,
             "min": 0,
             "name": "razor_Cb1_mass",
-            "nbins": 350
+            "nbins": 70
         },
         {
             "draw": "razor_Va1_mass",
@@ -255,112 +255,112 @@
             "max": 14000,
             "min": 0,
             "name": "razor_pZ_GG",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.1,1.GG",
             "max": 14000,
             "min": 0,
             "name": "razor_H11GG",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.2,1.GG",
             "max": 14000,
             "min": 0,
             "name": "razor_H21GG",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.2,2.GG",
             "max": 14000,
             "min": 0,
             "name": "razor_H22GG",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.4,1.GG",
             "max": 14000,
             "min": 0,
             "name": "razor_H41GG",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.4,2.GG",
             "max": 14000,
             "min": 0,
             "name": "razor_H42GG",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.1,1.Ga",
             "max": 14000,
             "min": 0,
             "name": "razor_H11Ga",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.1,1.Gb",
             "max": 14000,
             "min": 0,
             "name": "razor_H11Gb",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.2,1.Ga",
             "max": 14000,
             "min": 0,
             "name": "razor_H21Ga",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.2,1.Gb",
             "max": 14000,
             "min": 0,
             "name": "razor_H21Gb",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.1,1.Ca1",
             "max": 14000,
             "min": 0,
             "name": "razor_H11Ca1",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_H.1,1.Cb1",
             "max": 14000,
             "min": 0,
             "name": "razor_H11Cb1",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_HT.2,1.GG",
             "max": 14000,
             "min": 0,
             "name": "razor_HT21GG",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_HT.2,2.GG",
             "max": 14000,
             "min": 0,
             "name": "razor_HT22GG",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_HT.4,1.GG",
             "max": 14000,
             "min": 0,
             "name": "razor_HT41GG",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_HT.4,2.GG",
             "max": 14000,
             "min": 0,
             "name": "razor_HT42GG",
-            "nbins": 350
+            "nbins": 280
         },
         {
             "draw": "razor_d_dPhiG",
