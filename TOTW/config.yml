@@ -84,36 +84,36 @@ groups:
       fillstyle: solid
     stack it: true
 
-  - name: "m_{#tilde{g}} = 1000, m_{#tilde{#chi}} = 200"
+  - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 200"
     files:
-      - TA03/Gtt_0L/fetch/data-optimizationTree/*370105*.merged
+      - TA03/Gtt_0L/fetch/data-optimizationTree/*370153*.merged
     styles:
       legendstyle: L
       drawstyle: hist
       linewidth: 2
     stack it: false
 
-  - name: "m_{#tilde{g}} = 1200, m_{#tilde{#chi}} = 200"
+  - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 600"
     files:
-      - TA03/Gtt_0L/fetch/data-optimizationTree/*370116*.merged
+      - TA03/Gtt_0L/fetch/data-optimizationTree/*370155*.merged
     styles:
       legendstyle: L
       drawstyle: hist
       linewidth: 2
     stack it: false
 
-  - name: "m_{#tilde{g}} = 1400, m_{#tilde{#chi}} = 200"
+  - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 1000"
     files:
-      - TA03/Gtt_0L/fetch/data-optimizationTree/*370131*.merged
+      - TA03/Gtt_0L/fetch/data-optimizationTree/*370157*.merged
     styles:
       legendstyle: L
       drawstyle: hist
       linewidth: 2
     stack it: false
 
-  - name: "m_{#tilde{g}} = 1600, m_{#tilde{#chi}} = 200"
+  - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 1345"
     files:
-      - TA03/Gtt_0L/fetch/data-optimizationTree/*370145*.merged
+      - TA03/Gtt_0L/fetch/data-optimizationTree/*370159*.merged
     styles:
       legendstyle: L
       drawstyle: hist
