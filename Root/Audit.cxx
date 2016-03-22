@@ -373,8 +373,8 @@ EL::StatusCode Audit :: execute ()
   inclVar["H.2,1.Ga"]       = vP["Va1_Ga"].P()/1.e3 + vP["Va2_Ga"].P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
   inclVar["H.2,1.Gb"]       = vP["Vb1_Gb"].P()/1.e3 + vP["Vb2_Gb"].P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
 
-  inclVar["H.1,1.Ca1"]      = vP["Va2_Ca1"].P()/1.e3 + vP["Ia1_Ca1"].P();
-  inclVar["H.1,1.Cb1"]      = vP["Vb2_Cb1"].P()/1.e3 + vP["Ib1_Cb1"].P();
+  inclVar["H.1,1.Ca1"]      = vP["Va2_Ca1"].P()/1.e3 + vP["Ia1_Ca1"].P()/1.e3;
+  inclVar["H.1,1.Cb1"]      = vP["Vb2_Cb1"].P()/1.e3 + vP["Ib1_Cb1"].P()/1.e3;
 
   inclVar["HT.2,1.GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["H.1,1.GG"]/2.;
   inclVar["HT.2,2.GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
