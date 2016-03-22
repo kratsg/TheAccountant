@@ -1,0 +1,339 @@
+---
+atlas: &atlas
+  x: 0.225
+  y: 0.88
+  font: 73
+  size: 25
+  label: ATLAS
+
+internal: &internal
+  x: 0.35
+  font: 43
+  label: Internal
+  <<: *atlas
+
+atlasinternal: &atlasinternal
+  - *atlas
+  - *internal
+
+groups:
+  - name: "t#bar{t}"
+    files:
+      - TA03/ttbarInc_0L/fetch/data-optimizationTree/*410000*.merged
+      - TA03/ttbarExc_0L/fetch/data-optimizationTree/*407012*.merged
+    styles:
+      legendstyle: F
+      fillstyle: solid
+    stack it: true
+
+  - name: dijets
+    files:
+      - TA03/dijet_0L/fetch/data-optimizationTree/*.merged
+    styles:
+      legendstyle: F
+      fillstyle: solid
+    stack it: true
+
+  - name: W+jets
+    files:
+      - TA03/Wsherpa_0L/fetch/data-optimizationTree/*.merged
+    styles:
+      legendstyle: F
+      fillstyle: solid
+    stack it: true
+
+  - name: Z+jets
+    files:
+      - TA03/Zsherpa_0L/fetch/data-optimizationTree/*.merged
+    styles:
+      legendstyle: F
+      fillstyle: solid
+    stack it: true
+
+  - name: "1-top: t-channel"
+    files:
+      - TA03/singletop_0L/fetch/data-optimizationTree/*410011*.merged
+      - TA03/singletop_0L/fetch/data-optimizationTree/*410012*.merged
+    styles:
+      legendstyle: F
+      fillstyle: solid
+    stack it: true
+
+  - name: "1-top: Wt-inclusive"
+    files:
+      - TA03/singletop_0L/fetch/data-optimizationTree/*410013*.merged
+      - TA03/singletop_0L/fetch/data-optimizationTree/*410014*.merged
+    styles:
+      legendstyle: F
+      fillstyle: solid
+    stack it: true
+
+  - name: top EW
+    files:
+      - TA03/topEW_0L/fetch/data-optimizationTree/*.merged
+    styles:
+      legendstyle: F
+      fillstyle: solid
+    stack it: true
+
+  - name: diboson
+    files:
+      - TA03/diboson_0L/fetch/data-optimizationTree/*.merged
+    styles:
+      legendstyle: F
+      fillstyle: solid
+    stack it: true
+
+  - name: "m_{#tilde{g}} = 1000, m_{#tilde{#chi}} = 200"
+    files:
+      - TA03/Gtt_0L/fetch/data-optimizationTree/*370105*.merged
+    styles:
+      legendstyle: L
+      drawstyle: hist
+      linewidth: 2
+    stack it: false
+
+  - name: "m_{#tilde{g}} = 1200, m_{#tilde{#chi}} = 200"
+    files:
+      - TA03/Gtt_0L/fetch/data-optimizationTree/*370116*.merged
+    styles:
+      legendstyle: L
+      drawstyle: hist
+      linewidth: 2
+    stack it: false
+
+  - name: "m_{#tilde{g}} = 1400, m_{#tilde{#chi}} = 200"
+    files:
+      - TA03/Gtt_0L/fetch/data-optimizationTree/*370131*.merged
+    styles:
+      legendstyle: L
+      drawstyle: hist
+      linewidth: 2
+    stack it: false
+
+  - name: "m_{#tilde{g}} = 1600, m_{#tilde{#chi}} = 200"
+    files:
+      - TA03/Gtt_0L/fetch/data-optimizationTree/*370145*.merged
+    styles:
+      legendstyle: L
+      drawstyle: hist
+      linewidth: 2
+    stack it: false
+
+# plots:
+#   config:  # here we set global configurations that are applied uniformly such as...
+#     canvas:
+#     legend:
+#     texts:
+
+plots:
+  config:
+    texts:
+      - *atlas
+      - *internal
+      - &topline
+        x: 0.25
+        y: 0.84
+        font: 43
+        size: 18
+        label: "#sqrt{s} = 13 TeV, L_{int} #approx 3.2 fb^{-1}"
+    canvas:
+      width: 650
+      height: 500
+      logy: false
+      ndivisions: 505
+    legend:
+      leftmargin: 0.425
+      topmargin: 0.025
+      rightmargin: 0.075
+      textsize: 14
+      entrysep: 0.01
+      entryheight: 0.02
+
+  paths:
+    all/SR_Gtt_0l_A/met: {}
+    all/SR_Gtt_0l_A/meff: {}
+    all/SR_Gtt_0l_A/dphimetmin: {}
+    all/SR_Gtt_0l_A/mtb: {}
+    all/SR_Gtt_0l_A/njets: {}
+    all/SR_Gtt_0l_A/nbjets: {}
+    all/SR_Gtt_0l_A/ntops: {}
+    all/SR_Gtt_0l_A/razor_GG_mass: {}
+    all/SR_Gtt_0l_A/razor_Ga_mass: {}
+    all/SR_Gtt_0l_A/razor_Gb_mass: {}
+    all/SR_Gtt_0l_A/razor_Ca1_mass: {}
+    all/SR_Gtt_0l_A/razor_Cb1_mass: {}
+    all/SR_Gtt_0l_A/razor_Va1_mass: {}
+    all/SR_Gtt_0l_A/razor_Vb1_mass: {}
+    all/SR_Gtt_0l_A/razor_Va2_mass: {}
+    all/SR_Gtt_0l_A/razor_Vb2_mass: {}
+    all/SR_Gtt_0l_A/razor_GG_invGamma: {}
+    all/SR_Gtt_0l_A/razor_GG_mDeltaR: {}
+    all/SR_Gtt_0l_A/razor_Va1_n: {}
+    all/SR_Gtt_0l_A/razor_Vb1_n: {}
+    all/SR_Gtt_0l_A/razor_Ga_n: {}
+    all/SR_Gtt_0l_A/razor_Va2_n: {}
+    all/SR_Gtt_0l_A/razor_Vb2_n: {}
+    all/SR_Gtt_0l_A/razor_Gb_n: {}
+    all/SR_Gtt_0l_A/razor_GG_cosTheta: {}
+    all/SR_Gtt_0l_A/razor_Va1_cosTheta: {}
+    all/SR_Gtt_0l_A/razor_Vb1_cosTheta: {}
+    all/SR_Gtt_0l_A/razor_Va2_cosTheta: {}
+    all/SR_Gtt_0l_A/razor_Vb2_cosTheta: {}
+    all/SR_Gtt_0l_A/razor_GG_dPhiVis: {}
+    all/SR_Gtt_0l_A/razor_GG_dPhiBetaR: {}
+    all/SR_Gtt_0l_A/razor_GG_dPhiDecay: {}
+    all/SR_Gtt_0l_A/razor_dPhi_Ga_Ca1: {}
+    all/SR_Gtt_0l_A/razor_dPhi_Gb_Cb1: {}
+    all/SR_Gtt_0l_A/razor_pT_GG: {}
+    all/SR_Gtt_0l_A/razor_pZ_GG: {}
+    all/SR_Gtt_0l_A/razor_H11GG: {}
+    all/SR_Gtt_0l_A/razor_H21GG: {}
+    all/SR_Gtt_0l_A/razor_H22GG: {}
+    all/SR_Gtt_0l_A/razor_H41GG: {}
+    all/SR_Gtt_0l_A/razor_H42GG: {}
+    all/SR_Gtt_0l_A/razor_H11Ga: {}
+    all/SR_Gtt_0l_A/razor_H11Gb: {}
+    all/SR_Gtt_0l_A/razor_H21Ga: {}
+    all/SR_Gtt_0l_A/razor_H21Gb: {}
+    all/SR_Gtt_0l_A/razor_H11Ca1: {}
+    all/SR_Gtt_0l_A/razor_H11Cb1: {}
+    all/SR_Gtt_0l_A/razor_HT21GG: {}
+    all/SR_Gtt_0l_A/razor_HT22GG: {}
+    all/SR_Gtt_0l_A/razor_HT41GG: {}
+    all/SR_Gtt_0l_A/razor_HT42GG: {}
+    all/SR_Gtt_0l_A/razor_d_dPhiG: {}
+    all/SR_Gtt_0l_A/razor_s_dPhiG: {}
+    all/SR_Gtt_0l_A/razor_s_angle: {}
+    all/SR_Gtt_0l_A/razor_d_angle: {}
+    all/SR_Gtt_0l_A/razor_ratio_pZGG_HT21GG: {}
+    all/SR_Gtt_0l_A/razor_ratio_pZGG_HT41GG: {}
+    all/SR_Gtt_0l_A/razor_ratio_pTGG_HT21GG: {}
+    all/SR_Gtt_0l_A/razor_ratio_pTGG_HT41GG: {}
+    all/SR_Gtt_0l_A/razor_ratio_H11GG_H21GG: {}
+    all/SR_Gtt_0l_A/razor_ratio_HT41GG_H41GG: {}
+    all/SR_Gtt_0l_A/razor_ratio_H11GG_H41GG: {}
+    all/SR_Gtt_0l_B/met: {}
+    all/SR_Gtt_0l_B/meff: {}
+    all/SR_Gtt_0l_B/dphimetmin: {}
+    all/SR_Gtt_0l_B/mtb: {}
+    all/SR_Gtt_0l_B/njets: {}
+    all/SR_Gtt_0l_B/nbjets: {}
+    all/SR_Gtt_0l_B/ntops: {}
+    all/SR_Gtt_0l_B/razor_GG_mass: {}
+    all/SR_Gtt_0l_B/razor_Ga_mass: {}
+    all/SR_Gtt_0l_B/razor_Gb_mass: {}
+    all/SR_Gtt_0l_B/razor_Ca1_mass: {}
+    all/SR_Gtt_0l_B/razor_Cb1_mass: {}
+    all/SR_Gtt_0l_B/razor_Va1_mass: {}
+    all/SR_Gtt_0l_B/razor_Vb1_mass: {}
+    all/SR_Gtt_0l_B/razor_Va2_mass: {}
+    all/SR_Gtt_0l_B/razor_Vb2_mass: {}
+    all/SR_Gtt_0l_B/razor_GG_invGamma: {}
+    all/SR_Gtt_0l_B/razor_GG_mDeltaR: {}
+    all/SR_Gtt_0l_B/razor_Va1_n: {}
+    all/SR_Gtt_0l_B/razor_Vb1_n: {}
+    all/SR_Gtt_0l_B/razor_Ga_n: {}
+    all/SR_Gtt_0l_B/razor_Va2_n: {}
+    all/SR_Gtt_0l_B/razor_Vb2_n: {}
+    all/SR_Gtt_0l_B/razor_Gb_n: {}
+    all/SR_Gtt_0l_B/razor_GG_cosTheta: {}
+    all/SR_Gtt_0l_B/razor_Va1_cosTheta: {}
+    all/SR_Gtt_0l_B/razor_Vb1_cosTheta: {}
+    all/SR_Gtt_0l_B/razor_Va2_cosTheta: {}
+    all/SR_Gtt_0l_B/razor_Vb2_cosTheta: {}
+    all/SR_Gtt_0l_B/razor_GG_dPhiVis: {}
+    all/SR_Gtt_0l_B/razor_GG_dPhiBetaR: {}
+    all/SR_Gtt_0l_B/razor_GG_dPhiDecay: {}
+    all/SR_Gtt_0l_B/razor_dPhi_Ga_Ca1: {}
+    all/SR_Gtt_0l_B/razor_dPhi_Gb_Cb1: {}
+    all/SR_Gtt_0l_B/razor_pT_GG: {}
+    all/SR_Gtt_0l_B/razor_pZ_GG: {}
+    all/SR_Gtt_0l_B/razor_H11GG: {}
+    all/SR_Gtt_0l_B/razor_H21GG: {}
+    all/SR_Gtt_0l_B/razor_H22GG: {}
+    all/SR_Gtt_0l_B/razor_H41GG: {}
+    all/SR_Gtt_0l_B/razor_H42GG: {}
+    all/SR_Gtt_0l_B/razor_H11Ga: {}
+    all/SR_Gtt_0l_B/razor_H11Gb: {}
+    all/SR_Gtt_0l_B/razor_H21Ga: {}
+    all/SR_Gtt_0l_B/razor_H21Gb: {}
+    all/SR_Gtt_0l_B/razor_H11Ca1: {}
+    all/SR_Gtt_0l_B/razor_H11Cb1: {}
+    all/SR_Gtt_0l_B/razor_HT21GG: {}
+    all/SR_Gtt_0l_B/razor_HT22GG: {}
+    all/SR_Gtt_0l_B/razor_HT41GG: {}
+    all/SR_Gtt_0l_B/razor_HT42GG: {}
+    all/SR_Gtt_0l_B/razor_d_dPhiG: {}
+    all/SR_Gtt_0l_B/razor_s_dPhiG: {}
+    all/SR_Gtt_0l_B/razor_s_angle: {}
+    all/SR_Gtt_0l_B/razor_d_angle: {}
+    all/SR_Gtt_0l_B/razor_ratio_pZGG_HT21GG: {}
+    all/SR_Gtt_0l_B/razor_ratio_pZGG_HT41GG: {}
+    all/SR_Gtt_0l_B/razor_ratio_pTGG_HT21GG: {}
+    all/SR_Gtt_0l_B/razor_ratio_pTGG_HT41GG: {}
+    all/SR_Gtt_0l_B/razor_ratio_H11GG_H21GG: {}
+    all/SR_Gtt_0l_B/razor_ratio_HT41GG_H41GG: {}
+    all/SR_Gtt_0l_B/razor_ratio_H11GG_H41GG: {}
+    all/SR_Gtt_0l_C/met: {}
+    all/SR_Gtt_0l_C/meff: {}
+    all/SR_Gtt_0l_C/dphimetmin: {}
+    all/SR_Gtt_0l_C/mtb: {}
+    all/SR_Gtt_0l_C/njets: {}
+    all/SR_Gtt_0l_C/nbjets: {}
+    all/SR_Gtt_0l_C/ntops: {}
+    all/SR_Gtt_0l_C/razor_GG_mass: {}
+    all/SR_Gtt_0l_C/razor_Ga_mass: {}
+    all/SR_Gtt_0l_C/razor_Gb_mass: {}
+    all/SR_Gtt_0l_C/razor_Ca1_mass: {}
+    all/SR_Gtt_0l_C/razor_Cb1_mass: {}
+    all/SR_Gtt_0l_C/razor_Va1_mass: {}
+    all/SR_Gtt_0l_C/razor_Vb1_mass: {}
+    all/SR_Gtt_0l_C/razor_Va2_mass: {}
+    all/SR_Gtt_0l_C/razor_Vb2_mass: {}
+    all/SR_Gtt_0l_C/razor_GG_invGamma: {}
+    all/SR_Gtt_0l_C/razor_GG_mDeltaR: {}
+    all/SR_Gtt_0l_C/razor_Va1_n: {}
+    all/SR_Gtt_0l_C/razor_Vb1_n: {}
+    all/SR_Gtt_0l_C/razor_Ga_n: {}
+    all/SR_Gtt_0l_C/razor_Va2_n: {}
+    all/SR_Gtt_0l_C/razor_Vb2_n: {}
+    all/SR_Gtt_0l_C/razor_Gb_n: {}
+    all/SR_Gtt_0l_C/razor_GG_cosTheta: {}
+    all/SR_Gtt_0l_C/razor_Va1_cosTheta: {}
+    all/SR_Gtt_0l_C/razor_Vb1_cosTheta: {}
+    all/SR_Gtt_0l_C/razor_Va2_cosTheta: {}
+    all/SR_Gtt_0l_C/razor_Vb2_cosTheta: {}
+    all/SR_Gtt_0l_C/razor_GG_dPhiVis: {}
+    all/SR_Gtt_0l_C/razor_GG_dPhiBetaR: {}
+    all/SR_Gtt_0l_C/razor_GG_dPhiDecay: {}
+    all/SR_Gtt_0l_C/razor_dPhi_Ga_Ca1: {}
+    all/SR_Gtt_0l_C/razor_dPhi_Gb_Cb1: {}
+    all/SR_Gtt_0l_C/razor_pT_GG: {}
+    all/SR_Gtt_0l_C/razor_pZ_GG: {}
+    all/SR_Gtt_0l_C/razor_H11GG: {}
+    all/SR_Gtt_0l_C/razor_H21GG: {}
+    all/SR_Gtt_0l_C/razor_H22GG: {}
+    all/SR_Gtt_0l_C/razor_H41GG: {}
+    all/SR_Gtt_0l_C/razor_H42GG: {}
+    all/SR_Gtt_0l_C/razor_H11Ga: {}
+    all/SR_Gtt_0l_C/razor_H11Gb: {}
+    all/SR_Gtt_0l_C/razor_H21Ga: {}
+    all/SR_Gtt_0l_C/razor_H21Gb: {}
+    all/SR_Gtt_0l_C/razor_H11Ca1: {}
+    all/SR_Gtt_0l_C/razor_H11Cb1: {}
+    all/SR_Gtt_0l_C/razor_HT21GG: {}
+    all/SR_Gtt_0l_C/razor_HT22GG: {}
+    all/SR_Gtt_0l_C/razor_HT41GG: {}
+    all/SR_Gtt_0l_C/razor_HT42GG: {}
+    all/SR_Gtt_0l_C/razor_d_dPhiG: {}
+    all/SR_Gtt_0l_C/razor_s_dPhiG: {}
+    all/SR_Gtt_0l_C/razor_s_angle: {}
+    all/SR_Gtt_0l_C/razor_d_angle: {}
+    all/SR_Gtt_0l_C/razor_ratio_pZGG_HT21GG: {}
+    all/SR_Gtt_0l_C/razor_ratio_pZGG_HT41GG: {}
+    all/SR_Gtt_0l_C/razor_ratio_pTGG_HT21GG: {}
+    all/SR_Gtt_0l_C/razor_ratio_pTGG_HT41GG: {}
+    all/SR_Gtt_0l_C/razor_ratio_H11GG_H21GG: {}
+    all/SR_Gtt_0l_C/razor_ratio_HT41GG_H41GG: {}
+    all/SR_Gtt_0l_C/razor_ratio_H11GG_H41GG: {}

@@ -1,0 +1,443 @@
+{
+    "cuts": [
+                {"name": "SR_Gtt_0l_A", "cut": "dPhiMETMin>0.4 && mTb>80 && multiplicity_jet>=8 && multiplicity_jet_b>=3 && multiplicity_topTag_veryloose>=1 && met>400 && m_effective>1700"},
+                {"name": "SR_Gtt_0l_B", "cut": "dPhiMETMin>0.4 && mTb>80 && multiplicity_jet>=8 && multiplicity_jet_b>=4 && multiplicity_topTag_veryloose>=1 && met>350 && m_effective>1250"},
+                {"name": "SR_Gtt_0l_C", "cut": "dPhiMETMin>0.4 && mTb>80 && multiplicity_jet>=8 && multiplicity_jet_b>=4 && multiplicity_topTag_veryloose>=0 && met>350 && m_effective>1250"}
+            ],
+    "draw": [
+        {
+            "draw": "met",
+            "max": 2000,
+            "min": 200,
+            "name": "met",
+            "nbins": 40
+        },
+        {
+            "draw": "m_effective",
+            "max": 5000,
+            "min": 0,
+            "name": "meff",
+            "nbins": 20
+        },
+        {
+            "draw": "dPhiMETMin",
+            "max": 3.14159,
+            "min": 0.0,
+            "name": "dphimetmin",
+            "nbins": 20
+        },
+        {
+            "draw": "mTb",
+            "max": 1000,
+            "min": 0,
+            "name": "mtb",
+            "nbins": 20
+        },
+        {
+            "draw": "multiplicity_jet",
+            "max": 29.5,
+            "min": -0.5,
+            "name": "njets",
+            "nbins": 30
+        },
+        {
+            "draw": "multiplicity_jet_b",
+            "max": 19.5,
+            "min": -0.5,
+            "name": "nbjets",
+            "nbins": 20
+        },
+        {
+            "draw": "multiplicity_topTag_veryloose",
+            "max": 9.5,
+            "min": -0.5,
+            "name": "ntops",
+            "nbins": 10
+        },
+        {
+            "draw": "razor_GG_mass",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_GG_mass",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_Ga_mass",
+            "max": 7000,
+            "min": 0,
+            "name": "razor_Ga_mass",
+            "nbins": 140
+        },
+        {
+            "draw": "razor_Gb_mass",
+            "max": 7000,
+            "min": 0,
+            "name": "razor_Gb_mass",
+            "nbins": 140
+        },
+        {
+            "draw": "razor_Ca1_mass",
+            "max": 3500,
+            "min": 0,
+            "name": "razor_Ca1_mass",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_Cb1_mass",
+            "max": 3500,
+            "min": 0,
+            "name": "razor_Cb1_mass",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_Va1_mass",
+            "max": 2000,
+            "min": 0,
+            "name": "razor_Va1_mass",
+            "nbins": 200
+        },
+        {
+            "draw": "razor_Vb1_mass",
+            "max": 2000,
+            "min": 0,
+            "name": "razor_Vb1_mass",
+            "nbins": 200
+        },
+        {
+            "draw": "razor_Va2_mass",
+            "max": 2000,
+            "min": 0,
+            "name": "razor_Va2_mass",
+            "nbins": 200
+        },
+        {
+            "draw": "razor_Vb2_mass",
+            "max": 2000,
+            "min": 0,
+            "name": "razor_Vb2_mass",
+            "nbins": 200
+        },
+        {
+            "draw": "razor_GG_invGamma",
+            "max": 1,
+            "min": 0,
+            "name": "razor_GG_invGamma",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_GG_mDeltaR",
+            "max": 7000,
+            "min": 0,
+            "name": "razor_GG_mDeltaR",
+            "nbins": 140
+        },
+        {
+            "draw": "razor_Va1_n",
+            "max": 19.5,
+            "min": -0.5,
+            "name": "razor_Va1_n",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_Vb1_n",
+            "max": 19.5,
+            "min": -0.5,
+            "name": "razor_Vb1_n",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_Ga_n",
+            "max": 19.5,
+            "min": -0.5,
+            "name": "razor_Ga_n",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_Va2_n",
+            "max": 19.5,
+            "min": -0.5,
+            "name": "razor_Va2_n",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_Vb2_n",
+            "max": 19.5,
+            "min": -0.5,
+            "name": "razor_Vb2_n",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_Gb_n",
+            "max": 19.5,
+            "min": -0.5,
+            "name": "razor_Gb_n",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_GG_cosTheta",
+            "max": 1,
+            "min": -1,
+            "name": "razor_GG_cosTheta",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_Va1_cosTheta",
+            "max": 1,
+            "min": -1,
+            "name": "razor_Va1_cosTheta",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_Vb1_cosTheta",
+            "max": 1,
+            "min": -1,
+            "name": "razor_Vb1_cosTheta",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_Va2_cosTheta",
+            "max": 1,
+            "min": -1,
+            "name": "razor_Va2_cosTheta",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_Vb2_cosTheta",
+            "max": 1,
+            "min": -1,
+            "name": "razor_Vb2_cosTheta",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_GG_dPhiVis",
+            "max": 3.14159,
+            "min": 0,
+            "name": "razor_GG_dPhiVis",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_GG_dPhiBetaR",
+            "max": 3.14159,
+            "min": 0,
+            "name": "razor_GG_dPhiBetaR",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_GG_dPhiDecay",
+            "max": 3.14159,
+            "min": 0,
+            "name": "razor_GG_dPhiDecay",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_dPhi_Ga_Ca1",
+            "max": 6.28318,
+            "min": 0,
+            "name": "razor_dPhi_Ga_Ca1",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_dPhi_Gb_Cb1",
+            "max": 6.28318,
+            "min": 0,
+            "name": "razor_dPhi_Gb_Cb1",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_pT_GG",
+            "max": 2000,
+            "min": 0,
+            "name": "razor_pT_GG",
+            "nbins": 200
+        },
+        {
+            "draw": "razor_pZ_GG",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_pZ_GG",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.1,1.GG",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H11GG",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.2,1.GG",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H21GG",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.2,2.GG",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H22GG",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.4,1.GG",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H41GG",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.4,2.GG",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H42GG",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.1,1.Ga",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H11Ga",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.1,1.Gb",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H11Gb",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.2,1.Ga",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H21Ga",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.2,1.Gb",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H21Gb",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.1,1.Ca1",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H11Ca1",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_H.1,1.Cb1",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_H11Cb1",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_HT.2,1.GG",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_HT21GG",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_HT.2,2.GG",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_HT22GG",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_HT.4,1.GG",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_HT41GG",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_HT.4,2.GG",
+            "max": 14000,
+            "min": 0,
+            "name": "razor_HT42GG",
+            "nbins": 350
+        },
+        {
+            "draw": "razor_d_dPhiG",
+            "max": 1,
+            "min": -1,
+            "name": "razor_d_dPhiG",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_s_dPhiG",
+            "max": 1,
+            "min": 0,
+            "name": "razor_s_dPhiG",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_s_angle",
+            "max": 2,
+            "min": 0,
+            "name": "razor_s_angle",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_d_angle",
+            "max": 2.5,
+            "min": -0.5,
+            "name": "razor_d_angle",
+            "nbins": 26
+        },
+        {
+            "draw": "razor_ratio_pZ.GG_HT.2,1.GG",
+            "max": 1,
+            "min": 0,
+            "name": "razor_ratio_pZGG_HT21GG",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_ratio_pZ.GG_HT.4,1.GG",
+            "max": 1,
+            "min": 0,
+            "name": "razor_ratio_pZGG_HT41GG",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_ratio_pT.GG_HT.2,1.GG",
+            "max": 1,
+            "min": 0,
+            "name": "razor_ratio_pTGG_HT21GG",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_ratio_pT.GG_HT.4,1.GG",
+            "max": 1,
+            "min": 0,
+            "name": "razor_ratio_pTGG_HT41GG",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_ratio_H.1,1.GG_H.2,1.GG",
+            "max": 1,
+            "min": 0,
+            "name": "razor_ratio_H11GG_H21GG",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_ratio_HT.4,1.GG_H.4,1.GG",
+            "max": 1,
+            "min": 0,
+            "name": "razor_ratio_HT41GG_H41GG",
+            "nbins": 20
+        },
+        {
+            "draw": "razor_ratio_H.1,1.GG_H.4,1.GG",
+            "max": 1,
+            "min": 0,
+            "name": "razor_ratio_H11GG_H41GG",
+            "nbins": 20
+        }
+    ]
+}
