@@ -169,6 +169,10 @@ namespace VariableDefinitions {
     return subset;
   }
 
+  // this contains all the RJigsaw variables we care about in our analysis and we pass this around because we're lazy
+  struct RJigsaw {
+
+  };
 }
 
 #endif

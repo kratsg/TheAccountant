@@ -28,13 +28,17 @@ public:
 
 private:
   RF::LabRecoFrame         LAB; //!
-  RF::DecayRecoFrame       SS;  //!
-  RF::DecayRecoFrame       S1;  //!
-  RF::DecayRecoFrame       S2;  //!
-  RF::VisibleRecoFrame     V1;  //!
-  RF::VisibleRecoFrame     V2;  //!
-  RF::InvisibleRecoFrame   I1;  //!
-  RF::InvisibleRecoFrame   I2;  //!
+  RF::DecayRecoFrame       GG;  //!
+  RF::DecayRecoFrame       Ga;  //!
+  RF::DecayRecoFrame       Gb;  //!
+  RF::DecayRecoFrame       Ca1; //!
+  RF::DecayRecoFrame       Cb1; //!
+  RF::VisibleRecoFrame     Va1; //!
+  RF::VisibleRecoFrame     Va2; //!
+  RF::VisibleRecoFrame     Vb1; //!
+  RF::VisibleRecoFrame     Vb2; //!
+  RF::InvisibleRecoFrame   Ia1; //!
+  RF::InvisibleRecoFrame   Ib1; //!
 
   RF::CombinatoricGroup VIS;    //!
   RF::InvisibleGroup    INV;    //!
@@ -43,6 +47,9 @@ private:
   RF::SetRapidityInvJigsaw RapidityJigsaw; //!
   RF::ContraBoostInvJigsaw ContraBoostJigsaw; //!
   RF::MinMassesCombJigsaw HemiJigsaw; //!
+  RF::MinMassesCombJigsaw HemiJigsaw_Ca; //!
+  RF::MinMassesCombJigsaw HemiJigsaw_Cb; //!
+
 
 public:
   // this is a standard constructor

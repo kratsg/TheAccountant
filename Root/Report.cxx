@@ -201,6 +201,8 @@ EL::StatusCode Report :: execute ()
   const xAOD::TauJetContainer*          in_taus       (nullptr);
   const xAOD::PhotonContainer*          in_photons    (nullptr);
   //const xAOD::TruthParticleContainer*   in_truth    (nullptr);
+  const std::map<std::string, double>* inclVar_ptr    (nullptr);
+  const std::map<std::string, TLorentzVector>* vP_ptr (nullptr);
 
   // start grabbing all the containers that we can
   RETURN_CHECK("Report::execute()", HF::retrieve(eventInfo,    m_eventInfo,        m_event, m_store, m_debug), "Could not get the EventInfo container.");
@@ -218,6 +220,9 @@ EL::StatusCode Report :: execute ()
     RETURN_CHECK("Report::execute()", HF::retrieve(in_taus,      m_inputTauJets,     m_event, m_store, m_debug), "Could not get the inputTauJets container.");
   if(!m_inputPhotons.empty())
     RETURN_CHECK("Report::execute()", HF::retrieve(in_photons,   m_inputPhotons,     m_event, m_store, m_debug), "Could not get the inputPhotons container.");
+  RETURN_CHECK("Report::execute()", HF::retrieve(inclVar_ptr, "RJigsawInclusiveVariables", nullptr, m_store, m_debug), "Could not get the RJRVars");
+  RETURN_CHECK("Report::execute()", HF::retrieve(vP_ptr, "RJigsawFourVectors", nullptr, m_store, m_debug), "Could not get the RJR 4-Vectors");
+
 
   // prepare the jets by creating a view container to look at them
   ConstDataVector<xAOD::JetContainer> in_jetsCDV(SG::VIEW_ELEMENTS);
@@ -258,7 +263,7 @@ EL::StatusCode Report :: execute ()
 
 
   if(!m_inputMET.empty() && !m_inputJets.empty() && !m_inputLargeRJets.empty() && !m_inputMuons.empty() && !m_inputElectrons.empty())
-    RETURN_CHECK("Report::execute()", m_razorPlots["all/razor"]->execute(eventInfo, in_met,in_jets, in_jetsLargeR, in_muons, in_electrons,eventWeight),"");
+    RETURN_CHECK("Report::execute()", m_razorPlots["all/razor"]->execute(*inclVar_ptr, *vP_ptr, in_met,in_jets, in_jetsLargeR, in_muons, in_electrons,eventWeight),"");
 
   if(!m_inputJets.empty()){
     RETURN_CHECK("Report::execute()", m_jetKinematicPlots["all/jets"]->execute(in_jets, eventWeight), "");
