@@ -2,7 +2,8 @@
     "cuts": [
                 {"name": "SR_Gtt_0l_A", "cut": "dPhiMETMin>0.4 && mTb>80 && multiplicity_jet>=8 && multiplicity_jet_b>=3 && multiplicity_topTag_veryloose>=1 && met>400 && m_effective>1700"},
                 {"name": "SR_Gtt_0l_B", "cut": "dPhiMETMin>0.4 && mTb>80 && multiplicity_jet>=8 && multiplicity_jet_b>=4 && multiplicity_topTag_veryloose>=1 && met>350 && m_effective>1250"},
-                {"name": "SR_Gtt_0l_C", "cut": "dPhiMETMin>0.4 && mTb>80 && multiplicity_jet>=8 && multiplicity_jet_b>=4 && multiplicity_topTag_veryloose>=0 && met>350 && m_effective>1250"}
+                {"name": "SR_Gtt_0l_C", "cut": "dPhiMETMin>0.4 && mTb>80 && multiplicity_jet>=8 && multiplicity_jet_b>=4 && multiplicity_topTag_veryloose>=0 && met>350 && m_effective>1250"},
+                {"name": "Preselection", "cut": "1"}
             ],
     "draw": [
         {
