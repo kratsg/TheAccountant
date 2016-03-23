@@ -151,251 +151,251 @@ plots:
       entryheight: 0.02
 
   paths:
-    all/SR_Gtt_0l_A/met: {}
-    all/SR_Gtt_0l_A/meff: {}
-    all/SR_Gtt_0l_A/dphimetmin: {}
-    all/SR_Gtt_0l_A/mtb: {}
-    all/SR_Gtt_0l_A/njets: {}
-    all/SR_Gtt_0l_A/nbjets: {}
-    all/SR_Gtt_0l_A/ntops: {}
-    all/SR_Gtt_0l_A/razor_GG_mass: {}
-    all/SR_Gtt_0l_A/razor_Ga_mass: {}
-    all/SR_Gtt_0l_A/razor_Gb_mass: {}
-    all/SR_Gtt_0l_A/razor_Ca1_mass: {}
-    all/SR_Gtt_0l_A/razor_Cb1_mass: {}
-    all/SR_Gtt_0l_A/razor_Va1_mass: {}
-    all/SR_Gtt_0l_A/razor_Vb1_mass: {}
-    all/SR_Gtt_0l_A/razor_Va2_mass: {}
-    all/SR_Gtt_0l_A/razor_Vb2_mass: {}
-    all/SR_Gtt_0l_A/razor_GG_invGamma: {}
-    all/SR_Gtt_0l_A/razor_GG_mDeltaR: {}
-    all/SR_Gtt_0l_A/razor_Va1_n: {}
-    all/SR_Gtt_0l_A/razor_Vb1_n: {}
-    all/SR_Gtt_0l_A/razor_Ga_n: {}
-    all/SR_Gtt_0l_A/razor_Va2_n: {}
-    all/SR_Gtt_0l_A/razor_Vb2_n: {}
-    all/SR_Gtt_0l_A/razor_Gb_n: {}
-    all/SR_Gtt_0l_A/razor_GG_cosTheta: {}
-    all/SR_Gtt_0l_A/razor_Va1_cosTheta: {}
-    all/SR_Gtt_0l_A/razor_Vb1_cosTheta: {}
-    all/SR_Gtt_0l_A/razor_Va2_cosTheta: {}
-    all/SR_Gtt_0l_A/razor_Vb2_cosTheta: {}
-    all/SR_Gtt_0l_A/razor_GG_dPhiVis: {}
-    all/SR_Gtt_0l_A/razor_GG_dPhiBetaR: {}
-    all/SR_Gtt_0l_A/razor_GG_dPhiDecay: {}
-    all/SR_Gtt_0l_A/razor_dPhi_Ga_Ca1: {}
-    all/SR_Gtt_0l_A/razor_dPhi_Gb_Cb1: {}
-    all/SR_Gtt_0l_A/razor_pT_GG: {}
-    all/SR_Gtt_0l_A/razor_pZ_GG: {}
-    all/SR_Gtt_0l_A/razor_H11GG: {}
-    all/SR_Gtt_0l_A/razor_H21GG: {}
-    all/SR_Gtt_0l_A/razor_H22GG: {}
-    all/SR_Gtt_0l_A/razor_H41GG: {}
-    all/SR_Gtt_0l_A/razor_H42GG: {}
-    all/SR_Gtt_0l_A/razor_H11Ga: {}
-    all/SR_Gtt_0l_A/razor_H11Gb: {}
-    all/SR_Gtt_0l_A/razor_H21Ga: {}
-    all/SR_Gtt_0l_A/razor_H21Gb: {}
-    all/SR_Gtt_0l_A/razor_H11Ca1: {}
-    all/SR_Gtt_0l_A/razor_H11Cb1: {}
-    all/SR_Gtt_0l_A/razor_HT21GG: {}
-    all/SR_Gtt_0l_A/razor_HT22GG: {}
-    all/SR_Gtt_0l_A/razor_HT41GG: {}
-    all/SR_Gtt_0l_A/razor_HT42GG: {}
-    all/SR_Gtt_0l_A/razor_d_dPhiG: {}
-    all/SR_Gtt_0l_A/razor_s_dPhiG: {}
-    all/SR_Gtt_0l_A/razor_s_angle: {}
-    all/SR_Gtt_0l_A/razor_d_angle: {}
-    all/SR_Gtt_0l_A/razor_ratio_pZGG_HT21GG: {}
-    all/SR_Gtt_0l_A/razor_ratio_pZGG_HT41GG: {}
-    all/SR_Gtt_0l_A/razor_ratio_pTGG_HT21GG: {}
-    all/SR_Gtt_0l_A/razor_ratio_pTGG_HT41GG: {}
-    all/SR_Gtt_0l_A/razor_ratio_H11GG_H21GG: {}
-    all/SR_Gtt_0l_A/razor_ratio_HT41GG_H41GG: {}
-    all/SR_Gtt_0l_A/razor_ratio_H11GG_H41GG: {}
-    all/SR_Gtt_0l_B/met: {}
-    all/SR_Gtt_0l_B/meff: {}
-    all/SR_Gtt_0l_B/dphimetmin: {}
-    all/SR_Gtt_0l_B/mtb: {}
-    all/SR_Gtt_0l_B/njets: {}
-    all/SR_Gtt_0l_B/nbjets: {}
-    all/SR_Gtt_0l_B/ntops: {}
-    all/SR_Gtt_0l_B/razor_GG_mass: {}
-    all/SR_Gtt_0l_B/razor_Ga_mass: {}
-    all/SR_Gtt_0l_B/razor_Gb_mass: {}
-    all/SR_Gtt_0l_B/razor_Ca1_mass: {}
-    all/SR_Gtt_0l_B/razor_Cb1_mass: {}
-    all/SR_Gtt_0l_B/razor_Va1_mass: {}
-    all/SR_Gtt_0l_B/razor_Vb1_mass: {}
-    all/SR_Gtt_0l_B/razor_Va2_mass: {}
-    all/SR_Gtt_0l_B/razor_Vb2_mass: {}
-    all/SR_Gtt_0l_B/razor_GG_invGamma: {}
-    all/SR_Gtt_0l_B/razor_GG_mDeltaR: {}
-    all/SR_Gtt_0l_B/razor_Va1_n: {}
-    all/SR_Gtt_0l_B/razor_Vb1_n: {}
-    all/SR_Gtt_0l_B/razor_Ga_n: {}
-    all/SR_Gtt_0l_B/razor_Va2_n: {}
-    all/SR_Gtt_0l_B/razor_Vb2_n: {}
-    all/SR_Gtt_0l_B/razor_Gb_n: {}
-    all/SR_Gtt_0l_B/razor_GG_cosTheta: {}
-    all/SR_Gtt_0l_B/razor_Va1_cosTheta: {}
-    all/SR_Gtt_0l_B/razor_Vb1_cosTheta: {}
-    all/SR_Gtt_0l_B/razor_Va2_cosTheta: {}
-    all/SR_Gtt_0l_B/razor_Vb2_cosTheta: {}
-    all/SR_Gtt_0l_B/razor_GG_dPhiVis: {}
-    all/SR_Gtt_0l_B/razor_GG_dPhiBetaR: {}
-    all/SR_Gtt_0l_B/razor_GG_dPhiDecay: {}
-    all/SR_Gtt_0l_B/razor_dPhi_Ga_Ca1: {}
-    all/SR_Gtt_0l_B/razor_dPhi_Gb_Cb1: {}
-    all/SR_Gtt_0l_B/razor_pT_GG: {}
-    all/SR_Gtt_0l_B/razor_pZ_GG: {}
-    all/SR_Gtt_0l_B/razor_H11GG: {}
-    all/SR_Gtt_0l_B/razor_H21GG: {}
-    all/SR_Gtt_0l_B/razor_H22GG: {}
-    all/SR_Gtt_0l_B/razor_H41GG: {}
-    all/SR_Gtt_0l_B/razor_H42GG: {}
-    all/SR_Gtt_0l_B/razor_H11Ga: {}
-    all/SR_Gtt_0l_B/razor_H11Gb: {}
-    all/SR_Gtt_0l_B/razor_H21Ga: {}
-    all/SR_Gtt_0l_B/razor_H21Gb: {}
-    all/SR_Gtt_0l_B/razor_H11Ca1: {}
-    all/SR_Gtt_0l_B/razor_H11Cb1: {}
-    all/SR_Gtt_0l_B/razor_HT21GG: {}
-    all/SR_Gtt_0l_B/razor_HT22GG: {}
-    all/SR_Gtt_0l_B/razor_HT41GG: {}
-    all/SR_Gtt_0l_B/razor_HT42GG: {}
-    all/SR_Gtt_0l_B/razor_d_dPhiG: {}
-    all/SR_Gtt_0l_B/razor_s_dPhiG: {}
-    all/SR_Gtt_0l_B/razor_s_angle: {}
-    all/SR_Gtt_0l_B/razor_d_angle: {}
-    all/SR_Gtt_0l_B/razor_ratio_pZGG_HT21GG: {}
-    all/SR_Gtt_0l_B/razor_ratio_pZGG_HT41GG: {}
-    all/SR_Gtt_0l_B/razor_ratio_pTGG_HT21GG: {}
-    all/SR_Gtt_0l_B/razor_ratio_pTGG_HT41GG: {}
-    all/SR_Gtt_0l_B/razor_ratio_H11GG_H21GG: {}
-    all/SR_Gtt_0l_B/razor_ratio_HT41GG_H41GG: {}
-    all/SR_Gtt_0l_B/razor_ratio_H11GG_H41GG: {}
-    all/SR_Gtt_0l_C/met: {}
-    all/SR_Gtt_0l_C/meff: {}
-    all/SR_Gtt_0l_C/dphimetmin: {}
-    all/SR_Gtt_0l_C/mtb: {}
-    all/SR_Gtt_0l_C/njets: {}
-    all/SR_Gtt_0l_C/nbjets: {}
-    all/SR_Gtt_0l_C/ntops: {}
-    all/SR_Gtt_0l_C/razor_GG_mass: {}
-    all/SR_Gtt_0l_C/razor_Ga_mass: {}
-    all/SR_Gtt_0l_C/razor_Gb_mass: {}
-    all/SR_Gtt_0l_C/razor_Ca1_mass: {}
-    all/SR_Gtt_0l_C/razor_Cb1_mass: {}
-    all/SR_Gtt_0l_C/razor_Va1_mass: {}
-    all/SR_Gtt_0l_C/razor_Vb1_mass: {}
-    all/SR_Gtt_0l_C/razor_Va2_mass: {}
-    all/SR_Gtt_0l_C/razor_Vb2_mass: {}
-    all/SR_Gtt_0l_C/razor_GG_invGamma: {}
-    all/SR_Gtt_0l_C/razor_GG_mDeltaR: {}
-    all/SR_Gtt_0l_C/razor_Va1_n: {}
-    all/SR_Gtt_0l_C/razor_Vb1_n: {}
-    all/SR_Gtt_0l_C/razor_Ga_n: {}
-    all/SR_Gtt_0l_C/razor_Va2_n: {}
-    all/SR_Gtt_0l_C/razor_Vb2_n: {}
-    all/SR_Gtt_0l_C/razor_Gb_n: {}
-    all/SR_Gtt_0l_C/razor_GG_cosTheta: {}
-    all/SR_Gtt_0l_C/razor_Va1_cosTheta: {}
-    all/SR_Gtt_0l_C/razor_Vb1_cosTheta: {}
-    all/SR_Gtt_0l_C/razor_Va2_cosTheta: {}
-    all/SR_Gtt_0l_C/razor_Vb2_cosTheta: {}
-    all/SR_Gtt_0l_C/razor_GG_dPhiVis: {}
-    all/SR_Gtt_0l_C/razor_GG_dPhiBetaR: {}
-    all/SR_Gtt_0l_C/razor_GG_dPhiDecay: {}
-    all/SR_Gtt_0l_C/razor_dPhi_Ga_Ca1: {}
-    all/SR_Gtt_0l_C/razor_dPhi_Gb_Cb1: {}
-    all/SR_Gtt_0l_C/razor_pT_GG: {}
-    all/SR_Gtt_0l_C/razor_pZ_GG: {}
-    all/SR_Gtt_0l_C/razor_H11GG: {}
-    all/SR_Gtt_0l_C/razor_H21GG: {}
-    all/SR_Gtt_0l_C/razor_H22GG: {}
-    all/SR_Gtt_0l_C/razor_H41GG: {}
-    all/SR_Gtt_0l_C/razor_H42GG: {}
-    all/SR_Gtt_0l_C/razor_H11Ga: {}
-    all/SR_Gtt_0l_C/razor_H11Gb: {}
-    all/SR_Gtt_0l_C/razor_H21Ga: {}
-    all/SR_Gtt_0l_C/razor_H21Gb: {}
-    all/SR_Gtt_0l_C/razor_H11Ca1: {}
-    all/SR_Gtt_0l_C/razor_H11Cb1: {}
-    all/SR_Gtt_0l_C/razor_HT21GG: {}
-    all/SR_Gtt_0l_C/razor_HT22GG: {}
-    all/SR_Gtt_0l_C/razor_HT41GG: {}
-    all/SR_Gtt_0l_C/razor_HT42GG: {}
-    all/SR_Gtt_0l_C/razor_d_dPhiG: {}
-    all/SR_Gtt_0l_C/razor_s_dPhiG: {}
-    all/SR_Gtt_0l_C/razor_s_angle: {}
-    all/SR_Gtt_0l_C/razor_d_angle: {}
-    all/SR_Gtt_0l_C/razor_ratio_pZGG_HT21GG: {}
-    all/SR_Gtt_0l_C/razor_ratio_pZGG_HT41GG: {}
-    all/SR_Gtt_0l_C/razor_ratio_pTGG_HT21GG: {}
-    all/SR_Gtt_0l_C/razor_ratio_pTGG_HT41GG: {}
-    all/SR_Gtt_0l_C/razor_ratio_H11GG_H21GG: {}
-    all/SR_Gtt_0l_C/razor_ratio_HT41GG_H41GG: {}
-    all/SR_Gtt_0l_C/razor_ratio_H11GG_H41GG: {}
-    all/Preselection/met: {}
-    all/Preselection/meff: {}
-    all/Preselection/dphimetmin: {}
-    all/Preselection/mtb: {}
-    all/Preselection/njets: {}
-    all/Preselection/nbjets: {}
-    all/Preselection/ntops: {}
-    all/Preselection/razor_GG_mass: {}
-    all/Preselection/razor_Ga_mass: {}
-    all/Preselection/razor_Gb_mass: {}
-    all/Preselection/razor_Ca1_mass: {}
-    all/Preselection/razor_Cb1_mass: {}
-    all/Preselection/razor_Va1_mass: {}
-    all/Preselection/razor_Vb1_mass: {}
-    all/Preselection/razor_Va2_mass: {}
-    all/Preselection/razor_Vb2_mass: {}
-    all/Preselection/razor_GG_invGamma: {}
-    all/Preselection/razor_GG_mDeltaR: {}
-    all/Preselection/razor_Va1_n: {}
-    all/Preselection/razor_Vb1_n: {}
-    all/Preselection/razor_Ga_n: {}
-    all/Preselection/razor_Va2_n: {}
-    all/Preselection/razor_Vb2_n: {}
-    all/Preselection/razor_Gb_n: {}
-    all/Preselection/razor_GG_cosTheta: {}
-    all/Preselection/razor_Va1_cosTheta: {}
-    all/Preselection/razor_Vb1_cosTheta: {}
-    all/Preselection/razor_Va2_cosTheta: {}
-    all/Preselection/razor_Vb2_cosTheta: {}
-    all/Preselection/razor_GG_dPhiVis: {}
-    all/Preselection/razor_GG_dPhiBetaR: {}
-    all/Preselection/razor_GG_dPhiDecay: {}
-    all/Preselection/razor_dPhi_Ga_Ca1: {}
-    all/Preselection/razor_dPhi_Gb_Cb1: {}
-    all/Preselection/razor_pT_GG: {}
-    all/Preselection/razor_pZ_GG: {}
-    all/Preselection/razor_H11GG: {}
-    all/Preselection/razor_H21GG: {}
-    all/Preselection/razor_H22GG: {}
-    all/Preselection/razor_H41GG: {}
-    all/Preselection/razor_H42GG: {}
-    all/Preselection/razor_H11Ga: {}
-    all/Preselection/razor_H11Gb: {}
-    all/Preselection/razor_H21Ga: {}
-    all/Preselection/razor_H21Gb: {}
-    all/Preselection/razor_H11Ca1: {}
-    all/Preselection/razor_H11Cb1: {}
-    all/Preselection/razor_HT21GG: {}
-    all/Preselection/razor_HT22GG: {}
-    all/Preselection/razor_HT41GG: {}
-    all/Preselection/razor_HT42GG: {}
-    all/Preselection/razor_d_dPhiG: {}
-    all/Preselection/razor_s_dPhiG: {}
-    all/Preselection/razor_s_angle: {}
-    all/Preselection/razor_d_angle: {}
-    all/Preselection/razor_ratio_pZGG_HT21GG: {}
-    all/Preselection/razor_ratio_pZGG_HT41GG: {}
-    all/Preselection/razor_ratio_pTGG_HT21GG: {}
-    all/Preselection/razor_ratio_pTGG_HT41GG: {}
-    all/Preselection/razor_ratio_H11GG_H21GG: {}
-    all/Preselection/razor_ratio_HT41GG_H41GG: {}
-    all/Preselection/razor_ratio_H11GG_H41GG: {}
+    #all/SR_Gtt_0l_A/met: {}
+    #all/SR_Gtt_0l_A/meff: {}
+    #all/SR_Gtt_0l_A/dphimetmin: {}
+    #all/SR_Gtt_0l_A/mtb: {}
+    #all/SR_Gtt_0l_A/njets: {}
+    #all/SR_Gtt_0l_A/nbjets: {}
+    #all/SR_Gtt_0l_A/ntops: {}
+    #all/SR_Gtt_0l_A/razor_GG_mass: {}
+    #all/SR_Gtt_0l_A/razor_Ga_mass: {}
+    #all/SR_Gtt_0l_A/razor_Gb_mass: {}
+    #all/SR_Gtt_0l_A/razor_Ca1_mass: {}
+    #all/SR_Gtt_0l_A/razor_Cb1_mass: {}
+    #all/SR_Gtt_0l_A/razor_Va1_mass: {}
+    #all/SR_Gtt_0l_A/razor_Vb1_mass: {}
+    #all/SR_Gtt_0l_A/razor_Va2_mass: {}
+    #all/SR_Gtt_0l_A/razor_Vb2_mass: {}
+    #all/SR_Gtt_0l_A/razor_GG_invGamma: {}
+    #all/SR_Gtt_0l_A/razor_GG_mDeltaR: {}
+    #all/SR_Gtt_0l_A/razor_Va1_n: {}
+    #all/SR_Gtt_0l_A/razor_Vb1_n: {}
+    #all/SR_Gtt_0l_A/razor_Ga_n: {}
+    #all/SR_Gtt_0l_A/razor_Va2_n: {}
+    #all/SR_Gtt_0l_A/razor_Vb2_n: {}
+    #all/SR_Gtt_0l_A/razor_Gb_n: {}
+    #all/SR_Gtt_0l_A/razor_GG_cosTheta: {}
+    #all/SR_Gtt_0l_A/razor_Va1_cosTheta: {}
+    #all/SR_Gtt_0l_A/razor_Vb1_cosTheta: {}
+    #all/SR_Gtt_0l_A/razor_Va2_cosTheta: {}
+    #all/SR_Gtt_0l_A/razor_Vb2_cosTheta: {}
+    #all/SR_Gtt_0l_A/razor_GG_dPhiVis: {}
+    #all/SR_Gtt_0l_A/razor_GG_dPhiBetaR: {}
+    #all/SR_Gtt_0l_A/razor_GG_dPhiDecay: {}
+    #all/SR_Gtt_0l_A/razor_dPhi_Ga_Ca1: {}
+    #all/SR_Gtt_0l_A/razor_dPhi_Gb_Cb1: {}
+    #all/SR_Gtt_0l_A/razor_pT_GG: {}
+    #all/SR_Gtt_0l_A/razor_pZ_GG: {}
+    #all/SR_Gtt_0l_A/razor_H11GG: {}
+    #all/SR_Gtt_0l_A/razor_H21GG: {}
+    #all/SR_Gtt_0l_A/razor_H22GG: {}
+    #all/SR_Gtt_0l_A/razor_H41GG: {}
+    #all/SR_Gtt_0l_A/razor_H42GG: {}
+    #all/SR_Gtt_0l_A/razor_H11Ga: {}
+    #all/SR_Gtt_0l_A/razor_H11Gb: {}
+    #all/SR_Gtt_0l_A/razor_H21Ga: {}
+    #all/SR_Gtt_0l_A/razor_H21Gb: {}
+    #all/SR_Gtt_0l_A/razor_H11Ca1: {}
+    #all/SR_Gtt_0l_A/razor_H11Cb1: {}
+    #all/SR_Gtt_0l_A/razor_HT21GG: {}
+    #all/SR_Gtt_0l_A/razor_HT22GG: {}
+    #all/SR_Gtt_0l_A/razor_HT41GG: {}
+    #all/SR_Gtt_0l_A/razor_HT42GG: {}
+    #all/SR_Gtt_0l_A/razor_d_dPhiG: {}
+    #all/SR_Gtt_0l_A/razor_s_dPhiG: {}
+    #all/SR_Gtt_0l_A/razor_s_angle: {}
+    #all/SR_Gtt_0l_A/razor_d_angle: {}
+    #all/SR_Gtt_0l_A/razor_ratio_pZGG_HT21GG: {}
+    #all/SR_Gtt_0l_A/razor_ratio_pZGG_HT41GG: {}
+    #all/SR_Gtt_0l_A/razor_ratio_pTGG_HT21GG: {}
+    #all/SR_Gtt_0l_A/razor_ratio_pTGG_HT41GG: {}
+    #all/SR_Gtt_0l_A/razor_ratio_H11GG_H21GG: {}
+    #all/SR_Gtt_0l_A/razor_ratio_HT41GG_H41GG: {}
+    #all/SR_Gtt_0l_A/razor_ratio_H11GG_H41GG: {}
+    #all/SR_Gtt_0l_B/met: {}
+    #all/SR_Gtt_0l_B/meff: {}
+    #all/SR_Gtt_0l_B/dphimetmin: {}
+    #all/SR_Gtt_0l_B/mtb: {}
+    #all/SR_Gtt_0l_B/njets: {}
+    #all/SR_Gtt_0l_B/nbjets: {}
+    #all/SR_Gtt_0l_B/ntops: {}
+    #all/SR_Gtt_0l_B/razor_GG_mass: {}
+    #all/SR_Gtt_0l_B/razor_Ga_mass: {}
+    #all/SR_Gtt_0l_B/razor_Gb_mass: {}
+    #all/SR_Gtt_0l_B/razor_Ca1_mass: {}
+    #all/SR_Gtt_0l_B/razor_Cb1_mass: {}
+    #all/SR_Gtt_0l_B/razor_Va1_mass: {}
+    #all/SR_Gtt_0l_B/razor_Vb1_mass: {}
+    #all/SR_Gtt_0l_B/razor_Va2_mass: {}
+    #all/SR_Gtt_0l_B/razor_Vb2_mass: {}
+    #all/SR_Gtt_0l_B/razor_GG_invGamma: {}
+    #all/SR_Gtt_0l_B/razor_GG_mDeltaR: {}
+    #all/SR_Gtt_0l_B/razor_Va1_n: {}
+    #all/SR_Gtt_0l_B/razor_Vb1_n: {}
+    #all/SR_Gtt_0l_B/razor_Ga_n: {}
+    #all/SR_Gtt_0l_B/razor_Va2_n: {}
+    #all/SR_Gtt_0l_B/razor_Vb2_n: {}
+    #all/SR_Gtt_0l_B/razor_Gb_n: {}
+    #all/SR_Gtt_0l_B/razor_GG_cosTheta: {}
+    #all/SR_Gtt_0l_B/razor_Va1_cosTheta: {}
+    #all/SR_Gtt_0l_B/razor_Vb1_cosTheta: {}
+    #all/SR_Gtt_0l_B/razor_Va2_cosTheta: {}
+    #all/SR_Gtt_0l_B/razor_Vb2_cosTheta: {}
+    #all/SR_Gtt_0l_B/razor_GG_dPhiVis: {}
+    #all/SR_Gtt_0l_B/razor_GG_dPhiBetaR: {}
+    #all/SR_Gtt_0l_B/razor_GG_dPhiDecay: {}
+    #all/SR_Gtt_0l_B/razor_dPhi_Ga_Ca1: {}
+    #all/SR_Gtt_0l_B/razor_dPhi_Gb_Cb1: {}
+    #all/SR_Gtt_0l_B/razor_pT_GG: {}
+    #all/SR_Gtt_0l_B/razor_pZ_GG: {}
+    #all/SR_Gtt_0l_B/razor_H11GG: {}
+    #all/SR_Gtt_0l_B/razor_H21GG: {}
+    #all/SR_Gtt_0l_B/razor_H22GG: {}
+    #all/SR_Gtt_0l_B/razor_H41GG: {}
+    #all/SR_Gtt_0l_B/razor_H42GG: {}
+    #all/SR_Gtt_0l_B/razor_H11Ga: {}
+    #all/SR_Gtt_0l_B/razor_H11Gb: {}
+    #all/SR_Gtt_0l_B/razor_H21Ga: {}
+    #all/SR_Gtt_0l_B/razor_H21Gb: {}
+    #all/SR_Gtt_0l_B/razor_H11Ca1: {}
+    #all/SR_Gtt_0l_B/razor_H11Cb1: {}
+    #all/SR_Gtt_0l_B/razor_HT21GG: {}
+    #all/SR_Gtt_0l_B/razor_HT22GG: {}
+    #all/SR_Gtt_0l_B/razor_HT41GG: {}
+    #all/SR_Gtt_0l_B/razor_HT42GG: {}
+    #all/SR_Gtt_0l_B/razor_d_dPhiG: {}
+    #all/SR_Gtt_0l_B/razor_s_dPhiG: {}
+    #all/SR_Gtt_0l_B/razor_s_angle: {}
+    #all/SR_Gtt_0l_B/razor_d_angle: {}
+    #all/SR_Gtt_0l_B/razor_ratio_pZGG_HT21GG: {}
+    #all/SR_Gtt_0l_B/razor_ratio_pZGG_HT41GG: {}
+    #all/SR_Gtt_0l_B/razor_ratio_pTGG_HT21GG: {}
+    #all/SR_Gtt_0l_B/razor_ratio_pTGG_HT41GG: {}
+    #all/SR_Gtt_0l_B/razor_ratio_H11GG_H21GG: {}
+    #all/SR_Gtt_0l_B/razor_ratio_HT41GG_H41GG: {}
+    #all/SR_Gtt_0l_B/razor_ratio_H11GG_H41GG: {}
+    #all/SR_Gtt_0l_C/met: {}
+    #all/SR_Gtt_0l_C/meff: {}
+    #all/SR_Gtt_0l_C/dphimetmin: {}
+    #all/SR_Gtt_0l_C/mtb: {}
+    #all/SR_Gtt_0l_C/njets: {}
+    #all/SR_Gtt_0l_C/nbjets: {}
+    #all/SR_Gtt_0l_C/ntops: {}
+    #all/SR_Gtt_0l_C/razor_GG_mass: {}
+    #all/SR_Gtt_0l_C/razor_Ga_mass: {}
+    #all/SR_Gtt_0l_C/razor_Gb_mass: {}
+    #all/SR_Gtt_0l_C/razor_Ca1_mass: {}
+    #all/SR_Gtt_0l_C/razor_Cb1_mass: {}
+    #all/SR_Gtt_0l_C/razor_Va1_mass: {}
+    #all/SR_Gtt_0l_C/razor_Vb1_mass: {}
+    #all/SR_Gtt_0l_C/razor_Va2_mass: {}
+    #all/SR_Gtt_0l_C/razor_Vb2_mass: {}
+    #all/SR_Gtt_0l_C/razor_GG_invGamma: {}
+    #all/SR_Gtt_0l_C/razor_GG_mDeltaR: {}
+    #all/SR_Gtt_0l_C/razor_Va1_n: {}
+    #all/SR_Gtt_0l_C/razor_Vb1_n: {}
+    #all/SR_Gtt_0l_C/razor_Ga_n: {}
+    #all/SR_Gtt_0l_C/razor_Va2_n: {}
+    #all/SR_Gtt_0l_C/razor_Vb2_n: {}
+    #all/SR_Gtt_0l_C/razor_Gb_n: {}
+    #all/SR_Gtt_0l_C/razor_GG_cosTheta: {}
+    #all/SR_Gtt_0l_C/razor_Va1_cosTheta: {}
+    #all/SR_Gtt_0l_C/razor_Vb1_cosTheta: {}
+    #all/SR_Gtt_0l_C/razor_Va2_cosTheta: {}
+    #all/SR_Gtt_0l_C/razor_Vb2_cosTheta: {}
+    #all/SR_Gtt_0l_C/razor_GG_dPhiVis: {}
+    #all/SR_Gtt_0l_C/razor_GG_dPhiBetaR: {}
+    #all/SR_Gtt_0l_C/razor_GG_dPhiDecay: {}
+    #all/SR_Gtt_0l_C/razor_dPhi_Ga_Ca1: {}
+    #all/SR_Gtt_0l_C/razor_dPhi_Gb_Cb1: {}
+    #all/SR_Gtt_0l_C/razor_pT_GG: {}
+    #all/SR_Gtt_0l_C/razor_pZ_GG: {}
+    #all/SR_Gtt_0l_C/razor_H11GG: {}
+    #all/SR_Gtt_0l_C/razor_H21GG: {}
+    #all/SR_Gtt_0l_C/razor_H22GG: {}
+    #all/SR_Gtt_0l_C/razor_H41GG: {}
+    #all/SR_Gtt_0l_C/razor_H42GG: {}
+    #all/SR_Gtt_0l_C/razor_H11Ga: {}
+    #all/SR_Gtt_0l_C/razor_H11Gb: {}
+    #all/SR_Gtt_0l_C/razor_H21Ga: {}
+    #all/SR_Gtt_0l_C/razor_H21Gb: {}
+    #all/SR_Gtt_0l_C/razor_H11Ca1: {}
+    #all/SR_Gtt_0l_C/razor_H11Cb1: {}
+    #all/SR_Gtt_0l_C/razor_HT21GG: {}
+    #all/SR_Gtt_0l_C/razor_HT22GG: {}
+    #all/SR_Gtt_0l_C/razor_HT41GG: {}
+    #all/SR_Gtt_0l_C/razor_HT42GG: {}
+    #all/SR_Gtt_0l_C/razor_d_dPhiG: {}
+    #all/SR_Gtt_0l_C/razor_s_dPhiG: {}
+    #all/SR_Gtt_0l_C/razor_s_angle: {}
+    #all/SR_Gtt_0l_C/razor_d_angle: {}
+    #all/SR_Gtt_0l_C/razor_ratio_pZGG_HT21GG: {}
+    #all/SR_Gtt_0l_C/razor_ratio_pZGG_HT41GG: {}
+    #all/SR_Gtt_0l_C/razor_ratio_pTGG_HT21GG: {}
+    #all/SR_Gtt_0l_C/razor_ratio_pTGG_HT41GG: {}
+    #all/SR_Gtt_0l_C/razor_ratio_H11GG_H21GG: {}
+    #all/SR_Gtt_0l_C/razor_ratio_HT41GG_H41GG: {}
+    #all/SR_Gtt_0l_C/razor_ratio_H11GG_H41GG: {}
+    all/Preselection/met: {ylabel : "events", xlabel : "met [GeV]"}
+    all/Preselection/meff: {ylabel : "events", xlabel : "meff [GeV]"}
+    all/Preselection/dphimetmin: {ylabel : "events", xlabel : "dphimetmin"}
+    all/Preselection/mtb: {ylabel : "events", xlabel : "mtb [GeV]"}
+    all/Preselection/njets: {ylabel : "events", xlabel : "njets"}
+    all/Preselection/nbjets: {ylabel : "events", xlabel : "nbjets"}
+    all/Preselection/ntops: {ylabel : "events", xlabel : "ntops"}
+    all/Preselection/razor_GG_mass: {ylabel : "events", xlabel : "razor m^{GG} [GeV]"}
+    all/Preselection/razor_Ga_mass: {ylabel : "events", xlabel : "razor m^{G_{a}}  [GeV]"}
+    all/Preselection/razor_Gb_mass: {ylabel : "events", xlabel : "razor m^{G_{b}}  [GeV]"}
+    all/Preselection/razor_Ca1_mass: {ylabel : "events", xlabel : "razor m^{C_{a1}} [GeV]"}
+    all/Preselection/razor_Cb1_mass: {ylabel : "events", xlabel : "razor m^{C_{b1}} [GeV]"}
+    all/Preselection/razor_Va1_mass: {ylabel : "events", xlabel : "razor m^{V_{a1}} [GeV]"}
+    all/Preselection/razor_Vb1_mass: {ylabel : "events", xlabel : "razor m^{V_{b1}} [GeV]"}
+    all/Preselection/razor_Va2_mass: {ylabel : "events", xlabel : "razor m^{V_{a2}} [GeV]"}
+    all/Preselection/razor_Vb2_mass: {ylabel : "events", xlabel : "razor m^{V_{b2}} [GeV]"}
+    all/Preselection/razor_GG_invGamma: {ylabel : "events", xlabel : "razor (#gamma^{GG})^{-1}"}
+    all/Preselection/razor_GG_mDeltaR: {ylabel : "events", xlabel : "razor GG mDeltaR [GeV]"}
+    all/Preselection/razor_Va1_n: {ylabel : "events", xlabel : "razor n^{V_{a1}}"}
+    all/Preselection/razor_Vb1_n: {ylabel : "events", xlabel : "razor n^{V_{b1}}"}
+    all/Preselection/razor_Ga_n: {ylabel : "events", xlabel : "razor n^{G_{a}}"}
+    all/Preselection/razor_Va2_n: {ylabel : "events", xlabel : "razor n^{V_{a2}}"}
+    all/Preselection/razor_Vb2_n: {ylabel : "events", xlabel : "razor n^{V_{b2}}"}
+    all/Preselection/razor_Gb_n: {ylabel : "events", xlabel : "razor n^{G_{b}}"}
+    all/Preselection/razor_GG_cosTheta: {ylabel : "events", xlabel : "razor GG_cosTheta"}
+    all/Preselection/razor_Va1_cosTheta: {ylabel : "events", xlabel : "razor Va1_cosTheta"}
+    all/Preselection/razor_Vb1_cosTheta: {ylabel : "events", xlabel : "razor Vb1_cosTheta"}
+    all/Preselection/razor_Va2_cosTheta: {ylabel : "events", xlabel : "razor Va2_cosTheta"}
+    all/Preselection/razor_Vb2_cosTheta: {ylabel : "events", xlabel : "razor Vb2_cosTheta"}
+    all/Preselection/razor_GG_dPhiVis: {ylabel : "events", xlabel : "razor GG_dPhiVis"}
+    all/Preselection/razor_GG_dPhiBetaR: {ylabel : "events", xlabel : "razor GG_dPhiBetaR"}
+    all/Preselection/razor_GG_dPhiDecay: {ylabel : "events", xlabel : "razor GG_dPhiDecay"}
+    all/Preselection/razor_dPhi_Ga_Ca1: {ylabel : "events", xlabel : "razor dPhi_Ga_Ca1"}
+    all/Preselection/razor_dPhi_Gb_Cb1: {ylabel : "events", xlabel : "razor dPhi_Gb_Cb1"}
+    all/Preselection/razor_pT_GG: {ylabel : "events", xlabel : "razor p_{T}^{GG} [GeV]"}
+    all/Preselection/razor_pZ_GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG} [GeV]"}
+    all/Preselection/razor_H11GG: {ylabel : "events", xlabel : "razor H_{11}^{GG} [GeV]"}
+    all/Preselection/razor_H21GG: {ylabel : "events", xlabel : "razor H_{21}^{GG} [GeV]"}
+    all/Preselection/razor_H22GG: {ylabel : "events", xlabel : "razor H_{22}^{GG} [GeV]"}
+    all/Preselection/razor_H41GG: {ylabel : "events", xlabel : "razor H_{41}^{GG} [GeV]"}
+    all/Preselection/razor_H42GG: {ylabel : "events", xlabel : "razor H_{42}^{GG} [GeV]"}
+    all/Preselection/razor_H11Ga: {ylabel : "events", xlabel : "razor H_{11}^{Ga} [GeV]"}
+    all/Preselection/razor_H11Gb: {ylabel : "events", xlabel : "razor H_{11}^{Gb} [GeV]"}
+    all/Preselection/razor_H21Ga: {ylabel : "events", xlabel : "razor H_{21}^{Ga} [GeV]"}
+    all/Preselection/razor_H21Gb: {ylabel : "events", xlabel : "razor H_{21}^{Gb} [GeV]"}
+    all/Preselection/razor_H11Ca1: {ylabel : "events", xlabel : "razor H_{11}^{C_{a1}} [GeV]"}
+    all/Preselection/razor_H11Cb1: {ylabel : "events", xlabel : "razor H_{11}^{C_{b1}} [GeV]"}
+    all/Preselection/razor_HT21GG: {ylabel : "events", xlabel : "razor (H_{T})_{21}^{GG} [GeV]"}
+    all/Preselection/razor_HT22GG: {ylabel : "events", xlabel : "razor (H_{T})_{22}^{GG} [GeV]"}
+    all/Preselection/razor_HT41GG: {ylabel : "events", xlabel : "razor (H_{T})_{41}^{GG} [GeV]"}
+    all/Preselection/razor_HT42GG: {ylabel : "events", xlabel : "razor (H_{T})_{42}^{GG} [GeV]"}
+    all/Preselection/razor_d_dPhiG: {ylabel : "events", xlabel : "razor d_dPhiG"}
+    all/Preselection/razor_s_dPhiG: {ylabel : "events", xlabel : "razor s_dPhiG"}
+    all/Preselection/razor_s_angle: {ylabel : "events", xlabel : "razor s_angle"}
+    all/Preselection/razor_d_angle: {ylabel : "events", xlabel : "razor d_angle"}
+    all/Preselection/razor_ratio_pZGG_HT21GG: {ylabel : "events", xlabel : "razor #frac{p_{Z}^{GG}}{(H_{T})_{21}^{GG}}"}
+    all/Preselection/razor_ratio_pZGG_HT41GG: {ylabel : "events", xlabel : "razor #frac{p_{Z}^{GG}}{(H_{T})_{41}^{GG}}"}
+    all/Preselection/razor_ratio_pTGG_HT21GG: {ylabel : "events", xlabel : "razor #frac{p_{T}^{GG}}{(H_{T})_{21}^{GG}}"}
+    all/Preselection/razor_ratio_pTGG_HT41GG: {ylabel : "events", xlabel : "razor #frac{p_{T}^{GG}}{(H_{T})_{41}^{GG}}"}
+    all/Preselection/razor_ratio_H11GG_H21GG: {ylabel : "events", xlabel : "razor #frac{H_{11}^{GG}}{H_{21}^{GG}}"}
+    all/Preselection/razor_ratio_HT41GG_H41GG: {ylabel : "events", xlabel : "razor #frac{(H_{T})_{41}^{GG}}{H_{41}^{GG}}"}
+    all/Preselection/razor_ratio_H11GG_H41GG: {ylabel : "events", xlabel : "razor #frac{H_{11}^{GG}}{H_{41}^{GG}}"}
