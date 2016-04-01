@@ -373,11 +373,11 @@ plots:
     all/Preselection/razor_dPhi_Gb_Cb1: {ylabel : "events", xlabel : "razor dPhi_Gb_Cb1"}
     all/Preselection/razor_pT_GG: {ylabel : "events", xlabel : "razor p_{T}^{GG} [GeV]"}
     all/Preselection/razor_pZ_GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG} [GeV]"}
-    all/Preselection/razor_H11GG: {ylabel : "events", xlabel : "razor H_{11}^{GG} [GeV]"}
-    all/Preselection/razor_H21GG: {ylabel : "events", xlabel : "razor H_{21}^{GG} [GeV]"}
-    all/Preselection/razor_H22GG: {ylabel : "events", xlabel : "razor H_{22}^{GG} [GeV]"}
-    all/Preselection/razor_H41GG: {ylabel : "events", xlabel : "razor H_{41}^{GG} [GeV]"}
-    all/Preselection/razor_H42GG: {ylabel : "events", xlabel : "razor H_{42}^{GG} [GeV]"}
+    all/Preselection/razor_H11GG: {ylabel : "events", xlabel : "razor H_{11}^{GG} [GeV]", xmin: 0, xmax: 5000, ymin: 0, ymax: 2000}
+    all/Preselection/razor_H21GG: {ylabel : "events", xlabel : "razor H_{21}^{GG} [GeV]", xmin: 0, xmax: 5000, ymin: 0, ymax: 600}
+    all/Preselection/razor_H22GG: {ylabel : "events", xlabel : "razor H_{22}^{GG} [GeV]", xmin: 0, xmax: 5000, ymin: 0, ymax: 500}
+    all/Preselection/razor_H41GG: {ylabel : "events", xlabel : "razor H_{41}^{GG} [GeV]", xmin: 0, xmax: 5000, ymin: 0, ymax: 600}
+    all/Preselection/razor_H42GG: {ylabel : "events", xlabel : "razor H_{42}^{GG} [GeV]", xmin: 0, xmax: 5000, ymin: 0, ymax: 500}
     all/Preselection/razor_H11Ga: {ylabel : "events", xlabel : "razor H_{11}^{Ga} [GeV]"}
     all/Preselection/razor_H11Gb: {ylabel : "events", xlabel : "razor H_{11}^{Gb} [GeV]"}
     all/Preselection/razor_H21Ga: {ylabel : "events", xlabel : "razor H_{21}^{Ga} [GeV]"}
