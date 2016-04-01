@@ -405,7 +405,7 @@ EL::StatusCode Audit :: execute ()
   inclVar["ratio_H.1,1.GG_H.2,1.GG"]    = inclVar["H.1,1.GG"]/inclVar["H.2,1.GG"];
   inclVar["ratio_HT.4,1.GG_H.4,1.GG"]   = inclVar["HT.4,1.GG"]/inclVar["H.4,1.GG"];
   inclVar["ratio_H.1,1.GG_H.4,1.GG"]    = inclVar["H.1,1.GG"]/inclVar["H.4,1.GG"];
-  inclVar["maxRatio_H.1,0;PP_H.1,1;PP"] = std::max(
+  inclVar["maxRatio_H.1,0.PP_H.1,1.PP"] = std::max(
                                             inclVar["p_Ga_GG"]/(inclVar["p_Va1_GG"] + inclVar["p_Va2_GG"]),
                                             inclVar["p_Gb_GG"]/(inclVar["p_Vb1_GG"] + inclVar["p_Vb2_GG"])
                                           );

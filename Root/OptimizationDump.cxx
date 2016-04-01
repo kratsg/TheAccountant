@@ -354,7 +354,7 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_inclVar["ratio_H.1,1.GG_H.2,1.GG"] = -99.0;
     m_inclVar["ratio_HT.4,1.GG_H.4,1.GG"] = -99.0;
     m_inclVar["ratio_H.1,1.GG_H.4,1.GG"] = -99.0;
-    m_inclVar["maxRatio_H.1,0;PP_H.1,1;PP"] = -99.0;
+    m_inclVar["maxRatio_H.1,0.PP_H.1,1.PP"] = -99.0;
 
     m_tree->Branch("razor_GG_mass",     &(m_inclVar.at("GG_mass")));
     m_tree->Branch("razor_Ga_mass",     &(m_inclVar.at("Ga_mass")));
@@ -467,7 +467,7 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch("razor_ratio_H.1,1.GG_H.2,1.GG",     &(m_inclVar.at("ratio_H.1,1.GG_H.2,1.GG")));
     m_tree->Branch("razor_ratio_HT.4,1.GG_H.4,1.GG",    &(m_inclVar.at("ratio_HT.4,1.GG_H.4,1.GG")));
     m_tree->Branch("razor_ratio_H.1,1.GG_H.4,1.GG",     &(m_inclVar.at("ratio_H.1,1.GG_H.4,1.GG")));
-    m_tree->Branch("razor_maxRatio_H.1,0;PP_H.1,1;PP",  &(m_inclVar.at("maxRatio_H.1,0;PP_H.1,1;PP")));
+    m_tree->Branch("razor_maxRatio_H.1,0.PP_H.1,1.PP",  &(m_inclVar.at("maxRatio_H.1,0.PP_H.1,1.PP")));
   }
 
   return EL::StatusCode::SUCCESS;
