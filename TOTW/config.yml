@@ -92,6 +92,7 @@ groups:
       drawstyle: hist
       linewidth: 2
     stack it: false
+    scale factor: 2000.0
 
   - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 600"
     files:
@@ -101,6 +102,7 @@ groups:
       drawstyle: hist
       linewidth: 2
     stack it: false
+    scale factor: 2000.0
 
   - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 1000"
     files:
@@ -110,6 +112,7 @@ groups:
       drawstyle: hist
       linewidth: 2
     stack it: false
+    scale factor: 2000.0
 
   - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 1345"
     files:
@@ -119,6 +122,7 @@ groups:
       drawstyle: hist
       linewidth: 2
     stack it: false
+    scale factor: 2000.0
 
 # plots:
 #   config:  # here we set global configurations that are applied uniformly such as...
