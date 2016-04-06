@@ -141,6 +141,9 @@ plots:
         font: 43
         size: 18
         label: "#sqrt{s} = 13 TeV, L_{int} #approx 3.2 fb^{-1}"
+      - <<: *topline
+        y: 0.80
+        label: "Preselection, signal #times 2000"
     canvas:
       width: 650
       height: 500
@@ -342,64 +345,64 @@ plots:
     #all/SR_Gtt_0l_C/razor_ratio_HT41GG_H41GG: {}
     #all/SR_Gtt_0l_C/razor_ratio_H11GG_H41GG: {}
     all/Preselection/met: {ylabel : "events", xlabel : "met [GeV]"}
-    all/Preselection/meff: {ylabel : "events", xlabel : "meff [GeV]"}
-    all/Preselection/dphimetmin: {ylabel : "events", xlabel : "dphimetmin"}
-    all/Preselection/mtb: {ylabel : "events", xlabel : "mtb [GeV]"}
-    all/Preselection/njets: {ylabel : "events", xlabel : "njets"}
-    all/Preselection/nbjets: {ylabel : "events", xlabel : "nbjets"}
-    all/Preselection/ntops: {ylabel : "events", xlabel : "ntops"}
-    all/Preselection/razor_GG_mass: {ylabel : "events", xlabel : "razor m^{GG} [GeV]"}
-    all/Preselection/razor_Ga_mass: {ylabel : "events", xlabel : "razor m^{G_{a}}  [GeV]"}
-    all/Preselection/razor_Gb_mass: {ylabel : "events", xlabel : "razor m^{G_{b}}  [GeV]"}
-    all/Preselection/razor_Ca1_mass: {ylabel : "events", xlabel : "razor m^{C_{a1}} [GeV]"}
-    all/Preselection/razor_Cb1_mass: {ylabel : "events", xlabel : "razor m^{C_{b1}} [GeV]"}
-    all/Preselection/razor_Va1_mass: {ylabel : "events", xlabel : "razor m^{V_{a1}} [GeV]"}
-    all/Preselection/razor_Vb1_mass: {ylabel : "events", xlabel : "razor m^{V_{b1}} [GeV]"}
-    all/Preselection/razor_Va2_mass: {ylabel : "events", xlabel : "razor m^{V_{a2}} [GeV]"}
-    all/Preselection/razor_Vb2_mass: {ylabel : "events", xlabel : "razor m^{V_{b2}} [GeV]"}
-    all/Preselection/razor_GG_invGamma: {ylabel : "events", xlabel : "razor (#gamma^{GG})^{-1}"}
-    all/Preselection/razor_GG_mDeltaR: {ylabel : "events", xlabel : "razor GG mDeltaR [GeV]"}
-    all/Preselection/razor_Va1_n: {ylabel : "events", xlabel : "razor n^{V_{a1}}"}
-    all/Preselection/razor_Vb1_n: {ylabel : "events", xlabel : "razor n^{V_{b1}}"}
-    all/Preselection/razor_Ga_n: {ylabel : "events", xlabel : "razor n^{G_{a}}"}
-    all/Preselection/razor_Va2_n: {ylabel : "events", xlabel : "razor n^{V_{a2}}"}
-    all/Preselection/razor_Vb2_n: {ylabel : "events", xlabel : "razor n^{V_{b2}}"}
-    all/Preselection/razor_Gb_n: {ylabel : "events", xlabel : "razor n^{G_{b}}"}
-    all/Preselection/razor_GG_cosTheta: {ylabel : "events", xlabel : "razor GG_cosTheta"}
-    all/Preselection/razor_Va1_cosTheta: {ylabel : "events", xlabel : "razor Va1_cosTheta"}
-    all/Preselection/razor_Vb1_cosTheta: {ylabel : "events", xlabel : "razor Vb1_cosTheta"}
-    all/Preselection/razor_Va2_cosTheta: {ylabel : "events", xlabel : "razor Va2_cosTheta"}
-    all/Preselection/razor_Vb2_cosTheta: {ylabel : "events", xlabel : "razor Vb2_cosTheta"}
-    all/Preselection/razor_GG_dPhiVis: {ylabel : "events", xlabel : "razor GG_dPhiVis"}
-    all/Preselection/razor_GG_dPhiBetaR: {ylabel : "events", xlabel : "razor GG_dPhiBetaR"}
-    all/Preselection/razor_GG_dPhiDecay: {ylabel : "events", xlabel : "razor GG_dPhiDecay"}
-    all/Preselection/razor_dPhi_Ga_Ca1: {ylabel : "events", xlabel : "razor dPhi_Ga_Ca1"}
-    all/Preselection/razor_dPhi_Gb_Cb1: {ylabel : "events", xlabel : "razor dPhi_Gb_Cb1"}
-    all/Preselection/razor_pT_GG: {ylabel : "events", xlabel : "razor p_{T}^{GG} [GeV]"}
-    all/Preselection/razor_pZ_GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG} [GeV]"}
-    all/Preselection/razor_H11GG: {ylabel : "events", xlabel : "razor H_{11}^{GG} [GeV]", xmin: 0, xmax: 5000, ymin: 0, ymax: 2000}
-    all/Preselection/razor_H21GG: {ylabel : "events", xlabel : "razor H_{21}^{GG} [GeV]", xmin: 0, xmax: 5000, ymin: 0, ymax: 600}
-    all/Preselection/razor_H22GG: {ylabel : "events", xlabel : "razor H_{22}^{GG} [GeV]", xmin: 0, xmax: 5000, ymin: 0, ymax: 500}
-    all/Preselection/razor_H41GG: {ylabel : "events", xlabel : "razor H_{41}^{GG} [GeV]", xmin: 0, xmax: 5000, ymin: 0, ymax: 600}
-    all/Preselection/razor_H42GG: {ylabel : "events", xlabel : "razor H_{42}^{GG} [GeV]", xmin: 0, xmax: 5000, ymin: 0, ymax: 500}
-    all/Preselection/razor_H11Ga: {ylabel : "events", xlabel : "razor H_{11}^{Ga} [GeV]"}
-    all/Preselection/razor_H11Gb: {ylabel : "events", xlabel : "razor H_{11}^{Gb} [GeV]"}
-    all/Preselection/razor_H21Ga: {ylabel : "events", xlabel : "razor H_{21}^{Ga} [GeV]"}
-    all/Preselection/razor_H21Gb: {ylabel : "events", xlabel : "razor H_{21}^{Gb} [GeV]"}
+    all/Preselection/meff: {ylabel : "events", xlabel : "meff [GeV]", ymin: 0, ymax: 1000}
+    all/Preselection/dphimetmin: {ylabel : "events", xlabel : "dphimetmin", ymin: 0, ymax: 2000}
+    all/Preselection/mtb: {ylabel : "events", xlabel : "mtb [GeV]", ymin: 0, ymax: 2500}
+    all/Preselection/njets: {ylabel : "events", xlabel : "njets", ymin: 0, ymax: 3000}
+    all/Preselection/nbjets: {ylabel : "events", xlabel : "nbjets", ymin: 0, ymax: 5000}
+    all/Preselection/ntops: {ylabel : "events", xlabel : "ntops", ymin: 0, ymax: 10000}
+    all/Preselection/razor_GG_mass: {ylabel : "events", xlabel : "razor m^{GG} [GeV]", ymin: 0, ymax: 400}
+    all/Preselection/razor_Ga_mass: {ylabel : "events", xlabel : "razor m^{G_{a}}  [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 4000}
+    all/Preselection/razor_Gb_mass: {ylabel : "events", xlabel : "razor m^{G_{b}}  [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 4000}
+    all/Preselection/razor_Ca1_mass: {ylabel : "events", xlabel : "razor m^{C_{a1}} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 2500}
+    all/Preselection/razor_Cb1_mass: {ylabel : "events", xlabel : "razor m^{C_{b1}} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 2500}
+    all/Preselection/razor_Va1_mass: {ylabel : "events", xlabel : "razor m^{V_{a1}} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 1000}
+    all/Preselection/razor_Vb1_mass: {ylabel : "events", xlabel : "razor m^{V_{b1}} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 1000}
+    all/Preselection/razor_Va2_mass: {ylabel : "events", xlabel : "razor m^{V_{a2}} [GeV]", ymin: 0, ymax: 4000, xmin: 0, xmax: 750}
+    all/Preselection/razor_Vb2_mass: {ylabel : "events", xlabel : "razor m^{V_{b2}} [GeV]", ymin: 0, ymax: 4000, xmin: 0, xmax: 750}
+    all/Preselection/razor_GG_invGamma: {ylabel : "events", xlabel : "razor (#gamma^{GG})^{-1}", ymin: 0, ymax: 2000}
+    all/Preselection/razor_GG_mDeltaR: {ylabel : "events", xlabel : "razor GG mDeltaR [GeV]", ymin: 0, ymax: 1200, xmin: 0, xmax: 4000}
+    all/Preselection/razor_Va1_n: {ylabel : "events", xlabel : "razor n^{V_{a1}}", ymin: 0, ymax: 5000, xmin: 0, xmax: 10}
+    all/Preselection/razor_Vb1_n: {ylabel : "events", xlabel : "razor n^{V_{b1}}", ymin: 0, ymax: 5000, xmin: 0, xmax: 10}
+    all/Preselection/razor_Ga_n: {ylabel : "events", xlabel : "razor n^{G_{a}}", ymin: 0, ymax: 5000, xmin: 0, xmax: 10}
+    all/Preselection/razor_Va2_n: {ylabel : "events", xlabel : "razor n^{V_{a2}}", ymin: 0, ymax: 6000, xmin: 0, xmax: 10}
+    all/Preselection/razor_Vb2_n: {ylabel : "events", xlabel : "razor n^{V_{b2}}", ymin: 0, ymax: 6000, xmin: 0, xmax: 10}
+    all/Preselection/razor_Gb_n: {ylabel : "events", xlabel : "razor n^{G_{b}}", ymin: 0, ymax: 5000, xmin: 0, xmax: 10}
+    all/Preselection/razor_GG_cosTheta: {ylabel : "events", xlabel : "razor GG_cosTheta", ymin: 0, ymax: 2000}
+    all/Preselection/razor_Va1_cosTheta: {ylabel : "events", xlabel : "razor Va1_cosTheta", ymin: 0, ymax: 2000}
+    all/Preselection/razor_Vb1_cosTheta: {ylabel : "events", xlabel : "razor Vb1_cosTheta", ymin: 0, ymax: 2000}
+    all/Preselection/razor_Va2_cosTheta: {ylabel : "events", xlabel : "razor Va2_cosTheta", ymin: 0, ymax: 2000}
+    all/Preselection/razor_Vb2_cosTheta: {ylabel : "events", xlabel : "razor Vb2_cosTheta", ymin: 0, ymax: 2000}
+    all/Preselection/razor_GG_dPhiVis: {ylabel : "events", xlabel : "razor GG_dPhiVis", ymin: 0, ymax: 3000}
+    all/Preselection/razor_GG_dPhiBetaR: {ylabel : "events", xlabel : "razor GG_dPhiBetaR", ymin: 0, ymax: 1800}
+    all/Preselection/razor_GG_dPhiDecay: {ylabel : "events", xlabel : "razor GG_dPhiDecay", ymin: 0, ymax: 1000}
+    all/Preselection/razor_dPhi_Ga_Ca1: {ylabel : "events", xlabel : "razor dPhi_Ga_Ca1", ymin: 0, ymax: 2000}
+    all/Preselection/razor_dPhi_Gb_Cb1: {ylabel : "events", xlabel : "razor dPhi_Gb_Cb1", ymin: 0, ymax: 2000}
+    all/Preselection/razor_pT_GG: {ylabel : "events", xlabel : "razor p_{T}^{GG} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 500}
+    all/Preselection/razor_pZ_GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG} [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 7500}
+    all/Preselection/razor_H11GG: {ylabel : "events", xlabel : "razor H_{11}^{GG} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 3500}
+    all/Preselection/razor_H21GG: {ylabel : "events", xlabel : "razor H_{21}^{GG} [GeV]", ymin: 0, ymax: 600, xmin: 0, xmax: 5000}
+    all/Preselection/razor_H22GG: {ylabel : "events", xlabel : "razor H_{22}^{GG} [GeV]", ymin: 0, ymax: 500, xmin: 0, xmax: 7500}
+    all/Preselection/razor_H41GG: {ylabel : "events", xlabel : "razor H_{41}^{GG} [GeV]", ymin: 0, ymax: 600, xmin: 0, xmax: 7500}
+    all/Preselection/razor_H42GG: {ylabel : "events", xlabel : "razor H_{42}^{GG} [GeV]", ymin: 0, ymax: 500, xmin: 0, xmax: 7500}
+    all/Preselection/razor_H11Ga: {ylabel : "events", xlabel : "razor H_{11}^{Ga} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 2000}
+    all/Preselection/razor_H11Gb: {ylabel : "events", xlabel : "razor H_{11}^{Gb} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 2000}
+    all/Preselection/razor_H21Ga: {ylabel : "events", xlabel : "razor H_{21}^{Ga} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 2500}
+    all/Preselection/razor_H21Gb: {ylabel : "events", xlabel : "razor H_{21}^{Gb} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 2500}
     all/Preselection/razor_H11Ca1: {ylabel : "events", xlabel : "razor H_{11}^{C_{a1}} [GeV]"}
     all/Preselection/razor_H11Cb1: {ylabel : "events", xlabel : "razor H_{11}^{C_{b1}} [GeV]"}
-    all/Preselection/razor_HT21GG: {ylabel : "events", xlabel : "razor (H_{T})_{21}^{GG} [GeV]"}
-    all/Preselection/razor_HT22GG: {ylabel : "events", xlabel : "razor (H_{T})_{22}^{GG} [GeV]"}
-    all/Preselection/razor_HT41GG: {ylabel : "events", xlabel : "razor (H_{T})_{41}^{GG} [GeV]"}
-    all/Preselection/razor_HT42GG: {ylabel : "events", xlabel : "razor (H_{T})_{42}^{GG} [GeV]"}
-    all/Preselection/razor_d_dPhiG: {ylabel : "events", xlabel : "razor d_dPhiG"}
-    all/Preselection/razor_s_dPhiG: {ylabel : "events", xlabel : "razor s_dPhiG"}
-    all/Preselection/razor_s_angle: {ylabel : "events", xlabel : "razor s_angle"}
-    all/Preselection/razor_d_angle: {ylabel : "events", xlabel : "razor d_angle"}
-    all/Preselection/razor_ratio_pZGG_HT21GG: {ylabel : "events", xlabel : "razor #frac{p_{Z}^{GG}}{(H_{T})_{21}^{GG}}"}
-    all/Preselection/razor_ratio_pZGG_HT41GG: {ylabel : "events", xlabel : "razor #frac{p_{Z}^{GG}}{(H_{T})_{41}^{GG}}"}
-    all/Preselection/razor_ratio_pTGG_HT21GG: {ylabel : "events", xlabel : "razor #frac{p_{T}^{GG}}{(H_{T})_{21}^{GG}}"}
-    all/Preselection/razor_ratio_pTGG_HT41GG: {ylabel : "events", xlabel : "razor #frac{p_{T}^{GG}}{(H_{T})_{41}^{GG}}"}
-    all/Preselection/razor_ratio_H11GG_H21GG: {ylabel : "events", xlabel : "razor #frac{H_{11}^{GG}}{H_{21}^{GG}}"}
-    all/Preselection/razor_ratio_HT41GG_H41GG: {ylabel : "events", xlabel : "razor #frac{(H_{T})_{41}^{GG}}{H_{41}^{GG}}"}
-    all/Preselection/razor_ratio_H11GG_H41GG: {ylabel : "events", xlabel : "razor #frac{H_{11}^{GG}}{H_{41}^{GG}}"}
+    all/Preselection/razor_HT21GG: {ylabel : "events", xlabel : "razor (H_{T})_{21}^{GG} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 5000}
+    all/Preselection/razor_HT22GG: {ylabel : "events", xlabel : "razor (H_{T})_{22}^{GG} [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 7500}
+    all/Preselection/razor_HT41GG: {ylabel : "events", xlabel : "razor (H_{T})_{41}^{GG} [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 7500}
+    all/Preselection/razor_HT42GG: {ylabel : "events", xlabel : "razor (H_{T})_{42}^{GG} [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 7500}
+    all/Preselection/razor_d_dPhiG: {ylabel : "events", xlabel : "razor d_dPhiG", ymin: 0, ymax: 1500}
+    all/Preselection/razor_s_dPhiG: {ylabel : "events", xlabel : "razor s_dPhiG", ymin: 0, ymax: 2000}
+    all/Preselection/razor_s_angle: {ylabel : "events", xlabel : "razor s_angle", ymin: 0, ymax: 2500}
+    all/Preselection/razor_d_angle: {ylabel : "events", xlabel : "razor d_angle", ymin: 0, ymax: 1000}
+    all/Preselection/razor_ratio_pZGG_HT21GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG}/(H_{T})_{21}^{GG}", ymin: 0, ymax: 1000}
+    all/Preselection/razor_ratio_pZGG_HT41GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG}/(H_{T})_{41}^{GG}", ymin: 0, ymax: 1000}
+    all/Preselection/razor_ratio_pTGG_HT21GG: {ylabel : "events", xlabel : "razor p_{T}^{GG}/(H_{T})_{21}^{GG}", ymin: 0, ymax: 5000}
+    all/Preselection/razor_ratio_pTGG_HT41GG: {ylabel : "events", xlabel : "razor p_{T}^{GG}/(H_{T})_{41}^{GG}", ymin: 0, ymax: 10000}
+    all/Preselection/razor_ratio_H11GG_H21GG: {ylabel : "events", xlabel : "razor H_{11}^{GG}/H_{21}^{GG}", ymin: 0, ymax: 2000}
+    all/Preselection/razor_ratio_HT41GG_H41GG: {ylabel : "events", xlabel : "razor (H_{T})_{41}^{GG}/H_{41}^{GG}", ymin: 0, ymax: 2000}
+    all/Preselection/razor_ratio_H11GG_H41GG: {ylabel : "events", xlabel : "razor H_{11}^{GG}/H_{41}^{GG}", ymin: 0, ymax: 2000}
