@@ -267,6 +267,11 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_inclVar["ratio_H.1,1.GG_H.4,1.GG"] = -99.0;
     m_inclVar["maxRatio_H.1,0.PP_H.1,1.PP"] = -99.0;
 
+    //QCD Vars
+    inclVar["Rsib"] = -99.0;
+    inclVar["cosQCD"] = -99.0;
+    inclVar["deltaQCD"] = -99.0;
+
     m_tree->Branch("razor_GG_mass",     &(m_inclVar.at("GG_mass")));
     m_tree->Branch("razor_Ga_mass",     &(m_inclVar.at("Ga_mass")));
     m_tree->Branch("razor_Gb_mass",     &(m_inclVar.at("Gb_mass")));
@@ -319,8 +324,8 @@ EL::StatusCode OptimizationDump :: initialize () {
     */
 
     m_tree->Branch("razor_GG_cosTheta", &(m_inclVar.at("GG_cosTheta")));
-    m_tree->Branch("razor_Ga_cos(Ia1)", &(m_inclVar.at("Ga_cos(Ia1)")));
-    m_tree->Branch("razor_Gb_cos(Ib1)", &(m_inclVar.at("Gb_cos(Ib1)")));
+    m_tree->Branch("razor_Ga_cosIa1", &(m_inclVar.at("Ga_cos(Ia1)")));
+    m_tree->Branch("razor_Gb_cosIb1", &(m_inclVar.at("Gb_cos(Ib1)")));
     m_tree->Branch("razor_Va1_cosTheta",&(m_inclVar.at("Va1_cosTheta")));
     m_tree->Branch("razor_Vb1_cosTheta",&(m_inclVar.at("Vb1_cosTheta")));
     m_tree->Branch("razor_Va2_cosTheta",&(m_inclVar.at("Va2_cosTheta")));
@@ -342,24 +347,24 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch("razor_pZ_GG",       &(m_inclVar.at("pZ_GG")));
 
     // H-variables (H_{n,m}^{F
-    m_tree->Branch("razor_H.1,1.GG",    &(m_inclVar.at("H.1,1.GG")));
-    m_tree->Branch("razor_H.2,1.GG",    &(m_inclVar.at("H.2,1.GG")));
-    m_tree->Branch("razor_H.2,2.GG",    &(m_inclVar.at("H.2,2.GG")));
-    m_tree->Branch("razor_H.4,1.GG",    &(m_inclVar.at("H.4,1.GG")));
-    m_tree->Branch("razor_H.4,2.GG",    &(m_inclVar.at("H.4,2.GG")));
+    m_tree->Branch("razor_H11GG",    &(m_inclVar.at("H.1,1.GG")));
+    m_tree->Branch("razor_H21GG",    &(m_inclVar.at("H.2,1.GG")));
+    m_tree->Branch("razor_H22GG",    &(m_inclVar.at("H.2,2.GG")));
+    m_tree->Branch("razor_H41GG",    &(m_inclVar.at("H.4,1.GG")));
+    m_tree->Branch("razor_H42GG",    &(m_inclVar.at("H.4,2.GG")));
 
-    m_tree->Branch("razor_H.1,1.Ga",    &(m_inclVar.at("H.1,1.Ga")));
-    m_tree->Branch("razor_H.1,1.Gb",    &(m_inclVar.at("H.1,1.Gb")));
-    m_tree->Branch("razor_H.2,1.Ga",    &(m_inclVar.at("H.2,1.Ga")));
-    m_tree->Branch("razor_H.2,1.Gb",    &(m_inclVar.at("H.2,1.Gb")));
+    m_tree->Branch("razor_H11Ga",    &(m_inclVar.at("H.1,1.Ga")));
+    m_tree->Branch("razor_H11Gb",    &(m_inclVar.at("H.1,1.Gb")));
+    m_tree->Branch("razor_H21Ga",    &(m_inclVar.at("H.2,1.Ga")));
+    m_tree->Branch("razor_H21Gb",    &(m_inclVar.at("H.2,1.Gb")));
 
-    m_tree->Branch("razor_H.1,1.Ca1",   &(m_inclVar.at("H.1,1.Ca1")));
-    m_tree->Branch("razor_H.1,1.Cb1",   &(m_inclVar.at("H.1,1.Cb1")));
+    m_tree->Branch("razor_H11Ca1",   &(m_inclVar.at("H.1,1.Ca1")));
+    m_tree->Branch("razor_H11Cb1",   &(m_inclVar.at("H.1,1.Cb1")));
 
-    m_tree->Branch("razor_HT.2,1.GG",   &(m_inclVar.at("HT.2,1.GG")));
-    m_tree->Branch("razor_HT.2,2.GG",   &(m_inclVar.at("HT.2,2.GG")));
-    m_tree->Branch("razor_HT.4,1.GG",   &(m_inclVar.at("HT.4,1.GG")));
-    m_tree->Branch("razor_HT.4,2.GG",   &(m_inclVar.at("HT.4,2.GG")));
+    m_tree->Branch("razor_HT21GG",   &(m_inclVar.at("HT.2,1.GG")));
+    m_tree->Branch("razor_HT22GG",   &(m_inclVar.at("HT.2,2.GG")));
+    m_tree->Branch("razor_HT41GG",   &(m_inclVar.at("HT.4,1.GG")));
+    m_tree->Branch("razor_HT42GG",   &(m_inclVar.at("HT.4,2.GG")));
 
     // gluino hemishpere varia
     m_tree->Branch("razor_d_dPhiG",     &(m_inclVar.at("d_dPhiG")));
@@ -370,15 +375,19 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch("razor_d_angle",     &(m_inclVar.at("d_angle")));
 
     // ratios
-    m_tree->Branch("razor_ratio_pZ.GG_HT.2,1.GG",       &(m_inclVar.at("ratio_pZ.GG_HT.2,1.GG")));
-    m_tree->Branch("razor_ratio_pZ.GG_HT.4,1.GG",       &(m_inclVar.at("ratio_pZ.GG_HT.4,1.GG")));
-    m_tree->Branch("razor_ratio_pT.GG_HT.2,1.GG",       &(m_inclVar.at("ratio_pT.GG_HT.2,1.GG")));
-    m_tree->Branch("razor_ratio_pT.GG_HT.4,1.GG",       &(m_inclVar.at("ratio_pT.GG_HT.4,1.GG")));
+    m_tree->Branch("razor_ratio_pZGG_HT21GG",       &(m_inclVar.at("ratio_pZ.GG_HT.2,1.GG")));
+    m_tree->Branch("razor_ratio_pZGG_HT41GG",       &(m_inclVar.at("ratio_pZ.GG_HT.4,1.GG")));
+    m_tree->Branch("razor_ratio_pTGG_HT21GG",       &(m_inclVar.at("ratio_pT.GG_HT.2,1.GG")));
+    m_tree->Branch("razor_ratio_pTGG_HT41GG",       &(m_inclVar.at("ratio_pT.GG_HT.4,1.GG")));
 
-    m_tree->Branch("razor_ratio_H.1,1.GG_H.2,1.GG",     &(m_inclVar.at("ratio_H.1,1.GG_H.2,1.GG")));
-    m_tree->Branch("razor_ratio_HT.4,1.GG_H.4,1.GG",    &(m_inclVar.at("ratio_HT.4,1.GG_H.4,1.GG")));
-    m_tree->Branch("razor_ratio_H.1,1.GG_H.4,1.GG",     &(m_inclVar.at("ratio_H.1,1.GG_H.4,1.GG")));
-    m_tree->Branch("razor_maxRatio_H.1,0.PP_H.1,1.PP",  &(m_inclVar.at("maxRatio_H.1,0.PP_H.1,1.PP")));
+    m_tree->Branch("razor_ratio_H11GG_H21GG",     &(m_inclVar.at("ratio_H.1,1.GG_H.2,1.GG")));
+    m_tree->Branch("razor_ratio_HT41GG_H41GG",    &(m_inclVar.at("ratio_HT.4,1.GG_H.4,1.GG")));
+    m_tree->Branch("razor_ratio_H11GG_H41GG",     &(m_inclVar.at("ratio_H.1,1.GG_H.4,1.GG")));
+    m_tree->Branch("razor_maxRatio_H10PP_H11PP",  &(m_inclVar.at("maxRatio_H.1,0;PP_H.1,1;PP")));
+
+    m_tree->Branch("razor_Rsib",     &(m_inclVar.at("Rsib")));
+    m_tree->Branch("razor_cosQCD",   &(m_inclVar.at("cosQCD")));
+    m_tree->Branch("razor_deltaQCD", &(m_inclVar.at("deltaQCD")));
   }
 
   return EL::StatusCode::SUCCESS;
