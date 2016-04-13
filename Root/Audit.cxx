@@ -56,7 +56,16 @@ Audit :: Audit () :
   ContraBoostJigsaw("CB_JIGSAW", "Contraboost invariant Jigsaw"),
   HemiJigsaw("HEM_JIGSAW", "Minimize m _{V_{a,b}} Jigsaw"),
   HemiJigsaw_Ca("HEM_JIGSAW_Ca", "Minimize m _{C_{a}} Jigsaw"),
-  HemiJigsaw_Cb("HEM_JIGSAW_Cb", "Minimize m _{C_{b}} Jigsaw")
+  HemiJigsaw_Cb("HEM_JIGSAW_Cb", "Minimize m _{C_{b}} Jigsaw"),
+  // Anti-QCD vars
+  LAB_bkg("LAB_bkg", "lab"),
+  S_bkg("CM", "CM"),
+  V_bkg("V_bkg", "Vis"),
+  I_bkg("I_bkg", "Inv"),
+  VIS_bkg("VIS_bkg", "Visible Object Jigsaws"),
+  INV_bkg("INV_bkg", "Invisible State Jigsaws"),
+  MinMassJigsaw_bkg("InvMass_bkg", "Invisible system mass Jigsaw"),
+  RapidityJigsaw_bkg("InvRapidity_bkg", "Invisible system rapidity Jigsaw")
 {}
 
 EL::StatusCode Audit :: setupJob (EL::Job& job)
@@ -150,6 +159,25 @@ EL::StatusCode Audit :: initialize () {
 
   if(LAB.InitializeAnalysis()){ Info("initialize()", "Our tree is ok for analysis."); }
   else                        { Error("initialize()", "Our tree is not ok for analysis."); return EL::StatusCode::FAILURE; }
+
+  // Anti-QCD tree
+  LAB_bkg.SetChildFrame(S_bkg);
+  S_bkg.AddChildFrame(V_bkg);
+  S_bkg.AddChildFrame(I_bkg);
+
+  if(LAB_bkg.InitializeTree()){ Info("initialize()", "We do have consistent bkg tree topology."); }
+  else                        { Error("initialize()", "We do not have consistent bkg tree topology."); return EL::StatusCode::FAILURE;}
+
+  VIS_bkg.AddFrame(V_bkg);
+  VIS_bkg.SetNElementsForFrame(V_bkg, 1, false);
+
+  INV_bkg.AddFrame(I_bkg);
+  INV_bkg.AddJigsaw(MinMassJigsaw_bkg);
+  INV_bkg.AddJigsaw(RapidityJigsaw_bkg);
+  RapidityJigsaw_bkg.AddVisibleFrames(LAB_bkg.GetListOfVisibleFrames());
+
+  if(LAB_bkg.InitializeAnalysis()){ Info("initialize()", "Our bkg tree is ok for analysis."); }
+  else                            { Error("initialize()", "Our bkg tree is not ok for analysis."); return EL::StatusCode::FAILURE; }
 
   /* BROKEN NEED TO FIX
   // only output this thing once, perhaps only during direct
@@ -260,6 +288,27 @@ EL::StatusCode Audit :: execute ()
   // analyze the event
   if(LAB.AnalyzeEvent()){ if(m_debug) Info("execute()", "Run #%u, Event #%llu: Analyzed the event successfully.", eventInfo->runNumber(), eventInfo->eventNumber()); }
   else                  { Error("execute()", "Run #%u, Event #%llu: Analyzed the event unsuccessfully.", eventInfo->runNumber(), eventInfo->eventNumber()); return EL::StatusCode::SUCCESS; }
+
+
+  LAB_bkg.ClearEvent();
+  double HT(0.0);
+  std::map<const int, const xAOD::Jet*> in_jets_bkg_IDs;
+  if(!m_inputJets.empty()){
+    for(const auto &jet: signal_jets){
+      TLorentzVector jet_tlv;
+      jet_tlv.SetPtEtaPhiM(jet->pt(), 0.0, jet->phi(), jet->m());
+      in_jets_bkg_IDs[VIS_bkg.AddLabFrameFourVector(jet_tlv).GetKey()] = jet;
+      HT += jet->pt();
+    }
+  }
+
+  if(!m_inputMET.empty()){
+    // no mpz, but why set it this way???
+    INV_bkg.SetLabFrameThreeVector(  TVector3( in_met->mpx(), in_met->mpy(), 0 ) );
+  }
+
+  if(LAB_bkg.AnalyzeEvent()){ if(m_debug) Info("execute()", "Run #%u, Event #%llu: Analyzed the bkg event successfully.", eventInfo->runNumber(), eventInfo->eventNumber()); }
+  else                      { Error("execute()", "Run #%u, Event #%llu: Analyzed the bkg event unsuccessfully.", eventInfo->runNumber(), eventInfo->eventNumber()); return EL::StatusCode::SUCCESS; }
 
   // Signal Variables
   // https://github.com/lawrenceleejr/ZeroLeptonRun2/blob/67042394b0bca205081175f002ef3fb44fd46b98/Root/PhysObjProxyUtils.cxx#L471
@@ -416,6 +465,16 @@ EL::StatusCode Audit :: execute ()
   //inclVar["minR_pTj2i_HT3PPi"]
   //inclVar["R_HT9PP_H9PP"]
   //inclVar["R_H2PP_H9PP"]
+
+  // QCD Variables
+  TLorentzVector Psib = I_bkg.GetSiblingFrame().GetFourVector(LAB_bkg);
+  TLorentzVector Pmet = I_bkg.GetFourVector(LAB_bkg);
+  float temp_Rsib = std::max(0.0, Psib.Vect().Dot(Pmet.Vect().Unit()));
+  inclVar["Rsib"] = temp_Rsib / (Pmet.Pt() + temp_Rsib);
+  TVector3 boostQCD = (Pmet + Psib).BoostVector();
+  Psib.Boost(-boostQCD);
+  inclVar["cosQCD"] = (1. + Psib.Vect().Unit().Dot(boostQCD.Unit()))/2.;
+  inclVar["deltaQCD"] = (inclVar["cosQCD"] - inclVar["Rsib"])/(inclVar["cosQCD"] + inclVar["Rsib"]);
 
   if(m_debug){
     Info("execute()", "Details about RestFrames analysis...");
