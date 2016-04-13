@@ -268,9 +268,9 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_inclVar["maxRatio_H.1,0.PP_H.1,1.PP"] = -99.0;
 
     //QCD Vars
-    inclVar["Rsib"] = -99.0;
-    inclVar["cosQCD"] = -99.0;
-    inclVar["deltaQCD"] = -99.0;
+    m_inclVar["Rsib"] = -99.0;
+    m_inclVar["cosQCD"] = -99.0;
+    m_inclVar["deltaQCD"] = -99.0;
 
     m_tree->Branch("razor_GG_mass",     &(m_inclVar.at("GG_mass")));
     m_tree->Branch("razor_Ga_mass",     &(m_inclVar.at("Ga_mass")));
@@ -324,8 +324,8 @@ EL::StatusCode OptimizationDump :: initialize () {
     */
 
     m_tree->Branch("razor_GG_cosTheta", &(m_inclVar.at("GG_cosTheta")));
-    m_tree->Branch("razor_Ga_cosIa1", &(m_inclVar.at("Ga_cos(Ia1)")));
-    m_tree->Branch("razor_Gb_cosIb1", &(m_inclVar.at("Gb_cos(Ib1)")));
+    m_tree->Branch("razor_Ga_cosIa1",   &(m_inclVar.at("Ga_cos(Ia1)")));
+    m_tree->Branch("razor_Gb_cosIb1",   &(m_inclVar.at("Gb_cos(Ib1)")));
     m_tree->Branch("razor_Va1_cosTheta",&(m_inclVar.at("Va1_cosTheta")));
     m_tree->Branch("razor_Vb1_cosTheta",&(m_inclVar.at("Vb1_cosTheta")));
     m_tree->Branch("razor_Va2_cosTheta",&(m_inclVar.at("Va2_cosTheta")));

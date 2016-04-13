@@ -174,7 +174,7 @@ EL::StatusCode Audit :: initialize () {
   INV_bkg.AddFrame(I_bkg);
   INV_bkg.AddJigsaw(MinMassJigsaw_bkg);
   INV_bkg.AddJigsaw(RapidityJigsaw_bkg);
-  RapidityJigsaw_bkg.AddVisibleFrames(LAB_bkg.GetListOfVisibleFrames());
+  RapidityJigsaw_bkg.AddVisibleFrames(LAB_bkg.GetListVisibleFrames());
 
   if(LAB_bkg.InitializeAnalysis()){ Info("initialize()", "Our bkg tree is ok for analysis."); }
   else                            { Error("initialize()", "Our bkg tree is not ok for analysis."); return EL::StatusCode::FAILURE; }
