@@ -469,8 +469,9 @@ EL::StatusCode Audit :: execute ()
   // QCD Variables
   TLorentzVector Psib = I_bkg.GetSiblingFrame().GetFourVector(LAB_bkg);
   TLorentzVector Pmet = I_bkg.GetFourVector(LAB_bkg);
-  float temp_Rsib = std::max(0.0, Psib.Vect().Dot(Pmet.Vect().Unit()));
-  inclVar["Rsib"] = temp_Rsib / (Pmet.Pt() + temp_Rsib);
+  inclVar["temp_Rsib"] = std::max(0.0, Psib.Vect().Dot(Pmet.Vect().Unit()));
+  inclVar["Rsib"] = inclVar["temp_Rsib"] / (Pmet.Pt() + inclVar["temp_Rsib"]);
+  inclVar["Pmet_pT"] = Pmet.Pt();
   TVector3 boostQCD = (Pmet + Psib).BoostVector();
   Psib.Boost(-boostQCD);
   inclVar["cosQCD"] = (1. + Psib.Vect().Unit().Dot(boostQCD.Unit()))/2.;

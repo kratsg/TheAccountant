@@ -388,6 +388,8 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch("razor_Rsib",     &(m_inclVar.at("Rsib")));
     m_tree->Branch("razor_cosQCD",   &(m_inclVar.at("cosQCD")));
     m_tree->Branch("razor_deltaQCD", &(m_inclVar.at("deltaQCD")));
+    m_tree->Branch("razor_temp_Rsib", &(m_inclVar.at("temp_Rsib")));
+    m_tree->Branch("razor_Pmet_pT", &(m_inclVar.at("Pmet_pT")));
   }
 
   return EL::StatusCode::SUCCESS;
