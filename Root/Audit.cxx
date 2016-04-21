@@ -363,8 +363,8 @@ EL::StatusCode Audit :: execute ()
   inclVar["Ib1_depth"]      = Gb.GetFrameDepth(Ib1);
 
   inclVar["GG_cosTheta"]    = GG.GetCosDecayAngle();
-  inclVar["Ga_cos(Ia1)"]    = Ga.GetCosDecayAngle(Ia1);
-  inclVar["Gb_cos(Ib1)"]    = Gb.GetCosDecayAngle(Ib1);
+  inclVar["Ga_cosIa1"]    = Ga.GetCosDecayAngle(Ia1);
+  inclVar["Gb_cosIb1"]    = Gb.GetCosDecayAngle(Ib1);
   inclVar["Va1_cosTheta"]   = Ga.GetCosDecayAngle();
   inclVar["Vb1_cosTheta"]   = Gb.GetCosDecayAngle();
   inclVar["Va2_cosTheta"]   = Ca1.GetCosDecayAngle();
@@ -411,24 +411,24 @@ EL::StatusCode Audit :: execute ()
   inclVar["pZ_GG"] = std::fabs(vP["GG"].Pz())/1.e3;
 
   // H-variables (H_{n,m}^{F} )
-  inclVar["H.1,1.GG"]       = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["H.2,1.GG"]       = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["H.2,2.GG"]       = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
-  inclVar["H.4,1.GG"]       = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
-  inclVar["H.4,2.GG"]       = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
+  inclVar["H11GG"]       = (vP["Va1_GG"] + vP["Va2_GG"] + vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3   + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H21GG"]       = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H22GG"]       = (vP["Va1_GG"] + vP["Va2_GG"]).P()/1.e3 + (vP["Vb1_GG"] + vP["Vb2_GG"]).P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
+  inclVar["H41GG"]       = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + (vP["Ia1_GG"] + vP["Ib1_GG"]).P()/1.e3;
+  inclVar["H42GG"]       = vP["Va1_GG"].P()/1.e3 + vP["Va2_GG"].P()/1.e3 + vP["Vb1_GG"].P()/1.e3 + vP["Vb2_GG"].P()/1.e3 + vP["Ia1_GG"].P()/1.e3 + vP["Ib1_GG"].P()/1.e3;
 
-  inclVar["H.1,1.Ga"]       = (vP["Va1_Ga"] + vP["Va2_Ga"]).P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
-  inclVar["H.1,1.Gb"]       = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
-  inclVar["H.2,1.Ga"]       = vP["Va1_Ga"].P()/1.e3 + vP["Va2_Ga"].P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
-  inclVar["H.2,1.Gb"]       = vP["Vb1_Gb"].P()/1.e3 + vP["Vb2_Gb"].P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
+  inclVar["H11Ga"]       = (vP["Va1_Ga"] + vP["Va2_Ga"]).P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
+  inclVar["H11Gb"]       = (vP["Vb1_Gb"] + vP["Vb2_Gb"]).P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
+  inclVar["H21Ga"]       = vP["Va1_Ga"].P()/1.e3 + vP["Va2_Ga"].P()/1.e3 + vP["Ia1_Ga"].P()/1.e3;
+  inclVar["H21Gb"]       = vP["Vb1_Gb"].P()/1.e3 + vP["Vb2_Gb"].P()/1.e3 + vP["Ib1_Gb"].P()/1.e3;
 
-  inclVar["H.1,1.Ca1"]      = vP["Va2_Ca1"].P()/1.e3 + vP["Ia1_Ca1"].P()/1.e3;
-  inclVar["H.1,1.Cb1"]      = vP["Vb2_Cb1"].P()/1.e3 + vP["Ib1_Cb1"].P()/1.e3;
+  inclVar["H11Ca1"]      = vP["Va2_Ca1"].P()/1.e3 + vP["Ia1_Ca1"].P()/1.e3;
+  inclVar["H11Cb1"]      = vP["Vb2_Cb1"].P()/1.e3 + vP["Ib1_Cb1"].P()/1.e3;
 
-  inclVar["HT.2,1.GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["H.1,1.GG"]/2.;
-  inclVar["HT.2,2.GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
-  inclVar["HT.4,1.GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["H.1,1.GG"]/2.;
-  inclVar["HT.4,2.GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
+  inclVar["HT21GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["H11GG"]/2.;
+  inclVar["HT22GG"]      = inclVar["pT_GG_Ga"] + inclVar["pT_GG_Gb"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
+  inclVar["HT41GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["H11GG"]/2.;
+  inclVar["HT42GG"]      = inclVar["pT_Va1_GG"] + inclVar["pT_Va2_GG"] + inclVar["pT_Vb1_GG"] + inclVar["pT_Vb2_GG"] + inclVar["pT_Ia1_GG"] + inclVar["pT_Ib1_GG"];
 
   // gluino hemishpere variables
   double ddphiGa = inclVar["dPhi_Ga_Ca1"];
@@ -439,22 +439,22 @@ EL::StatusCode Audit :: execute ()
   inclVar["s_dPhiG"] = std::fabs(ddphiGa + ddphiGb)/2./std::acos(-1.);
 
   // sangle and dangle
-  inclVar["s_angle"]        = std::fabs(inclVar["GG_dPhiDecay"] + 2.*inclVar["Ga_cos(Ia1)"])/3.;
-  inclVar["d_angle"]        = (2.*inclVar["GG_dPhiDecay"] - inclVar["Ga_cos(Ia1)"])/3.;
+  inclVar["s_angle"]        = std::fabs(inclVar["GG_dPhiDecay"] + 2.*inclVar["Ga_cosIa1"])/3.;
+  inclVar["d_angle"]        = (2.*inclVar["GG_dPhiDecay"] - inclVar["Ga_cosIa1"])/3.;
 
   // Other variables -- what do we do with them???
   //inclVar["dPhiVP"]         = (GG.GetDeltaPhiDecayVisible()-std::acos(-1.)/2.)/(std::acos(-1.)/2.);
 
   // ratios
-  inclVar["ratio_pZ.GG_HT.2,1.GG"] = inclVar["pZ_GG"]/(inclVar["pZ_GG"] + inclVar["HT.2,1.GG"]);
-  inclVar["ratio_pZ.GG_HT.4,1.GG"] = inclVar["pZ_GG"]/(inclVar["pZ_GG"] + inclVar["HT.4,1.GG"]);
-  inclVar["ratio_pT.GG_HT.2,1.GG"] = inclVar["pT_GG"]/(inclVar["pT_GG"] + inclVar["HT.2,1.GG"]);
-  inclVar["ratio_pT.GG_HT.4,1.GG"] = inclVar["pT_GG"]/(inclVar["pT_GG"] + inclVar["HT.4,1.GG"]);
+  inclVar["ratio_pZGG_HT21GG"] = inclVar["pZ_GG"]/(inclVar["pZ_GG"] + inclVar["HT21GG"]);
+  inclVar["ratio_pZGG_HT41GG"] = inclVar["pZ_GG"]/(inclVar["pZ_GG"] + inclVar["HT41GG"]);
+  inclVar["ratio_pTGG_HT21GG"] = inclVar["pT_GG"]/(inclVar["pT_GG"] + inclVar["HT21GG"]);
+  inclVar["ratio_pTGG_HT41GG"] = inclVar["pT_GG"]/(inclVar["pT_GG"] + inclVar["HT41GG"]);
 
-  inclVar["ratio_H.1,1.GG_H.2,1.GG"]    = inclVar["H.1,1.GG"]/inclVar["H.2,1.GG"];
-  inclVar["ratio_HT.4,1.GG_H.4,1.GG"]   = inclVar["HT.4,1.GG"]/inclVar["H.4,1.GG"];
-  inclVar["ratio_H.1,1.GG_H.4,1.GG"]    = inclVar["H.1,1.GG"]/inclVar["H.4,1.GG"];
-  inclVar["maxRatio_H.1,0.PP_H.1,1.PP"] = std::max(
+  inclVar["ratio_H11GG_H21GG"]    = inclVar["H11GG"]/inclVar["H21GG"];
+  inclVar["ratio_HT41GG_H41GG"]   = inclVar["HT41GG"]/inclVar["H41GG"];
+  inclVar["ratio_H11GG_H41GG"]    = inclVar["H11GG"]/inclVar["H41GG"];
+  inclVar["maxRatio_H10PP_H11PP"] = std::max(
                                             inclVar["p_Ga_GG"]/(inclVar["p_Va1_GG"] + inclVar["p_Va2_GG"]),
                                             inclVar["p_Gb_GG"]/(inclVar["p_Vb1_GG"] + inclVar["p_Vb2_GG"])
                                           );
