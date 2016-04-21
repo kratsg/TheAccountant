@@ -271,6 +271,9 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_inclVar["Rsib"] = -99.0;
     m_inclVar["cosQCD"] = -99.0;
     m_inclVar["deltaQCD"] = -99.0;
+    m_inclVar["temp_Rsib"] = -99.0;
+    m_inclVar["Pmet_pT"] = -99.0;
+
 
     m_tree->Branch("razor_GG_mass",     &(m_inclVar.at("GG_mass")));
     m_tree->Branch("razor_Ga_mass",     &(m_inclVar.at("Ga_mass")));
