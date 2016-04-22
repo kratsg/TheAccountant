@@ -1,0 +1,36 @@
+# author : ppani@cern.ch (please report any problems)
+# date   : 14/10/2015
+# notes  : it assumes that g = g_q = g_chi = 1 .  For a proper rescaling look at Sec 2.5.3 of the DM Forum report (https://twiki.cern.ch/twiki/pub/AtlasProtected/HeavyQuarkDMRun2/doc_1.pdf)
+#          Pre-computed values for different settings are also available at https://twiki.cern.ch/twiki/bin/view/AtlasProtected/BBPhiValidation 
+# NOTE: these dataset have a problem in AMI, filter comes from validation logfiles
+#
+DSID     FS CROSSSECTION[pb] K-FACTOR     FILTEREFF   REL.UNCERT
+303165    0      6.252         1.0         6.66e-02       0.02116
+303166    0      4.819         1.0         9.39e-02	  0.01718
+303167    0      1.946         1.0         1.77e-01       0.006541
+303168    0     0.5371         1.0         2.84e-01       0.001965
+303169    0    0.08588         1.0         4.25e-01       0.0002892
+303170    0    0.02245         1.0         5.07e-01       7.422e-05
+303171    0   0.001514         1.0         5.87e-01       4.881e-06
+303172    0   5.48e-05         1.0         6.41e-01       2.006e-07
+303173    0  1.714e-08         1.0         4.97e-01       9.184e-11
+303174    0  1.515e-09         1.0         7.86e-01       5.427e-12
+303175    0  2.307e-09         1.0         7.88e-01       9.395e-12
+303176    0  1.896e-10         1.0         8.01e-01       6.886e-13
+303177    0    0.09364         1.0         1.53e-01       0.0003726
+303178    0     0.1303         1.0         1.41e-01       0.0005421
+303179    0      1.939         1.0         1.76e-01       0.006421
+303180    0      0.536         1.0         2.86e-01       0.001831
+303181    0   0.003195         1.0         3.67e-01       1.081e-05
+303182    0   0.004194         1.0         3.62e-01       1.508e-05
+303183    0    0.02215         1.0         3.21e-01       0.0001046
+303184    0    0.08564         1.0         2.91e-01       0.0002986
+303185    0    0.02239         1.0         5.09e-01       8.969e-05
+303186    0  2.115e-07         1.0         7.35e-01       8.565e-10
+303187    0  3.097e-07         1.0         7.23e-01       9.455e-10
+303188    0  6.697e-06         1.0         7.25e-01       2.323e-08
+303189    0  7.929e-05         1.0         5.64e-01       2.542e-07
+303190    0  0.0001524         1.0         5.67e-01       4.917e-07
+303191    0   0.001672         1.0         5.21e-01       6.11e-06
+303192    0   0.001256         1.0         6.02e-01       4.834e-06
+303193    0  8.664e-09         1.0         6.49e-01       4.233e-11
