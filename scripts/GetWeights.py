@@ -46,7 +46,7 @@ if __name__ == "__main__":
   def get_did(filename):
     global did_regex
     m = did_regex.search(filename)
-    if m is None: raise ValueError('Can\'t figure out the DID!')
+    if m is None: raise ValueError('Can\'t figure out the DID! Filename: {0:s}'.format(filename))
     return m.group(1)
 
   # pass in the filename, get a cutflow number
@@ -153,7 +153,7 @@ if __name__ == "__main__":
               if line.startswith('#'): continue
               ROOT.SH.addGrid(sh_all, line.rstrip())
         else:
-          ROOT.SH.readFileList(sh_all, "sample", fname)
+          ROOT.SH.readFileList(sh_all, os.path.basename(fname).replace('.list',''), fname)
       else:
         if args.use_addGrid:
           ROOT.SH.addGrid(sh_all, fname)
@@ -189,8 +189,14 @@ if __name__ == "__main__":
     #   before just completely erroring out
     def get_cutflow_parallel(queue, sample):
       did = get_did(sample.name())
-      for fname in sample.makeFileList():
-        queue.put((did, get_cutflow(fname)))
+      getWeights_logger.info("Analyzing DID#{0:s} from sample {1:s}".format(did, sample.name()))
+      try:
+        for fname in sample.makeFileList():
+          queue.put((did, get_cutflow(fname)))
+      except Exception, e:
+        # we crashed
+        getWeights_logger.exception("{0}\nAn exception was caught!".format("-"*20))
+
       # tell master we're done
       queue.put(None)
 
@@ -226,11 +232,16 @@ if __name__ == "__main__":
         finished += 1
       else:
         did, count = item
+        getWeights_logger.info("DID#{0:s} returned {1:s}".format(did, str(count)))
         # we return the filename if we can't open it for reading
         try:
           weights[did]['num events'] += float(count)
         except (ValueError, TypeError) as e:
           weights[did]['errors'].append(count)
+        # whatever happens, write to the file
+        with open(args.output_filename, 'w+') as f:
+          f.write(json.dumps(weights, sort_keys=True, indent=4))
+
 
     SCRIPT_END_TIME = datetime.datetime.now()
 
