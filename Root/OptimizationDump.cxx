@@ -273,7 +273,8 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_inclVar["deltaQCD"] = -99.0;
     m_inclVar["temp_Rsib"] = -99.0;
     m_inclVar["Pmet_pT"] = -99.0;
-
+    m_inclVar["Psib_phi"] = -99.0;
+    m_inclVar["Pmet_phi"] = -99.0;
 
     m_tree->Branch("razor_GG_mass",     &(m_inclVar.at("GG_mass")));
     m_tree->Branch("razor_Ga_mass",     &(m_inclVar.at("Ga_mass")));
@@ -395,6 +396,8 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch("razor_temp_Rsib", &(m_inclVar.at("temp_Rsib")));
     std::cout << "and here" << std::endl;
     m_tree->Branch("razor_Pmet_pT", &(m_inclVar.at("Pmet_pT")));
+    m_tree->Branch("razor_Psib_phi", &(m_inclVar.at("Psib_phi")));
+    m_tree->Branch("razor_Pmet_phi", &(m_inclVar.at("Pmet_phi")));
     std::cout << "and here too" << std::endl;
   }
 

@@ -472,6 +472,8 @@ EL::StatusCode Audit :: execute ()
   inclVar["temp_Rsib"] = std::max(0.0, Psib.Vect().Dot(Pmet.Vect().Unit()));
   inclVar["Rsib"] = inclVar["temp_Rsib"] / (Pmet.Pt() + inclVar["temp_Rsib"]);
   inclVar["Pmet_pT"] = Pmet.Pt();
+  inclVar["Psib_phi"] = Psib.Phi();
+  inclVar["Pmet_phi"] = Pmet.Phi();
   TVector3 boostQCD = (Pmet + Psib).BoostVector();
   Psib.Boost(-boostQCD);
   inclVar["cosQCD"] = (1. + Psib.Vect().Unit().Dot(boostQCD.Unit()))/2.;
