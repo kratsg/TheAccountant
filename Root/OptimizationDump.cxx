@@ -58,6 +58,7 @@ OptimizationDump :: OptimizationDump () :
   m_met(-999.0),
   m_met_mpx(-999.0),
   m_met_mpy(-999.0),
+  m_met_phi(-999.0),
   m_numJets(0),
   m_numBJets(0),
   m_numJetsLargeR(0),
@@ -121,6 +122,7 @@ EL::StatusCode OptimizationDump :: initialize () {
     m_tree->Branch ("met",                       &m_met, "met/F");
     m_tree->Branch ("met_px",                    &m_met_mpx, "met_mpx/F");
     m_tree->Branch ("met_py",                    &m_met_mpy, "met_mpy/F");
+    m_tree->Branch ("met_phi",                    &m_met_phi, "met_phi/F");
   }
   if(!m_inputMET.empty() && !m_inputJets.empty()){
     m_tree->Branch ("m_effective",               &m_effectiveMass, "m_effective/F");
@@ -479,6 +481,7 @@ EL::StatusCode OptimizationDump :: execute ()
     m_met     = in_met->met()/1.e3;
     m_met_mpx = in_met->mpx()/1.e3;
     m_met_mpy = in_met->mpy()/1.e3;
+    m_met_phi = in_met->phi();
   }
 
   // in_jets will always contain the presel jets
