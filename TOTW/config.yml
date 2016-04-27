@@ -19,8 +19,8 @@ atlasinternal: &atlasinternal
 groups:
   - name: "t#bar{t}"
     files:
-      - TA03/ttbarInc_0L/fetch/data-optimizationTree/*410000*.merged
-      - TA03/ttbarExc_0L/fetch/data-optimizationTree/*407012*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/ttbarInc_0L/fetch/data-optimizationTree/*410000*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/ttbarExc_0L/fetch/data-optimizationTree/*407012*.merged
     styles:
       legendstyle: F
       fillstyle: solid
@@ -28,7 +28,7 @@ groups:
 
   - name: dijets
     files:
-      - TA03/dijet_0L/fetch/data-optimizationTree/*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/dijet_0L/fetch/data-optimizationTree/*.merged
     styles:
       legendstyle: F
       fillstyle: solid
@@ -36,7 +36,7 @@ groups:
 
   - name: W+jets
     files:
-      - TA03/Wsherpa_0L/fetch/data-optimizationTree/*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/Wsherpa_0L/fetch/data-optimizationTree/*.merged
     styles:
       legendstyle: F
       fillstyle: solid
@@ -44,7 +44,7 @@ groups:
 
   - name: Z+jets
     files:
-      - TA03/Zsherpa_0L/fetch/data-optimizationTree/*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/Zsherpa_0L/fetch/data-optimizationTree/*.merged
     styles:
       legendstyle: F
       fillstyle: solid
@@ -52,8 +52,8 @@ groups:
 
   - name: "1-top: t-channel"
     files:
-      - TA03/singletop_0L/fetch/data-optimizationTree/*410011*.merged
-      - TA03/singletop_0L/fetch/data-optimizationTree/*410012*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/singletop_0L/fetch/data-optimizationTree/*410011*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/singletop_0L/fetch/data-optimizationTree/*410012*.merged
     styles:
       legendstyle: F
       fillstyle: solid
@@ -61,8 +61,8 @@ groups:
 
   - name: "1-top: Wt-inclusive"
     files:
-      - TA03/singletop_0L/fetch/data-optimizationTree/*410013*.merged
-      - TA03/singletop_0L/fetch/data-optimizationTree/*410014*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/singletop_0L/fetch/data-optimizationTree/*410013*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/singletop_0L/fetch/data-optimizationTree/*410014*.merged
     styles:
       legendstyle: F
       fillstyle: solid
@@ -70,7 +70,7 @@ groups:
 
   - name: top EW
     files:
-      - TA03/topEW_0L/fetch/data-optimizationTree/*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/topEW_0L/fetch/data-optimizationTree/*.merged
     styles:
       legendstyle: F
       fillstyle: solid
@@ -78,7 +78,7 @@ groups:
 
   - name: diboson
     files:
-      - TA03/diboson_0L/fetch/data-optimizationTree/*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/diboson_0L/fetch/data-optimizationTree/*.merged
     styles:
       legendstyle: F
       fillstyle: solid
@@ -86,7 +86,7 @@ groups:
 
   - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 200"
     files:
-      - TA03/Gtt_0L/fetch/data-optimizationTree/*370153*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/Gtt_0L/fetch/data-optimizationTree/*370153*.merged
     styles:
       legendstyle: L
       drawstyle: hist
@@ -96,7 +96,7 @@ groups:
 
   - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 600"
     files:
-      - TA03/Gtt_0L/fetch/data-optimizationTree/*370155*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/Gtt_0L/fetch/data-optimizationTree/*370155*.merged
     styles:
       legendstyle: L
       drawstyle: hist
@@ -106,7 +106,7 @@ groups:
 
   - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 1000"
     files:
-      - TA03/Gtt_0L/fetch/data-optimizationTree/*370157*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/Gtt_0L/fetch/data-optimizationTree/*370157*.merged
     styles:
       legendstyle: L
       drawstyle: hist
@@ -116,7 +116,7 @@ groups:
 
   - name: "m_{#tilde{g}} = 1700, m_{#tilde{#chi}} = 1345"
     files:
-      - TA03/Gtt_0L/fetch/data-optimizationTree/*370159*.merged
+      - 2016_tag01_v1_dPhiMETMin_0p0/Gtt_0L/fetch/data-optimizationTree/*370159*.merged
     styles:
       legendstyle: L
       drawstyle: hist
@@ -144,6 +144,10 @@ plots:
       - <<: *topline
         y: 0.80
         label: "Preselection, signal #times 2000"
+      - <<: *topline
+        y: 0.76
+        label: "min(#Delta#phi^{MET}) > 0.0"
+
     canvas:
       width: 650
       height: 500
@@ -345,64 +349,64 @@ plots:
     #all/SR_Gtt_0l_C/razor_ratio_HT41GG_H41GG: {}
     #all/SR_Gtt_0l_C/razor_ratio_H11GG_H41GG: {}
     all/Preselection/met: {ylabel : "events", xlabel : "met [GeV]"}
-    all/Preselection/meff: {ylabel : "events", xlabel : "meff [GeV]", ymin: 0, ymax: 1000}
-    all/Preselection/dphimetmin: {ylabel : "events", xlabel : "dphimetmin", ymin: 0, ymax: 2000}
-    all/Preselection/mtb: {ylabel : "events", xlabel : "mtb [GeV]", ymin: 0, ymax: 2500}
-    all/Preselection/njets: {ylabel : "events", xlabel : "njets", ymin: 0, ymax: 3000}
-    all/Preselection/nbjets: {ylabel : "events", xlabel : "nbjets", ymin: 0, ymax: 5000}
-    all/Preselection/ntops: {ylabel : "events", xlabel : "ntops", ymin: 0, ymax: 10000}
-    all/Preselection/razor_GG_mass: {ylabel : "events", xlabel : "razor m^{GG} [GeV]", ymin: 0, ymax: 400}
-    all/Preselection/razor_Ga_mass: {ylabel : "events", xlabel : "razor m^{G_{a}}  [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 4000}
-    all/Preselection/razor_Gb_mass: {ylabel : "events", xlabel : "razor m^{G_{b}}  [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 4000}
-    all/Preselection/razor_Ca1_mass: {ylabel : "events", xlabel : "razor m^{C_{a1}} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 2500}
-    all/Preselection/razor_Cb1_mass: {ylabel : "events", xlabel : "razor m^{C_{b1}} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 2500}
-    all/Preselection/razor_Va1_mass: {ylabel : "events", xlabel : "razor m^{V_{a1}} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 1000}
-    all/Preselection/razor_Vb1_mass: {ylabel : "events", xlabel : "razor m^{V_{b1}} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 1000}
+    all/Preselection/meff: {ylabel : "events", xlabel : "meff [GeV]", ymin: 0, ymax: 2000}
+    all/Preselection/dphimetmin: {ylabel : "events", xlabel : "dphimetmin", ymin: 0, ymax: 4000}
+    all/Preselection/mtb: {ylabel : "events", xlabel : "mtb [GeV]", ymin: 0, ymax: 4000}
+    all/Preselection/njets: {ylabel : "events", xlabel : "njets", ymin: 0, ymax: 5000}
+    all/Preselection/nbjets: {ylabel : "events", xlabel : "nbjets", ymin: 0, ymax: 7500}
+    all/Preselection/ntops: {ylabel : "events", xlabel : "ntops", ymin: 0, ymax: 12500}
+    all/Preselection/razor_GG_mass: {ylabel : "events", xlabel : "razor m^{GG} [GeV]", ymin: 0, ymax: 1000}
+    all/Preselection/razor_Ga_mass: {ylabel : "events", xlabel : "razor m^{G_{a}}  [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 4000}
+    all/Preselection/razor_Gb_mass: {ylabel : "events", xlabel : "razor m^{G_{b}}  [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 4000}
+    all/Preselection/razor_Ca1_mass: {ylabel : "events", xlabel : "razor m^{C_{a1}} [GeV]", ymin: 0, ymax: 2500, xmin: 0, xmax: 2500}
+    all/Preselection/razor_Cb1_mass: {ylabel : "events", xlabel : "razor m^{C_{b1}} [GeV]", ymin: 0, ymax: 2500, xmin: 0, xmax: 2500}
+    all/Preselection/razor_Va1_mass: {ylabel : "events", xlabel : "razor m^{V_{a1}} [GeV]", ymin: 0, ymax: 2500, xmin: 0, xmax: 1000}
+    all/Preselection/razor_Vb1_mass: {ylabel : "events", xlabel : "razor m^{V_{b1}} [GeV]", ymin: 0, ymax: 2500, xmin: 0, xmax: 1000}
     all/Preselection/razor_Va2_mass: {ylabel : "events", xlabel : "razor m^{V_{a2}} [GeV]", ymin: 0, ymax: 4000, xmin: 0, xmax: 750}
     all/Preselection/razor_Vb2_mass: {ylabel : "events", xlabel : "razor m^{V_{b2}} [GeV]", ymin: 0, ymax: 4000, xmin: 0, xmax: 750}
-    all/Preselection/razor_GG_invGamma: {ylabel : "events", xlabel : "razor (#gamma^{GG})^{-1}", ymin: 0, ymax: 2000}
-    all/Preselection/razor_GG_mDeltaR: {ylabel : "events", xlabel : "razor GG mDeltaR [GeV]", ymin: 0, ymax: 1200, xmin: 0, xmax: 4000}
-    all/Preselection/razor_Va1_n: {ylabel : "events", xlabel : "razor n^{V_{a1}}", ymin: 0, ymax: 5000, xmin: 0, xmax: 10}
-    all/Preselection/razor_Vb1_n: {ylabel : "events", xlabel : "razor n^{V_{b1}}", ymin: 0, ymax: 5000, xmin: 0, xmax: 10}
-    all/Preselection/razor_Ga_n: {ylabel : "events", xlabel : "razor n^{G_{a}}", ymin: 0, ymax: 5000, xmin: 0, xmax: 10}
-    all/Preselection/razor_Va2_n: {ylabel : "events", xlabel : "razor n^{V_{a2}}", ymin: 0, ymax: 6000, xmin: 0, xmax: 10}
-    all/Preselection/razor_Vb2_n: {ylabel : "events", xlabel : "razor n^{V_{b2}}", ymin: 0, ymax: 6000, xmin: 0, xmax: 10}
-    all/Preselection/razor_Gb_n: {ylabel : "events", xlabel : "razor n^{G_{b}}", ymin: 0, ymax: 5000, xmin: 0, xmax: 10}
-    all/Preselection/razor_GG_cosTheta: {ylabel : "events", xlabel : "razor GG_cosTheta", ymin: 0, ymax: 2000}
+    all/Preselection/razor_GG_invGamma: {ylabel : "events", xlabel : "razor (#gamma^{GG})^{-1}", ymin: 0, ymax: 4000}
+    all/Preselection/razor_GG_mDeltaR: {ylabel : "events", xlabel : "razor GG mDeltaR [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 4000}
+    all/Preselection/razor_Va1_n: {ylabel : "events", xlabel : "razor n^{V_{a1}}", ymin: 0, ymax: 7500, xmin: 0, xmax: 10}
+    all/Preselection/razor_Vb1_n: {ylabel : "events", xlabel : "razor n^{V_{b1}}", ymin: 0, ymax: 7500, xmin: 0, xmax: 10}
+    all/Preselection/razor_Ga_n: {ylabel : "events", xlabel : "razor n^{G_{a}}", ymin: 0, ymax: 7500, xmin: 0, xmax: 10}
+    all/Preselection/razor_Va2_n: {ylabel : "events", xlabel : "razor n^{V_{a2}}", ymin: 0, ymax: 7500, xmin: 0, xmax: 10}
+    all/Preselection/razor_Vb2_n: {ylabel : "events", xlabel : "razor n^{V_{b2}}", ymin: 0, ymax: 7500, xmin: 0, xmax: 10}
+    all/Preselection/razor_Gb_n: {ylabel : "events", xlabel : "razor n^{G_{b}}", ymin: 0, ymax: 7500, xmin: 0, xmax: 10}
+    all/Preselection/razor_GG_cosTheta: {ylabel : "events", xlabel : "razor GG_cosTheta", ymin: 0, ymax: 3000}
     all/Preselection/razor_Va1_cosTheta: {ylabel : "events", xlabel : "razor Va1_cosTheta", ymin: 0, ymax: 2000}
     all/Preselection/razor_Vb1_cosTheta: {ylabel : "events", xlabel : "razor Vb1_cosTheta", ymin: 0, ymax: 2000}
     all/Preselection/razor_Va2_cosTheta: {ylabel : "events", xlabel : "razor Va2_cosTheta", ymin: 0, ymax: 2000}
     all/Preselection/razor_Vb2_cosTheta: {ylabel : "events", xlabel : "razor Vb2_cosTheta", ymin: 0, ymax: 2000}
-    all/Preselection/razor_GG_dPhiVis: {ylabel : "events", xlabel : "razor GG_dPhiVis", ymin: 0, ymax: 3000}
-    all/Preselection/razor_GG_dPhiBetaR: {ylabel : "events", xlabel : "razor GG_dPhiBetaR", ymin: 0, ymax: 1800}
-    all/Preselection/razor_GG_dPhiDecay: {ylabel : "events", xlabel : "razor GG_dPhiDecay", ymin: 0, ymax: 1000}
+    all/Preselection/razor_GG_dPhiVis: {ylabel : "events", xlabel : "razor GG_dPhiVis", ymin: 0, ymax: 5000}
+    all/Preselection/razor_GG_dPhiBetaR: {ylabel : "events", xlabel : "razor GG_dPhiBetaR", ymin: 0, ymax: 2500}
+    all/Preselection/razor_GG_dPhiDecay: {ylabel : "events", xlabel : "razor GG_dPhiDecay", ymin: 0, ymax: 2000}
     all/Preselection/razor_dPhi_Ga_Ca1: {ylabel : "events", xlabel : "razor dPhi_Ga_Ca1", ymin: 0, ymax: 2000}
     all/Preselection/razor_dPhi_Gb_Cb1: {ylabel : "events", xlabel : "razor dPhi_Gb_Cb1", ymin: 0, ymax: 2000}
-    all/Preselection/razor_pT_GG: {ylabel : "events", xlabel : "razor p_{T}^{GG} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 500}
+    all/Preselection/razor_pT_GG: {ylabel : "events", xlabel : "razor p_{T}^{GG} [GeV]", ymin: 0, ymax: 3000, xmin: 0, xmax: 500}
     all/Preselection/razor_pZ_GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG} [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 7500}
-    all/Preselection/razor_H11GG: {ylabel : "events", xlabel : "razor H_{11}^{GG} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 3500}
-    all/Preselection/razor_H21GG: {ylabel : "events", xlabel : "razor H_{21}^{GG} [GeV]", ymin: 0, ymax: 600, xmin: 0, xmax: 5000}
-    all/Preselection/razor_H22GG: {ylabel : "events", xlabel : "razor H_{22}^{GG} [GeV]", ymin: 0, ymax: 500, xmin: 0, xmax: 7500}
-    all/Preselection/razor_H41GG: {ylabel : "events", xlabel : "razor H_{41}^{GG} [GeV]", ymin: 0, ymax: 600, xmin: 0, xmax: 7500}
-    all/Preselection/razor_H42GG: {ylabel : "events", xlabel : "razor H_{42}^{GG} [GeV]", ymin: 0, ymax: 500, xmin: 0, xmax: 7500}
-    all/Preselection/razor_H11Ga: {ylabel : "events", xlabel : "razor H_{11}^{Ga} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 2000}
-    all/Preselection/razor_H11Gb: {ylabel : "events", xlabel : "razor H_{11}^{Gb} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 2000}
-    all/Preselection/razor_H21Ga: {ylabel : "events", xlabel : "razor H_{21}^{Ga} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 2500}
-    all/Preselection/razor_H21Gb: {ylabel : "events", xlabel : "razor H_{21}^{Gb} [GeV]", ymin: 0, ymax: 2000, xmin: 0, xmax: 2500}
+    all/Preselection/razor_H11GG: {ylabel : "events", xlabel : "razor H_{11}^{GG} [GeV]", ymin: 0, ymax: 3000, xmin: 0, xmax: 3500}
+    all/Preselection/razor_H21GG: {ylabel : "events", xlabel : "razor H_{21}^{GG} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 5000}
+    all/Preselection/razor_H22GG: {ylabel : "events", xlabel : "razor H_{22}^{GG} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 7500}
+    all/Preselection/razor_H41GG: {ylabel : "events", xlabel : "razor H_{41}^{GG} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 7500}
+    all/Preselection/razor_H42GG: {ylabel : "events", xlabel : "razor H_{42}^{GG} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 7500}
+    all/Preselection/razor_H11Ga: {ylabel : "events", xlabel : "razor H_{11}^{Ga} [GeV]", ymin: 0, ymax: 3000, xmin: 0, xmax: 2000}
+    all/Preselection/razor_H11Gb: {ylabel : "events", xlabel : "razor H_{11}^{Gb} [GeV]", ymin: 0, ymax: 3000, xmin: 0, xmax: 2000}
+    all/Preselection/razor_H21Ga: {ylabel : "events", xlabel : "razor H_{21}^{Ga} [GeV]", ymin: 0, ymax: 3000, xmin: 0, xmax: 2500}
+    all/Preselection/razor_H21Gb: {ylabel : "events", xlabel : "razor H_{21}^{Gb} [GeV]", ymin: 0, ymax: 3000, xmin: 0, xmax: 2500}
     all/Preselection/razor_H11Ca1: {ylabel : "events", xlabel : "razor H_{11}^{C_{a1}} [GeV]"}
     all/Preselection/razor_H11Cb1: {ylabel : "events", xlabel : "razor H_{11}^{C_{b1}} [GeV]"}
     all/Preselection/razor_HT21GG: {ylabel : "events", xlabel : "razor (H_{T})_{21}^{GG} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 5000}
-    all/Preselection/razor_HT22GG: {ylabel : "events", xlabel : "razor (H_{T})_{22}^{GG} [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 7500}
-    all/Preselection/razor_HT41GG: {ylabel : "events", xlabel : "razor (H_{T})_{41}^{GG} [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 7500}
-    all/Preselection/razor_HT42GG: {ylabel : "events", xlabel : "razor (H_{T})_{42}^{GG} [GeV]", ymin: 0, ymax: 1000, xmin: 0, xmax: 7500}
-    all/Preselection/razor_d_dPhiG: {ylabel : "events", xlabel : "razor d_dPhiG", ymin: 0, ymax: 1500}
-    all/Preselection/razor_s_dPhiG: {ylabel : "events", xlabel : "razor s_dPhiG", ymin: 0, ymax: 2000}
-    all/Preselection/razor_s_angle: {ylabel : "events", xlabel : "razor s_angle", ymin: 0, ymax: 2500}
-    all/Preselection/razor_d_angle: {ylabel : "events", xlabel : "razor d_angle", ymin: 0, ymax: 1000}
-    all/Preselection/razor_ratio_pZGG_HT21GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG}/(H_{T})_{21}^{GG}", ymin: 0, ymax: 1000}
-    all/Preselection/razor_ratio_pZGG_HT41GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG}/(H_{T})_{41}^{GG}", ymin: 0, ymax: 1000}
-    all/Preselection/razor_ratio_pTGG_HT21GG: {ylabel : "events", xlabel : "razor p_{T}^{GG}/(H_{T})_{21}^{GG}", ymin: 0, ymax: 5000}
-    all/Preselection/razor_ratio_pTGG_HT41GG: {ylabel : "events", xlabel : "razor p_{T}^{GG}/(H_{T})_{41}^{GG}", ymin: 0, ymax: 10000}
-    all/Preselection/razor_ratio_H11GG_H21GG: {ylabel : "events", xlabel : "razor H_{11}^{GG}/H_{21}^{GG}", ymin: 0, ymax: 2000}
-    all/Preselection/razor_ratio_HT41GG_H41GG: {ylabel : "events", xlabel : "razor (H_{T})_{41}^{GG}/H_{41}^{GG}", ymin: 0, ymax: 2000}
-    all/Preselection/razor_ratio_H11GG_H41GG: {ylabel : "events", xlabel : "razor H_{11}^{GG}/H_{41}^{GG}", ymin: 0, ymax: 2000}
+    all/Preselection/razor_HT22GG: {ylabel : "events", xlabel : "razor (H_{T})_{22}^{GG} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 7500}
+    all/Preselection/razor_HT41GG: {ylabel : "events", xlabel : "razor (H_{T})_{41}^{GG} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 7500}
+    all/Preselection/razor_HT42GG: {ylabel : "events", xlabel : "razor (H_{T})_{42}^{GG} [GeV]", ymin: 0, ymax: 1500, xmin: 0, xmax: 7500}
+    all/Preselection/razor_d_dPhiG: {ylabel : "events", xlabel : "razor d_dPhiG", ymin: 0, ymax: 3000}
+    all/Preselection/razor_s_dPhiG: {ylabel : "events", xlabel : "razor s_dPhiG", ymin: 0, ymax: 3000}
+    all/Preselection/razor_s_angle: {ylabel : "events", xlabel : "razor s_angle", ymin: 0, ymax: 3000}
+    all/Preselection/razor_d_angle: {ylabel : "events", xlabel : "razor d_angle", ymin: 0, ymax: 3000}
+    all/Preselection/razor_ratio_pZGG_HT21GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG}/(H_{T})_{21}^{GG}", ymin: 0, ymax: 2500, exclude: [W+jets, Z+jets, "1-top: t-channel", "1-top: Wt-inclusive", top EW, diboson, "t#bar{t}"]}
+    all/Preselection/razor_ratio_pZGG_HT41GG: {ylabel : "events", xlabel : "razor p_{Z}^{GG}/(H_{T})_{41}^{GG}", ymin: 0, ymax: 2000, exclude: [W+jets, Z+jets, "1-top: t-channel", "1-top: Wt-inclusive", top EW, diboson, "t#bar{t}"]}
+    all/Preselection/razor_ratio_pTGG_HT21GG: {ylabel : "events", xlabel : "razor p_{T}^{GG}/(H_{T})_{21}^{GG}", ymin: 0, ymax: 5000, exclude: [W+jets, Z+jets, "1-top: t-channel", "1-top: Wt-inclusive", top EW, diboson, "t#bar{t}"]}
+    all/Preselection/razor_ratio_pTGG_HT41GG: {ylabel : "events", xlabel : "razor p_{T}^{GG}/(H_{T})_{41}^{GG}", ymin: 0, ymax: 10000, exclude: [W+jets, Z+jets, "1-top: t-channel", "1-top: Wt-inclusive", top EW, diboson, "t#bar{t}"]}
+    all/Preselection/razor_ratio_H11GG_H21GG: {ylabel : "events", xlabel : "razor H_{11}^{GG}/H_{21}^{GG}", ymin: 0, ymax: 2500, exclude: [W+jets, Z+jets, "1-top: t-channel", "1-top: Wt-inclusive", top EW, diboson, "t#bar{t}"]}
+    all/Preselection/razor_ratio_HT41GG_H41GG: {ylabel : "events", xlabel : "razor (H_{T})_{41}^{GG}/H_{41}^{GG}", ymin: 0, ymax: 2500, exclude: [W+jets, Z+jets, "1-top: t-channel", "1-top: Wt-inclusive", top EW, diboson, "t#bar{t}"]}
+    all/Preselection/razor_ratio_H11GG_H41GG: {ylabel : "events", xlabel : "razor H_{11}^{GG}/H_{41}^{GG}", ymin: 0, ymax: 2500, exclude: [W+jets, Z+jets, "1-top: t-channel", "1-top: Wt-inclusive", top EW, diboson, "t#bar{t}"]}
