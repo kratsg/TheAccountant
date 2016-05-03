@@ -20,6 +20,9 @@
 // root include for cutflow
 #include <TH1F.h>
 
+// reclustering forward declaration
+#include <xAODJetReclustering/JetReclusteringTool.h>
+
 // xAH includes
 #include "xAODAnaHelpers/HelperFunctions.h"
 #include "xAODAnaHelpers/tools/ReturnCheck.h"
@@ -30,7 +33,7 @@ namespace VD = VariableDefinitions;
 // this is needed to distribute the algorithm to the workers
 ClassImp(Preselect)
 Preselect :: Preselect () :
-  m_reclusteringTool("JetReclusteringTool/TheAccountant_JetReclusteringTool")
+  m_reclusteringTool("IJetReclusteringTool/TheAccountant_JetReclusteringTool")
 {}
 
 EL::StatusCode Preselect :: setupJob (EL::Job& job)
