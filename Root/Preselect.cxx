@@ -29,7 +29,9 @@ namespace VD = VariableDefinitions;
 
 // this is needed to distribute the algorithm to the workers
 ClassImp(Preselect)
-Preselect :: Preselect () {}
+Preselect :: Preselect () :
+  m_reclusteringTool("IJetReclutseringTool/TheAccountant_JetReclusteringTool", nullptr)
+{}
 
 EL::StatusCode Preselect :: setupJob (EL::Job& job)
 {

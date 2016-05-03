@@ -80,7 +80,7 @@ public:
 private:
   TrigConf::xAODConfigTool* m_trigConf = nullptr; //!
   Trig::TrigDecisionTool* m_TDT = nullptr; //!
-  asg::AnaToolHandle<IJetReclusteringTool> m_reclusteringTool = asg::AnaToolHandle<IJetReclusteringTool>("IJetReclusteringTool/TheAccountant_JetReclusteringTool", nullptr); //!
+  asg::AnaToolHandle<IJetReclusteringTool> m_reclusteringTool; //!
 
   // a map holding (cutflow, (unweighted, weighted))
   std::map<std::string, std::pair<float, float>> m_cutflow; //!
