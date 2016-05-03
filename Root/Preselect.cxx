@@ -20,9 +20,6 @@
 // root include for cutflow
 #include <TH1F.h>
 
-// reclustering
-#include <xAODJetReclustering/JetReclusteringTool.h>
-
 // xAH includes
 #include "xAODAnaHelpers/HelperFunctions.h"
 #include "xAODAnaHelpers/tools/ReturnCheck.h"
@@ -76,13 +73,14 @@ EL::StatusCode Preselect :: initialize ()
 
   if(m_rc_enable){
     // reclustering jets
-    m_reclusteringTool = new JetReclusteringTool("TheAccountant_JetReclusteringTool");
-    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("InputJetContainer",  "InputJetsPassPresel"), "Could not set input jet container");
-    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("OutputJetContainer", m_RCJetsContainerName), "Coult not set output jet container");
-    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("ReclusterRadius",    m_rc_radius), "Could not set radius for RC jet");
-    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("InputJetPtMin",      m_rc_inputPt), "Could not set input pt filter");
-    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("RCJetPtFrac",        m_rc_trimPtFrac), "Could not set output pt trim");
-    RETURN_CHECK("initialize()", m_reclusteringTool->initialize(), "Could not initialize reclustering tool");
+    RETURN_CHECK("initialize()", (checkToolStore<JetReclusteringTool>("TheAccountant_JetReclusteringTool")), "Could not check the tool store");
+    RETURN_CHECK("initialize()", (m_reclusteringTool.makeNew<JetReclusteringTool>("TheAccountant_JetReclusteringTool")), "Failed to create handle to JetReclusteringTool");
+    RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("InputJetContainer",  "InputJetsPassPresel"), "Could not set input jet container");
+    RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("OutputJetContainer", m_RCJetsContainerName), "Coult not set output jet container");
+    RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("ReclusterRadius",    m_rc_radius), "Could not set radius for RC jet");
+    RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("InputJetPtMin",      m_rc_inputPt), "Could not set input pt filter");
+    RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("RCJetPtFrac",        m_rc_trimPtFrac), "Could not set output pt trim");
+    RETURN_CHECK("initialize()", m_reclusteringTool.initialize(), "Could not initialize reclustering tool");
   }
 
   return EL::StatusCode::SUCCESS;
@@ -261,7 +259,7 @@ EL::StatusCode Preselect :: execute ()
     ConstDataVector<xAOD::JetContainer>* preselJets(new ConstDataVector<xAOD::JetContainer>(VD::subset_using_decor(in_jets, VD::acc_pass_preSel, 1)));
 
     RETURN_CHECK("Preselect::execute()", m_store->record(preselJets, "InputJetsPassPresel"), "Could not record presel jets into Store for reclustering");
-    m_reclusteringTool->execute();
+    m_reclusteringTool.execute();
   }
 
   // special: only retrieve large-R jets after we get here, because if we do reclustering, they won't exist until after we process small-R jets)
@@ -494,9 +492,6 @@ EL::StatusCode Preselect :: finalize () {
     if(m_trigConf) delete m_trigConf;
     if(m_TDT) delete m_TDT;
   }
-
-  if(m_rc_enable)
-      if(m_reclusteringTool) delete m_reclusteringTool;
 
   for(const auto &cutflow: m_cutflow){
     TH1F* hist = new TH1F(("cutflow/"+cutflow.first).c_str(), cutflow.first.c_str(), 2, 1, 3);
