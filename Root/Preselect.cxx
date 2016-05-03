@@ -73,8 +73,7 @@ EL::StatusCode Preselect :: initialize ()
 
   if(m_rc_enable){
     // reclustering jets
-    RETURN_CHECK("initialize()", (checkToolStore<JetReclusteringTool>("TheAccountant_JetReclusteringTool")), "Could not check the tool store");
-    RETURN_CHECK("initialize()", (m_reclusteringTool.makeNew<JetReclusteringTool>("TheAccountant_JetReclusteringTool")), "Failed to create handle to JetReclusteringTool");
+    RETURN_CHECK("initialize()", (m_reclusteringTool.makeNew<IJetReclusteringTool>("IJetReclusteringTool/TheAccountant_JetReclusteringTool")), "Failed to create handle to JetReclusteringTool");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("InputJetContainer",  "InputJetsPassPresel"), "Could not set input jet container");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("OutputJetContainer", m_RCJetsContainerName), "Coult not set output jet container");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("ReclusterRadius",    m_rc_radius), "Could not set radius for RC jet");

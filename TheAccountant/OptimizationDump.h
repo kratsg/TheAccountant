@@ -7,10 +7,6 @@
 #include "xAODRootAccess/TEvent.h"
 #include "xAODRootAccess/TStore.h"
 
-// reclustering
-#include <AsgTools/AnaToolHandle.h>
-#include <xAODJetReclustering/JetReclusteringTool.h>
-
 // root includes
 #include <TTree.h>
 
