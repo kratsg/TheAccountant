@@ -75,7 +75,7 @@ EL::StatusCode Preselect :: initialize ()
 
   if(m_rc_enable){
     // reclustering jets
-    RETURN_CHECK("initialize()", (m_reclusteringTool.make<JetReclusteringTool>()), "Could not make the tool");
+    RETURN_CHECK("initialize()", ASG_MAKE_ANA_TOOL(m_reclusteringTool, JetReclusteringTool), "Could not make the tool");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("InputJetContainer",  "InputJetsPassPresel"), "Could not set input jet container");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("OutputJetContainer", m_RCJetsContainerName), "Coult not set output jet container");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("ReclusterRadius",    m_rc_radius), "Could not set radius for RC jet");
