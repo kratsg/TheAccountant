@@ -73,7 +73,7 @@ EL::StatusCode Preselect :: initialize ()
 
   if(m_rc_enable){
     // reclustering jets
-    RETURN_CHECK("initialize()", (m_reclusteringTool.makeNew<IJetReclusteringTool>("IJetReclusteringTool/TheAccountant_JetReclusteringTool")), "Failed to create handle to JetReclusteringTool");
+    RETURN_CHECK("initialize()", (m_reclusteringTool.make<IJetReclusteringTool>()), "Failed to create handle to JetReclusteringTool");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("InputJetContainer",  "InputJetsPassPresel"), "Could not set input jet container");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("OutputJetContainer", m_RCJetsContainerName), "Coult not set output jet container");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("ReclusterRadius",    m_rc_radius), "Could not set radius for RC jet");
@@ -258,7 +258,7 @@ EL::StatusCode Preselect :: execute ()
     ConstDataVector<xAOD::JetContainer>* preselJets(new ConstDataVector<xAOD::JetContainer>(VD::subset_using_decor(in_jets, VD::acc_pass_preSel, 1)));
 
     RETURN_CHECK("Preselect::execute()", m_store->record(preselJets, "InputJetsPassPresel"), "Could not record presel jets into Store for reclustering");
-    m_reclusteringTool.execute();
+    m_reclusteringTool->execute();
   }
 
   // special: only retrieve large-R jets after we get here, because if we do reclustering, they won't exist until after we process small-R jets)
