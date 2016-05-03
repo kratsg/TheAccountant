@@ -30,7 +30,7 @@ namespace VD = VariableDefinitions;
 // this is needed to distribute the algorithm to the workers
 ClassImp(Preselect)
 Preselect :: Preselect () :
-  m_reclusteringTool("IJetReclutseringTool/TheAccountant_JetReclusteringTool", nullptr)
+  m_reclusteringTool("JetReclusteringTool/TheAccountant_JetReclusteringTool")
 {}
 
 EL::StatusCode Preselect :: setupJob (EL::Job& job)
@@ -75,7 +75,7 @@ EL::StatusCode Preselect :: initialize ()
 
   if(m_rc_enable){
     // reclustering jets
-    RETURN_CHECK("initialize()", (m_reclusteringTool.make<IJetReclusteringTool>()), "Failed to create handle to JetReclusteringTool");
+    RETURN_CHECK("initialize()", (m_reclusteringTool.make<JetReclusteringTool>()), "Could not make the tool");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("InputJetContainer",  "InputJetsPassPresel"), "Could not set input jet container");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("OutputJetContainer", m_RCJetsContainerName), "Coult not set output jet container");
     RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("ReclusterRadius",    m_rc_radius), "Could not set radius for RC jet");
