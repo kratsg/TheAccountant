@@ -20,7 +20,7 @@
 // root include for cutflow
 #include <TH1F.h>
 
-// reclustering
+// reclustering forward declaration
 #include <xAODJetReclustering/JetReclusteringTool.h>
 
 // xAH includes
@@ -32,7 +32,9 @@ namespace VD = VariableDefinitions;
 
 // this is needed to distribute the algorithm to the workers
 ClassImp(Preselect)
-Preselect :: Preselect () {}
+Preselect :: Preselect () :
+  m_reclusteringTool("IJetReclusteringTool/TheAccountant_JetReclusteringTool")
+{}
 
 EL::StatusCode Preselect :: setupJob (EL::Job& job)
 {
@@ -76,13 +78,13 @@ EL::StatusCode Preselect :: initialize ()
 
   if(m_rc_enable){
     // reclustering jets
-    m_reclusteringTool = new JetReclusteringTool("TheAccountant_JetReclusteringTool");
-    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("InputJetContainer",  "InputJetsPassPresel"), "Could not set input jet container");
-    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("OutputJetContainer", m_RCJetsContainerName), "Coult not set output jet container");
-    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("ReclusterRadius",    m_rc_radius), "Could not set radius for RC jet");
-    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("InputJetPtMin",      m_rc_inputPt), "Could not set input pt filter");
-    RETURN_CHECK("initialize()", m_reclusteringTool->setProperty("RCJetPtFrac",        m_rc_trimPtFrac), "Could not set output pt trim");
-    RETURN_CHECK("initialize()", m_reclusteringTool->initialize(), "Could not initialize reclustering tool");
+    RETURN_CHECK("initialize()", ASG_MAKE_ANA_TOOL(m_reclusteringTool, JetReclusteringTool), "Could not make the tool");
+    RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("InputJetContainer",  "InputJetsPassPresel"), "Could not set input jet container");
+    RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("OutputJetContainer", m_RCJetsContainerName), "Coult not set output jet container");
+    RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("ReclusterRadius",    m_rc_radius), "Could not set radius for RC jet");
+    RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("InputJetPtMin",      m_rc_inputPt), "Could not set input pt filter");
+    RETURN_CHECK("initialize()", m_reclusteringTool.setProperty("RCJetPtFrac",        m_rc_trimPtFrac), "Could not set output pt trim");
+    RETURN_CHECK("initialize()", m_reclusteringTool.initialize(), "Could not initialize reclustering tool");
   }
 
   return EL::StatusCode::SUCCESS;
@@ -494,9 +496,6 @@ EL::StatusCode Preselect :: finalize () {
     if(m_trigConf) delete m_trigConf;
     if(m_TDT) delete m_TDT;
   }
-
-  if(m_rc_enable)
-      if(m_reclusteringTool) delete m_reclusteringTool;
 
   for(const auto &cutflow: m_cutflow){
     TH1F* hist = new TH1F(("cutflow/"+cutflow.first).c_str(), cutflow.first.c_str(), 2, 1, 3);

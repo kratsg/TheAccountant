@@ -14,8 +14,9 @@
 // for limits
 #include <limits>
 
-// reclustering forward declaration
-class JetReclusteringTool;
+// reclustering
+#include <AsgTools/AnaToolHandle.h>
+#include <xAODJetReclustering/IJetReclusteringTool.h>
 
 class Preselect : public TA::Algorithm
 {
@@ -79,7 +80,7 @@ public:
 private:
   TrigConf::xAODConfigTool* m_trigConf = nullptr; //!
   Trig::TrigDecisionTool* m_TDT = nullptr; //!
-  JetReclusteringTool* m_reclusteringTool = nullptr; //!
+  asg::AnaToolHandle<IJetReclusteringTool> m_reclusteringTool; //!
 
   // a map holding (cutflow, (unweighted, weighted))
   std::map<std::string, std::pair<float, float>> m_cutflow; //!
