@@ -60,7 +60,7 @@ if __name__ == "__main__":
       f.Close()
       return count
     except:
-      getWeights_logger.exception("{0}\nAn exception was caught!".format("-"*20))
+      getWeights_logger.exception("{0}\nAn exception was caught for {1:s}!".format("-"*20, fname))
       return get_cutflow(fname, numErrors+1)
 
   # if we want multiple custom formatters, use inheriting
