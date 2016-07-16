@@ -158,6 +158,7 @@ if __name__ == "__main__":
         if args.use_addGrid:
           ROOT.SH.addGrid(sh_all, fname)
         else:
+          fname = fname.replace('"','')
           # need to parse and split it up
           fname_base = os.path.basename(fname)
           sample_dir = os.path.dirname(os.path.abspath(fname))
