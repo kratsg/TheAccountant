@@ -21,6 +21,12 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 410022	Sherpa_CT10_ttbar_SingleLeptonP_MEPS_NLO				157.35	1.17	1.		1.
 410023	Sherpa_CT10_ttbar_SingleLeptonM_MEPS_NLO				157.35	1.17	1.		1.
 410024	Sherpa_CT10_ttbar_AllHadron_MEPS_NLO					316	1.17	1.		1.
+
+407200 	MGPy8EG_A14N30NLO_ttbarNp012p_MET0to200_HT0to500    			435.44 	1.8743 	0.49442		1.
+407201 	MGPy8EG_A14N30NLO_ttbarNp012p_MET0to200_HT500to700  			436.63 	1.8743 	0.034418	1.	
+407202 	MGPy8EG_A14N30NLO_ttbarNp012p_MET0to200_HT700to1000 			436.48 	1.8743 	0.011386	1.
+407203 	MGPy8EG_A14N30NLO_ttbarNp012p_MET200p_HT0to1000	   			436.48 	1.8743 	0.0093391	1.
+407204 	MGPy8EG_A14N30NLO_ttbarNp012p_HT1000p		   			436.58 	1.8743 	0.0036975	1.
  
 
 # Filtered samples
@@ -64,6 +70,9 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 410015	PowhegPythiaEvtGen_P2012_Wt_dilepton_top				3.5835	1.054	1.		1.
 410016	PowhegPythiaEvtGen_P2012_Wt_dilepton_antitop				3.5814	1.054	1.		1.
 
+410147 	PowhegHerwigppEvtGen_UEEE5_Wt_inclusive_top 	 			34.0  	1.054  	1.		1.
+410148 	PowhegHerwigppEvtGen_UEEE5_Wt_inclusive_antitop 	 		34.0  	1.054  	1.		1.
+
 # Filtered samples -- efficiencies from evgen preparation (AMI is wrong)
 407018	PowhegPythiaEvtGen_P2012CT10_Wt_inclusive_top_HT500			34.009	1.054	0.0884612	1.
 407019	PowhegPythiaEvtGen_P2012CT10_Wt_inclusive_top_MET200			34.009	1.054	0.0112825	1.
@@ -77,6 +86,23 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 
 410064  PowhegPythiaEvtGen_P2012_Wt_DS_dilepton_top				3.4133	1.054 	1.		1.
 410065  PowhegPythiaEvtGen_P2012_Wt_DS_dilepton_antitop				3.409	1.054	1.		1.
+
+407049	PowhegPythiaEvtGen_P2012CT10_Wt_DS_inclusive_top_HT500			32.406	1.054 	0.060304  1.
+407050	PowhegPythiaEvtGen_P2012CT10radHi_Wt_inclusive_top_HT500		34.916	1.027 	0.090649  1.
+407051	PowhegPythiaEvtGen_P2012CT10radLo_Wt_inclusive_top_HT500		33.41	1.073 	0.085876  1.
+407052	PowhegPythiaEvtGen_P2012CT10_Wt_DS_inclusive_top_MET200			32.408	1.054 	0.007106  1.
+407053	PowhegPythiaEvtGen_P2012CT10radHi_Wt_inclusive_top_MET200		34.916	1.027 	0.011857  1.
+407054	PowhegPythiaEvtGen_P2012CT10radLo_Wt_inclusive_top_MET200		33.41	1.073	0.010723  1.
+407055	PowhegPythiaEvtGen_P2012CT10_Wt_DS_inclusive_tbar_HT500			32.381	1.054 	0.060079  1.
+407056	PowhegPythiaEvtGen_P2012CT10radHi_Wt_inclusive_tbar_HT500		34.895	1.027 	0.090545  1.
+407057	PowhegPythiaEvtGen_P2012CT10radLo_Wt_inclusive_tbar_HT500		33.391	1.073 	0.085823  1.
+407058	PowhegPythiaEvtGen_P2012CT10_Wt_DS_inclusive_tbar_MET200		32.396	1.054 	0.007039  1.
+407059	PowhegPythiaEvtGen_P2012CT10radHi_Wt_inclusive_tbar_MET200		34.895	1.027 	0.011787  1.
+407060	PowhegPythiaEvtGen_P2012CT10radLo_Wt_inclusive_tbar_MET200		33.392	1.073 	0.010684  1.
+407061	PowhegHerwigppEvtGen_UEEE5_Wt_inclusive_top_HT500			34.078	1.054 	0.080636  1.
+407062	PowhegHerwigppEvtGen_UEEE5_Wt_inclusive_top_MET200			34.08	1.054 	0.010182  1.
+407063	PowhegHerwigppEvtGen_UEEE5_Wt_inclusive_tbar_HT500			34.062	1.054 	0.081135  1.
+407064	PowhegHerwigppEvtGen_UEEE5_Wt_inclusive_tbar_MET200			34.064	1.054 	0.010216  1.
 
 410017  PowhegPythiaEvtGen_P2012radLo_singletop_tchan_lept_top			43.739	1.	1.		1.
 410018  PowhegPythiaEvtGen_P2012radHi_singletop_tchan_lept_top			43.739	1.	1.		1.
@@ -111,6 +137,12 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 361106	PowhegPythia8EvtGen_AZNLOCTEQ6L1_Zee					1901.2	1.026		1.	0.05
 361107	PowhegPythia8EvtGen_AZNLOCTEQ6L1_Zmumu					1901.2	1.026		1.	0.05
 361108	PowhegPythia8EvtGen_AZNLOCTEQ6L1_Ztautau				1901.2	1.026		1.	0.05
+
+################################################################################################################
+# Pythia8 muon-filtered HF prod
+
+361250 	Pythia8B_A14_NNPDF23LO_bbTomu15 					187710.0 1. 		1. 	1.
+361251 	Pythia8B_A14_NNPDF23LO_ccTomu15 					58528.0 1. 		1. 	1.
 
 ################################################################################################################
 # Sherpa W
@@ -923,30 +955,30 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 ################################################################################################################
 # MadGraph Zee HT-filtered
 
-363147 	 mc15_13TeV.363147.MGPy8EG_N30NLO_Zee_Ht0_70_CVetoBVeto 	 1719.7  	 1.141  	 0.83292 	 1.0  
-363148 	 mc15_13TeV.363148.MGPy8EG_N30NLO_Zee_Ht0_70_CFilterBVeto 	 1719.4  	 1.141  	 0.10775 	 1.0 
-363149 	 mc15_13TeV.363149.MGPy8EG_N30NLO_Zee_Ht0_70_BFilter 	 	 1719.4  	 1.141  	 0.059156 	 1.0  
-363150 	 mc15_13TeV.363150.MGPy8EG_N30NLO_Zee_Ht70_140_CVetoBVeto 	 85.105  	 1.141  	 0.71754 	 1.0  
-363151 	 mc15_13TeV.363151.MGPy8EG_N30NLO_Zee_Ht70_140_CFilterBVeto 	 85.041  	 1.141  	 0.17377 	 1.0  
-363152 	 mc15_13TeV.363152.MGPy8EG_N30NLO_Zee_Ht70_140_BFilter 	 	 85.175  	 1.141  	 0.10763 	 1.0  
-363153 	 mc15_13TeV.363153.MGPy8EG_N30NLO_Zee_Ht140_280_CVetoBVeto 	 36.005  	 1.141  	 0.67279 	 1.0 
-363154 	 mc15_13TeV.363154.MGPy8EG_N30NLO_Zee_Ht140_280_CFilterBVeto 	 36.028  	 1.141  	 0.19996 	 1.0  
-363155 	 mc15_13TeV.363155.MGPy8EG_N30NLO_Zee_Ht140_280_BFilter 	 36.06  	 1.141  	 0.12486 	 1.0 
-363156 	 mc15_13TeV.363156.MGPy8EG_N30NLO_Zee_Ht280_500_CVetoBVeto 	 8.2054  	 1.141  	 0.62846 	 1.0  
-363157 	 mc15_13TeV.363157.MGPy8EG_N30NLO_Zee_Ht280_500_CFilterBVeto 	 8.2126  	 1.141  	 0.22726 	 1.0  
-363158 	 mc15_13TeV.363158.MGPy8EG_N30NLO_Zee_Ht280_500_BFilter 	 8.2474  	 1.141  	 0.14193 	 1.0  
-363159 	 mc15_13TeV.363159.MGPy8EG_N30NLO_Zee_Ht500_700_CVetoBVeto 	 1.2733  	 1.141  	 0.5966 	 1.0  
-363160 	 mc15_13TeV.363160.MGPy8EG_N30NLO_Zee_Ht500_700_CFilterBVeto 	 1.273  	 1.141  	 0.24847 	 1.0  
-363161 	 mc15_13TeV.363161.MGPy8EG_N30NLO_Zee_Ht500_700_BFilter 	 1.2722  	 1.141  	 0.15256 	 1.0   
-363162 	 mc15_13TeV.363162.MGPy8EG_N30NLO_Zee_Ht700_1000_CVetoBVeto 	 0.44546  	 1.141  	 0.57676 	 1.0   
-363163 	 mc15_13TeV.363163.MGPy8EG_N30NLO_Zee_Ht700_1000_CFilterBVeto 	 0.44611  	 1.141  	 0.26137 	 1.0   
-363164 	 mc15_13TeV.363164.MGPy8EG_N30NLO_Zee_Ht700_1000_BFilter 	 0.44603  	 1.141  	 0.16181 	 1.0  
-363165 	 mc15_13TeV.363165.MGPy8EG_N30NLO_Zee_Ht1000_2000_CVetoBVeto 	 0.15208  	 1.141  	 0.55543 	 1.0  
-363166 	 mc15_13TeV.363166.MGPy8EG_N30NLO_Zee_Ht1000_2000_CFilterBVeto 	 0.15248  	 1.141  	 0.27476 	 1.0  
-363167 	 mc15_13TeV.363167.MGPy8EG_N30NLO_Zee_Ht1000_2000_BFilter 	 0.15327  	 1.141  	 0.16618 	 1.0  
-363168 	 mc15_13TeV.363168.MGPy8EG_N30NLO_Zee_Ht2000_E_CMS_CVetoBVeto 	 0.0056989  	 1.141  	 0.53136 	 1.0   
-363169 	 mc15_13TeV.363169.MGPy8EG_N30NLO_Zee_Ht2000_E_CMS_CFilterBVeto  0.0057408  	 1.141  	 0.2923 	 1.0   
-363170 	 mc15_13TeV.363170.MGPy8EG_N30NLO_Zee_Ht2000_E_CMS_BFilter 	 0.0057164  	 1.141  	 0.17489 	 1.0   
+363147 	 MGPy8EG_N30NLO_Zee_Ht0_70_CVetoBVeto 	 1719.7  	 1.141  	 0.83292 	 1.0  
+363148 	 MGPy8EG_N30NLO_Zee_Ht0_70_CFilterBVeto 	 1719.4  	 1.141  	 0.10775 	 1.0 
+363149 	 MGPy8EG_N30NLO_Zee_Ht0_70_BFilter 	 	 1719.4  	 1.141  	 0.059156 	 1.0  
+363150 	 MGPy8EG_N30NLO_Zee_Ht70_140_CVetoBVeto 	 85.105  	 1.141  	 0.71754 	 1.0  
+363151 	 MGPy8EG_N30NLO_Zee_Ht70_140_CFilterBVeto 	 85.041  	 1.141  	 0.17377 	 1.0  
+363152 	 MGPy8EG_N30NLO_Zee_Ht70_140_BFilter 	 	 85.175  	 1.141  	 0.10763 	 1.0  
+363153 	 MGPy8EG_N30NLO_Zee_Ht140_280_CVetoBVeto 	 36.005  	 1.141  	 0.67279 	 1.0 
+363154 	 MGPy8EG_N30NLO_Zee_Ht140_280_CFilterBVeto 	 36.028  	 1.141  	 0.19996 	 1.0  
+363155 	 MGPy8EG_N30NLO_Zee_Ht140_280_BFilter 	 36.06  	 1.141  	 0.12486 	 1.0 
+363156 	 MGPy8EG_N30NLO_Zee_Ht280_500_CVetoBVeto 	 8.2054  	 1.141  	 0.62846 	 1.0  
+363157 	 MGPy8EG_N30NLO_Zee_Ht280_500_CFilterBVeto 	 8.2126  	 1.141  	 0.22726 	 1.0  
+363158 	 MGPy8EG_N30NLO_Zee_Ht280_500_BFilter 	 8.2474  	 1.141  	 0.14193 	 1.0  
+363159 	 MGPy8EG_N30NLO_Zee_Ht500_700_CVetoBVeto 	 1.2733  	 1.141  	 0.5966 	 1.0  
+363160 	 MGPy8EG_N30NLO_Zee_Ht500_700_CFilterBVeto 	 1.273  	 1.141  	 0.24847 	 1.0  
+363161 	 MGPy8EG_N30NLO_Zee_Ht500_700_BFilter 	 1.2722  	 1.141  	 0.15256 	 1.0   
+363162 	 MGPy8EG_N30NLO_Zee_Ht700_1000_CVetoBVeto 	 0.44546  	 1.141  	 0.57676 	 1.0   
+363163 	 MGPy8EG_N30NLO_Zee_Ht700_1000_CFilterBVeto 	 0.44611  	 1.141  	 0.26137 	 1.0   
+363164 	 MGPy8EG_N30NLO_Zee_Ht700_1000_BFilter 	 0.44603  	 1.141  	 0.16181 	 1.0  
+363165 	 MGPy8EG_N30NLO_Zee_Ht1000_2000_CVetoBVeto 	 0.15208  	 1.141  	 0.55543 	 1.0  
+363166 	 MGPy8EG_N30NLO_Zee_Ht1000_2000_CFilterBVeto 	 0.15248  	 1.141  	 0.27476 	 1.0  
+363167 	 MGPy8EG_N30NLO_Zee_Ht1000_2000_BFilter 	 0.15327  	 1.141  	 0.16618 	 1.0  
+363168 	 MGPy8EG_N30NLO_Zee_Ht2000_E_CMS_CVetoBVeto 	 0.0056989  	 1.141  	 0.53136 	 1.0   
+363169 	 MGPy8EG_N30NLO_Zee_Ht2000_E_CMS_CFilterBVeto  0.0057408  	 1.141  	 0.2923 	 1.0   
+363170 	 MGPy8EG_N30NLO_Zee_Ht2000_E_CMS_BFilter 	 0.0057164  	 1.141  	 0.17489 	 1.0   
 
 ################################################################################################################
 # Alpgen V+jets Np=0..5
@@ -1304,7 +1336,7 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 361068	Sherpa_CT10_llvv		14.022		0.91	1.	1.
 361069	Sherpa_CT10_llvvjj_ss_EW4	0.025765	0.91	1.	1.
 361070	Sherpa_CT10_llvvjj_ss_EW6	0.043375	0.91	1.	1.
-361071	Sherpa_CT10_lllvjj_EW6		0.042017	0.91	1.	1.
+361071  Sherpa_CT10_lllvjj_EW6          0.042017        0.91    1.      1.
 361072	Sherpa_CT10_lllljj_EW6		0.031496	0.91	1.	1.
 361073	Sherpa_CT10_ggllll		0.02095		0.91	1.	1.
 361074	Sherpa_CT10_ggllll_M4l100	0.016161	0.91	1.	1.
@@ -1343,24 +1375,35 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 363003	Sherpa_CT10_WplvWmqq_SHv21_improved_renorm025	28.538	0.91	1.0		1.0
 363004	Sherpa_CT10_WplvWmqq_SHv21_improved_qsf4	24.372	0.91	1.0		1.0
 363005	Sherpa_CT10_WplvWmqq_SHv21_improved_qsf025	25.014	0.91	1.0		1.0
+
 363006	Sherpa_CT10_WpqqWmlv_SHv21_improved_fac4	25.219	0.91	1.0		1.0
 363007	Sherpa_CT10_WpqqWmlv_SHv21_improved_fac025	24.471	0.91	1.0		1.0
 363008	Sherpa_CT10_WpqqWmlv_SHv21_improved_renorm4	22.517	0.91	1.0		1.0
 363009	Sherpa_CT10_WpqqWmlv_SHv21_improved_renorm025	28.5	0.91	1.0		1.0
 363010	Sherpa_CT10_WpqqWmlv_SHv21_improved_qsf4	24.406	0.91	1.0		1.0
 363011	Sherpa_CT10_WpqqWmlv_SHv21_improved_qsf025	25.059	0.91	1.0		1.0
+
 363012	Sherpa_CT10_WlvZqq_SHv21_improved_fac4		11.634	0.91	1.0		1.0
 363013	Sherpa_CT10_WlvZqq_SHv21_improved_fac025	11.353	0.91	1.0		1.0
 363014	Sherpa_CT10_WlvZqq_SHv21_improved_renorm4	10.189	0.91	1.0		1.0
 363015	Sherpa_CT10_WlvZqq_SHv21_improved_renorm025	13.446	0.91	1.0		1.0
 363016	Sherpa_CT10_WlvZqq_SHv21_improved_qsf4		11.265	0.91	1.0		1.0
-363017	Sherpa_CT10_WlvZqq_SHv21_improved_qsf025	11.619	0.91	1.0		1.
+363017	Sherpa_CT10_WlvZqq_SHv21_improved_qsf025	11.619	0.91	1.0		1.0
+
+363018  Sherpa_CT10_WqqZll_SHv21_improved_fac4          3.4675  0.91    1.0		1.0
+363019  Sherpa_CT10_WqqZll_SHv21_improved_fac025        3.385   0.91    1.0		1.0
+363020  Sherpa_CT10_WqqZll_SHv21_improved_renorm4       3.04    0.91    1.0		1.0
+363021  Sherpa_CT10_WqqZll_SHv21_improved_renorm025     4.012   0.91    1.0		1.0
+363022  Sherpa_CT10_WqqZll_SHv21_improved_qsf4          3.3616  0.91    1.0		1.0
+363023  Sherpa_CT10_WqqZll_SHv21_improved_qsf025        3.4638  0.91    1.0		1.0
+
 363024	Sherpa_CT10_WqqZvv_SHv21_improved_fac4		6.8443	0.91	1.0		1.0
 363025	Sherpa_CT10_WqqZvv_SHv21_improved_fac025	6.6928	0.91	1.0		1.0
 363026	Sherpa_CT10_WqqZvv_SHv21_improved_renorm4	5.9918	0.91	1.0		1.0
 363027	Sherpa_CT10_WqqZvv_SHv21_improved_renorm025	7.9306	0.91	1.0		1.0
 363028	Sherpa_CT10_WqqZvv_SHv21_improved_qsf4		6.6533	0.91	1.0		1.0
 363029	Sherpa_CT10_WqqZvv_SHv21_improved_qsf025	6.8423	0.91	1.0		1.0
+
 363030	Sherpa_CT10_ZqqZll_SHv21_improved_fac4		16.662	0.91	1.4317E-01	1.0
 363031	Sherpa_CT10_ZqqZll_SHv21_improved_fac025	16.135	0.91	1.4355E-01	1.0
 363032	Sherpa_CT10_ZqqZll_SHv21_improved_renorm4	15.331	0.91	1.4296E-01	1.0
@@ -1368,7 +1411,12 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 363034	Sherpa_CT10_ZqqZll_SHv21_improved_qsf4		16.071	0.91	1.4353E-01	1.0
 363035	Sherpa_CT10_ZqqZll_SHv21_improved_qsf025	16.858	0.91	1.4331E-01	1.0
 
-
+363036  Sherpa_CT10_ZqqZvv_SHv21_improved_fac4          16.691  0.91	0.28199         1.0
+363037  Sherpa_CT10_ZqqZvv_SHv21_improved_fac025        16.11   0.91	0.3079          1.0
+363038  Sherpa_CT10_ZqqZvv_SHv21_improved_renorm4       15.344  0.91	0.28203         1.0
+363039  Sherpa_CT10_ZqqZvv_SHv21_improved_renorm025     17.865  0.91	0.28213         1.0
+363040  Sherpa_CT10_ZqqZvv_SHv21_improved_qsf4          16.033  0.91	0.28203         1.0
+363041  Sherpa_CT10_ZqqZvv_SHv21_improved_qsf025        16.864  0.91	0.2813          1.0
 
 ################################################################################################################
 # Sherpa VVV
@@ -1565,6 +1613,13 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 410114	MadGraphPythia8EvtGen_A14NNPDF23LO_ttmumu_Np1		0.017361        1.51	1. 1.
 410115	MadGraphPythia8EvtGen_A14NNPDF23LO_tttautau_Np0		0.0098874       1.51	1. 1.
 410116	MadGraphPythia8EvtGen_A14NNPDF23LO_tttautau_Np1		0.017790        1.51	1. 1.
+
+################################################################################################################
+# aMC@NLO ttbar+X
+
+410155	  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttW	0.54830	1.10	1.	1.	
+410156	  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttZnunu	0.15499	1.11	1.	1.		
+410157	  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttZqq		0.52771	1.11	1.	1.
 
 ################################################################################################################
 # Madgraph multi-top
