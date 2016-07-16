@@ -220,7 +220,8 @@ if __name__ == "__main__":
                       'errors': [],
                       'cross section': sample.getMetaDouble(MFs.crossSection),
                       'filter efficiency': sample.getMetaDouble(MFs.filterEfficiency),
-                      'k-factor': sample.getMetaDouble(MFs.kfactor)}
+                      'k-factor': sample.getMetaDouble(MFs.kfactor),
+                      'rel uncert': sample.getMetaDouble(MFs.crossSectionRelUncertainty)}
       p = Process(target=get_cutflow_parallel, args=(queue, sample))
       procs.append(p)
       p.start()
