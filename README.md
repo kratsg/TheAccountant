@@ -36,7 +36,7 @@ rcSetup Base,2.3.45
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
 cd Ext_RestFrames && git checkout v1.6 && cd -
-git clone https://github.com/kratsg/xAODJetReclustering
+git clone https://github.com/kratsg/JetReclustering
 
 git clone https://github.com/UCATLAS/xAODAnaHelpers
 cd xAODAnaHelpers && git checkout 00-03-35 && cd ../

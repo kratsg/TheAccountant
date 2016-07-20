@@ -21,7 +21,7 @@
 #include <TH1F.h>
 
 // reclustering forward declaration
-#include <xAODJetReclustering/JetReclusteringTool.h>
+#include <JetReclustering/JetReclusteringTool.h>
 
 // xAH includes
 #include "xAODAnaHelpers/HelperFunctions.h"

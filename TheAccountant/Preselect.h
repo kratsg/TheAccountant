@@ -16,7 +16,7 @@
 
 // reclustering
 #include <AsgTools/AnaToolHandle.h>
-#include <xAODJetReclustering/IJetReclusteringTool.h>
+#include <JetReclustering/IJetReclusteringTool.h>
 
 class Preselect : public TA::Algorithm
 {
