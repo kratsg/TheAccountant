@@ -204,7 +204,7 @@ if __name__ == "__main__":
     # dictionary to hold results of all calculations
     weights = {}
     # a process for each sample
-    num_procs = len(sh_all)
+    num_procs = 8
     # communication queue between slave processes and master
     queue = Queue()
     procs = list()
@@ -228,7 +228,7 @@ if __name__ == "__main__":
       p.start()
 
     finished = 0
-    while finished < num_procs:
+    while finished < len(sh_all):
       item = queue.get()
       if item is None:
         finished += 1
