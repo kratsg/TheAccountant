@@ -51,10 +51,10 @@ private:
   RF::MinMassesCombJigsaw   HemiJigsaw_Cb; //!
 
   // Anti-QCD vars
-  RF::LabRecoFrame          LAB_bkg; //!
-  RF::DecayRecoFrame        S_bkg; //!
-  RF::VisibleRecoFrame      V_bkg; //!
-  RF::InvisibleRecoFrame    I_bkg; //!
+  RF::LabRecoFrame              LAB_bkg; //!
+  RF::SelfAssemblingRecoFrame   S_bkg; //!
+  RF::VisibleRecoFrame          V_bkg; //!
+  RF::InvisibleRecoFrame        I_bkg; //!
 
   RF::CombinatoricGroup     VIS_bkg; //!
   RF::InvisibleGroup        INV_bkg; //!
