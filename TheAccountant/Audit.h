@@ -27,29 +27,40 @@ public:
   bool m_passPreSel         = true;
 
 private:
-  RF::LabRecoFrame         LAB; //!
-  RF::DecayRecoFrame       GG;  //!
-  RF::DecayRecoFrame       Ga;  //!
-  RF::DecayRecoFrame       Gb;  //!
-  RF::DecayRecoFrame       Ca1; //!
-  RF::DecayRecoFrame       Cb1; //!
-  RF::VisibleRecoFrame     Va1; //!
-  RF::VisibleRecoFrame     Va2; //!
-  RF::VisibleRecoFrame     Vb1; //!
-  RF::VisibleRecoFrame     Vb2; //!
-  RF::InvisibleRecoFrame   Ia1; //!
-  RF::InvisibleRecoFrame   Ib1; //!
+  RF::LabRecoFrame          LAB; //!
+  RF::DecayRecoFrame        GG;  //!
+  RF::DecayRecoFrame        Ga;  //!
+  RF::DecayRecoFrame        Gb;  //!
+  RF::DecayRecoFrame        Ca1; //!
+  RF::DecayRecoFrame        Cb1; //!
+  RF::VisibleRecoFrame      Va1; //!
+  RF::VisibleRecoFrame      Va2; //!
+  RF::VisibleRecoFrame      Vb1; //!
+  RF::VisibleRecoFrame      Vb2; //!
+  RF::InvisibleRecoFrame    Ia1; //!
+  RF::InvisibleRecoFrame    Ib1; //!
 
-  RF::CombinatoricGroup VIS;    //!
-  RF::InvisibleGroup    INV;    //!
+  RF::CombinatoricGroup     VIS;    //!
+  RF::InvisibleGroup        INV;    //!
 
-  RF::SetMassInvJigsaw MinMassJigsaw; //!
-  RF::SetRapidityInvJigsaw RapidityJigsaw; //!
-  RF::ContraBoostInvJigsaw ContraBoostJigsaw; //!
-  RF::MinMassesCombJigsaw HemiJigsaw; //!
-  RF::MinMassesCombJigsaw HemiJigsaw_Ca; //!
-  RF::MinMassesCombJigsaw HemiJigsaw_Cb; //!
+  RF::SetMassInvJigsaw      MinMassJigsaw; //!
+  RF::SetRapidityInvJigsaw  RapidityJigsaw; //!
+  RF::ContraBoostInvJigsaw  ContraBoostJigsaw; //!
+  RF::MinMassesCombJigsaw   HemiJigsaw; //!
+  RF::MinMassesCombJigsaw   HemiJigsaw_Ca; //!
+  RF::MinMassesCombJigsaw   HemiJigsaw_Cb; //!
 
+  // Anti-QCD vars
+  RF::LabRecoFrame              LAB_bkg; //!
+  RF::SelfAssemblingRecoFrame   S_bkg; //!
+  RF::VisibleRecoFrame          V_bkg; //!
+  RF::InvisibleRecoFrame        I_bkg; //!
+
+  RF::CombinatoricGroup     VIS_bkg; //!
+  RF::InvisibleGroup        INV_bkg; //!
+
+  RF::SetMassInvJigsaw      MinMassJigsaw_bkg; //!
+  RF::SetRapidityInvJigsaw  RapidityJigsaw_bkg; //!
 
 public:
   // this is a standard constructor

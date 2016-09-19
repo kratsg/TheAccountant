@@ -16,7 +16,7 @@
 
 // reclustering
 #include <AsgTools/AnaToolHandle.h>
-#include <xAODJetReclustering/IJetReclusteringTool.h>
+#include <JetInterface/IJetExecuteTool.h>
 
 class Preselect : public TA::Algorithm
 {
@@ -80,7 +80,7 @@ public:
 private:
   TrigConf::xAODConfigTool* m_trigConf = nullptr; //!
   Trig::TrigDecisionTool* m_TDT = nullptr; //!
-  asg::AnaToolHandle<IJetReclusteringTool> m_reclusteringTool; //!
+  asg::AnaToolHandle<IJetExecuteTool> m_reclusteringTool; //!
 
   // a map holding (cutflow, (unweighted, weighted))
   std::map<std::string, std::pair<float, float>> m_cutflow; //!

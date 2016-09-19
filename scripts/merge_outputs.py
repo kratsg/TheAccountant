@@ -28,6 +28,9 @@ for path in paths:
         # let's see if it's of the form "base-#.root"
         parts = fname.rsplit('-', 1)
 
+        if len(parts) == 1:
+          parts = os.path.basename(dirname).split('.root')
+
         bases[parts[0]].append(f)
         # add all other files that contain this basepath
         bases[parts[0]].extend([i for i in files if parts[0] in i])

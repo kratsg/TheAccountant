@@ -1,9 +1,11 @@
-#user.mswiatlo.*singletop*_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.407021.singletop.DAOD_SUSY10.e4024_s2608_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.410014.singletop.DAOD_SUSY10.e3753_s2608_s2183_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.407019.singletop.DAOD_SUSY10.e4024_s2608_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.410026.singletop.DAOD_SUSY10.e3998_s2608_s2183_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.410025.singletop.DAOD_SUSY10.e3998_s2608_s2183_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.410012.singletop.DAOD_SUSY10.e3824_s2608_s2183_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.410011.singletop.DAOD_SUSY10.e3824_s2608_s2183_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.410013.singletop.DAOD_SUSY10.e3753_s2608_s2183_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
+# user.mswiatlo.*.singletop.*_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.407019.singletop.DAOD_SUSY10.e4024_s2608_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.407020.singletop.DAOD_SUSY10.e4024_s2608_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.410026.singletop.DAOD_SUSY10.e3998_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.410013.singletop.DAOD_SUSY10.e3753_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.410012.singletop.DAOD_SUSY10.e3824_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.407018.singletop.DAOD_SUSY10.e4024_s2608_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.410011.singletop.DAOD_SUSY10.e3824_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.410025.singletop.DAOD_SUSY10.e3998_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.407021.singletop.DAOD_SUSY10.e4024_s2608_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.410014.singletop.DAOD_SUSY10.e3753_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root

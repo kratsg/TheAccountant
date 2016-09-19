@@ -21,7 +21,7 @@
 #include <TH1F.h>
 
 // reclustering forward declaration
-#include <xAODJetReclustering/JetReclusteringTool.h>
+#include <JetReclustering/JetReclusteringTool.h>
 
 // xAH includes
 #include "xAODAnaHelpers/HelperFunctions.h"
@@ -33,7 +33,7 @@ namespace VD = VariableDefinitions;
 // this is needed to distribute the algorithm to the workers
 ClassImp(Preselect)
 Preselect :: Preselect () :
-  m_reclusteringTool("IJetReclusteringTool/TheAccountant_JetReclusteringTool")
+  m_reclusteringTool("JetReclusteringTool/TheAccountant_JetReclusteringTool")
 {}
 
 EL::StatusCode Preselect :: setupJob (EL::Job& job)

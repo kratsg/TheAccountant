@@ -60,7 +60,7 @@ if __name__ == "__main__":
       f.Close()
       return count
     except:
-      getWeights_logger.exception("{0}\nAn exception was caught!".format("-"*20))
+      getWeights_logger.exception("{0}\nAn exception was caught for {1:s}!".format("-"*20, fname))
       return get_cutflow(fname, numErrors+1)
 
   # if we want multiple custom formatters, use inheriting
@@ -158,6 +158,7 @@ if __name__ == "__main__":
         if args.use_addGrid:
           ROOT.SH.addGrid(sh_all, fname)
         else:
+          fname = fname.replace('"','')
           # need to parse and split it up
           fname_base = os.path.basename(fname)
           sample_dir = os.path.dirname(os.path.abspath(fname))
@@ -203,7 +204,7 @@ if __name__ == "__main__":
     # dictionary to hold results of all calculations
     weights = {}
     # a process for each sample
-    num_procs = len(sh_all)
+    num_procs = 8
     # communication queue between slave processes and master
     queue = Queue()
     procs = list()
@@ -220,13 +221,14 @@ if __name__ == "__main__":
                       'errors': [],
                       'cross section': sample.getMetaDouble(MFs.crossSection),
                       'filter efficiency': sample.getMetaDouble(MFs.filterEfficiency),
-                      'k-factor': sample.getMetaDouble(MFs.kfactor)}
+                      'k-factor': sample.getMetaDouble(MFs.kfactor),
+                      'rel uncert': sample.getMetaDouble(MFs.crossSectionRelUncertainty)}
       p = Process(target=get_cutflow_parallel, args=(queue, sample))
       procs.append(p)
       p.start()
 
     finished = 0
-    while finished < num_procs:
+    while finished < len(sh_all):
       item = queue.get()
       if item is None:
         finished += 1

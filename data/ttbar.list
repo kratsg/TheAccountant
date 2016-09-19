@@ -1,8 +1,9 @@
-user.mswiatlo:user.mswiatlo.410002.ttbar.DAOD_SUSY10.e3783_s2608_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.407012.ttbar.DAOD_SUSY10.e4023_s2608_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.407009.ttbar.DAOD_SUSY10.e4023_s2608_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.407011.ttbar.DAOD_SUSY10.e4023_s2608_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.407010.ttbar.DAOD_SUSY10.e4023_s2608_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.410000.ttbar.DAOD_SUSY10.e3698_s2608_s2183_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.410001.ttbar.DAOD_SUSY10.e3783_s2608_r7326_r6282_p2559_2016_tag01_v1_output_xAOD.root/
-user.mswiatlo:user.mswiatlo.410000.ttbar.DAOD_SUSY10.e3698_a766_a810_r6282_p2559_2016_tag01_v1_output_xAOD.root/
+# user.mswiatlo.*.ttbar.*_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.410002.ttbar.DAOD_SUSY10.e3783_s2608_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.410000.ttbar.DAOD_SUSY10.e3698_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.407011.ttbar.DAOD_SUSY10.e4023_s2608_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.410000.ttbar.DAOD_SUSY10.e3698_a766_a818_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.410001.ttbar.DAOD_SUSY10.e3783_s2608_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.407010.ttbar.DAOD_SUSY10.e4023_s2608_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.407012.ttbar.DAOD_SUSY10.e4023_s2608_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.mswiatlo:user.mswiatlo.407009.ttbar.DAOD_SUSY10.e4023_s2608_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
