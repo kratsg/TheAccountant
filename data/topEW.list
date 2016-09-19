@@ -1,14 +1,7 @@
-# user.mswiatlo.*.topEW.*_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410115.topEW.DAOD_SUSY10.e4632_s2726_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410112.topEW.DAOD_SUSY10.e4632_s2726_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410116.topEW.DAOD_SUSY10.e4632_s2726_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410111.topEW.DAOD_SUSY10.e4632_s2726_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410068.topEW.DAOD_SUSY10.e4111_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410066.topEW.DAOD_SUSY10.e4111_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410073.topEW.DAOD_SUSY10.e4631_s2726_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410080.topEW.DAOD_SUSY10.e4111_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410074.topEW.DAOD_SUSY10.e4631_s2726_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410075.topEW.DAOD_SUSY10.e4631_s2726_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410067.topEW.DAOD_SUSY10.e4111_s2608_s2183_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410113.topEW.DAOD_SUSY10.e4632_s2726_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
-user.mswiatlo:user.mswiatlo.410114.topEW.DAOD_SUSY10.e4632_s2726_r7725_r7676_p2622_tag2.4.11-0-0_output_xAOD.root
+user.gstark:user.gstark.410066.topEW.DAOD_SUSY10.e4111_s2608_s2183_r7725_r7676_p2666_tag2.4.18-0-0_output_xAOD.root
+user.gstark:user.gstark.410067.topEW.DAOD_SUSY10.e4111_s2608_s2183_r7725_r7676_p2666_tag2.4.18-0-0_output_xAOD.root
+user.gstark:user.gstark.410068.topEW.DAOD_SUSY10.e4111_s2608_s2183_r7725_r7676_p2666_tag2.4.18-0-0_output_xAOD.root
+user.gstark:user.gstark.410073.topEW.DAOD_SUSY10.e4631_s2726_r7725_r7676_p2666_tag2.4.18-0-0_output_xAOD.root
+user.gstark:user.gstark.410074.topEW.DAOD_SUSY10.e4631_s2726_r7725_r7676_p2666_tag2.4.18-0-0_output_xAOD.root
+user.gstark:user.gstark.410075.topEW.DAOD_SUSY10.e4631_s2726_r7725_r7676_p2666_tag2.4.18-0-0_output_xAOD.root
+user.gstark:user.gstark.410080.topEW.DAOD_SUSY10.e4111_s2608_s2183_r7725_r7676_p2666_tag2.4.18-0-0_output_xAOD.root
