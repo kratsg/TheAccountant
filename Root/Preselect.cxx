@@ -154,19 +154,19 @@ EL::StatusCode Preselect :: execute ()
     unsigned int truthMETSelection_cut = std::stoul(m_truthMETFilter.substr(2));
     bool pass_truthMETSelection = false;
 
-    float met_truth_filter = eventInfo->auxdata<float>("met_truth_filter");
+    float gen_filt_met = eventInfo->auxdata<float>("GenFiltMET");
     if(truthMETSelection_str == "==")
-      pass_truthMETSelection = (met_truth_filter == truthMETSelection_cut);
+      pass_truthMETSelection = (gen_filt_met == truthMETSelection_cut);
     else if(truthMETSelection_str == ">=")
-      pass_truthMETSelection = (met_truth_filter >= truthMETSelection_cut);
+      pass_truthMETSelection = (gen_filt_met >= truthMETSelection_cut);
     else if(truthMETSelection_str == "<=")
-      pass_truthMETSelection = (met_truth_filter <= truthMETSelection_cut);
+      pass_truthMETSelection = (gen_filt_met <= truthMETSelection_cut);
     else if(truthMETSelection_str == " >")
-      pass_truthMETSelection = (met_truth_filter > truthMETSelection_cut);
+      pass_truthMETSelection = (gen_filt_met > truthMETSelection_cut);
     else if(truthMETSelection_str == " <")
-      pass_truthMETSelection = (met_truth_filter < truthMETSelection_cut);
+      pass_truthMETSelection = (gen_filt_met < truthMETSelection_cut);
     else if(truthMETSelection_str == "!=")
-      pass_truthMETSelection = (met_truth_filter != truthMETSelection_cut);
+      pass_truthMETSelection = (gen_filt_met != truthMETSelection_cut);
     else
       pass_truthMETSelection = false;
 
