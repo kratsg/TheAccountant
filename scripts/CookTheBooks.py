@@ -126,7 +126,6 @@ if __name__ == "__main__":
   group_preselect.add_argument('--jet_minPhi',  type=float, metavar='', help='small-R jet min phi',  default = -4.0)
   group_preselect.add_argument('--jet_maxPhi',  type=float, metavar='', help='small-R jet max phi',  default = 4.0)
 
-  group_preselect.add_argument('--bTag_wp',     type=str,   metavar='', help='small-R jet b-tag working point',  default = "Loose")
   group_preselect.add_argument('--bjet_minNum', type=int,   metavar='', help='min num of small-R bjets passing cuts',  default = 2)
   group_preselect.add_argument('--bjet_maxNum', type=int,   metavar='', help='max num of small-R bjets passing cuts',  default = 100)
   group_preselect.add_argument('--bjet_minPt',   type=float, metavar='', help='small-R bjet min pt [GeV]',   default = 30.0)

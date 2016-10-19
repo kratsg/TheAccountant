@@ -29,9 +29,9 @@ namespace VariableDefinitions {
   static accessor_t<char> decor_signalIso("signal_pt_dependent_iso");
   static accessor_t<char> decor_cosmic("cosmic");
   static accessor_t<char> decor_bad("bad");
+  static accessor_t<char> decor_bjet("bjet");
 
   // for tagging, preselect decorates and everyone else accesses
-  static decor_t<char> decor_tag_b("isB");
   static decor_t<char> decor_tag_w("isW");
   static decor_t<char> decor_tag_top("isTop");
   static accessor_t<char> acc_tag_b("isB");
@@ -73,6 +73,8 @@ namespace VariableDefinitions {
   bool isCosmic(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_cosmic, 1, requireDecor); }
   template <typename T>
   bool isBad(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_bad, 1, requireDecor); }
+  template <typename T>
+  bool isBJet(const T& obj, bool requireDecor=true){ return isDecor(obj, decor_bjet, 1, requireDecor); }
 
   // for tagging primarily, but an enum for working points
   //  - an enum class enforces strong typing
@@ -120,9 +122,6 @@ namespace VariableDefinitions {
 
   // top tagging on jet, for extra sanity -- make sure we have pT > 100 GeV and |eta| < 2.0
   bool topTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta=2.0, float minPt=300.0);
-
-  // b-tagging on jet, for extra sanity -- make sure we cut at 2.5
-  bool bTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta=2.5);
 
   // returning subjettiness ratios for a given jet
   //    - use Tau21 if set

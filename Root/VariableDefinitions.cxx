@@ -306,45 +306,6 @@ bool VD::topTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta, float min
   return isTop_tagged;
 }
 
-bool VD::bTag(const xAOD::Jet* jet, std::string wp, float maxAbsEta){
-  if(std::fabs(jet->eta()) > maxAbsEta) return false;
-
-  // stupid btagging doesn't overload the fucking MVx_discriminant()
-  // float btag_weight(-99.);
-  double btag_weight(-99.);
-  if(!jet->getAttribute("btag_MV2c20", btag_weight))
-    if(!jet->btagging()->MVx_discriminant("MV2c20", btag_weight))
-      return false;
-
-  // https://twiki.cern.ch/twiki/bin/view/AtlasProtected/BTaggingBenchmarks#MV2c20_tagger_AntiKt4EMTopoJets
-  bool isB_tagged = false;
-  switch(str2wp(wp)){
-    case VD::WP::Loose: // 85%
-    {
-      isB_tagged = btag_weight > -0.7887;
-    }
-    break;
-    case VD::WP::Medium: // 70%
-    {
-      isB_tagged = btag_weight > -0.0436;
-    }
-    break;
-    case VD::WP::Tight: // 60%
-    {
-      isB_tagged = btag_weight > 0.4496;
-    }
-    break;
-    default:
-    {
-      isB_tagged = false;
-    }
-    break;
-  }
-
-  return isB_tagged;
-}
-
-
 float VD::Tau21(const xAOD::Jet* jet){
   float tau21(0.0), tau1(0.0), tau2(0.0);
 

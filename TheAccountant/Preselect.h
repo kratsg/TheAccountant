@@ -31,7 +31,6 @@ public:
         m_jet_minPhi    = -std::numeric_limits<float>::max(),
         m_jet_maxPhi    = std::numeric_limits<float>::max();
   // small-R b-jets
-  std::string m_bTag_wp  = "Loose";
   int   m_bjet_minNum    = 0,
         m_bjet_maxNum    = 100;
   float m_bjet_minPt     = -std::numeric_limits<float>::max(),

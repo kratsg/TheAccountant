@@ -216,7 +216,6 @@ EL::StatusCode Preselect :: execute ()
 
     //int num_passBJets = 0;
     for(const auto &jet: *in_jets){
-      VD::decor_tag_b(*jet) = 0;
       // assume it does not pass presel
       VD::dec_pass_preSel_b(*jet) = 0;
       if(m_badJetVeto && VD::isBad(*jet)){ // veto on bad jet if enabled
@@ -230,9 +229,7 @@ EL::StatusCode Preselect :: execute ()
       if(jet->phi()      < m_bjet_minPhi)  continue;
       if(jet->phi()      > m_bjet_maxPhi)  continue;
       if(!VD::isSignal(*jet))              continue;
-      // bTag the jet -- bjets are only btagged if passing preselection
-      if(!VD::bTag(jet, m_bTag_wp)) continue;
-      VD::decor_tag_b(*jet) = 1;
+      if(!VD::isBJet(*jet))                continue;
       // guess it passed!
       num_passBJets++;
       VD::dec_pass_preSel_b(*jet) = 1;
