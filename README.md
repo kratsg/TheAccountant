@@ -29,10 +29,10 @@ Run-2 analysis for SUSY search in gluino to stops.
 
 
 ## Installing
-The last stable analysis base used is **2.4.18**. To install,
+The last stable analysis base used is **2.4.20**. To install,
 ```bash
 mkdir myRootCore && cd $_
-rcSetup Base,2.4.18
+rcSetup Base,2.4.20
 git clone https://github.com/kratsg/TheAccountant
 git clone https://github.com/lawrenceleejr/Ext_RestFrames
 cd Ext_RestFrames && git checkout v1.7 && cd -
