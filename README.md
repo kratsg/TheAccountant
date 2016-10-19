@@ -196,7 +196,7 @@ One can specify that the input files are actually samples located on the grid or
 CookTheBooks.py --inputGrid --files "user.amarzin.*.ttbar.*_tag_05_output_xAOD.root/" ... {driver}
 ```
 
-This will automatically grab the gLFNs for the files in each of the samples you specify and read them in over `xrootd` automatically.
+This will automatically grab the gLFNs for the files in each of the samples you specify and read them in over `xrootd` automatically. Make sure `lsetup rucio fax` is run before in your environment.
 
 ## Authors
 - [Giordon Stark](https://github.com/kratsg)
