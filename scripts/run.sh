@@ -14,8 +14,8 @@ ttbarExcFiles="${ROOTCOREBIN}/data/TheAccountant/ttbarExc.list"
 globalOpts=(-v -f -yyyyyy --optimizationDump --inputGrid --inputList --badJetVeto --rc_enable)
 
 run0L=(--signalLeptonSelection="==0" --numLeadingJets=4 --jetLargeR_minPtView=300)
-run1L=(--signalLeptonSelection="==1" --numLeadingJets=4 --jetLargeR_minPtView=300)
-outputDir="2.4.18-0-0"
+run1L=(--signalLeptonSelection=">=1" --numLeadingJets=4 --jetLargeR_minPtView=300)
+outputDir="2.4.19-0-0"
 
 mkdir -p "${outputDir}"
 
