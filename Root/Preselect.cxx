@@ -186,6 +186,7 @@ EL::StatusCode Preselect :: execute ()
     //int num_passJets = 0;
     for(const auto &jet: *in_jets){
       VD::dec_pass_preSel(*jet) = 0;
+      if(!VD::isPassOverlap(*jet)) continue; // skip jets that do not pass OR
       if(m_badJetVeto && VD::isBad(*jet)){ // veto on bad jet if enabled
         wk()->skipEvent();
         return EL::StatusCode::SUCCESS;
@@ -218,6 +219,7 @@ EL::StatusCode Preselect :: execute ()
     for(const auto &jet: *in_jets){
       // assume it does not pass presel
       VD::dec_pass_preSel_b(*jet) = 0;
+      if(!VD::isPassOverlap(*jet)) continue; // skip jets that do not pass OR
       if(m_badJetVeto && VD::isBad(*jet)){ // veto on bad jet if enabled
         wk()->skipEvent();
         return EL::StatusCode::SUCCESS;
