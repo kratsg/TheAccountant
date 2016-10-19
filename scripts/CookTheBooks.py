@@ -165,7 +165,7 @@ if __name__ == "__main__":
 
 
   group_preselect.add_argument('--dPhiMin',     type=float, metavar='', help='dPhiMin(jet, met) cut to apply.', default=0.0)
-  group_preselect.add_argument('--minMET',      type=float, metavar='', help='Missing Et cut [GeV]', default=0.0)
+  group_preselect.add_argument('--minMET',      type=float, metavar='', help='Missing Et cut [GeV]', default=200.0)
   group_preselect.add_argument('--baselineLeptonSelection',  type=str,   metavar='', help='Pass in string of the format XX#. XX can be {"==", "!=", ">=", "<=", " >", " <"} and # is a number. Note that for " >" and " <" - you need the preceding space.', default="")
   group_preselect.add_argument('--signalLeptonSelection',  type=str,   metavar='', help='Pass in string of the format XX#. XX can be {"==", "!=", ">=", "<=", " >", " <"} and # is a number. Note that for " >" and " <" - you need the preceding space.', default="")
   group_preselect.add_argument('--badJetVeto', action='store_true', help='Enable a veto on an event if there is at least one bad jet')
