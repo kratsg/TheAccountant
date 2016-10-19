@@ -332,12 +332,12 @@ if __name__ == "__main__":
           with open(fname, 'r') as f:
             for line in f:
               if line.startswith('#'): continue
-              ROOT.SH.addGrid(sh_all, line.rstrip())
+              ROOT.SH.scanRucio(sh_all, line.rstrip())
         else:
           ROOT.SH.readFileList(sh_all, "sample", fname)
       else:
         if use_addGrid:
-          ROOT.SH.addGrid(sh_all, fname)
+          ROOT.SH.scanRucio(sh_all, fname)
         else:
           '''
           if fname.startswith("root://"):
