@@ -26,6 +26,8 @@ import datetime
 import time
 import re
 import json
+from multiprocessing import Pool
+
 from multiprocessing import Process, Queue
 
 SCRIPT_START_TIME = datetime.datetime.now()
@@ -185,64 +187,42 @@ if __name__ == "__main__":
     ROOT.SH.readSusyMetaDir(sh_all,"$ROOTCOREBIN/data/TheAccountant/metadata")
     ROOT.SH.readSusyMetaDir(sh_all,"$ROOTCOREBIN/data/TheAccountant/metadata/mc15_13TeV")
 
+    # cache lookup
+    MFs = ROOT.SH.MetaFields
     # get cutflow number
     # if there is any sort of error with the file, retry up to 3 times
     #   before just completely erroring out
-    def get_cutflow_parallel(queue, sample):
+    def get_cutflow_parallel(sample):
+      weight = {'num events': 0,
+                'errors': [],
+                'cross section': sample.getMetaDouble(MFs.crossSection),
+                'filter efficiency': sample.getMetaDouble(MFs.filterEfficiency),
+                'k-factor': sample.getMetaDouble(MFs.kfactor),
+                'rel uncert': sample.getMetaDouble(MFs.crossSectionRelUncertainty)}
       did = get_did(sample.name())
       getWeights_logger.info("Analyzing DID#{0:s} from sample {1:s}".format(did, sample.name()))
       try:
         for fname in sample.makeFileList():
-          queue.put((did, get_cutflow(fname)))
+          weight['num events'] += get_cutflow(fname)
+          return (did, weight)
       except Exception, e:
         # we crashed
         getWeights_logger.exception("{0}\nAn exception was caught!".format("-"*20))
-
-      # tell master we're done
-      queue.put(None)
+        return (did, weight)
 
     # dictionary to hold results of all calculations
     weights = {}
     # a process for each sample
     num_procs = 8
-    # communication queue between slave processes and master
-    queue = Queue()
-    procs = list()
+    pool = Pool(num_procs)
 
     getWeights_logger.info("spinning up {0:d} processes".format(num_procs))
+    for res in pool.imap_unordered(get_cutflow_parallel, sh_all):
+      weights.update(dict((res,)))
 
-    # cache lookup
-    MFs = ROOT.SH.MetaFields
-    # for each sample
-    for sample in sh_all:
-      did = get_did(sample.name())
-
-      weights[did] = {'num events': 0,
-                      'errors': [],
-                      'cross section': sample.getMetaDouble(MFs.crossSection),
-                      'filter efficiency': sample.getMetaDouble(MFs.filterEfficiency),
-                      'k-factor': sample.getMetaDouble(MFs.kfactor),
-                      'rel uncert': sample.getMetaDouble(MFs.crossSectionRelUncertainty)}
-      p = Process(target=get_cutflow_parallel, args=(queue, sample))
-      procs.append(p)
-      p.start()
-
-    finished = 0
-    while finished < len(sh_all):
-      item = queue.get()
-      if item is None:
-        finished += 1
-      else:
-        did, count = item
-        getWeights_logger.info("DID#{0:s} returned {1:s}".format(did, str(count)))
-        # we return the filename if we can't open it for reading
-        try:
-          weights[did]['num events'] += float(count)
-        except (ValueError, TypeError) as e:
-          weights[did]['errors'].append(count)
-        # whatever happens, write to the file
-        with open(args.output_filename, 'w+') as f:
-          f.write(json.dumps(weights, sort_keys=True, indent=4))
+      # whatever happens, write to the file
+      with open(args.output_filename, 'w+') as f:
+        f.write(json.dumps(weights, sort_keys=True, indent=4))
 
 
     SCRIPT_END_TIME = datetime.datetime.now()
