@@ -53,6 +53,7 @@ OptimizationDump :: OptimizationDump () :
   m_effectiveMass(-999.0),
   m_totalTransverseMomentum(-999.0),
   m_totalTransverseMass(-999.0),
+  m_mjsum(-999.0),
   m_dPhiMETMin(-999.0),
   m_mTb(-999.0),
   m_met(-999.0),
@@ -136,6 +137,7 @@ EL::StatusCode OptimizationDump :: initialize () {
   }
 
   if(!m_inputLargeRJets.empty()){
+    m_tree->Branch ("mjsum", &m_mjsum, "mjsum/F");
     m_tree->Branch ("multiplicity_jet_largeR",   &m_numJetsLargeR, "multiplicity_jet_largeR/I");
     m_tree->Branch ("multiplicity_topTag_veryloose", &m_n_topTag_VeryLoose, "multiplicity_topTag_veryloose/I");
     m_tree->Branch ("multiplicity_topTag_smoothloose", &m_n_topTag_SmoothLoose, "multiplicity_topTag_smoothloose/I");
@@ -513,6 +515,8 @@ EL::StatusCode OptimizationDump :: execute ()
     presel_jetsLargeR = VD::subset_using_decor(in_jetsLargeR, VD::acc_pass_preSel, 1);
     presel_topTags = VD::subset_using_decor(in_jetsLargeR, VD::acc_pass_preSel_top, 1);
     m_numJetsLargeR = presel_jetsLargeR.size();
+
+    m_mjsum = VD::MJSum(presel_jetsLargeR.asDataVector());
 
     // initialize for leading 4 largeR jets that pass preselection
     for(unsigned int i=0; i<4; i++){

@@ -139,6 +139,9 @@ namespace VariableDefinitions {
   float Split34(const xAOD::Jet* jet);
   void KtSplittingScale(const xAOD::Jet* jet);
 
+  // calculate mjsum correctly
+  float MJSum(const xAOD::JetContainer* jets, const int max_jets = 4);
+
   // build lepton veto using overlaps on baseline/signal leptons
   template <typename T>
   ConstDataVector<T> filterLeptons(const T* leptons, const bool& requireSignal = false, const bool& additionalMuonCuts = false){

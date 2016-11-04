@@ -426,3 +426,15 @@ void VD::KtSplittingScale(const xAOD::Jet* jet){
 
   return;
 }
+
+float VD::MJSum(const xAOD::JetContainer* jets, const int max_jets){
+
+  float mjsum(0.0);
+  for(int i=0; i<std::min(max_jets, static_cast<int>(jets->size())); i++){
+    const xAOD::Jet* jet(jets->at(i));
+    if(jet->pt()/1.e3 > 100.0 && std::fabs(jet->eta()) < 2.0)
+      mjsum += jet->m();
+  }
+
+  return mjsum;
+}

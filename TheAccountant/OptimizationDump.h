@@ -33,6 +33,7 @@ private:
   float m_effectiveMass; //!
   float m_totalTransverseMomentum; //!
   float m_totalTransverseMass; //!
+  float m_mjsum; //!
 
   float m_dPhiMETMin; //!
   float m_mTb; //!
