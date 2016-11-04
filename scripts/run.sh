@@ -11,7 +11,7 @@ ZsherpaFiles="${ROOTCOREBIN}/data/TheAccountant/Zsherpa.list"
 ttbarIncFiles="${ROOTCOREBIN}/data/TheAccountant/ttbarInc.list"
 ttbarExcFiles="${ROOTCOREBIN}/data/TheAccountant/ttbarExc.list"
 
-globalOpts=(-v -f -yyyyyy --optimizationDump --inputGrid --inputList --badJetVeto --rc_enable)
+globalOpts=(-v -f -yyyyyy --optimizationDump --inputGrid --inputList --badJetVeto --rc_enable --rc_radius=0.8 --rc_trimPtFrac=0.1)
 
 run0L=(--signalLeptonSelection="==0" --numLeadingJets=4 --jetLargeR_minPtView=300)
 run1L=(--signalLeptonSelection=">=1" --numLeadingJets=4 --jetLargeR_minPtView=300)
