@@ -199,9 +199,11 @@ if __name__ == "__main__":
                 'filter efficiency': sample.getMetaDouble(MFs.filterEfficiency),
                 'k-factor': sample.getMetaDouble(MFs.kfactor),
                 'rel uncert': sample.getMetaDouble(MFs.crossSectionRelUncertainty)}
-      did = get_did(sample.name())
-      getWeights_logger.info("Analyzing DID#{0:s} from sample {1:s}".format(did, sample.name()))
+      did = 'unknown'
       try:
+        did = get_did(sample.name())
+        getWeights_logger.info("Analyzing DID#{0:s} from sample {1:s}".format(did, sample.name()))
+
         for fname in sample.makeFileList():
           weight['num events'] += get_cutflow(fname)
           return (did, weight)
