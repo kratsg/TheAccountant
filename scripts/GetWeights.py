@@ -207,6 +207,7 @@ if __name__ == "__main__":
         for fname in sample.makeFileList():
           weight['num events'] += get_cutflow(fname)
           return (did, weight)
+        return (did, weight)
       except Exception, e:
         # we crashed
         getWeights_logger.exception("{0}\nAn exception was caught!".format("-"*20))
