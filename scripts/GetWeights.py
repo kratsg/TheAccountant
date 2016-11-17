@@ -205,8 +205,11 @@ if __name__ == "__main__":
         getWeights_logger.info("Analyzing DID#{0:s} from sample {1:s}".format(did, sample.name()))
 
         for fname in sample.makeFileList():
-          weight['num events'] += get_cutflow(fname)
-          return (did, weight)
+          result = get_cutflow(fname)
+          if isinstance(result, basestring):
+            weight['errors'].append(result)
+          else:
+            weight['num events'] += result
         return (did, weight)
       except Exception, e:
         # we crashed
