@@ -259,11 +259,33 @@ EL::StatusCode Audit :: execute ()
     signal_jets = VD::subset_using_decor(in_jets, VD::decor_signal, 1);
   }
 
+  ConstDataVector<xAOD::ElectronContainer> signal_electrons(SG::VIEW_ELEMENTS);
+  if(!m_inputElectrons.empty()){
+    signal_electrons = VD::filterLeptons(in_electrons, true);
+  }
+
+  ConstDataVector<xAOD::MuonContainer> signal_muons(SG::VIEW_ELEMENTS);
+  if(!m_inputMuons.empty()){
+    signal_muons = VD::filterLeptons(in_muons, true, true);
+  }
+
   // create a vector to hold the group element ids for when adding jets
   std::map<const int, const xAOD::Jet*> in_jets_IDs;
   if(!m_inputJets.empty()){
     for(const auto &jet: signal_jets)
       in_jets_IDs[VIS.AddLabFrameFourVector( jet->p4() ).GetKey()] = jet;
+  }
+
+  std::map<const int, const xAOD::Electron*> in_electrons_IDs;
+  if(!m_inputElectrons.empty()){
+    for(const auto &el: signal_electrons)
+      in_electrons_IDs[VIS.AddLabFrameFourVector( el->p4() ).GetKey()] = el;
+  }
+
+  std::map<const int, const xAOD::Muon*> in_muons_IDs;
+  if(!m_inputMuons.empty()){
+    for(const auto &mu: signal_muons)
+      in_muons_IDs[VIS.AddLabFrameFourVector( mu->p4() ).GetKey()] = mu;
   }
 
   if(!m_inputMET.empty()){
@@ -301,6 +323,27 @@ EL::StatusCode Audit :: execute ()
       HT += jet->pt();
     }
   }
+
+  std::map<const int, const xAOD::Electron*> in_electrons_bkg_IDs;
+  if(!m_inputElectrons.empty()){
+    for(const auto &el: signal_electrons){
+      TLorentzVector el_tlv;
+      el_tlv.SetPtEtaPhiM(el->pt(), 0.0, el->phi(), el->m());
+      in_electrons_bkg_IDs[VIS_bkg.AddLabFrameFourVector(el_tlv).GetKey()] = el;
+      HT += el->pt();
+    }
+  }
+
+  std::map<const int, const xAOD::Muon*> in_muons_bkg_IDs;
+  if(!m_inputMuons.empty()){
+    for(const auto &mu: signal_muons){
+      TLorentzVector mu_tlv;
+      mu_tlv.SetPtEtaPhiM(mu->pt(), 0.0, mu->phi(), mu->m());
+      in_muons_bkg_IDs[VIS_bkg.AddLabFrameFourVector(mu_tlv).GetKey()] = mu;
+      HT += mu->pt();
+    }
+  }
+
 
   if(!m_inputMET.empty()){
     // no mpz, but why set it this way???
