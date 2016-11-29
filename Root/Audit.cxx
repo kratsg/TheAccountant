@@ -398,9 +398,9 @@ EL::StatusCode Audit :: execute ()
   // counting
   inclVar["Va1_n"]          = VIS.GetNElementsInFrame(Va1);
   inclVar["Vb1_n"]          = VIS.GetNElementsInFrame(Vb1);
-  inclVar["Ga_n"]           = inclVar["Va1_n"] + inclVar["Va2_n"];
   inclVar["Va2_n"]          = VIS.GetNElementsInFrame(Va2);
   inclVar["Vb2_n"]          = VIS.GetNElementsInFrame(Vb2);
+  inclVar["Ga_n"]           = inclVar["Va1_n"] + inclVar["Va2_n"];
   inclVar["Gb_n"]           = inclVar["Vb1_n"] + inclVar["Vb2_n"];
   inclVar["Ia1_depth"]      = Ga.GetFrameDepth(Ia1);
   inclVar["Ib1_depth"]      = Gb.GetFrameDepth(Ib1);
