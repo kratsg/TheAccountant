@@ -2,6 +2,7 @@
 
 dataFiles="${ROOTCOREBIN}/data/TheAccountant/data.list"
 gttFiles="${ROOTCOREBIN}/data/TheAccountant/Gtt.list"
+gbbFiles="${ROOTCOREBIN}/data/TheAccountant/Gbb.list"
 dijetFiles="${ROOTCOREBIN}/data/TheAccountant/dijet.list"
 topEWFiles="${ROOTCOREBIN}/data/TheAccountant/topEW.list"
 dibosonFiles="${ROOTCOREBIN}/data/TheAccountant/diboson.list"
@@ -20,6 +21,7 @@ outputDir="2.4.19-0-0"
 mkdir -p "${outputDir}"
 
 #0L
+CookTheBooks.py --files="${gbbFiles}" "${globalOpts[@]}" "${run0L[@]}" --minMET=0.0 --submitDir="${outputDir}/Gbb" condor > "${outputDir}/Gbb.log" 2>&1 &
 CookTheBooks.py --files="${dataFiles}" "${globalOpts[@]}" "${run0L[@]}" --submitDir="${outputDir}/data_0L" condor > "${outputDir}/data_0L.log" 2>&1 &
 CookTheBooks.py --files="${gttFiles}" "${globalOpts[@]}" "${run0L[@]}" --submitDir="${outputDir}/Gtt_0L" condor > "${outputDir}/Gtt_0L.log" 2>&1 &
 CookTheBooks.py --files="${dijetFiles}" "${globalOpts[@]}" "${run0L[@]}" --submitDir="${outputDir}/dijet_0L" condor > "${outputDir}/dijet_0L.log" 2>&1 &
