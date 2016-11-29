@@ -274,6 +274,8 @@ EL::StatusCode Audit :: execute ()
   if(!m_inputJets.empty()){
     for(const auto &jet: signal_jets)
       in_jets_IDs[VIS.AddLabFrameFourVector( jet->p4() ).GetKey()] = jet;
+    std::cout << "--------------------" << std::endl;
+    std::cout << signal_jets.size() << std::endl;
   }
 
   std::map<const int, const xAOD::Electron*> in_electrons_IDs;
@@ -404,6 +406,7 @@ EL::StatusCode Audit :: execute ()
   inclVar["Gb_n"]           = inclVar["Vb1_n"] + inclVar["Vb2_n"];
   inclVar["Ia1_depth"]      = Ga.GetFrameDepth(Ia1);
   inclVar["Ib1_depth"]      = Gb.GetFrameDepth(Ib1);
+  std::cout << inclVar["Ga_n"] << " " << inclVar["Gb_n"] << std::endl;
 
   inclVar["GG_cosTheta"]    = GG.GetCosDecayAngle();
   inclVar["Ga_cosIa1"]    = Ga.GetCosDecayAngle(Ia1);
