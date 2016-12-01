@@ -253,10 +253,11 @@ EL::StatusCode Audit :: execute ()
   // clear the event
   LAB.ClearEvent();
 
+
   // only look at signal jets
-  ConstDataVector<xAOD::JetContainer> signal_jets(SG::VIEW_ELEMENTS);
+  ConstDataVector<xAOD::JetContainer> presel_jets(SG::VIEW_ELEMENTS);
   if(!m_inputJets.empty()){
-    signal_jets = VD::subset_using_decor(in_jets, VD::decor_signal, 1);
+    presel_jets = VD::subset_using_decor(in_jets, VD::acc_pass_preSel, 1);
   }
 
   ConstDataVector<xAOD::ElectronContainer> signal_electrons(SG::VIEW_ELEMENTS);
@@ -272,7 +273,7 @@ EL::StatusCode Audit :: execute ()
   // create a vector to hold the group element ids for when adding jets
   std::map<const int, const xAOD::Jet*> in_jets_IDs;
   if(!m_inputJets.empty()){
-    for(const auto &jet: signal_jets)
+    for(const auto &jet: presel_jets)
       in_jets_IDs[VIS.AddLabFrameFourVector( jet->p4() ).GetKey()] = jet;
   }
 
@@ -297,7 +298,7 @@ EL::StatusCode Audit :: execute ()
   if(m_debug){
     if(!m_inputJets.empty()){
       Info("execute()", "Details about signal jets...");
-      for(const auto &jet: signal_jets)
+      for(const auto &jet: presel_jets)
           Info("execute()", "\tpT: %0.2f GeV\tm: %0.2f GeV\teta: %0.2f\tphi: %0.2f", jet->pt()/1000., jet->m()/1000., jet->eta(), jet->phi());
     }
 
@@ -316,7 +317,7 @@ EL::StatusCode Audit :: execute ()
   double HT(0.0);
   std::map<const int, const xAOD::Jet*> in_jets_bkg_IDs;
   if(!m_inputJets.empty()){
-    for(const auto &jet: signal_jets){
+    for(const auto &jet: presel_jets){
       TLorentzVector jet_tlv;
       jet_tlv.SetPtEtaPhiM(jet->pt(), 0.0, jet->phi(), jet->m());
       in_jets_bkg_IDs[VIS_bkg.AddLabFrameFourVector(jet_tlv).GetKey()] = jet;
