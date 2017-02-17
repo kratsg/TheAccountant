@@ -22,6 +22,8 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 410023	Sherpa_CT10_ttbar_SingleLeptonM_MEPS_NLO				157.35	1.17	1.		1.
 410024	Sherpa_CT10_ttbar_AllHadron_MEPS_NLO					316	1.17	1.		1.
 
+410225 	aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbar_nonallhad           	711.36  1.16925326136    0.54715  1.8
+
 410120 	PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad_bfilter 	 	696.23  1.19466268331	0.034624   1.
 
 407200 	MGPy8EG_A14N30NLO_ttbarNp012p_MET0to200_HT0to500    			435.44 	1.8743 	0.49442		1.
@@ -30,6 +32,7 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 407203 	MGPy8EG_A14N30NLO_ttbarNp012p_MET200p_HT0to1000	   			436.48 	1.8743 	0.0093391	1.
 407204 	MGPy8EG_A14N30NLO_ttbarNp012p_HT1000p		   			436.58 	1.8743 	0.0036975	1.
 
+410232	PowhegHerwigppEvtGen_H7UE_tt_h172p5_nonallhad 				696.33 	1.0 	5.4388E-01 	1.
 410233	aMcAtNloHerwigppEvtGen_H7UE_ttbar_nonallhad 				694.01 	1.0 	0.54377 	1.
 
 410225  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbar_nonallhad     711.36  1.1693  0.54715     1.
@@ -55,6 +58,8 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 407010 	PowhegPythiaEvtGen_P2012CT10_ttbarHT1k_1k5_hdamp172p5_nonAH		696.22	1.1949	0.003204335	1.
 407011	PowhegPythiaEvtGen_P2012CT10_ttbarHT1k5_hdamp172p5_nonAH		696.23	1.1949	0.000565234	1.
 407012	PowhegPythiaEvtGen_P2012CT10_ttbarMET200_hdamp172p5_nonAH		696.22	1.1949	0.009219475	1.
+407322	PowhegPythiaEvtGen_P2012CT10_ttbarMET300_hdamp172p5_nonAH		696.21	1.1949	0.0013978       1. 
+407323  PowhegPythiaEvtGen_P2012CT10_ttbarMET400_hdamp172p5_nonAH		696.23	1.1949	0.000314	1.
 
 301528	PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad_mtt_1		696.25	1.1949	0.00471933	1.
 301529	PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad_mtt_2		696.25	1.1949	0.00194400	1.
@@ -85,22 +90,31 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 ################################################################################################################
 # single top
 
-410011	PowhegPythiaEvtGen_P2012_singletop_tchan_lept_top			43.739	1.0094	1.		1.
-410012	PowhegPythiaEvtGen_P2012_singletop_tchan_lept_antitop			25.778	1.0193	1.		1.
+410011	PowhegPythiaEvtGen_P2012_singletop_tchan_lept_top			43.739	1.0094	1.	1.
+410012	PowhegPythiaEvtGen_P2012_singletop_tchan_lept_antitop			25.778	1.0193	1.	1.
 
-410013	PowhegPythiaEvtGen_P2012_Wt_inclusive_top				34.009	1.054	1.		1.
-410014	PowhegPythiaEvtGen_P2012_Wt_inclusive_antitop				33.989	1.054	1.		1.
-410015	PowhegPythiaEvtGen_P2012_Wt_dilepton_top				3.5835	1.054	1.		1.
-410016	PowhegPythiaEvtGen_P2012_Wt_dilepton_antitop				3.5814	1.054	1.		1.
+410013	PowhegPythiaEvtGen_P2012_Wt_inclusive_top				34.009	1.054	1.	1.
+410014	PowhegPythiaEvtGen_P2012_Wt_inclusive_antitop				33.989	1.054	1.	1.
+410015	PowhegPythiaEvtGen_P2012_Wt_dilepton_top				3.5835	1.054	1.	1.
+410016	PowhegPythiaEvtGen_P2012_Wt_dilepton_antitop				3.5814	1.054	1.	1.
 
-410141  aMcAtNloHerwigppEvtGen_singletop_tchan_lept  				68.768  1.0 	1. 		1.
-410047  PowhegHerwigppEvtGen_UEEE5_singletop_tchan_lept_top 			43.614  1.0 	1.		1.
-410048  PowhegHerwigppEvtGen_UEEE5_singletop_tchan_lept_antitop  		25.744 	1.0 	1.		1.
+410141  aMcAtNloHerwigppEvtGen_singletop_tchan_lept  				68.768  1.0 	1. 	1.
+410047  PowhegHerwigppEvtGen_UEEE5_singletop_tchan_lept_top 			43.614  1.0 	1.	1.
+410048  PowhegHerwigppEvtGen_UEEE5_singletop_tchan_lept_antitop  		25.744 	1.0 	1.	1.
 
-410147 	PowhegHerwigppEvtGen_UEEE5_Wt_inclusive_top 	 			34.0  	1.054  	1.		1.
-410148 	PowhegHerwigppEvtGen_UEEE5_Wt_inclusive_antitop 	 		34.0  	1.054  	1.		1.
+410147 	PowhegHerwigppEvtGen_UEEE5_Wt_inclusive_top 	 			34.0  	1.054  	1.	1.
+410148 	PowhegHerwigppEvtGen_UEEE5_Wt_inclusive_antitop 	 		34.0  	1.054  	1.	1.
 
-410165 	aMcAtNloHerwigppEvtGen_UEEE5_CTEQ6L1_CT10ME_Wt_inclusive  		73.588 	1.0 	1.0 		1.0
+410103  PowhegPythiaEvtGen_P2012radHi_Wt_dilepton_top   			3.6790	1.0270	1.	1.
+410104  PowhegPythiaEvtGen_P2012radLo_Wt_dilepton_top  				3.5201	1.0730  1.      1.
+410105  PowhegPythiaEvtGen_P2012radHi_Wt_dilepton_antitop			3.6767  1.0270  1.      1.
+410106  PowhegPythiaEvtGen_P2012radLo_Wt_dilepton_antitop			3.5181  1.0730  1.      1.
+
+410145  PowhegHerwigppEvtGen_UEEE5_Wt_dilepton_top      			4.0000	0.9443  1.      1.
+410146  PowhegHerwigppEvtGen_UEEE5_Wt_dilepton_antitop  			4.0000	0.9437	1.      1.
+410164  aMcAtNloHerwigppEvtGen_UEEE5_CTEQ6L1_CT10ME_Wt_dilepton			7.8714	0.9437	1.	1.
+
+410165 	aMcAtNloHerwigppEvtGen_UEEE5_CTEQ6L1_CT10ME_Wt_inclusive  		73.588 	1.0 	1.0 	1.0
 
 # Filtered samples -- efficiencies from evgen preparation (AMI is wrong)
 407018	PowhegPythiaEvtGen_P2012CT10_Wt_inclusive_top_HT500			34.009	1.054	0.0884612	1.
@@ -2310,6 +2324,10 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 
 301535	Sherpa_CT10_eegammaPt10_35	52.706		1.	1.	 1.
 301536	Sherpa_CT10_mumugammaPt10_35	52.708		1.	1.	 1.
+304776	Sherpa_CT10_tautaugammaPt10_35	52.708		1.	1.	 1.
+301887  Sherpa_CT10_enugammaPt10_35		0.20075	1.	1.	1.
+301888  Sherpa_CT10_munugammaPt10_35	0.20091	1.	1.	1.
+301889  Sherpa_CT10_taunugammaPt10_35	0.20078	1.	1.	1.
 301890	Sherpa_CT10_enugammaPt35_70	15.348		1.	1.	 1.
 301891	Sherpa_CT10_enugammaPt70_140	1.5282		1.	1.	 1.
 301892	Sherpa_CT10_enugammaPt140	0.24155		1.	1.	 1.
@@ -2540,3 +2558,8 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 410087  MadGraphPythia8EvtGen_A14NNPDF23LO_ttgamma_allhad        2.2290         1.47   1.       1.
 410088  MadGraphPythia8EvtGen_A14NNPDF23LO_ttgamma4080_allhad    2.2290         1.47   0.30381  1.
 410089  MadGraphPythia8EvtGen_A14NNPDF23LO_ttgamma80_allhad      2.2290         1.47   0.12457  1.
+
+################################################################################################################
+# aMcAtNloPythia8EvtGen ttbar+gamma (NLO)
+
+407320 	aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_tta140	 0.21505	 1.	 1.	1.
