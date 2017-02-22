@@ -87,9 +87,9 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 407043  PowhegPythia8EvtGen_A14_ttbarHT1k5_hdamp172p5_nonallhad                 6.96E+02  1.1943      0.00070564      1.
 407044  PowhegPythia8EvtGen_A14_ttbarMET200_hdamp172p5_nonallhad                6.96E+02  1.1943      0.009243        1.
 
-#407045  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbarHT1k5_nonAH                7.1081E+02  1.        ----            1.  #no filter eff in AMI. check with PMG //MT
-407046  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbarHT1k_1k5_nonAH             7.1076E+02  1.        2.3969E-03      1.
-407047  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbarHT6c_1k_nonAH              7.1082E+02  1.        2.4237E-02      1.
+407045  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbarHT1k5_nonAH                7.1081E+02  1.1702    2.9096E-04      1.
+407046  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbarHT1k_1k5_nonAH             7.1076E+02  1.1702    2.3969E-03      1.
+407047  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbarHT6c_1k_nonAH              7.1082E+02  1.1702    2.4237E-02      1.
 
 ################################################################################################################
 # single top
