@@ -58,7 +58,7 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 407010 	PowhegPythiaEvtGen_P2012CT10_ttbarHT1k_1k5_hdamp172p5_nonAH		696.22	1.1949	0.003204335	1.
 407011	PowhegPythiaEvtGen_P2012CT10_ttbarHT1k5_hdamp172p5_nonAH		696.23	1.1949	0.000565234	1.
 407012	PowhegPythiaEvtGen_P2012CT10_ttbarMET200_hdamp172p5_nonAH		696.22	1.1949	0.009219475	1.
-407322	PowhegPythiaEvtGen_P2012CT10_ttbarMET300_hdamp172p5_nonAH		696.21	1.1949	0.0013978       1. 
+407322	PowhegPythiaEvtGen_P2012CT10_ttbarMET300_hdamp172p5_nonAH		696.21	1.1949	0.0013978   1. 
 407323  PowhegPythiaEvtGen_P2012CT10_ttbarMET400_hdamp172p5_nonAH		696.23	1.1949	0.000314	1.
 
 301528	PowhegPythiaEvtGen_P2012_ttbar_hdamp172p5_nonallhad_mtt_1		696.25	1.1949	0.00471933	1.
@@ -90,6 +90,7 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 407045  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbarHT1k5_nonAH                7.1081E+02  1.1702    2.9096E-04      1.
 407046  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbarHT1k_1k5_nonAH             7.1076E+02  1.1702    2.3969E-03      1.
 407047  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbarHT6c_1k_nonAH              7.1082E+02  1.1702    2.4237E-02      1.
+407048  aMcAtNloPythia8EvtGen_MEN30NLO_A14N23LO_ttbarMET200_nonAH               7.1077E+02  1.1702    8.9215E-03      1.
 
 ################################################################################################################
 # single top
@@ -2112,6 +2113,10 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 361606 	PowhegPy8EG_CT10nloME_AZNLOCTEQ6L1_WWlvqq 	44.176 	1.000000 	1.000000 	1.000000
 
 ################################################################################################################
+# Pythia8 WW
+407309 	Pythia8EvtGen_A14_NNPDF23LO_DPS_W_W_2l		3.4041E-02	1.0	1.0	1.0
+
+################################################################################################################
 # Powheg / gg2VV diboson
 
 343212  Powheggg2vvPythia8EvtGen_gg_ZZ_bkg_2e2mu_13TeV		0.002749987	1.		1.		1.
@@ -2514,6 +2519,7 @@ id/I:name/C:xsec/F:kfac/F:eff/F:relunc/F
 410114	MadGraphPythia8EvtGen_A14NNPDF23LO_ttmumu_Np1		0.017361        1.51	1. 1.
 410115	MadGraphPythia8EvtGen_A14NNPDF23LO_tttautau_Np0		0.0098874       1.51	1. 1.
 410116	MadGraphPythia8EvtGen_A14NNPDF23LO_tttautau_Np1		0.017790        1.51	1. 1.
+407321  MadGraphPythia8EvtGen_ttbarWll                      0.000266        1.34    1. 1.
 
 ################################################################################################################
 # aMC@NLO ttbar+X
