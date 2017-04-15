@@ -9,6 +9,7 @@ parser = argparse.ArgumentParser(description="Combine your outputs by hadd'ing t
 parser.add_argument('top_level', metavar='<directory>', type=str, help='Top-Level directory containing files. Example: "TA03/*/fetch"')
 parser.add_argument('file_pattern', metavar='<file pattern>', type=str, help='File pattern on which we group files to find LCS for merging. Example: "hist-*"')
 parser.add_argument('-o', '--output', type=str, required=False, help='Output directory to store merged outputs', default=None)
+parser.add_argument('-f', '--force', action='store_true', required=False, help='Overwrite existing output files', default=None)
 
 # parse the arguments, throw errors if missing any
 args = parser.parse_args()
@@ -29,7 +30,7 @@ for path in paths:
         parts = fname.rsplit('-', 1)
 
         if len(parts) == 1:
-          parts = os.path.basename(dirname).split('.root')
+            parts = os.path.basename(dirname).split('.root')
 
         bases[parts[0]].append(f)
         # add all other files that contain this basepath
@@ -39,7 +40,9 @@ for path in paths:
 
     outdir = args.output if args.output is not None else path
     for outfile, infiles in bases.iteritems():
-        cmd = "hadd {0:s}.merged {1:s}".format(os.path.join(outdir, outfile), " ".join(infiles))
+        cmd = "hadd {0:s}.merged {1:s}*".format(os.path.join(outdir, outfile), os.path.join(os.path.dirname(infiles[0]), outfile))
+        if args.force:
+            cmd = "hadd -f {0:s}.merged {1:s}*".format(os.path.join(outdir, outfile), os.path.join(os.path.dirname(infiles[0]), outfile))
         print(cmd)
         subprocess.call([cmd], shell=True)
         outfiles.append("{0:s}.merged".format(outfile))
