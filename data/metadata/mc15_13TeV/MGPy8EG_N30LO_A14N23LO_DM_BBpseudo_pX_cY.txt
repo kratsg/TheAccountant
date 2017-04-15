@@ -2,7 +2,7 @@
 # date   : 14/10/2015
 # notes  : it assumes that g = g_q = g_chi = 1 .  For a proper rescaling look at Sec 2.5.3 of the DM Forum report (https://twiki.cern.ch/twiki/pub/AtlasProtected/HeavyQuarkDMRun2/doc_1.pdf)
 #          Pre-computed values for different settings are also available at https://twiki.cern.ch/twiki/bin/view/AtlasProtected/BBPhiValidation 
-# NOTE: these dataset have a problem in AMI, filter comes from validation logfiles
+# NOTE: these dataset have a problem in AMI, filter comes from validation logfiles   #fixed : Martin 16.11.16
 #
 DSID     FS CROSSSECTION[pb] K-FACTOR     FILTEREFF   REL.UNCERT
 303165    0      6.252         1.0         6.66e-02       0.02116
@@ -13,7 +13,7 @@ DSID     FS CROSSSECTION[pb] K-FACTOR     FILTEREFF   REL.UNCERT
 303170    0    0.02245         1.0         5.07e-01       7.422e-05
 303171    0   0.001514         1.0         5.87e-01       4.881e-06
 303172    0   5.48e-05         1.0         6.41e-01       2.006e-07
-303173    0  1.714e-08         1.0         4.97e-01       9.184e-11
+303173    0  1.714e-08         1.0         5.0291e-01     9.184e-11
 303174    0  1.515e-09         1.0         7.86e-01       5.427e-12
 303175    0  2.307e-09         1.0         7.88e-01       9.395e-12
 303176    0  1.896e-10         1.0         8.01e-01       6.886e-13
@@ -24,7 +24,7 @@ DSID     FS CROSSSECTION[pb] K-FACTOR     FILTEREFF   REL.UNCERT
 303181    0   0.003195         1.0         3.67e-01       1.081e-05
 303182    0   0.004194         1.0         3.62e-01       1.508e-05
 303183    0    0.02215         1.0         3.21e-01       0.0001046
-303184    0    0.08564         1.0         2.91e-01       0.0002986
+303184    0    0.08564         1.0         4.2328e-01     0.0002986
 303185    0    0.02239         1.0         5.09e-01       8.969e-05
 303186    0  2.115e-07         1.0         7.35e-01       8.565e-10
 303187    0  3.097e-07         1.0         7.23e-01       9.455e-10
@@ -33,4 +33,44 @@ DSID     FS CROSSSECTION[pb] K-FACTOR     FILTEREFF   REL.UNCERT
 303190    0  0.0001524         1.0         5.67e-01       4.917e-07
 303191    0   0.001672         1.0         5.21e-01       6.11e-06
 303192    0   0.001256         1.0         6.02e-01       4.834e-06
-303193    0  8.664e-09         1.0         6.49e-01       4.233e-11
+303193    0  8.664e-09	       1.0	   6.49e-01 	  4.233e-11
+391123	  0  7.7170	       1.0         1.0969E-02	  1.0
+391124    0  4.5991	       1.0         1.5347E-02	  1.0
+391125    0  1.5069	       1.0         3.2425E-02	  1.0
+391126    0  3.9676E-01	       1.0         6.9379E-02	  1.0
+391127    0  6.3104E-02	       1.0         1.4369E-01	  1.0
+391128    0  1.6584E-02	       1.0         2.0902E-01	  1.0
+391129    0  1.1261E-03	       1.0         3.0676E-01	  1.0
+391130    0  4.0986E-05	       1.0         4.2123E-01	  1.0
+391131    0  7.6047E-02	       1.0         2.8447E-02	  1.0
+391132    0  2.0712E-02	       1.0         4.9909E-02	  1.0
+391133    0  2.3445E-03	       1.0         1.1237E-01	  1.0
+391134    0  6.9927E-04	       1.0         1.6041E-01	  1.0
+391135    0  2.6640E-04	       1.0         2.0328E-01	  1.0
+391136    0  1.1825E-04	       1.0         2.4091E-01	  1.0
+391137    0  5.8362E-05	       1.0         2.8125E-01	  1.0
+391138    0  3.1020E-05	       1.0         3.0879E-01	  1.0
+391139    0  1.7525E-05	       1.0         3.3466E-01	  1.0
+391140    0  6.3632E-06	       1.0         3.8280E-01	  1.0
+391141    0  2.6285E-06	       1.0         4.2219E-01	  1.0
+391142    0  1.5969E-7	       1.0         5.2783E-01	  1.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -224,7 +224,11 @@ if __name__ == "__main__":
 
     getWeights_logger.info("spinning up {0:d} processes".format(num_procs))
     for res in pool.imap_unordered(get_cutflow_parallel, sh_all):
-      weights.update(dict((res,)))
+      did, weight = res
+      if did in weights:
+        weights[did]['num events'] += weight['num events']
+      else:
+        weights.update(dict((res,)))
 
       # whatever happens, write to the file
       with open(args.output_filename, 'w+') as f:

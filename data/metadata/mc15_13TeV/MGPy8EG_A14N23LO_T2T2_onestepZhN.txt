@@ -1,0 +1,10 @@
+# grid   : pair production of stop2 decaying to a Z boson, h boson, or N1 and stop1. 13 TeV.
+# author : gmullier@cern.ch (please report any problems)
+# date   : 17/11/2016
+# brief  : Based on https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVstopsbottom
+# Filter efficiencies from AMI
+#
+#  DSID              FS                   CROSSECTION[pb]      K-FACTOR             FILTEREFF            REL.UNCERT          
+388139  	     61 		  0.0431418	       1.0		    1.0 		 0.137455	     
+388140  	     61 		  0.107045	       1.0		    1.0 		 0.129232	     
+388141  	     61 		  0.174599	       1.0		    1.0 		 0.132074	     

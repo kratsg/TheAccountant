@@ -39,6 +39,8 @@ for path in paths:
         files = [i for i in files if parts[0] not in i]
 
     outdir = args.output if args.output is not None else path
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
     for outfile, infiles in bases.iteritems():
         cmd = "hadd {0:s}.merged {1:s}*".format(os.path.join(outdir, outfile), os.path.join(os.path.dirname(infiles[0]), outfile))
         if args.force:
